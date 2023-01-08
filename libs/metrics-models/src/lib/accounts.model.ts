@@ -1,5 +1,5 @@
-import mongoose, {Schema } from "mongoose";
-import { AccountTypes, Gender } from "@metricsai/metrics-interfaces";
+import mongoose from 'mongoose';
+import { AccountTypes, Gender } from '@metricsai/metrics-interfaces';
 
 mongoose.Promise = global.Promise;
 
@@ -10,8 +10,7 @@ const accountsScheme = new mongoose.Schema(
       unique: true,
     },
     schoolId: {
-      type: Schema.Types.ObjectId,
-      ref: "schools",
+      type: String,
     },
     departmentId: {
       type: String,
@@ -23,12 +22,12 @@ const accountsScheme = new mongoose.Schema(
     },
     picture: {
       type: String,
-      default: "/images/avatar/user.png",
+      default: '/images/avatar/user.png',
     },
     firstname: { type: String },
     middlename: { type: String },
     lastname: { type: String },
-    aboutMe: { type: String, default: "" },
+    aboutMe: { type: String, default: '' },
     email: {
       type: String,
       unique: true,
@@ -62,5 +61,5 @@ const accountsScheme = new mongoose.Schema(
 if (mongoose.models.Accounts) {
   delete mongoose.models.Accounts;
 }
-const Accounts = mongoose.model("Accounts", accountsScheme);
+const Accounts = mongoose.model('Accounts', accountsScheme);
 export default Accounts;

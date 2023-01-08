@@ -4,8 +4,7 @@ mongoose.Promise = global.Promise;
 const ownerSchema = new mongoose.Schema(
   {
     role: {
-      type: Schema.Types.ObjectId,
-      ref: "roles",
+      type: String,
     },
     email: { type: String, unique: true },
     mobile: { type: String, unique: true },
