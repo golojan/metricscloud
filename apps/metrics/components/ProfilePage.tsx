@@ -248,7 +248,7 @@ function ProfilePage() {
                       {
                         schools?.find(
                           (s) =>
-                            s._id.toString() === profile.schoolId.toString()
+                            s._id === profile.schoolId
                         )?.name
                       }
                     </p>
@@ -263,7 +263,7 @@ function ProfilePage() {
                       {
                         schools?.find(
                           (s) =>
-                            s._id.toString() === profile.schoolId.toString()
+                            s._id === profile.schoolId
                         )?.state
                       }
                     </p>
