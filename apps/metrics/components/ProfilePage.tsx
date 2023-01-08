@@ -40,40 +40,41 @@ function ProfilePage() {
 
   return (
     <>
-    {profile ? <>
-      <div className="mb-4 d-flex align-items-center">
-        <div className="d-flex align-items-center">
-          <Link
-            href={`/${username}`}
-            className="material-icons text-dark text-decoration-none m-none"
-          >
-            arrow_back
-          </Link>
-        </div>
-        <Link
-          href="#"
-          className="text-decoration-none material-icons md-20 ms-auto text-muted"
-        >
-          share
-        </Link>
-      </div>
-      <div className="bg-white rounded shadow-sm profile relative">
-        <div className="d-flex align-items-center small float-right mt-2 mr-2">
-          <div className="dropdown">
+      {profile ? (
+        <>
+          <div className="mb-4 d-flex align-items-center">
+            <div className="d-flex align-items-center">
+              <Link
+                href={`/${username}`}
+                className="material-icons text-dark text-decoration-none m-none"
+              >
+                arrow_back
+              </Link>
+            </div>
             <Link
               href="#"
-              className="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-ligh p-1"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
+              className="text-decoration-none material-icons md-20 ms-auto text-muted"
             >
-              more_vert
+              share
             </Link>
-            <ul
-              className="dropdown-menu fs-13 dropdown-menu-end"
-              aria-labelledby="dropdownMenuButton1"
-            >
-              {/* <li>
+          </div>
+          <div className="bg-white rounded shadow-sm profile relative">
+            <div className="d-flex align-items-center small float-right mt-2 mr-2">
+              <div className="dropdown">
+                <Link
+                  href="#"
+                  className="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-ligh p-1"
+                  id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  more_vert
+                </Link>
+                <ul
+                  className="dropdown-menu fs-13 dropdown-menu-end"
+                  aria-labelledby="dropdownMenuButton1"
+                >
+                  {/* <li>
                       <Link
                         className="dropdown-item text-muted"
                         href="/profile/edit"
@@ -110,35 +111,35 @@ function ProfilePage() {
                       </Link>
                     </li> */}
 
-              <li>
-                <Link
-                  className="dropdown-item text-muted d-flex align-items-center"
-                  href="#"
-                >
-                  <span className="material-icons md-13 me-1">share</span>
-                  Share Profile
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="d-flex align-items-center px-3 pt-4">
-          <img
-            src={`${profile.picture}`}
-            className="img-profile rounded-circle"
-            alt="profile-img"
-          />
-          <div className="ms-3 clear-both">
-            <h6 className="mb-0 d-flex align-items-start text-body fs-6 fw-bold">
-              {` ${profile.lastname} ${profile.firstname} `}
-              <span className="ms-2 material-icons bg-green-700 p-0 md-16 fw-bold text-white rounded-circle ov-icon">
-                done
-              </span>
-            </h6>
-            <p className="text-muted mb-0">{`@${profile.username}`}</p>
-          </div>
+                  <li>
+                    <Link
+                      className="dropdown-item text-muted d-flex align-items-center"
+                      href="#"
+                    >
+                      <span className="material-icons md-13 me-1">share</span>
+                      Share Profile
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="d-flex align-items-center px-3 pt-4">
+              <img
+                src={`${profile.picture}`}
+                className="img-profile rounded-circle"
+                alt="profile-img"
+              />
+              <div className="ms-3 clear-both">
+                <h6 className="mb-0 d-flex align-items-start text-body fs-6 fw-bold">
+                  {` ${profile.lastname} ${profile.firstname} `}
+                  <span className="ms-2 material-icons bg-green-700 p-0 md-16 fw-bold text-white rounded-circle ov-icon">
+                    done
+                  </span>
+                </h6>
+                <p className="text-muted mb-0">{`@${profile.username}`}</p>
+              </div>
 
-          {/*
+              {/*
                 <div
                   className="ms-auto btn-group"
                   role="group"
@@ -162,164 +163,170 @@ function ProfilePage() {
                     <span className="following d-none">connected</span>
                   </label>
                 </div> */}
-        </div>
+            </div>
 
-        <div className="p-3">
-          <p className="d-flex flex-row align-items-center mb-3">
-            <span className="material-icons me-2 rotate-320 text-muted md-16">
-              link
-            </span>
-            <Link href={`/${username}`} className="text-decoration-none">
-              {`@${username}`}
-            </Link>
-            <span className="material-icons me-2 text-muted md-16 ms-4">
-              calendar_today
-            </span>
-            <span>
-              Joined{' '}
-              <strong className="text-success">
-                {toMonthDayYear(profile.createdAt as Date)}
-              </strong>
-            </span>
+            <div className="p-3">
+              <p className="d-flex flex-row align-items-center mb-3">
+                <span className="material-icons me-2 rotate-320 text-muted md-16">
+                  link
+                </span>
+                <Link href={`/${username}`} className="text-decoration-none">
+                  {`@${username}`}
+                </Link>
+                <span className="material-icons me-2 text-muted md-16 ms-4">
+                  calendar_today
+                </span>
+                <span>
+                  Joined{' '}
+                  <strong className="text-success">
+                    {toMonthDayYear(profile.createdAt as Date)}
+                  </strong>
+                </span>
 
-            <span className="material-icons me-2 text-muted md-16 ms-4">
-              face
-            </span>
-            <span>
-              <strong>0</strong> Views
-            </span>
+                <span className="material-icons me-2 text-muted md-16 ms-4">
+                  face
+                </span>
+                <span>
+                  <strong>0</strong> Views
+                </span>
 
-            <span className="material-icons me-2 text-muted md-16 ms-4">
-              face
-            </span>
-            <span>
-              <strong>0</strong> Matrics
-            </span>
-          </p>
-          <hr />
-          <div className="d-flex followers">
-            <div className="ms-0 ps-0">
-              <p className="mb-0">
-                <strong>0</strong>{' '}
-                <span className="text-muted">Connections</span>
+                <span className="material-icons me-2 text-muted md-16 ms-4">
+                  face
+                </span>
+                <span>
+                  <strong>0</strong> Matrics
+                </span>
               </p>
-              {/* <div className="d-flex">
+              <hr />
+              <div className="d-flex followers">
+                <div className="ms-0 ps-0">
+                  <p className="mb-0">
+                    <strong>0</strong>{' '}
+                    <span className="text-muted">Connections</span>
+                  </p>
+                  {/* <div className="d-flex">
                       <img
                         src="img/rmate1.jpg"
                         className="img-fluid rounded-circle"
                         alt="follower-img"
                       />
                     </div> */}
-            </div>
-            <div className="ms-5 ps-5">
-              <p className="mb-0">
-                <strong>0</strong> <span className="text-muted">Students</span>
-              </p>
-              {/* <div className="d-flex">
+                </div>
+                <div className="ms-5 ps-5">
+                  <p className="mb-0">
+                    <strong>0</strong>{' '}
+                    <span className="text-muted">Students</span>
+                  </p>
+                  {/* <div className="d-flex">
                       <img
                         src="img/rmate3.jpg"
                         className="img-fluid rounded-circle"
                         alt="follower-img"
                       />
                     </div> */}
-            </div>
-            <div className="ms-5 ps-5">
-              <p className="mb-0">
-                <strong>0</strong> <span className="text-muted">Lecturers</span>
-              </p>
-              {/* <div className="d-flex">
+                </div>
+                <div className="ms-5 ps-5">
+                  <p className="mb-0">
+                    <strong>0</strong>{' '}
+                    <span className="text-muted">Lecturers</span>
+                  </p>
+                  {/* <div className="d-flex">
                       <img
                         src="img/rmate1.jpg"
                         className="img-fluid rounded-circle"
                         alt="follower-img"
                       />
                     </div> */}
-            </div>
-          </div>
-          <hr />
-          <div className="mb-0 text-body fs-6 px-3 text-gray-700">
-            <div className="row">
-              <div className="col-5">
-                <span className="text-muted">University:</span>
-                <p className="mb-0">
-                  {
-                    schools?.find((s) => s._id === profile.schoolId.toString())
-                      ?.name
-                  }
-                </p>
+                </div>
               </div>
-              <div className="col-5">
-                <span className="text-muted">Department:</span>
-                <p className="mb-0">{profile.departmentId}</p>
-              </div>
-              <div className="col-2">
-                <span className="text-muted">State:</span>
-                <p className="mb-0">
+              <hr />
+              <div className="mb-0 text-body fs-6 px-3 text-gray-700">
+                <div className="row">
+                  <div className="col-5">
+                    <span className="text-muted">University:</span>
+                    {/* <p className="mb-0">
+                      {
+                        schools?.find(
+                          (s) => s._id === profile.schoolId.toString()
+                        )?.name
+                      }
+                    </p> */}
+                  </div>
+                  <div className="col-5">
+                    <span className="text-muted">Department:</span>
+                    <p className="mb-0">{profile.departmentId}</p>
+                  </div>
+                  <div className="col-2">
+                    <span className="text-muted">State:</span>
+                    {/* <p className="mb-0">
                   {
                     schools?.find((s) => s._id === profile.schoolId.toString())
                       ?.state
                   }
-                </p>
+                </p> */}
+                  </div>
+                </div>
+              </div>
+              <div className="my-2 px-4 py-2 bg-[#fffccf] rounded-4 text-[#373435] hover:text-[#373435]">
+                <span className="text-lg">{profile.aboutMe}</span>
+              </div>
+
+              <hr className="mb-2" />
+              <div className="row d-flex mt-0">
+                <div className="col-12 mb-2 mt-0 text-black text-lg">
+                  Google Scholar
+                </div>
+                <div className="col-3 text-center">
+                  <div className="m-0 p-0 h2 text-center">0</div>
+                  <em>Citations</em>
+                </div>
+
+                <div className="col-3 text-center">
+                  <div className="m-0 p-0 h2 text-center">0</div>
+                  <em>H-Index</em>
+                </div>
+
+                <div className="col-3 text-center">
+                  <div className="m-0 p-0 h2 text-center">0</div>
+                  <em>i-10-Index</em>
+                </div>
+
+                <div className="col-3 text-center">
+                  <div className="m-0 p-0 h2 text-center">0</div>
+                  <em>Metrix Rank</em>
+                </div>
+              </div>
+              <hr />
+              <div className="row d-flex mt-0">
+                <div className="col-12 mb-2 mt-0 text-black text-lg">
+                  Scopus Scholar
+                </div>
+                <div className="col-3 text-center">
+                  <div className="m-0 p-0 h2 text-center">0</div>
+                  <em>Citations</em>
+                </div>
+
+                <div className="col-3 text-center">
+                  <div className="m-0 p-0 h2 text-center">0</div>
+                  <em>H-Index</em>
+                </div>
+
+                <div className="col-3 text-center">
+                  <div className="m-0 p-0 h2 text-center">0</div>
+                  <em>i-10-Index</em>
+                </div>
+
+                <div className="col-3 text-center">
+                  <div className="m-0 p-0 h2 text-center">0</div>
+                  <em>Metrix Rank</em>
+                </div>
               </div>
             </div>
           </div>
-          <div className="my-2 px-4 py-2 bg-[#fffccf] rounded-4 text-[#373435] hover:text-[#373435]">
-            <span className="text-lg">{profile.aboutMe}</span>
-          </div>
-
-          <hr className="mb-2" />
-          <div className="row d-flex mt-0">
-            <div className="col-12 mb-2 mt-0 text-black text-lg">
-              Google Scholar
-            </div>
-            <div className="col-3 text-center">
-              <div className="m-0 p-0 h2 text-center">0</div>
-              <em>Citations</em>
-            </div>
-
-            <div className="col-3 text-center">
-              <div className="m-0 p-0 h2 text-center">0</div>
-              <em>H-Index</em>
-            </div>
-
-            <div className="col-3 text-center">
-              <div className="m-0 p-0 h2 text-center">0</div>
-              <em>i-10-Index</em>
-            </div>
-
-            <div className="col-3 text-center">
-              <div className="m-0 p-0 h2 text-center">0</div>
-              <em>Metrix Rank</em>
-            </div>
-          </div>
-          <hr />
-          <div className="row d-flex mt-0">
-            <div className="col-12 mb-2 mt-0 text-black text-lg">
-              Scopus Scholar
-            </div>
-            <div className="col-3 text-center">
-              <div className="m-0 p-0 h2 text-center">0</div>
-              <em>Citations</em>
-            </div>
-
-            <div className="col-3 text-center">
-              <div className="m-0 p-0 h2 text-center">0</div>
-              <em>H-Index</em>
-            </div>
-
-            <div className="col-3 text-center">
-              <div className="m-0 p-0 h2 text-center">0</div>
-              <em>i-10-Index</em>
-            </div>
-
-            <div className="col-3 text-center">
-              <div className="m-0 p-0 h2 text-center">0</div>
-              <em>Metrix Rank</em>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>:<></>}
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 }
