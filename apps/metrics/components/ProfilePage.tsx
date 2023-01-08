@@ -244,13 +244,14 @@ function ProfilePage() {
                 <div className="row">
                   <div className="col-5">
                     <span className="text-muted">University:</span>
-                    {/* <p className="mb-0">
+                    <p className="mb-0">
                       {
                         schools?.find(
-                          (s) => s._id === profile.schoolId.toString()
+                          (s) =>
+                            s._id.toString() === profile.schoolId.toString()
                         )?.name
                       }
-                    </p> */}
+                    </p>
                   </div>
                   <div className="col-5">
                     <span className="text-muted">Department:</span>
@@ -258,12 +259,14 @@ function ProfilePage() {
                   </div>
                   <div className="col-2">
                     <span className="text-muted">State:</span>
-                    {/* <p className="mb-0">
-                  {
-                    schools?.find((s) => s._id === profile.schoolId.toString())
-                      ?.state
-                  }
-                </p> */}
+                    <p className="mb-0">
+                      {
+                        schools?.find(
+                          (s) =>
+                            s._id.toString() === profile.schoolId.toString()
+                        )?.state
+                      }
+                    </p>
                   </div>
                 </div>
               </div>
