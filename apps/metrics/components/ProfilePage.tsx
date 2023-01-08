@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { RefObject, useRef, useState } from 'react';
-import { AuthUserInfo, SchoolInfo } from '@metrics/metrics-interfaces';
+import { AuthUserInfo, SchoolInfo } from '@metricsai/metrics-interfaces';
 import { getProfile } from '../libs/queries';
 import { toMonthDayYear } from '../libs/toDate';
 import useSWR from 'swr';
