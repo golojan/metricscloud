@@ -245,12 +245,7 @@ function ProfilePage() {
                   <div className="col-5">
                     <span className="text-muted">University:</span>
                     <p className="mb-0">
-                      {
-                        schools?.find(
-                          (s) =>
-                            s._id === profile.schoolId
-                        )?.name
-                      }
+                      {schools?.find((s) => s._id === profile.schoolId)?.name}
                     </p>
                   </div>
                   <div className="col-5">
@@ -260,12 +255,7 @@ function ProfilePage() {
                   <div className="col-2">
                     <span className="text-muted">State:</span>
                     <p className="mb-0">
-                      {
-                        schools?.find(
-                          (s) =>
-                            s._id === profile.schoolId
-                        )?.state
-                      }
+                      {schools?.find((s) => s._id === profile.schoolId)?.state}
                     </p>
                   </div>
                 </div>

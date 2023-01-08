@@ -20,7 +20,7 @@ export interface UserSnippet {
 export interface AuthUserInfo {
   _id?: string;
   departmentId?: string;
-  schoolId?: Schema.Types.ObjectId;
+  schoolId?: string;
   accountType?: string;
   picture?: string;
   firstname?: string;
