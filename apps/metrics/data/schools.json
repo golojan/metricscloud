@@ -1,0 +1,571 @@
+[{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb47991"
+  },
+  "name": "Abia State University",
+  "state": "Abia",
+  "shortname": "ABSU",
+  "location": "Uturu",
+  "ownedBy": "State",
+  "founded": 1981
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb47992"
+  },
+  "name": "Abubakar Tafawa Balewa University",
+  "state": "Bauchi",
+  "shortname": "ATBU",
+  "location": "Bauchi",
+  "ownedBy": "Federal",
+  "founded": 1980
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb47993"
+  },
+  "name": "Achievers University",
+  "state": "Ondo",
+  "shortname": "AC",
+  "location": "Owo",
+  "ownedBy": "Private",
+  "founded": 2007
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb47994"
+  },
+  "name": "Adamawa State University",
+  "state": "Adamawa",
+  "shortname": "ADSU",
+  "location": "Mubi",
+  "ownedBy": "State",
+  "founded": 2002
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb47995"
+  },
+  "name": "Adekunle Ajasin University",
+  "state": "Ondo",
+  "shortname": "AAUA",
+  "location": "Akungba-Akoko",
+  "ownedBy": "State",
+  "founded": 1999
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb47996"
+  },
+  "name": "Adeleke University",
+  "state": "Osun",
+  "shortname": "AUE",
+  "location": "Ede",
+  "ownedBy": "Private",
+  "founded": 2010
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb47997"
+  },
+  "name": "Afe Babalola University",
+  "state": "Ekiti",
+  "shortname": "ABUAD",
+  "location": "Ado-Ekiti",
+  "ownedBy": "Private",
+  "founded": 2009
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb47998"
+  },
+  "name": "Ahmadu Bello University",
+  "state": "Kaduna",
+  "shortname": "ABU",
+  "location": "Zaria",
+  "ownedBy": "Federal",
+  "founded": 1962
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb47999"
+  },
+  "name": "Ajayi Crowther University",
+  "state": "Oyo",
+  "shortname": "ACU",
+  "location": "Oyo",
+  "ownedBy": "Private",
+  "founded": 2005
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb4799a"
+  },
+  "name": "Akwa Ibom State University",
+  "state": "Akwa Ibom",
+  "shortname": "AKSU",
+  "location": "Uyo",
+  "ownedBy": "State",
+  "founded": 2010
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb4799b"
+  },
+  "name": "Al-Hikmah University",
+  "state": "Kwara",
+  "shortname": "AHU",
+  "location": "Ilorin",
+  "ownedBy": "Private",
+  "founded": 2005
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb4799c"
+  },
+  "name": "Ambrose Alli University",
+  "state": "Edo",
+  "shortname": "AAU",
+  "location": "Ekpoma",
+  "ownedBy": "State",
+  "founded": 1981
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb4799d"
+  },
+  "name": "American University of Nigeria",
+  "state": "Adamawa",
+  "shortname": "AUN",
+  "location": "Yola",
+  "ownedBy": "Private",
+  "founded": 2005
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb4799e"
+  },
+  "name": "Atlantic African Oriental Multicultural University International",
+  "state": "Plateau",
+  "shortname": "ATAFOM",
+  "location": "Jos",
+  "ownedBy": "Private",
+  "founded": 2020
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb4799f"
+  },
+  "name": "Babcock University",
+  "state": "Ogun",
+  "shortname": "BU",
+  "location": "Ilishan-Remo",
+  "ownedBy": "Private",
+  "founded": 1959
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479a0"
+  },
+  "name": "Bakassi Technical University",
+  "state": "Akwa Ibom",
+  "shortname": "BTU",
+  "location": "Uyo",
+  "ownedBy": "Private",
+  "founded": 2000
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479a1"
+  },
+  "name": "Bayero University",
+  "state": "Kano",
+  "shortname": "BUK",
+  "location": "Kano",
+  "ownedBy": "Federal",
+  "founded": 1977
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479a2"
+  },
+  "name": "Baze University",
+  "state": "Federal Capital Territory",
+  "shortname": "",
+  "location": "Abuja",
+  "ownedBy": "Private",
+  "founded": 2011
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479a3"
+  },
+  "name": "Bells University of Technology",
+  "state": "Ogun",
+  "shortname": "BUT",
+  "location": "Ota",
+  "ownedBy": "Private",
+  "founded": 2004
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479a4"
+  },
+  "name": "Benson Idahosa University",
+  "state": "Edo",
+  "shortname": "BIU",
+  "location": "Benin City",
+  "ownedBy": "Private",
+  "founded": 2002
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479a5"
+  },
+  "name": "Benue State University",
+  "state": "Benue",
+  "shortname": "BSU",
+  "location": "Makurdi",
+  "ownedBy": "State",
+  "founded": 1992
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479a7"
+  },
+  "name": "Bukar Abba Ibrahim University",
+  "state": "Yobe",
+  "shortname": "YSU",
+  "location": "Damaturu",
+  "ownedBy": "State",
+  "founded": 2006
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479a8"
+  },
+  "name": "Caleb University",
+  "state": "Lagos",
+  "shortname": "CUl",
+  "location": "Ikorodu",
+  "ownedBy": "Private",
+  "founded": 2008
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479a9"
+  },
+  "name": "Caritas University",
+  "state": "Enugu",
+  "shortname": "CU",
+  "location": "Enugu",
+  "ownedBy": "Private",
+  "founded": 2004
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479ab"
+  },
+  "name": "Chukwuemeka Odumegwu Ojukwu University (formerly Anambra State University)",
+  "state": "Anambra",
+  "shortname": "ANSU",
+  "location": "Uli",
+  "ownedBy": "State",
+  "founded": 2000
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479ac"
+  },
+  "name": "City University of Technology",
+  "state": "Kaduna",
+  "shortname": "CUT",
+  "location": "Kaduna",
+  "ownedBy": "Private",
+  "founded": 1956
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479b1"
+  },
+  "name": "Cross River University of Technology",
+  "state": "Cross River",
+  "shortname": "CRUTECH",
+  "location": "Ekpo-Abasi, Calabar",
+  "ownedBy": "State",
+  "founded": 2002
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479b2"
+  },
+  "name": "Delta State University, Abraka",
+  "state": "Delta",
+  "shortname": "DELSU",
+  "location": "Abraka",
+  "ownedBy": "State",
+  "founded": 1992
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479b3"
+  },
+  "name": "Delta State University of Science and Technology, Ozoro",
+  "state": "Delta",
+  "shortname": "DSPZ",
+  "location": "Ozoro",
+  "ownedBy": "State",
+  "founded": 2021
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479b4"
+  },
+  "name": "Dennis Osadebe University, Asaba",
+  "state": "Delta",
+  "shortname": "DOU",
+  "location": "Asaba",
+  "ownedBy": "State",
+  "founded": 2021
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479b5"
+  },
+  "name": "Ebonyi State University",
+  "state": "Ebonyi",
+  "shortname": "EBSU",
+  "location": "Abakaliki",
+  "ownedBy": "State",
+  "founded": 1996
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479b7"
+  },
+  "name": "Edo State University",
+  "state": "Edo",
+  "shortname": "EDSU",
+  "location": "Uzairue",
+  "ownedBy": "State",
+  "founded": 2016
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479b8"
+  },
+  "name": "Elizade University",
+  "state": "Ondo",
+  "shortname": "EU",
+  "location": "Ilara-Mokin",
+  "ownedBy": "Private",
+  "founded": 2012
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479b9"
+  },
+  "name": "Enugu State University of Science and Technology",
+  "state": "Enugu",
+  "shortname": "ESUT",
+  "location": "Enugu",
+  "ownedBy": "State",
+  "founded": 1979
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479ba"
+  },
+  "name": "Evangel University, Akaeze",
+  "state": "Ebonyi",
+  "shortname": "EUA",
+  "location": "Akaeze",
+  "ownedBy": "Private",
+  "founded": 2012
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479bb"
+  },
+  "name": "Federal University of Agriculture, Abeokuta",
+  "state": "Ogun",
+  "shortname": "FUNAAB",
+  "location": "Abeokuta",
+  "ownedBy": "Federal",
+  "founded": 1988
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479bc"
+  },
+  "name": "Federal University Oye-Ekiti",
+  "state": "Ekiti",
+  "shortname": "FUOYE",
+  "location": "Oye-Ekiti",
+  "ownedBy": "Federal",
+  "founded": 2011
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479bd"
+  },
+  "name": "Federal University, Dutsin-Ma",
+  "state": "Katsina",
+  "shortname": "FUDM",
+  "location": "Katsina",
+  "ownedBy": "Federal",
+  "founded": 2011
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479be"
+  },
+  "name": "Federal University, Gashua",
+  "state": "Yobe",
+  "shortname": "FUG",
+  "location": "Gashua",
+  "ownedBy": "Federal",
+  "founded": 2011
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479c0"
+  },
+  "name": "Federal University, Kashere",
+  "state": "Gombe",
+  "shortname": "FUK",
+  "location": "Kashere",
+  "ownedBy": "Federal",
+  "founded": 2011
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479c1"
+  },
+  "name": "Federal University, Lafia",
+  "state": "Nasarawa",
+  "shortname": "FUL",
+  "location": "Lafia",
+  "ownedBy": "Federal",
+  "founded": 2011
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479c3"
+  },
+  "name": "Federal University, Ndufu-Alike",
+  "state": "Ebonyi",
+  "shortname": "FUNA",
+  "location": "Ndufu-Alike",
+  "ownedBy": "Federal",
+  "founded": 2011
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479c4"
+  },
+  "name": "Federal University, Otuoke",
+  "state": "Bayelsa",
+  "shortname": "FUO",
+  "location": "Otuoke",
+  "ownedBy": "Federal",
+  "founded": 2011
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479c6"
+  },
+  "name": "Federal University, Wukari",
+  "state": "Taraba",
+  "shortname": "FUW",
+  "location": "Wukari",
+  "ownedBy": "Federal",
+  "founded": 2011
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479c7"
+  },
+  "name": "Fountain University",
+  "state": "Osun",
+  "shortname": "FU",
+  "location": "Osogbo",
+  "ownedBy": "Private",
+  "founded": 2006
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479c8"
+  },
+  "name": "Godfrey Okoye University",
+  "state": "Enugu",
+  "shortname": "GOU",
+  "location": "Enugu",
+  "ownedBy": "Private",
+  "founded": 2008
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479c9"
+  },
+  "name": "Hallmark University",
+  "state": "Kwara",
+  "shortname": "HU",
+  "location": "Ijebu-Itele",
+  "ownedBy": "Private",
+  "founded": 2014
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479ca"
+  },
+  "name": "Ibrahim Badamasi Babangida University",
+  "state": "Lapai, Niger",
+  "shortname": "IBBU",
+  "location": "Lapai",
+  "ownedBy": "State",
+  "founded": 2007
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479cb"
+  },
+  "name": "Igbinedion University",
+  "state": "Edo",
+  "shortname": "IUO",
+  "location": "Okada",
+  "ownedBy": "Private",
+  "founded": 1999
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479cc"
+  },
+  "name": "Ignatius Ajuru University of Education",
+  "state": "Rivers",
+  "shortname": "IAUE",
+  "location": "Port Harcourt",
+  "ownedBy": "State",
+  "founded": 2007
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479cd"
+  },
+  "name": "Imo State University",
+  "state": "Imo",
+  "shortname": "IMSU",
+  "location": "Owerri",
+  "ownedBy": "State",
+  "founded": 2007
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479ce"
+  },
+  "name": "Jigawa State University",
+  "state": "Jigawa",
+  "shortname": "JSU",
+  "location": "Dutse",
+  "ownedBy": "State",
+  "founded": 2007
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479cf"
+  },
+  "name": "Joseph Ayo Babalola University",
+  "state": "Osun",
+  "shortname": "JABU",
+  "location": "Ikeji-Arakeji",
+  "ownedBy": "Private",
+  "founded": 2007
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479d0"
+  },
+  "name": "Kaduna State University",
+  "state": "Kaduna",
+  "shortname": "KASU",
+  "location": "Kaduna",
+  "ownedBy": "State",
+  "founded": 2007
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479d1"
+  },
+  "name": "Kano University of Science and Technology",
+  "state": "Kano",
+  "shortname": "KUST",
+  "location": "Wudil",
+  "ownedBy": "State",
+  "founded": 2007
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479d2"
+  },
+  "name": "Kebbi State University of Science and Technology",
+  "state": "Kebbi",
+  "shortname": "KSUSTA",
+  "location": "Birnin Kebbi",
+  "ownedBy": "State",
+  "founded": 2007
+},{
+  "_id": {
+    "$oid": "63b5d7fd4e0eb6bb9fb479d3"
+  },
+  "name": "Kogi State University",
+  "state": "Kogi",
+  "shortname": "KSU",
+  "location": "Anyigba",
+  "ownedBy": "State",
+  "founded": 2007
+}]

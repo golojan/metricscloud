@@ -1,0 +1,46 @@
+import { NextApiRequest, NextApiResponse } from "next";
+import { dbCon } from '@metrics/metrics-models';
+import { ResponseFunctions } from '@metrics/metrics-interfaces';
+
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
+  const catcher = (error: Error) =>
+    res.status(400).json({ status: 0, error: error });
+  const handleCase: ResponseFunctions = {
+    POST: async (req: NextApiRequest, res: NextApiResponse) => {
+      res
+        .status(200)
+        .json({ status: false, err: "Only GET Method is allowed" });
+    },
+    GET: async (req: NextApiRequest, res: NextApiResponse) => {
+      const { Accounts, Schools } = await dbCon();
+      const accounts = await Accounts.aggregate([
+        {
+          $lookup: {
+            from: Schools.collection.name,
+            localField: "_id",
+            foreignField: "schoolid",
+            as: "school",
+          },
+        },
+        {
+          $unwind: "$school",
+        },
+      ]).catch(catcher);
+
+      if (accounts) {
+        res.status(200).json({
+          status: true,
+          accounts: accounts,
+        });
+        return;
+      } else {
+        res.status(404).json({ status: false, err: "Indicators not found" });
+        return;
+      }
+    },
+  };
+  const response = handleCase[method];
+  if (response) response(req, res);
+  else res.status(400).json({ error: "No Response for This Request" });
+}

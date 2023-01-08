@@ -1,0 +1,32 @@
+// @tailwind base;
+// @tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --toastify-toast-width: 320px;
+    --toastify-color-light: #fff;
+  --toastify-color-dark: #121212;
+  --toastify-color-info: #3498db;
+  --toastify-color-success: #07bc0c;
+  --toastify-color-warning: #f1c40f;
+  --toastify-color-error: #e74c3c;
+  --toastify-color-transparent: rgba(255, 255, 255, 0.7);
+  .Toastify__toast-container {
+    z-index: 9999;
+  }
+}
+
+@import "../public/vendor/icofont/icofont.min.css";
+@import "../public/vendor/bootstrap/css/bootstrap.min.css";
+
+@import "../../../node_modules/@material-design-icons/font/index.css";
+@import "../../../node_modules/slick-carousel/slick/slick.css";
+@import "../../../node_modules/slick-carousel/slick/slick-theme.css";
+@import "../../../node_modules/react-toastify/dist/ReactToastify.css";
+
+@import "../public/css/style.css";
