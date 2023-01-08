@@ -1,5 +1,5 @@
 import mongoose, {Schema } from "mongoose";
-import { AccountTypes, Gender } from "@metrics/metrics-interfaces";
+import { AccountTypes, Gender } from "@metricsai/metrics-interfaces";
 
 mongoose.Promise = global.Promise;
 

@@ -8,7 +8,6 @@ import useSWR from 'swr';
 import {busyAtom, publicProfileAtom, schoolsAtom} from '../store'
 import {useAtom} from 'jotai';
 
-
 function ProfilePage() {
   const router = useRouter();
 
