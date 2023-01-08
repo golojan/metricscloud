@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 const cookie = require("js-cookie");
 
-import { AuthUserInfo, SchoolInfo } from '@metrics/metrics-interfaces';
+import { AuthUserInfo, SchoolInfo } from '@metricsa/metrics-interfaces';
 
 
 export const schoolsAtom = atom<SchoolInfo[]>([]);

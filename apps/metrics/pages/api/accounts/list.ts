@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { dbCon } from '@metricsai/metrics-models';
-import { ResponseFunctions } from '@metrics/metrics-interfaces';
+import { ResponseFunctions } from '@metricsaimetrics/metrics-interfaces';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
