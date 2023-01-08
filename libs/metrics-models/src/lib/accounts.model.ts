@@ -61,5 +61,6 @@ const accountsScheme = new mongoose.Schema(
 if (mongoose.models.Accounts) {
   delete mongoose.models.Accounts;
 }
+
 const Accounts = mongoose.model('Accounts', accountsScheme);
 export default Accounts;
