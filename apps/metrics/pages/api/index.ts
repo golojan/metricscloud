@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ResponseFunctions } from '@metrics/metrics-interfaces';
-import { dbCon } from '@metrics/metrics-models';
+
+import { ResponseFunctions } from '@metricsai/metrics-interfaces';
+import { dbCon } from '@metricsai/metrics-models';
 
 type Data = {
   error?: string

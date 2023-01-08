@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { dbCon } from "@metrics/metrics-models";
-import { ResponseFunctions } from "@metrics/metrics-interfaces";
+import { dbCon } from '@metricsai/metrics-models';
+import { ResponseFunctions } from '@metricsai/metrics-interfaces';
 
 const bcrypt = require("bcryptjs");
 

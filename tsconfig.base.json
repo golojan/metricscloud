@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@metrics/metrics-interfaces": ["libs/metrics-interfaces/src/index.ts"],
-      "@metrics/metrics-models": ["libs/metrics-models/src/index.ts"]
+      "@metricsai/metrics-interfaces": ["libs/metrics-interfaces/src/index.ts"],
+      "@metricsai/metrics-models": ["libs/metrics-models/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

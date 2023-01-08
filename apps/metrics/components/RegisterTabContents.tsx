@@ -1,6 +1,6 @@
 import React, { useRef, RefObject, useState, useEffect } from "react";
 import { authLogin } from "../hocs/auth/withAuth";
-import { AccountTypes, Gender } from "@metrics/metrics-interfaces";
+import { AccountTypes, Gender } from '@metricsai/metrics-interfaces';
 import validator from "validator";
 import { hasSpacialChars } from "../libs/hasSpacialChars";
 import Select from "react-select";

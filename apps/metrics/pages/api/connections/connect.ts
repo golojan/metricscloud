@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { dbCon } from '@metrics/metrics-models';
+import { dbCon } from '@metricsai/metrics-models';
 import { ResponseFunctions } from '@metrics/metrics-interfaces';
 
 export interface Connection extends Document {

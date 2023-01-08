@@ -4,7 +4,7 @@ import Layout from "../../components/Layout";
 import { withAuth } from "./../../hocs/auth/withAuth";
 import { NextPage } from "next";
 
-import { AuthUserInfo, SchoolInfo } from "@metrics/metrics-interfaces";
+import { AuthUserInfo, SchoolInfo } from '@metricsai/metrics-interfaces';
 import { getProfileInfo, getSchools } from "./../../libs/queries";
 import Select from "react-select";
 import { toast } from "react-toastify";

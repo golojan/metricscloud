@@ -1,7 +1,7 @@
 {
-  "name": "metrics",
+  "name": "metricsai",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "metrics",
+  "npmScope": "metricsai",
   "affected": {
     "defaultBase": "master"
   },
@@ -10,7 +10,7 @@
       "runner": "@nrwl/nx-cloud",
       "options": {
         "cacheableOperations": [],
-        "accessToken": "NmQ4NThlNDUtYTI3OC00YjI5LWExZDctZDcwYmE3M2IzYWM5fHJlYWQtd3JpdGU="
+        "accessToken": "OGY3NzVmNWItYThlNC00YmIyLWJhMWQtNzkwZjJmOWEwYzQ5fHJlYWQtd3JpdGU="
       }
     }
   },
