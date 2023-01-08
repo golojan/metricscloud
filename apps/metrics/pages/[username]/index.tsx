@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import PublicLayout from "../../components/PublicLayout";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { AuthUserInfo, SchoolInfo } from '@metrics/metrics-interfaces';
+import { AuthUserInfo, SchoolInfo } from '@metricsai/metrics-interfaces';
 import useSWR from "swr";
 import ProfilePage from "../../components/ProfilePage";
 import NoProfilePage from "../../components/NoProfilePage";
