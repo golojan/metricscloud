@@ -116,9 +116,7 @@ const SchoolCode: NextPage = ({ token }: any) => {
                               className="w-full rounded-5 text-xl clear-both"
                               options={schoolOptions}
                               onChange={(e) => handleSelectChange(e)}
-                              value={schoolOptions.find(
-                                (_school) => _school.value === profile.schoolId
-                              )}
+                              value={schoolOptions.find((_school) => _school.value.toString() === profile.schoolId.toString())}
                             />
                           </div>
                           <div className="form-floating mb-3 d-flex align-items-center">
