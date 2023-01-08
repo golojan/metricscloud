@@ -5,7 +5,7 @@ import { withAuth } from "../../hocs/auth/withAuth";
 import { NextPage } from "next";
 
 import { AccountTypes, Gender } from "../@metrics/metrics-interfaces";
-import { AuthUserInfo } from "../..@metrics/metrics-interfaces";
+import { AuthUserInfo } from "@metrics/metrics-interfaces";
 import { getProfileInfo } from "../../libs/queries";
 
 import validator from "validator";

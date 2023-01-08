@@ -1,6 +1,6 @@
 // HOC
 import React, { useState, useEffect } from "react";
-import { AuthUserInfo } from "../..@metrics/metrics-interfaces";
+import { AuthUserInfo } from "@metrics/metrics-interfaces";
 import { getUserInfo } from "../../libs/queries";
 const cookie = require("js-cookie");
 

@@ -4,7 +4,7 @@ import { AccountTypes, Gender } from "@metrics/metrics-interfaces";
 import validator from "validator";
 import { hasSpacialChars } from "../libs/hasSpacialChars";
 import Select from "react-select";
-import { SchoolInfo } from "..@metrics/metrics-interfaces";
+import { SchoolInfo } from '@metrics/metrics-interfaces';
 import { getSchools } from "../libs/queries";
 import { toast } from "react-toastify";
 

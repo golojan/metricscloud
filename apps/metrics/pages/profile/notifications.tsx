@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 
 import { withAuth } from "../../hocs/auth/withAuth";
 import { NextPage } from "next";
-import { AuthUserInfo } from "../..@metrics/metrics-interfaces";
+import { AuthUserInfo } from "@metrics/metrics-interfaces";
 import { getProfileInfo } from "../../libs/queries";
 
 const Notifications: NextPage = ({ token }: any) => {
