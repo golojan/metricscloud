@@ -29,6 +29,7 @@ export interface AuthUserInfo {
   lastname?: string;
   aboutMe?: string;
   username?: string;
+  role?: string;
   email?: string;
   gender?: string;
   mobile?: string;

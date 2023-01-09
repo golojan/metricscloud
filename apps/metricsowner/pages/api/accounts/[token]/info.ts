@@ -17,7 +17,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         );
         res.status(200).json({
           status: true,
-          schoolid: account.schoolId,
+          schoolId: account.schoolId,
           school: school,
           passwordKey: account.passwordKey,
           email: account.email,
