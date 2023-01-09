@@ -42,46 +42,49 @@ function RegisterTabContents() {
   const minUsernameLength = process.env.NEXT_PUBLIC_MIN_USERNAME_LENGTH || 5;
 
   const [register, setRegister] = React.useState({
-    username: "",
-    accountType: AccountTypes.GUEST as string,
-    firstname: "",
-    lastname: "",
-    gender: "",
-    birthday: "",
-    email: "",
-    password: "",
-    confirmpassword: "",
-    schoolId: "",
-    departmentId: "",
+    username: '',
+    accountType: AccountTypes.ALUMNI as string,
+    firstname: '',
+    lastname: '',
+    gender: '',
+    birthday: '',
+    email: '',
+    password: '',
+    confirmpassword: '',
+    schoolId: '',
+    departmentId: '',
   });
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch("/api/accounts/register", {
-      method: "POST",
+    const response = await fetch('/api/accounts/register', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(register),
     });
     const { status, token } = await response.json();
     if (status) {
       toast.success(`Account created successfully, logging you in...`, {
-        toastId: "register-account-success",
+        toastId: 'register-account-success',
       });
       authLogin(token);
     } else {
-      toast.error(`Account registration failed. Server may be having issues, try again after some time.`, {
-        toastId: "register-account-success",
-      });
+      toast.error(
+        `Account registration failed. Server may be having issues, try again after some time.`,
+        {
+          toastId: 'register-account-success',
+        }
+      );
     }
   };
 
   const busyURef = () => {
-    setUnError("Checking...");
+    setUnError('Checking...');
     if (usernameRef.current) {
       usernameRef.current.className =
-        "form-control rounded-5 border-5 bg-blue-100 focus:bg-blue-100";
+        'form-control rounded-5 border-5 bg-blue-100 focus:bg-blue-100';
       usernameRef.current.disabled = true;
     }
     if (buttonRef.current) {
@@ -90,10 +93,10 @@ function RegisterTabContents() {
   };
 
   const wrongURef = () => {
-    setUnError("Username is invalid.");
+    setUnError('Username is invalid.');
     if (usernameRef.current) {
       usernameRef.current.className =
-        "form-control rounded-5 border-5 border-red-500  bg-red-200";
+        'form-control rounded-5 border-5 border-red-500  bg-red-200';
       usernameRef.current.disabled = false;
     }
     if (buttonRef.current) {
@@ -101,10 +104,10 @@ function RegisterTabContents() {
     }
   };
   const rightURef = () => {
-    setUnError("");
+    setUnError('');
     if (usernameRef.current) {
       usernameRef.current.className =
-        "form-control rounded-5 border-5 border-green-300  bg-green-100";
+        'form-control rounded-5 border-5 border-green-300  bg-green-100';
       usernameRef.current.disabled = false;
     }
     if (buttonRef.current) {
@@ -113,10 +116,10 @@ function RegisterTabContents() {
   };
 
   const existURef = () => {
-    setUnError("Username is already in use.");
+    setUnError('Username is already in use.');
     if (usernameRef.current) {
       usernameRef.current.className =
-        "form-control rounded-5 border-5 border-red-300  bg-red-100";
+        'form-control rounded-5 border-5 border-red-300  bg-red-100';
       usernameRef.current.disabled = false;
     }
     if (buttonRef.current) {
@@ -125,10 +128,10 @@ function RegisterTabContents() {
   };
 
   const busyERef = () => {
-    setEmError("Checking email...");
+    setEmError('Checking email...');
     if (emailRef.current) {
       emailRef.current.className =
-        "form-control rounded-5 border-5 bg-blue-100 focus:bg-blue-100";
+        'form-control rounded-5 border-5 bg-blue-100 focus:bg-blue-100';
       emailRef.current.disabled = true;
     }
     if (buttonRef.current) {
@@ -136,10 +139,10 @@ function RegisterTabContents() {
     }
   };
   const wrongERef = () => {
-    setEmError("Email is invalid.");
+    setEmError('Email is invalid.');
     if (emailRef.current) {
       emailRef.current.className =
-        "form-control rounded-5 border-5 border-red-500  bg-red-200";
+        'form-control rounded-5 border-5 border-red-500  bg-red-200';
       emailRef.current.disabled = false;
     }
     if (buttonRef.current) {
@@ -148,10 +151,10 @@ function RegisterTabContents() {
   };
 
   const rightERef = () => {
-    setEmError("");
+    setEmError('');
     if (emailRef.current) {
       emailRef.current.className =
-        "form-control rounded-5 border-5 border-green-300  bg-green-100";
+        'form-control rounded-5 border-5 border-green-300  bg-green-100';
       emailRef.current.disabled = false;
     }
     if (buttonRef.current) {
@@ -160,10 +163,10 @@ function RegisterTabContents() {
   };
 
   const existERef = () => {
-    setEmError("Email is already in use.");
+    setEmError('Email is already in use.');
     if (emailRef.current) {
       emailRef.current.className =
-        "form-control rounded-5 border-5 border-red-300  bg-red-100";
+        'form-control rounded-5 border-5 border-red-300  bg-red-100';
       emailRef.current.disabled = false;
     }
     if (buttonRef.current) {
@@ -180,17 +183,17 @@ function RegisterTabContents() {
       validator.isEmpty(newUsername) ||
       newUsername.length < minUsernameLength ||
       validator.isEmail(newUsername) ||
-      validator.contains(newUsername, "@") ||
+      validator.contains(newUsername, '@') ||
       hasSpacialChars(newUsername)
     ) {
       wrongURef();
       return;
     }
     busyURef();
-    const response = await fetch("/api/accounts/checkusername", {
-      method: "POST",
+    const response = await fetch('/api/accounts/checkusername', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ username: newUsername }),
     });
@@ -213,10 +216,10 @@ function RegisterTabContents() {
       return;
     }
     busyERef();
-    const response = await fetch("/api/accounts/checkemail", {
-      method: "POST",
+    const response = await fetch('/api/accounts/checkemail', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ email: newEmail }),
     });
@@ -315,20 +318,19 @@ function RegisterTabContents() {
                     type="radio"
                     required={true}
                     className="btn-check"
-                    id="reg_guest"
+                    id="reg_graduate"
                     name="accountType"
-                    disabled={true}
-                    value={AccountTypes.GUEST}
+                    value={AccountTypes.ALUMNI}
                     onChange={(e) =>
                       setRegister({ ...register, accountType: e.target.value })
                     }
                   />
                   <label
-                    htmlFor="reg_guest"
+                    htmlFor="reg_graduate"
                     className="btn btn-language btn-sm px-2 py-2 rounded-5 d-flex align-items-center justify-content-between"
                   >
                     <span className="text-start d-grid">
-                      <small className="ln-18">I am a Guest</small>
+                      <small className="ln-18">I am an Alumni</small>
                     </span>
                     <span className="material-icons text-muted md-20">
                       check_circle

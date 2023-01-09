@@ -8,7 +8,11 @@ import useSWR from "swr";
 import ProfilePage from "../../components/ProfilePage";
 import NoProfilePage from "../../components/NoProfilePage";
 import Head from "next/head";
-import { publicProfileAtom, busyAtom, schoolsAtom } from '../../store';
+import {
+  publicProfileAtom,
+  busyAtom,
+  schoolsAtom,
+} from '@metricsai/metrics-store';
 import {useAtom} from 'jotai';
 
 const Home: NextPage = () => {

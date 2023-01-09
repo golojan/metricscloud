@@ -25,7 +25,6 @@ export default async function handler(
               account.password
             );
             if (isPasswordValid) {
-
               res.status(200).json({
                 status: true,
                 token: account._id,

@@ -5,6 +5,8 @@ import Accounts from './accounts.model';
 import Connections from './connections.model';
 import Owners from './owners.model';
 import Roles from './roles.model';
+import Indicators from './indicators.model';
+import Memberships from './memberships.model';
 
 const { NEXT_PUBLIC_MONGOOSE_URI } = process.env;
 
@@ -21,5 +23,7 @@ export const dbCon = async () => {
     Connections,
     Owners,
     Roles,
+    Indicators,
+    Memberships,
   };
 };

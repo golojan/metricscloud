@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { useAtom } from "jotai";
-import { profileAtom } from "../store";
+import { profileAtom } from '@metricsai/metrics-store';
 
 function StatusTextBox() {
   const [profile] = useAtom(profileAtom);

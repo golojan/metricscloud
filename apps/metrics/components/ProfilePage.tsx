@@ -5,7 +5,11 @@ import { AuthUserInfo, SchoolInfo } from '@metricsai/metrics-interfaces';
 import { getProfile } from '../libs/queries';
 import { toMonthDayYear } from '../libs/toDate';
 import useSWR from 'swr';
-import {busyAtom, publicProfileAtom, schoolsAtom} from '../store'
+import {
+  busyAtom,
+  publicProfileAtom,
+  schoolsAtom,
+} from '@metricsai/metrics-store';
 import {useAtom} from 'jotai';
 
 function ProfilePage() {

@@ -69,6 +69,66 @@
         }
       },
       "tags": []
+    },
+    "metricsowner": {
+      "root": "apps/metricsowner",
+      "sourceRoot": "apps/metricsowner",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/next:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "defaultConfiguration": "production",
+          "options": {
+            "root": "apps/metricsowner",
+            "outputPath": "dist/apps/metricsowner"
+          },
+          "configurations": {
+            "development": {
+              "outputPath": "apps/metricsowner"
+            },
+            "production": {}
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/next:server",
+          "defaultConfiguration": "development",
+          "options": {
+            "buildTarget": "metricsowner:build:development",
+            "dev": true
+          },
+          "configurations": {
+            "development": {
+              "buildTarget": "metricsowner:build:development",
+              "dev": true
+            },
+            "production": {
+              "buildTarget": "metricsowner:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "builder": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "metricsowner:build:production"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "apps/metricsowner/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        }
+      },
+      "tags": []
     }
   },
   "libs": {

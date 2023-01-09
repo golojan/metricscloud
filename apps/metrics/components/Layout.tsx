@@ -29,7 +29,7 @@ function Layout({ children }: Props) {
       {/* Head component with a title */}
       <Head>
         <title>
-          Metrics AI {process.env.NEXT_PUBLIC_MONGOOSE_URI} | School Ranking
+          Metrics AI | School Ranking
           System
         </title>
       </Head>

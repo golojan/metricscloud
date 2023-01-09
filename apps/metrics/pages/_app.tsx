@@ -5,8 +5,8 @@ import Head from "next/head";
 // Import css files
 
 import "../styles/globals.scss";
-import { Provider } from "jotai";
-import { ToastContainer } from "react-toastify";
+import { Provider as JotaiProvider } from 'jotai';
+import { ToastContainer } from 'react-toastify';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <Script src="vendor/jquery/jquery.min.js" />
       <Script src="vendor/bootstrap/js/bootstrap.bundle.min.js" />
-      <Provider>
+      <JotaiProvider>
         <ToastContainer
           position="top-center"
           autoClose={3000}
@@ -29,7 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
           theme="dark"
         />
         <Component {...pageProps} />
-      </Provider>
+      </JotaiProvider>
     </>
   );
 }

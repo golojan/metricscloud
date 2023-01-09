@@ -1,6 +1,6 @@
 import React from "react";
 import { useAtom } from "jotai";
-import { profileAtom } from "../store";
+import { profileAtom } from '@metricsai/metrics-store';
 
 function HomeTabsBar() {
   const [profile] = useAtom(profileAtom);

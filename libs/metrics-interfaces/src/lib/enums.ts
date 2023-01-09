@@ -27,11 +27,13 @@ export enum OwnerTypes {
 }
 
 export enum AccountTypes {
-  GUEST = "GUEST",
-  OWNER = "OWNER",
-  ADMIN = "ADMIN",
-  LECTURER = "LECTURER",
-  STUDENT = "STUDENT",
+  GUEST = 'GUEST',
+  ALUMNI = 'ALUMNI',
+  OWNER = 'OWNER',
+  ADMIN = 'ADMIN',
+  LECTURER = 'LECTURER',
+  GRADUATE = 'GRADUATE',
+  STUDENT = 'STUDENT',
 }
 
 export enum AccountRoles {
