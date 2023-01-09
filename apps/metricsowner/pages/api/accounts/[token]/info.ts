@@ -12,12 +12,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       const { Accounts, Schools } = await dbCon();
       const account = await Accounts.findOne({ _id: token }).catch(catcher);
       if (account) {
-        const school = await Schools.findOne({ _id: account.schoolid }).catch(
+        const school = await Schools.findOne({ _id: account.schoolId }).catch(
           catcher
         );
         res.status(200).json({
           status: true,
-          schoolid: account.schoolid,
+          schoolid: account.schoolId,
           school: school,
           passwordKey: account.passwordKey,
           email: account.email,

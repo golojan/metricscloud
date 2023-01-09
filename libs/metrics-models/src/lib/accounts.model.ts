@@ -12,6 +12,9 @@ const accountsScheme = new mongoose.Schema(
     schoolId: {
       type: String,
     },
+    role: {
+      type: String,
+    },
     departmentId: {
       type: String,
     },
