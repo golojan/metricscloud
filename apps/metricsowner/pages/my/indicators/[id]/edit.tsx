@@ -15,7 +15,7 @@ import { useRouter } from 'next/router';
 
 import useSWR from 'swr';
 import { getIndicators, getIndicatorInfo } from '../../../../utils/queries';
-import { ICriteria } from '@me@metricsai/metrics-interfaceserfaces/enums';
+import { ICriteria } from '@metricsai/metrics-interfaces';
 import { IndicatorsMenu } from '../../../../components/MyMenu';
 
 const EditIndicator: NextPage = () => {
