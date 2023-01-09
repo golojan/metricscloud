@@ -52,7 +52,7 @@
             "{workspaceRoot}/coverage/{projectRoot}"
           ],
           "options": {
-            "jestConfig": "apps/metrics/jest.config.ts",
+            "jestConfig": "apps/metricsowner/jest.config.ts",
             "passWithNoTests": true
           }
         },
@@ -63,7 +63,7 @@
           ],
           "options": {
             "lintFilePatterns": [
-              "apps/metrics/**/*.{ts,tsx,js,jsx}"
+              "apps/metricsowner/**/*.{ts,tsx,js,jsx}"
             ]
           }
         }
@@ -140,6 +140,11 @@
     "metrics-models": {
       "root": "libs/metrics-models",
       "sourceRoot": "libs/metrics-models/src",
+      "projectType": "library"
+    },
+    "metrics-store": {
+      "root": "libs/metrics-store",
+      "sourceRoot": "libs/metrics-store/src",
       "projectType": "library"
     }
   },
