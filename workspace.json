@@ -52,7 +52,7 @@
             "{workspaceRoot}/coverage/{projectRoot}"
           ],
           "options": {
-            "jestConfig": "apps/metricsowner/jest.config.ts",
+            "jestConfig": "apps/metrics/jest.config.ts",
             "passWithNoTests": true
           }
         },
@@ -63,13 +63,15 @@
           ],
           "options": {
             "lintFilePatterns": [
-              "apps/metricsowner/**/*.{ts,tsx,js,jsx}"
+              "apps/metrics/**/*.{ts,tsx,js,jsx}"
             ]
           }
         }
       },
       "tags": []
     },
+
+
     "metricsowner": {
       "root": "apps/metricsowner",
       "sourceRoot": "apps/metricsowner",
