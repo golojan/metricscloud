@@ -17,7 +17,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       const { Accounts } = await dbCon();
       const students = await Accounts.find({
         schoolId: schoolId,
-        accountType: AccountTypes.STUDENT
+        accountType: AccountTypes.STUDENT,
       }).catch(catcher);
       if (students) {
         res.status(200).json({
@@ -33,3 +33,5 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (response) response(req, res);
   else res.status(400).json({ error: 'No Response for This Request' });
 }
+
+

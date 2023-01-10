@@ -13,17 +13,20 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         .json({ status: false, err: 'Only GET Method is allowed' });
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { domain } = req.query;
-      const { Faculties } = await dbCon();
+      const { schoolId } = req.query;
+      const { SchoolFaculties } = await dbCon();
 
-      const count = await Faculties.count({
-        domain: domain,
+      const faculties = await SchoolFaculties.find({
+        schoolId: schoolId,
       }).catch(catcher);
-
-      res.status(200).json({
-        status: true,
-        count: count,
-      });
+      if (faculties) {
+        res.status(200).json({
+          status: true,
+          data: faculties,
+        });
+      } else {
+        res.status(404).json({ status: false, err: 'Faculties not found' });
+      }
     },
   };
   const response = handleCase[method];

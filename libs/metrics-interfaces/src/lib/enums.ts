@@ -1,3 +1,10 @@
+
+export enum AccreditationTypes {
+  NONE = "NONE",
+  PARTIAL = "PARTIAL",
+  FULL = "FULL"
+}
+
 export enum ICriteria {
   GENERAL = "GENERAL",
   CITATIONS = "CITATIONS",

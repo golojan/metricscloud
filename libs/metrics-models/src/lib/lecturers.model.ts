@@ -29,11 +29,6 @@ const lecturersScheme = new mongoose.Schema(
       enum: Object.values(LecturerType),
       default: LecturerType.LOCAL,
     },
-    googlePresence: { type: Number, default: 0 },
-    citations: { type: Number, default: 0 },
-    hindex: { type: Number, default: 0 },
-    i10hindex: { type: Number, default: 0 },
-    publications: [{}],
     enabled: {
       type: Boolean,
       default: false,

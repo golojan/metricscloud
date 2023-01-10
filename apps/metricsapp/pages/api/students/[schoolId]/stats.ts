@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
-import { ResponseFunctions,Gender, StudentType } from '@metricsai/metrics-interfaces';
+import { ResponseFunctions,Gender, StudentType, AccountTypes } from '@metricsai/metrics-interfaces';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
@@ -13,70 +13,82 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         .json({ status: false, err: 'Only GET Method is allowed' });
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { domain } = req.query;
-      const { Students } = await dbCon();
+      const { schoolId } = req.query;
+      const { Accounts } = await dbCon();
 
-      const count = await Students.count({
-        domain: domain,
+      const count = await Accounts.count({
+        schoolId: schoolId,
+        accountType: AccountTypes.STUDENT,
       }).catch(catcher);
 
-      const countFemale = await Students.count({
-        domain: domain,
+      const countFemale = await Accounts.count({
+        schoolId: schoolId,
+        accountType: AccountTypes.STUDENT,
         gender: Gender.FEMALE,
       }).catch(catcher);
 
-      const countMale = await Students.count({
-        domain: domain,
+      const countMale = await Accounts.count({
+        schoolId: schoolId,
+        accountType: AccountTypes.STUDENT,
         gender: Gender.MALE,
       }).catch(catcher);
 
-      const countLocal = await Students.count({
-        domain: domain,
+      const countLocal = await Accounts.count({
+        schoolId: schoolId,
+        accountType: AccountTypes.STUDENT,
         studentType: StudentType.LOCAL,
       }).catch(catcher);
 
-      const countIntl = await Students.count({
-        domain: domain,
+      const countIntl = await Accounts.count({
+        schoolId: schoolId,
+        accountType: AccountTypes.STUDENT,
         studentType: StudentType.INTERNATIONAL,
       }).catch(catcher);
 
-      const countLocalMale = await Students.count({
-        domain: domain,
+      const countLocalMale = await Accounts.count({
+        schoolId: schoolId,
+        accountType: AccountTypes.STUDENT,
         studentType: StudentType.LOCAL,
         gender: Gender.MALE,
       }).catch(catcher);
 
-      const countLocalFemale = await Students.count({
-        domain: domain,
+      const countLocalFemale = await Accounts.count({
+        schoolId: schoolId,
+        accountType: AccountTypes.STUDENT,
         studentType: StudentType.LOCAL,
         gender: Gender.FEMALE,
       }).catch(catcher);
 
-      const countIntlMale = await Students.count({
-        domain: domain,
+      const countIntlMale = await Accounts.count({
+        schoolId: schoolId,
+        accountType: AccountTypes.STUDENT,
         studentType: StudentType.INTERNATIONAL,
         gender: Gender.MALE,
       }).catch(catcher);
 
-      const countIntlFemale = await Students.count({
-        domain: domain,
+      const countIntlFemale = await Accounts.count({
+        schoolId: schoolId,
+        accountType: AccountTypes.STUDENT,
         studentType: StudentType.INTERNATIONAL,
         gender: Gender.FEMALE,
       }).catch(catcher);
 
-      const countChallanged = await Students.count({
-        domain: domain,
+      const countChallanged = await Accounts.count({
+        schoolId: schoolId,
+        accountType: AccountTypes.STUDENT,
         challanged: true,
       }).catch(catcher);
 
-      const countChallangedMale = await Students.count({
-        domain: domain,
+      const countChallangedMale = await Accounts.count({
+        schoolId: schoolId,
+        accountType: AccountTypes.STUDENT,
         challanged: true,
         gender: Gender.MALE,
       }).catch(catcher);
 
-      const countChallangedFemale = await Students.count({
-        domain: domain,
+      const countChallangedFemale = await Accounts.count({
+        schoolId: schoolId,
+        accountType: AccountTypes.STUDENT,
         challanged: true,
         gender: Gender.FEMALE,
       }).catch(catcher);

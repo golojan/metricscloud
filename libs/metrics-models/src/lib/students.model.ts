@@ -21,10 +21,6 @@ const studentsScheme = new mongoose.Schema(
       yearToGraduated: Number, //year graduated//
       yearGraduated: Number, //year graduated//
     },
-    googlePresence: { type: Number, default: 0 },
-    citations: { type: Number, default: 0 },
-    hindex: { type: Number, default: 0 },
-    i10hindex: { type: Number, default: 0 },
     enabled: {
       type: Boolean,
       default: false,

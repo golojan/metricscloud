@@ -8,12 +8,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(400).json({ status: 0, error: error });
   const handleCase: ResponseFunctions = {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { domain } = req.query;
+      const { schoolId } = req.query;
       const { name } = req.body;
       console.log(name);
-      const { Faculties } = await dbCon();
-      const faculty = await Faculties.create({
-        domain: domain,
+      const { SchoolFaculties } = await dbCon();
+      const faculty = await SchoolFaculties.create({
+        schoolId: schoolId,
         name: name,
       }).catch(catcher);
       if (faculty) {

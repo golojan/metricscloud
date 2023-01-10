@@ -3,6 +3,9 @@
   "css.lint.unknownAtRules": "ignore",
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "prettier.prettier-vscode"
+  },
   "editor.quickSuggestions": {
     "other": true,
     "comments": false,

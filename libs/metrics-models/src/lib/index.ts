@@ -9,6 +9,10 @@ import Indicators from './indicators.model';
 import Memberships from './memberships.model';
 import Lecturers from './lecturers.model';
 import Students from './students.model';
+import Faculties from './faculties.model';
+import Departments from './departments.model';
+import SchoolFaculties from './school-faculties.model';
+import SchoolDepartments from './school-departments.model';
 
 const { NEXT_PUBLIC_MONGOOSE_URI } = process.env;
 
@@ -29,5 +33,9 @@ export const dbCon = async () => {
     Memberships,
     Lecturers,
     Students,
+    Faculties,
+    Departments,
+    SchoolFaculties,
+    SchoolDepartments,
   };
 };

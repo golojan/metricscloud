@@ -1,26 +1,15 @@
-import React, { Component, useEffect } from 'react';
-import cookie from 'js-cookie';
-
+import React, { useEffect } from 'react';
 import {
   SchoolStats,
   StudentStats,
   SchoolInfo,
+  AuthUserInfo,
 } from '@metricsai/metrics-interfaces';
 
 import { Dispatch, RootState } from '@metricsai/metrics-store';
 import { useDispatch, useSelector } from 'react-redux';
 import { div, perc } from '@metricsai/metrics-utils';
 import useSWR from 'swr';
-
-import {
-  loadStudentsStats,
-  loadLecturers,
-  loadLecturersStats,
-  loadFaculties,
-  loadFacultiesStats,
-  loadDepartments,
-  loadDepartmentsStats,
-} from '@metricsai/metrics-utils';
 
 import SiteBusy from '../components/SiteBusy';
 
@@ -36,6 +25,48 @@ const loadStudents = async (schoolId: string) => {
   return students.data;
 };
 
+const loadStudentsStats = async (schoolId: string) => {
+  const response = await fetch(`/api/students/${schoolId}/stats`);
+  const stats = await response.json();
+  return stats;
+};
+
+const loadLecturers = async (schoolId: string) => {
+  const response = await fetch(`/api/lecturers/${schoolId}/list`);
+  const lecturers = await response.json();
+  return lecturers.data;
+};
+
+const loadLecturersStats = async (schoolId: string) => {
+  const response = await fetch(`/api/students/${schoolId}/stats`);
+  const stats = await response.json();
+  return stats;
+};
+
+const loadFaculties = async (schoolId: string) => {
+  const response = await fetch(`/api/faculties/${schoolId}/list`);
+  const faculties = await response.json();
+  return faculties.data;
+};
+
+const loadDepartments = async (schoolId: string) => {
+  const response = await fetch(`/api/departments/${schoolId}/list`);
+  const departments = await response.json();
+  return departments.data;
+};
+
+const loadFacultiesStats = async (schoolId: string) => {
+  const response = await fetch(`/api/faculties/${schoolId}/stats`);
+  const stats = await response.json();
+  return stats;
+};
+
+const loadDepartmentsStats = async (schoolId: string) => {
+  const response = await fetch(`/api/departments/${schoolId}/stats`);
+  const stats = await response.json();
+  return stats;
+};
+
 interface Props {
   isLoading: boolean;
   schoolId: string;
@@ -47,6 +78,30 @@ export const withIndicators = <P extends object>(
   return (props: P & Props) => {
     const { schoolId, isLoading, ...restProps } = props;
     const dispatch = useDispatch<Dispatch>();
+
+    const {
+      data: faculties,
+      error: fError,
+      isValidating: fValidation,
+    } = useSWR(`/api/faculties/${schoolId}/list`, () =>
+      loadFaculties(schoolId)
+    );
+
+    const {
+      data: departments,
+      error: dError,
+      isValidating: dValidation,
+    } = useSWR(`/api/departments/${schoolId}/list`, () =>
+      loadDepartments(schoolId)
+    );
+
+    // const {
+    //   data: statistics_faculties,
+    //   error: sfError,
+    //   isValidating: sfValidation,
+    // } = useSWR(`/api/faculties/${schoolId}/stats`, () =>
+    //   loadFaculties(schoolId)
+    // );
 
     const {
       data: ranking,
@@ -64,26 +119,179 @@ export const withIndicators = <P extends object>(
       loadStudents(schoolId)
     );
 
-    //         // Load All Students //
-    //         loadStudents(domain as string)
-    //           .then((students) => {
-    //             dispatch.students.setStudents(students.data);
-    //             dispatch.students.setStudentsCount(students.data.length);
-    //           })
-    //           .catch();
+    const {
+      data: statistics_students,
+      error: stError,
+      isValidating: stValidation,
+    } = useSWR(`/api/students/${schoolId}/stats`, () =>
+      loadStudentsStats(schoolId)
+    );
+
+    const {
+      data: lecturers,
+      error: lError,
+      isValidating: lValidation,
+    } = useSWR<AuthUserInfo[]>(`/api/lecturers/${schoolId}/list`, () =>
+      loadLecturers(schoolId)
+    );
+
+    const {
+      data: statistics_lecturers,
+      error: ltError,
+      isValidating: ltValidation,
+    } = useSWR(`/api/lecturers/${schoolId}/stats`, () =>
+      loadLecturersStats(schoolId)
+    );
 
     useEffect(() => {
+      dispatch.settings.setBusy(true);
+
       dispatch.settings.setStatistics(ranking);
-      // loadStudents(schoolId)
-      //   .then((students) => {
-      //     alert(JSON.stringify(students));
-      //     dispatch.students.setStudents(students);
-      //     dispatch.students.setStudentsCount(students.length);
-      //   })
-      //   .catch();
+
+      dispatch.students.setStudents(students);
+      dispatch.students.setStudentsCount(students?.length);
+
+      if (statistics_students) {
+        dispatch.students.setStatistics(statistics_students);
+        //Do other students maths and Stat Displays//
+        dispatch.students.setAnalytics({
+          STUDENT_TEACHER_RATIO: div(
+            statistics_students.count as number,
+            statistics_lecturers.count as number
+          ),
+          PERCENTAGE_FEMALE: perc(
+            statistics_students.countFemale as number,
+            statistics_students.count as number
+          ),
+          INTERNATIONAL_STUDENTS: perc(
+            statistics_students.countIntl as number,
+            statistics_students.count as number
+          ),
+          PERCENTAGE_CHALLANGED_STUDENTS: perc(
+            statistics_students.countChallanged as number,
+            statistics_students.count as number
+          ),
+          CHALLANGED_STUDENTS_RATIO: div(
+            statistics_students.countChallanged as number,
+            statistics_students.count as number
+          ),
+        });
+        //Do other students maths and Stat Displays//
+      }
+      if (lecturers) {
+        let lCts = lecturers;
+        //Total GS //
+        let totalGooglePresence = lCts.reduce(function (
+          total: any,
+          current: any
+        ) {
+          return total + current.googlePresence;
+        },
+        0);
+
+        //Total Citation //
+        let totalCitations = lCts.reduce(function (total: any, current: any) {
+          return total + current.citations;
+        }, 0);
+
+        //Total Hindex //
+        let totalHindex = lCts.reduce(function (total: any, current: any) {
+          return total + current.hindex;
+        }, 0);
+
+        //Total Hindex //
+        let totalI10hindex = lCts.reduce(function (total: any, current: any) {
+          return total + current.i10hindex;
+        }, 0);
+
+        dispatch.settings.setRank({
+          googlePresence: totalGooglePresence,
+          citations: totalCitations,
+          hindex: totalHindex,
+          i10hindex: totalI10hindex,
+        });
+        const _total =
+          totalGooglePresence + totalCitations + totalHindex + totalI10hindex;
+        dispatch.settings.setTotal(_total);
+        dispatch.lecturers.setLecturers(lecturers);
+        dispatch.lecturers.setLecturersCount(lecturers.length);
+      }
+      if (statistics_lecturers) {
+        dispatch.statistics_lecturers.setStatistics(statistics_lecturers);
+        //Do other lecturers maths and Stat Displays//
+        dispatch.lecturers.setAnalytics({
+          INTERNATIONAL_LECTURERS: perc(
+            statistics_lecturers.countIntl as number,
+            statistics_lecturers.count as number
+          ),
+          FEMALE_LECTURERS: perc(
+            statistics_lecturers.countFemale as number,
+            statistics_lecturers.count as number
+          ),
+          PROFESSORS: perc(
+            statistics_lecturers.countProfessors as number,
+            statistics_lecturers.count as number
+          ),
+          FULL_PROFESSORS: perc(
+            statistics_lecturers.countFullProfessors as number,
+            statistics_lecturers.count as number
+          ),
+          INTERNATIONAL_PROFESSORS: perc(
+            statistics_lecturers.countIntlProfessors as number,
+            statistics_lecturers.count as number
+          ),
+          FEMALE_PROFESSORS: perc(
+            statistics_lecturers.countProfessorsFemale as number,
+            statistics_lecturers.count as number
+          ),
+          MALE_PROFESSORS: perc(
+            statistics_lecturers.countProfessorsMale as number,
+            statistics_lecturers.count as number
+          ),
+          PHD_LECTURERS: perc(
+            statistics_lecturers.countPHDLecturers as number,
+            statistics_lecturers.count as number
+          ),
+          ADJUNCT_LECTURERS: perc(
+            statistics_lecturers.countAdjunct as number,
+            statistics_lecturers.count as number
+          ),
+          ADJUNCT_PROFESSORS: perc(
+            statistics_lecturers.countAdjunctProfessors as number,
+            statistics_lecturers.count as number
+          ),
+          PERCENTAGE_JUNIOR_LECTURERS: perc(
+            statistics_lecturers.countJuniorLecturers as number,
+            statistics_lecturers.count as number
+          ),
+          PERCENTAGE_SENIOR_LECTURERS: perc(
+            statistics_lecturers.countSeniorLecturers as number,
+            statistics_lecturers.count as number
+          ),
+          JUNIO_SENIOR_LECTURERS_RATIO: div(
+            statistics_lecturers.countJuniorLecturers as number,
+            statistics_lecturers.countSeniorLecturers as number
+          ),
+        });
+        //Do other lecturers maths and Stat Displays//
+      }
+
+      dispatch.settings.setBusy(false);
     }, [schoolId]);
 
-    return isLoading || rValidation || rError ? (
+    const othersStillLoading =
+      rValidation ||
+      rError ||
+      sValidation ||
+      sError ||
+      stValidation ||
+      stError ||
+      lValidation ||
+      lError ||
+      ltValidation ||
+      ltError;
+
+    return isLoading ? (
       <div className="container my-[10%] text-center">
         <h1>Loading indicators, wait...</h1>
       </div>
@@ -92,198 +300,6 @@ export const withIndicators = <P extends object>(
     );
   };
 };
-
-// export const withStatistics = (WrappedComponent: any) => {
-//   const Wrapper = (props: any) => {
-//     const dispatch = useDispatch<Dispatch>();
-//     const { statistics_students } = useSelector(
-//       (state: RootState) => state.students
-//     );
-//     const { statistics_lecturers } = useSelector(
-//       (state: RootState) => state.lecturers
-//     );
-//     const { statistics_faculties } = useSelector(
-//       (state: RootState) => state.faculties
-//     );
-//     const { statistics_departments } = useSelector(
-//       (state: RootState) => state.departments
-//     );
-//     const { statistics_school } = useSelector(
-//       (state: RootState) => state.settings
-//     );
-
-//     useEffect(() => {
-//       const token = cookie.get('token');
-//       const domain = cookie.get('domain');
-
-//       if (token && domain) {
-//         dispatch.settings.setBusy(true);
-
-//         loadSchoolsStats(domain as string)
-//           .then((stats: SchoolStats) => {
-//             // dispatch.schools.setStatistics(stats);
-//             //Do other students maths and Stat Displays//
-//             // dispatch.schools.setAnalytics({
-//             //   STUDENT_TEACHER_RATIO: div(
-//             //     statistics_students.count as number,
-//             //     statistics_lecturers.count as number
-//             //   ),
-//             // });
-//             //Do other students maths and Stat Displays//
-//           })
-//           .catch(); // Load All Students //
-//         // Get school info to state //
-
-//         // Load All Students //
-//         loadStudents(domain as string)
-//           .then((students) => {
-//             dispatch.students.setStudents(students.data);
-//             dispatch.students.setStudentsCount(students.data.length);
-//           })
-//           .catch();
-//         loadStudentsStats(domain as string)
-//           .then((stats: StudentStats) => {
-//             dispatch.students.setStatistics(stats);
-//             //Do other students maths and Stat Displays//
-//             dispatch.students.setAnalytics({
-//               STUDENT_TEACHER_RATIO: div(
-//                 statistics_students.count as number,
-//                 statistics_lecturers.count as number
-//               ),
-//               PERCENTAGE_FEMALE: perc(
-//                 statistics_students.countFemale as number,
-//                 statistics_students.count as number
-//               ),
-//               INTERNATIONAL_STUDENTS: perc(
-//                 statistics_students.countIntl as number,
-//                 statistics_students.count as number
-//               ),
-//               PERCENTAGE_CHALLANGED_STUDENTS: perc(
-//                 statistics_students.countChallanged as number,
-//                 statistics_students.count as number
-//               ),
-//               CHALLANGED_STUDENTS_RATIO: div(
-//                 statistics_students.countChallanged as number,
-//                 statistics_students.count as number
-//               ),
-//             });
-//             //Do other students maths and Stat Displays//
-//           })
-//           .catch(); // Load All Students //
-
-//         // Load All Lecturers //
-//         loadLecturers(domain as string)
-//           .then((lecturers) => {
-//             let lCts = lecturers.data;
-//             //Total GS //
-//             let totalGooglePresence = lCts.reduce(function (
-//               total: any,
-//               current: any
-//             ) {
-//               return total + current.googlePresence;
-//             },
-//             0);
-
-//             //Total Citation //
-//             let totalCitations = lCts.reduce(function (
-//               total: any,
-//               current: any
-//             ) {
-//               return total + current.citations;
-//             },
-//             0);
-
-//             //Total Hindex //
-//             let totalHindex = lCts.reduce(function (total: any, current: any) {
-//               return total + current.hindex;
-//             }, 0);
-
-//             //Total Hindex //
-//             let totalI10hindex = lCts.reduce(function (
-//               total: any,
-//               current: any
-//             ) {
-//               return total + current.i10hindex;
-//             },
-//             0);
-//             dispatch.settings.setRank({
-//               googlePresence: totalGooglePresence,
-//               citations: totalCitations,
-//               hindex: totalHindex,
-//               i10hindex: totalI10hindex,
-//             });
-//             const _total =
-//               totalGooglePresence +
-//               totalCitations +
-//               totalHindex +
-//               totalI10hindex;
-//             dispatch.settings.setTotal(_total);
-//             dispatch.lecturers.setLecturers(lecturers.data);
-//             dispatch.lecturers.setLecturersCount(lecturers.data.length);
-//           })
-//           .catch();
-//         loadLecturersStats(domain as string)
-//           .then((stats) => {
-//             dispatch.lecturers.setStatistics(stats);
-//             //Do other lecturers maths and Stat Displays//
-//             dispatch.lecturers.setAnalytics({
-//               INTERNATIONAL_LECTURERS: perc(
-//                 statistics_lecturers.countIntl as number,
-//                 statistics_lecturers.count as number
-//               ),
-//               FEMALE_LECTURERS: perc(
-//                 statistics_lecturers.countFemale as number,
-//                 statistics_lecturers.count as number
-//               ),
-//               PROFESSORS: perc(
-//                 statistics_lecturers.countProfessors as number,
-//                 statistics_lecturers.count as number
-//               ),
-//               FULL_PROFESSORS: perc(
-//                 statistics_lecturers.countFullProfessors as number,
-//                 statistics_lecturers.count as number
-//               ),
-//               INTERNATIONAL_PROFESSORS: perc(
-//                 statistics_lecturers.countIntlProfessors as number,
-//                 statistics_lecturers.count as number
-//               ),
-//               FEMALE_PROFESSORS: perc(
-//                 statistics_lecturers.countProfessorsFemale as number,
-//                 statistics_lecturers.count as number
-//               ),
-//               MALE_PROFESSORS: perc(
-//                 statistics_lecturers.countProfessorsMale as number,
-//                 statistics_lecturers.count as number
-//               ),
-//               PHD_LECTURERS: perc(
-//                 statistics_lecturers.countPHDLecturers as number,
-//                 statistics_lecturers.count as number
-//               ),
-//               ADJUNCT_LECTURERS: perc(
-//                 statistics_lecturers.countAdjunct as number,
-//                 statistics_lecturers.count as number
-//               ),
-//               ADJUNCT_PROFESSORS: perc(
-//                 statistics_lecturers.countAdjunctProfessors as number,
-//                 statistics_lecturers.count as number
-//               ),
-//               PERCENTAGE_JUNIOR_LECTURERS: perc(
-//                 statistics_lecturers.countJuniorLecturers as number,
-//                 statistics_lecturers.count as number
-//               ),
-//               PERCENTAGE_SENIOR_LECTURERS: perc(
-//                 statistics_lecturers.countSeniorLecturers as number,
-//                 statistics_lecturers.count as number
-//               ),
-//               JUNIO_SENIOR_LECTURERS_RATIO: div(
-//                 statistics_lecturers.countJuniorLecturers as number,
-//                 statistics_lecturers.countSeniorLecturers as number
-//               ),
-//             });
-//             //Do other lecturers maths and Stat Displays//
-//           })
-//           .catch();
-//         // Load All Lecturers //
 
 //         // Load All Faculties //
 //         loadFaculties(domain as string)

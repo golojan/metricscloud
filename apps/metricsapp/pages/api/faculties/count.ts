@@ -1,4 +1,3 @@
-import { lecturers } from './../../../store/models/lecturers';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
 import { ResponseFunctions } from '@metricsai/metrics-interfaces';

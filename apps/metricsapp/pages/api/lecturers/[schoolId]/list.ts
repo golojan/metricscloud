@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
-import { ResponseFunctions } from '@metricsai/metrics-interfaces';
+import { ResponseFunctions, AccountTypes } from '@metricsai/metrics-interfaces';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
@@ -13,16 +13,16 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         .json({ status: false, err: 'Only GET Method is allowed' });
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { domain } = req.query;
-      const { Faculties } = await dbCon();
-      const faculties = await Faculties.find({ domain: domain }).catch(catcher);
-      if (faculties) {
+      const { schoolId } = req.query;
+      const { Accounts } = await dbCon();
+      const lecturers = await Accounts.find({ schoolId: schoolId, accountType: AccountTypes.LECTURER, }).catch(catcher);
+      if (lecturers) {
         res.status(200).json({
           status: true,
-          data: faculties,
+          data: lecturers,
         });
       } else {
-        res.status(404).json({ status: false, err: 'Faculties not found' });
+        res.status(404).json({ status: false, err: 'Account not found' });
       }
     },
   };
