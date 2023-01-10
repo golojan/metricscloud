@@ -14,7 +14,7 @@ import { IndicatorInfo } from '@metricsai/metrics-interfaces';
 import { useRouter } from 'next/router';
 
 import useSWR from 'swr';
-import { getIndicators, getIndicatorInfo } from '../../../../utils/queries';
+import { getIndicators, getIndicatorInfo } from '@metricsai/metrics-queries';
 import { ICriteria } from '@metricsai/metrics-interfaces';
 import { IndicatorsMenu } from '../../../../components/MyMenu';
 

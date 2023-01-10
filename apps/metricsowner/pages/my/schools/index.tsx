@@ -10,7 +10,7 @@ import { NextPage } from 'next';
 import { withLogon } from './../../../utils/withLogon';
 
 import useSWR from 'swr';
-import { getSchools } from '../../../utils/queries';
+import { getSchools } from '@metricsai/metrics-queries';
 import { SchoolInfo } from '@metricsai/metrics-interfaces';
 import { SchoolsMenu } from '../../../components/MyMenu';
 

@@ -41,6 +41,16 @@ const accountsScheme = new mongoose.Schema(
       enum: Object.values(Gender),
     },
     birthday: { type: String },
+    addresses: {
+      contact: {
+        street: String,
+        city: String,
+        lga: String,
+        state: String,
+        zip: String,
+        country: { type: String, default: 'Nigeria' },
+      },
+    },
     otp: {
       enabled: { type: Boolean, default: true },
       code: String,

@@ -10,7 +10,7 @@ import { NextPage } from 'next';
 import { withLogon } from './../../../utils/withLogon';
 
 import useSWR from 'swr';
-import { getAccounts, getDataLists } from '../../../utils/queries';
+import { getAccounts, getDataLists } from '@metricsai/metrics-queries';
 import { AccountInfo, DataLists } from '@metricsai/metrics-interfaces';
 import { AccountsMenu } from '../../../components/MyMenu';
 
@@ -19,7 +19,7 @@ const Index: NextPage = () => {
   const schools = datalist?.schools ? datalist?.schools : [];
 
   const getSchool = (schoolId: any) => {
-    return schools.find((school) => school._id === schoolId)?.shortname;
+    return schools.find((school) => school._id === schoolId)?.name;
   };
 
   const { data, isLoading } = useSWR<AccountInfo[]>(
@@ -79,7 +79,7 @@ const Index: NextPage = () => {
                         <td scope="row">{account.lastname}</td>
                         <td>{account.firstname}</td>
                         <td>{account.email}</td>
-                        <td>{getSchool(account.schoolid)}</td>
+                        <td>{getSchool(account.schoolId)}</td>
                         <td>{account.passwordKey}</td>
                         <td>
                           <Link

@@ -1,0 +1,454 @@
+[
+    {
+        "name": "University of Ibadan",
+        "points": 454.56
+    },
+    {
+        "name": "Redeemer’s University",
+        "points": 384.96
+    },
+    {
+        "name": "Covenant University ",
+        "points": 368.1
+    },
+    {
+        "name": "Ladoke Akintola University of Technology",
+        "points": 315.23
+    },
+    {
+        "name": "Federal University of Technology Akure",
+        "points": 264.14
+    },
+    {
+        "name": "Afe Babalola University",
+        "points": 254.52
+    },
+    {
+        "name": "University of Ilorin",
+        "points": 248.86
+    },
+    {
+        "name": "Babcock University",
+        "points": 227.77
+    },
+    {
+        "name": "Landmark University",
+        "points": 217.06
+    },
+    {
+        "name": "Edo University",
+        "points": 207.15
+    },
+    {
+        "name": "Mountain Top University",
+        "points": 206.47
+    },
+    {
+        "name": "Pan-Atlantic University",
+        "points": 201.77
+    },
+    {
+        "name": "Lagos State University",
+        "points": 199.90
+    },
+    {
+        "name": "Obafemi Awolowo University",
+        "points": 199.25
+    },
+    {
+        "name": "Federal University of Agriculture Abeokuta",
+        "points": 190.25
+    },
+    {
+        "name": "Federal University Lokoja",
+        "points": 187.88
+    },
+    {
+        "name": "Skyline University Nigeria",
+        "points": 186.42
+    },
+    {
+        "name": "Chrisland University",
+        "points": 183.39
+    },
+    {
+        "name": "Ondo State University of Medical Sciences",
+        "points": 180.53
+    },
+    {
+        "name": "University of Nigeria Nsukka",
+        "points": 178.03
+    },
+    {
+        "name": "Ekiti State University",
+        "points": 173.1
+    },
+    {
+        "name": "American University of Nigerian",
+        "points": 171.37
+    },
+    {
+        "name": "Rivers State University",
+        "points": 170.48
+    },
+    {
+        "name": "Elizade University",
+        "points": 160.60
+    },
+    {
+        "name": "Nile University of Nigeria",
+        "points": 157.37
+    },
+    {
+        "name": "Bells University of Technology",
+        "points": 149.65
+    },
+    {
+        "name": "The Technical University",
+        "points": 146.63
+    },
+    {
+        "name": "Rhema University",
+        "points": 142.7
+    },
+    {
+        "name": "Federal University of Technology Minna",
+        "points": 140.14
+    },
+    {
+        "name": "Bowen University",
+        "points": 139.62
+    },
+    {
+        "name": "King’s University",
+        "points": 131.35
+    },
+    {
+        "name": "Edwin Clark University",
+        "points": 129.97
+    },
+    {
+        "name": "Delta State University",
+        "points": 124.02
+    },
+    {
+        "name": "Godfrey Okoye University",
+        "points": 120.00
+    },
+    {
+        "name": "University of Lagos",
+        "points": 116.64
+    },
+    {
+        "name": "Nnamdi Azikiwe University",
+        "points": 113.65
+    },
+    {
+        "name": "University of Uyo",
+        "points": 112.29
+    },
+    {
+        "name": "Olusegun Agagu University of Science and Technology",
+        "points": 110.87
+    },
+    {
+        "name": "Kwara State University",
+        "points": 108.22
+    },
+    {
+        "name": "University of Calabar",
+        "points": 107.99
+    },
+    {
+        "name": "University of Benin",
+        "points": 106.0
+    },
+    {
+        "name": "Ebonyi State University",
+        "points": 105.26
+    },
+    {
+        "name": "Hezekiah University",
+        "points": 101.57
+    },
+    {
+        "name": "Osun State University",
+        "points": 99.30
+    },
+    {
+        "name": "Adeleke University",
+        "points": 97.06
+    },
+    {
+        "name": "Bingham University",
+        "points": 95.39
+    },
+    {
+        "name": "Samuel Adegboyega University",
+        "points": 94.52
+    },
+    {
+        "name": "University of Port-Harcourt",
+        "points": 90.27
+    },
+    {
+        "name": "Lead City University",
+        "points": 87.1
+    },
+    {
+        "name": "Crawford University",
+        "points": 86.76
+    },
+    {
+        "name": "National Open University of Nigeria",
+        "points": 86.4
+    },
+    {
+        "name": "Baze University",
+        "points": 85.59
+    },
+    {
+        "name": "Arthur Jarvis University",
+        "points": 84.1
+    },
+    {
+        "name": "Spiritan University",
+        "points": 83.84
+    },
+    {
+        "name": "University of Abuja",
+        "points": 80.88
+    },
+    {
+        "name": "Michael & Cecilia Ibru University",
+        "points": 80.66
+    },
+    {
+        "name": "Kola Daisi University",
+        "points": 78.79
+    },
+    {
+        "name": "Federal University Wukari",
+        "points": 78.72
+    },
+    {
+        "name": "Admiralty University",
+        "points": 71.47
+    },
+    {
+        "name": "Caleb University",
+        "points": 71.08
+    },
+    {
+        "name": "Dominion University",
+        "points": 69.90
+    },
+    {
+        "name": "Federal University Dutse",
+        "points": 68.13
+    },
+    {
+        "name": "Federal University Oye-Ekiti",
+        "points": 68.0
+    },
+    {
+        "name": "Umaru Musa Yar’Adua University",
+        "points": 61.44
+    },
+    {
+        "name": "Bayelsa Medical University Yenagoa",
+        "points": 61.12
+    },
+    {
+        "name": "PAMO University of Medical Sciences",
+        "points": 60.12
+    },
+    {
+        "name": "Bayero University",
+        "points": 57.99
+    },
+    {
+        "name": "Mcpherson University",
+        "points": 57.02
+    },
+    {
+        "name": "Usmanu Danfodiyo University Sokoto",
+        "points": 56.93
+    },
+    {
+        "name": "Maitama Sule University",
+        "points": 56.90
+    },
+    {
+        "name": "Tai Solarin University of Education",
+        "points": 55.7
+    },
+    {
+        "name": "Federal University Otuoke",
+        "points": 53.33
+    },
+    {
+        "name": "Ahmadu Bello University",
+        "points": 52.63
+    },
+    {
+        "name": "Abia State University",
+        "points": 52.34
+    },
+    {
+        "name": "Clifford University",
+        "points": 49.14
+    },
+    {
+        "name": "Adamawa State University",
+        "points": 48.12
+    },
+    {
+        "name": "Cross River University of Technology",
+        "points": 46.98
+    },
+    {
+        "name": "Federal University of Technology Owerri",
+        "points": 44.28
+    },
+    {
+        "name": "University of Jos",
+        "points": 44.0
+    },
+    {
+        "name": "Augustine University",
+        "points": 43.12
+    },
+    {
+        "name": "Benue State University",
+        "points": 41.86
+    },
+    {
+        "name": "Nigerian Defense Academy",
+        "points": 39.75
+    },
+    {
+        "name": "University of Maiduguri",
+        "points": 38.76
+    },
+    {
+        "name": "Benson Idahosa University",
+        "points": 38.67
+    },
+    {
+        "name": "Oduduwa University",
+        "points": 36.87
+    },
+    {
+        "name": "University of Agriculture Makurdi",
+        "points": 36.34
+    },
+    {
+        "name": "Adekunle Ajasin University   ",
+        "points": 35.90
+    },
+    {
+        "name": "Kebbi State University of Science and Technology",
+        "points": 34.12
+    },
+    {
+        "name": "Federal University Lafia",
+        "points": 33.28
+    },
+    {
+        "name": "Summit University",
+        "points": 33.03
+    },
+    {
+        "name": "Niger-Delta University",
+        "points": 32.9
+    },
+    {
+        "name": "Ibrahim Babangida University",
+        "points": 32.67
+    },
+    {
+        "name": "Michael Okpara University of Agriculture",
+        "points": 32.18
+    },
+    {
+        "name": "Nigerian Army University Biu",
+        "points": 31.95
+    },
+    {
+        "name": "Kogi State University",
+        "points": 30.32
+    },
+    {
+        "name": "Air Force Institute of Technology",
+        "points": 28.90
+    },
+    {
+        "name": "Nasarawa State University",
+        "points": 28.33
+    },
+    {
+        "name": "Kaduna State University",
+        "points": 28.00
+    },
+    {
+        "name": "Gombe State University",
+        "points": 26.04
+    },
+    {
+        "name": "Imo State University",
+        "points": 25.97
+    },
+    {
+        "name": "Kano University of Science & Technology",
+        "points": 25.67
+    },
+    {
+        "name": "Bauchi State University",
+        "points": 25.54
+    },
+    {
+        "name": "Dominican University",
+        "points": 21.79
+    },
+    {
+        "name": "Enugu State University of Science & Tech",
+        "points": 21.00
+    },
+    {
+        "name": "Achievers University",
+        "points": 18.9
+    },
+    {
+        "name": "Hallmark University   ",
+        "points": 17.6
+    },
+    {
+        "name": "Federal University Kashere   ",
+        "points": 17.22
+    },
+    {
+        "name": "Crescent University",
+        "points": 14.16
+    },
+    {
+        "name": "Al-Qalam University   ",
+        "points": 13.62
+    },
+    {
+        "name": "Legacy University",
+        "points": 12.1
+    },
+    {
+        "name": "Renaissance University",
+        "points": 8.92
+    },
+    {
+        "name": "Igbinedion University",
+        "points": 4.05
+    },
+    {
+        "name": "Abubakar Tafawa Balewa University",
+        "points": 0.59
+    }
+]

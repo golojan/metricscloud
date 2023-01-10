@@ -10,7 +10,7 @@ import { NextPage } from 'next';
 import { withLogon } from './../../../utils/withLogon';
 
 import useSWR from 'swr';
-import { getIndicators } from '../../../utils/queries';
+import { getIndicators } from '@metricsai/metrics-queries';
 import { IndicatorInfo } from '@metricsai/metrics-interfaces';
 import { IndicatorsMenu } from '../../../components/MyMenu';
 

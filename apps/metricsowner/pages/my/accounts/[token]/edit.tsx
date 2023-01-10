@@ -14,8 +14,8 @@ import { AccountInfo, DataLists } from '@metricsai/metrics-interfaces';
 import { Dispatch } from '@metricsai/metrics-store';
 import { useDispatch } from 'react-redux';
 import { AccountsMenu } from '../../../../components/MyMenu';
-import { getAccountInfo, getDataLists } from '../../../../utils/queries';
-import { genPassword } from '../../../../utils/queries';
+import { getAccountInfo, getDataLists } from '@metricsai/metrics-queries';
+import { genPassword } from '@metricsai/metrics-queries';
 import { useRouter } from 'next/router';
 
 const AddIndicator: NextPage = () => {

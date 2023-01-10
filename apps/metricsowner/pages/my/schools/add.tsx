@@ -13,7 +13,7 @@ import { SchoolInfo } from '@metricsai/metrics-interfaces';
 import { Dispatch } from '@metricsai/metrics-store';
 import { useDispatch } from 'react-redux';
 import useSWR from 'swr';
-import { getSchools } from '../../../utils/queries';
+import { getSchools } from '@metricsai/metrics-queries';
 import { SchoolsMenu } from '../../../components/MyMenu';
 import { toast } from 'react-toastify';
 

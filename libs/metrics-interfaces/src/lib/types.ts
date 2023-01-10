@@ -34,6 +34,12 @@ export interface AuthUserInfo {
   gender?: string;
   mobile?: string;
   birthday?: string;
+  street?: string;
+  city?: string;
+  lga?: string;
+  state?: string;
+  zip?: string;
+  country?: string;
   smsNotification?: boolean;
   emailNotification?: boolean;
   schoolCode?: string;
@@ -67,7 +73,7 @@ export type RolesInfo = {
 };
 
 export type AccountInfo = {
-  schoolid?: string;
+  schoolId?: string;
   school?: SchoolInfo;
   status?: boolean;
   _id?: string;

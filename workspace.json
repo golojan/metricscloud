@@ -70,8 +70,182 @@
       },
       "tags": []
     },
-
-
+    "metrics-utils": {
+      "root": "libs/metrics-utils",
+      "sourceRoot": "libs/metrics-utils/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/metrics-utils/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "{workspaceRoot}/coverage/{projectRoot}"
+          ],
+          "options": {
+            "jestConfig": "libs/metrics-utils/jest.config.ts",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "metrics-models": {
+      "root": "libs/metrics-models",
+      "sourceRoot": "libs/metrics-models/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/metrics-models/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "{workspaceRoot}/coverage/{projectRoot}"
+          ],
+          "options": {
+            "jestConfig": "libs/metrics-models/jest.config.ts",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "metrics-store": {
+      "root": "libs/metrics-store",
+      "sourceRoot": "libs/metrics-store/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/metrics-store/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "{workspaceRoot}/coverage/{projectRoot}"
+          ],
+          "options": {
+            "jestConfig": "libs/metrics-store/jest.config.ts",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "metrics-interfaces": {
+      "root": "libs/metrics-interfaces",
+      "sourceRoot": "libs/metrics-interfaces/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/metrics-interfaces/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "{workspaceRoot}/coverage/{projectRoot}"
+          ],
+          "options": {
+            "jestConfig": "libs/metrics-interfaces/jest.config.ts",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "metricsapp": {
+      "root": "apps/metricsapp",
+      "sourceRoot": "apps/metricsapp",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/next:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "defaultConfiguration": "production",
+          "options": {
+            "root": "apps/metricsapp",
+            "outputPath": "dist/apps/metricsapp"
+          },
+          "configurations": {
+            "development": {
+              "outputPath": "apps/metricsapp"
+            },
+            "production": {}
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/next:server",
+          "defaultConfiguration": "development",
+          "options": {
+            "buildTarget": "metricsapp:build:development",
+            "dev": true
+          },
+          "configurations": {
+            "development": {
+              "buildTarget": "metricsapp:build:development",
+              "dev": true
+            },
+            "production": {
+              "buildTarget": "metricsapp:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "builder": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "metricsapp:build:production"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "apps/metricsapp/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
     "metricsowner": {
       "root": "apps/metricsowner",
       "sourceRoot": "apps/metricsowner",
@@ -131,23 +305,6 @@
         }
       },
       "tags": []
-    }
-  },
-  "libs": {
-    "metrics-interfaces": {
-      "root": "libs/metrics-interfaces",
-      "sourceRoot": "libs/metrics-interfaces/src",
-      "projectType": "library"
-    },
-    "metrics-models": {
-      "root": "libs/metrics-models",
-      "sourceRoot": "libs/metrics-models/src",
-      "projectType": "library"
-    },
-    "metrics-store": {
-      "root": "libs/metrics-store",
-      "sourceRoot": "libs/metrics-store/src",
-      "projectType": "library"
     }
   },
   "version": 1

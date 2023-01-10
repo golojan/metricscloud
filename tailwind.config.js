@@ -12,6 +12,15 @@ module.exports = {
     "./apps/metricsowner/hoc/**/*.{js,ts,jsx,tsx}",
     "./apps/metricsowner/utils/**/*.{js,ts,jsx,tsx}",
     "./apps/metricsowner/serverlets/**/*.{js,ts,jsx,tsx}",
+
+    "./apps/metricsapp/pages/**/*.{js,ts,jsx,tsx}",
+    "./apps/metricsapp/components/**/*.{js,ts,jsx,tsx}",
+    "./apps/metricsapp/utils/**/*.{js,ts,jsx,tsx}",
+    "./apps/metricsapp/serverlets/**/*.{js,ts,jsx,tsx}",
+    "./apps/metricsapp/widgets/**/*.{js,ts,jsx,tsx}",
+    "./apps/metricsapp/hocs/**/*.{js,ts,jsx,tsx}",
+
+
   ],
   theme: {
     extend: {},

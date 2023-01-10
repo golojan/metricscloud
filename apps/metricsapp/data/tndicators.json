@@ -1,0 +1,20 @@
+[
+    {
+        "id": "STUDENT_TEACHER_RATIO",
+        "type": "ranking",
+        "data": "analytics_students.STUDENT_TEACHER_RATIO",
+        "graph": "pie",
+        "sort": 1,
+        "showGraph": false,
+        "show": true
+    },
+    {
+        "id": "STUDENT_TEACHER_RATIO",
+        "type": "ranking",
+        "data": "analytics_students.STUDENT_TEACHER_RATIO",
+        "graph": "pie",
+        "sort": 1,
+        "showGraph": false,
+        "show": true
+    }
+]

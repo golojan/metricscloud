@@ -79,21 +79,5 @@
       }
     }
   },
-  "libs": [
-    {
-      "name": "metrics-interfaces",
-      "tags": [
-        "interfaces",
-        "metrics"
-      ]
-    },
-    {
-      "name": "metrics-models",
-      "tags": [
-        "models",
-        "metrics"
-      ]
-    }
-  ],
   "defaultBase": "main"
 }

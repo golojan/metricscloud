@@ -15,7 +15,7 @@ const Layout = ({ children }: MyProps) => {
           content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover"
         />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Admin | Metics AI Ranking Engine</title>
+        <title>Owner | Metics AI Ranking Engine</title>
       </Head>
       <ToastContainer />
       {children}

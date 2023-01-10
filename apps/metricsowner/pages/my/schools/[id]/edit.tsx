@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { Dispatch } from '@metricsai/metrics-store';
 import { DataLists, SchoolInfo } from '@metricsai/metrics-interfaces';
 import { useRouter } from 'next/router';
-import { getDataLists, getSchoolInfo } from '../../../../utils/queries';
+import { getDataLists, getSchoolInfo } from '@metricsai/metrics-queries';
 import { SchoolsMenu } from '../../../../components/MyMenu';
 import useSWR from 'swr';
 

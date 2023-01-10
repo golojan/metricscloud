@@ -1,19 +1,51 @@
+import {
+  SchoolAnalitics,
+  SchoolInfo,
+  SchoolRank,
+  AccountTypes,
+  AccountRoles,
+  StateTypes,
+  UserInfo,
+  WebWindow,
+  AuthUserInfo
+} from '@metricsai/metrics-interfaces';
 import { createModel } from '@rematch/core';
 import { RootModel } from '.';
-import { UserInfo, WebWindow } from '@metricsai/metrics-interfaces';
 
 export const settings = createModel<RootModel>()({
   state: {
     windows: { width: 0, height: 0, size: 'xxl' } as WebWindow,
     menuOpened: false,
-    page: 'home',
+    accid: '',
     token: '',
+    domain: '',
+    schools: [] as SchoolInfo[],
+    schoolid: '',
+    page: 'home',
+    school: {} as SchoolInfo,
+    loaded: false,
     isLogged: false,
     busy: false,
-    user: {} as UserInfo,
-    imageUrl: '../imgs/avatars/uploadholder.png',
+    user: {} as AuthUserInfo,
+    newUser: {
+      membership: AccountTypes.STUDENT,
+      role: AccountRoles.USER,
+      regfee: 0,
+      state: StateTypes.ENUGU,
+    } as UserInfo,
+    imageUrl: '/avatars/uploadholder.png',
+    dynamicPages: '',
     uploaded: false,
     idelTime: 0,
+    total: 0,
+    ranking: {
+      googlePresence: 0,
+      citations: 0,
+      hindex: 0,
+      i10hindex: 0,
+    } as SchoolRank,
+    statistics_school: {} as SchoolAnalitics,
+    analytics_school: {} as SchoolAnalitics,
   },
   reducers: {
     setWebWindow(state, payload: WebWindow) {
@@ -25,6 +57,24 @@ export const settings = createModel<RootModel>()({
     setToken(state, payload: string) {
       return { ...state, token: payload };
     },
+    setAccid(state, payload: string) {
+      return { ...state, accid: payload };
+    },
+    setSchoolId(state, payload: string) {
+      return { ...state, schoolid: payload };
+    },
+    setSchools(state, payload: SchoolInfo[]) {
+      return { ...state, schools: payload };
+    },
+    setSchool(state, payload: SchoolInfo) {
+      return { ...state, school: payload };
+    },
+    setDomain(state, payload: string) {
+      return { ...state, domain: payload };
+    },
+    setLoaded(state, payload: boolean) {
+      return { ...state, loaded: payload };
+    },
     setPage(state, payload: string) {
       return { ...state, page: payload };
     },
@@ -34,11 +84,32 @@ export const settings = createModel<RootModel>()({
     setBusy(state, payload: boolean) {
       return { ...state, busy: payload };
     },
+    setStatistics(state, payload: object) {
+      return { ...state, statistics_school: payload };
+    },
+    setAnalytics(state, payload: object) {
+      return { ...state, analytics_school: payload };
+    },
+    setRank(state, payload: object) {
+      return { ...state, ranking: payload };
+    },
+    setTotal(state, payload: number) {
+      return { ...state, total: payload };
+    },
+    setNewUser(state, payload: object) {
+      return { ...state, newUser: payload };
+    },
     setUserInfo(state, payload: object) {
       return { ...state, user: payload };
     },
     setImageUrl(state, payload: string) {
       return { ...state, imageUrl: payload };
+    },
+    setDynamicPage(state, payload: string) {
+      return { ...state, dynamicPages: payload };
+    },
+    setUploaded(state, payload: boolean) {
+      return { ...state, uploaded: payload };
     },
     setIdelTime(state, payload: number) {
       return { ...state, idelTime: payload };

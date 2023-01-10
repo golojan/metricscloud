@@ -12,7 +12,7 @@ import Copyright from '../../serverlets/Copyright';
 import { withLogon } from './../../utils/withLogon';
 import useSWR from 'swr';
 
-import { getCountStatistics } from '../../utils/queries';
+import { getCountStatistics } from '@metricsai/metrics-queries';
 import { IndicatorCount } from '@metricsai/metrics-interfaces';
 import {
   AccountsMenu,
