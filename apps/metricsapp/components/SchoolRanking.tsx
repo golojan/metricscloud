@@ -20,20 +20,20 @@ const SchoolRanking: React.FC = (props: SRProps) => {
   const { busy } = useSelector((state: RootState) => state.settings);
   const { ranking } = useSelector((state: RootState) => state.settings);
 
-  // const { analytics_students, statistics_students, sBusy } = useSelector(
-  //   (state: RootState) => state.students
-  // );
-  // const { analytics_lecturers, statistics_lecturers, lBusy } = useSelector(
-  //   (state: RootState) => state.lecturers
-  // );
-  // const { analytics_faculties, statistics_faculties, fBusy } = useSelector(
-  //   (state: RootState) => state.faculties
-  // );
-  // const { analytics_departments, statistics_departments, dBusy } = useSelector(
-  //   (state: RootState) => state.departments
-  // );
+  const { analytics_students, statistics_students, sBusy } = useSelector(
+    (state: RootState) => state.students
+  );
+  const { analytics_lecturers, statistics_lecturers, lBusy } = useSelector(
+    (state: RootState) => state.lecturers
+  );
+  const { analytics_faculties, statistics_faculties, fBusy } = useSelector(
+    (state: RootState) => state.faculties
+  );
+  const { analytics_departments, statistics_departments, dBusy } = useSelector(
+    (state: RootState) => state.departments
+  );
 
-  const toggleChart = (indicator:string) => {
+  const toggleChart = (indicator: string) => {
     return false;
   };
 
@@ -135,7 +135,7 @@ const SchoolRanking: React.FC = (props: SRProps) => {
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box ">
               <ShowChartButton show={false} />
               <div className="title">
@@ -158,11 +158,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 />
               </div>
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box ">
               <ShowChartButton show={false} />
               <div className="title">
@@ -184,11 +184,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 />
               </div>
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box ">
               <ShowChartButton show={false} />
               <div className="title">
@@ -215,11 +215,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 />
               </div>
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box ">
               <ShowChartButton show={false} />
               <div className="title">
@@ -245,11 +245,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 />
               </div>
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box">
               <ShowChartButton show={false} />
               <div className="title">
@@ -271,11 +271,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 />
               </div>
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box">
               <ShowChartButton show={true} />
               <div className="title">
@@ -289,11 +289,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 </h1>
               </div>
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box">
               <ShowChartButton show={false} />
               <div className="title">
@@ -322,11 +322,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 />
               </div>
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box">
               <ShowChartButton show={false} />
               <div className="title">
@@ -349,11 +349,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 />
               </div>
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box">
               <ShowChartButton show={false} />
               <div className="title">
@@ -380,11 +380,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 color={['#3265af', '#8494a8']}
               />
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box">
               <ShowChartButton show={false} />
               <div className="title">
@@ -411,11 +411,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 color={['#3265af', '#8494a8']}
               />
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box">
               <ShowChartButton show={false} />
               <div className="title">
@@ -437,11 +437,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 color={['#3265af', '#8494a8']}
               />
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box">
               <ShowChartButton show={false} />
               <div className="title">
@@ -468,11 +468,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 color={['#3265af', '#8494a8']}
               />
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box">
               <ShowChartButton show={false} />
               <div className="title">
@@ -499,11 +499,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 color={['#3265af', '#8494a8']}
               />
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box">
               <ShowChartButton show={false} />
               <div className="title">
@@ -532,11 +532,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 color={['#3265af', '#8494a8']}
               />
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box">
               <ShowChartButton show={true} />
               <div className="title">
@@ -551,11 +551,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 </h1>
               </div>
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box">
               <ShowChartButton show={true} />
               <div className="title">
@@ -574,11 +574,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 </h1>
               </div>
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box disabled">
               <ShowChartButton />
               <div className="title">
@@ -592,11 +592,11 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 {99.9}
               </h1>
             </div>
-          </div> */}
+          </div>
           {/*  */}
 
           {/*  */}
-          {/* <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
             <div className="stat-box">
               <ShowChartButton />
               <div className="title">
@@ -610,7 +610,7 @@ const SchoolRanking: React.FC = (props: SRProps) => {
                 {ranking.citations}
               </h1>
             </div>
-          </div> */}
+          </div>
           {/*  */}
         </div>
       </div>

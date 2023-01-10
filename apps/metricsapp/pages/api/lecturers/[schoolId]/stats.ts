@@ -22,100 +22,100 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
 
       const { schoolId } = req.query;
-      const { Lecturers } = await dbCon();
+      const { Accounts, Lecturers } = await dbCon();
 
-      const count = await Lecturers.count({
+      const count = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
       }).catch(catcher);
 
-      const countLocal = await Lecturers.count({
+      const countLocal = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         lecturerType: LecturerType.LOCAL,
       }).catch(catcher);
 
-      const countIntl = await Lecturers.count({
+      const countIntl = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         lecturerType: LecturerType.INTERNATIONAL,
       }).catch(catcher);
 
-      const countMale = await Lecturers.count({
+      const countMale = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         gender: Gender.MALE,
       }).catch(catcher);
 
-      const countFemale = await Lecturers.count({
+      const countFemale = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         gender: Gender.FEMALE,
       }).catch(catcher);
 
-      const countLocalFemale = await Lecturers.count({
+      const countLocalFemale = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         gender: Gender.FEMALE,
         lecturerType: LecturerType.LOCAL,
       }).catch(catcher);
 
-      const countLocalMale = await Lecturers.count({
+      const countLocalMale = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         gender: Gender.MALE,
         lecturerType: LecturerType.LOCAL,
       }).catch(catcher);
 
-      const countIntlFemale = await Lecturers.count({
+      const countIntlFemale = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         gender: Gender.FEMALE,
         lecturerType: LecturerType.INTERNATIONAL,
       }).catch(catcher);
 
-      const countIntlMale = await Lecturers.count({
+      const countIntlMale = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         gender: Gender.MALE,
         lecturerType: LecturerType.INTERNATIONAL,
       }).catch(catcher);
 
-      const countProfessors = await Lecturers.count({
+      const countProfessors = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         'professor.isProfessor': true,
       }).catch(catcher);
 
-      const countProfessorsMale = await Lecturers.count({
+      const countProfessorsMale = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         gender: Gender.MALE,
         'professor.isProfessor': true,
       }).catch(catcher);
 
-      const countProfessorsFemale = await Lecturers.count({
+      const countProfessorsFemale = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         gender: Gender.FEMALE,
         'professor.isProfessor': true,
       }).catch(catcher);
 
-      const countIntlProfessors = await Lecturers.count({
+      const countIntlProfessors = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         'professor.isProfessor': true,
         lecturerType: LecturerType.INTERNATIONAL,
       }).catch(catcher);
 
-      const countFullProfessors = await Lecturers.count({
+      const countFullProfessors = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         'professor.isProfessor': true,
         'professor.isFullProfessor': true,
       }).catch(catcher);
 
-      const countFullProfessorsMale = await Lecturers.count({
+      const countFullProfessorsMale = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         gender: Gender.MALE,
@@ -123,7 +123,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         'professor.isFullProfessor': true,
       }).catch(catcher);
 
-      const countFullProfessorsFemale = await Lecturers.count({
+      const countFullProfessorsFemale = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         gender: Gender.FEMALE,
@@ -131,27 +131,27 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         'professor.isFullProfessor': true,
       }).catch(catcher);
 
-      const countAdjunct = await Lecturers.count({
+      const countAdjunct = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         adjunct: true,
       }).catch(catcher);
 
-      const countAdjunctMale = await Lecturers.count({
+      const countAdjunctMale = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         gender: Gender.MALE,
         adjunct: true,
       }).catch(catcher);
 
-      const countAdjunctFemale = await Lecturers.count({
+      const countAdjunctFemale = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         gender: Gender.FEMALE,
         adjunct: true,
       }).catch(catcher);
 
-      const countAdjunctProfessorsMale = await Lecturers.count({
+      const countAdjunctProfessorsMale = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         gender: Gender.MALE,
@@ -160,7 +160,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         'professor.isFullProfessor': true,
       }).catch(catcher);
 
-      const countAdjunctProfessorsFemale = await Lecturers.count({
+      const countAdjunctProfessorsFemale = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         gender: Gender.FEMALE,
@@ -169,26 +169,26 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         'professor.isFullProfessor': true,
       }).catch(catcher);
 
-      const countAdjunctProfessors = await Lecturers.count({
+      const countAdjunctProfessors = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         adjunct: true,
         'professor.isProfessor': true,
       }).catch(catcher);
 
-      const countPHDLecturers = await Lecturers.count({
+      const countPHDLecturers = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         withPhd: true,
       }).catch(catcher);
 
-      const countSeniorLecturers = await Lecturers.count({
+      const countSeniorLecturers = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         level: LecturerLevel.SENIOR,
       }).catch(catcher);
 
-      const countJuniorLecturers = await Lecturers.count({
+      const countJuniorLecturers = await Accounts.count({
         schoolId: schoolId,
         accountType: AccountTypes.LECTURER,
         level: LecturerLevel.SENIOR,

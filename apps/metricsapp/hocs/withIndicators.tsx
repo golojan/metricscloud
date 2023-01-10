@@ -95,13 +95,21 @@ export const withIndicators = <P extends object>(
       loadDepartments(schoolId)
     );
 
-    // const {
-    //   data: statistics_faculties,
-    //   error: sfError,
-    //   isValidating: sfValidation,
-    // } = useSWR(`/api/faculties/${schoolId}/stats`, () =>
-    //   loadFaculties(schoolId)
-    // );
+    const {
+      data: statistics_faculties,
+      error: sfError,
+      isValidating: sfValidation,
+    } = useSWR(`/api/faculties/${schoolId}/stats`, () =>
+      loadFacultiesStats(schoolId)
+    );
+
+    const {
+      data: statistics_departments,
+      error: sdError,
+      isValidating: sdValidation,
+    } = useSWR(`/api/departments/${schoolId}/stats`, () =>
+      loadDepartmentsStats(schoolId)
+    );
 
     const {
       data: ranking,
@@ -145,12 +153,13 @@ export const withIndicators = <P extends object>(
 
     useEffect(() => {
       dispatch.settings.setBusy(true);
-
-      dispatch.settings.setStatistics(ranking);
-
-      dispatch.students.setStudents(students);
-      dispatch.students.setStudentsCount(students?.length);
-
+      if (ranking) {
+        dispatch.settings.setStatistics(ranking);
+      }
+      if (students) {
+        dispatch.students.setStudents(students);
+        dispatch.students.setStudentsCount(students?.length);
+      }
       if (statistics_students) {
         dispatch.students.setStatistics(statistics_students);
         //Do other students maths and Stat Displays//
@@ -217,7 +226,7 @@ export const withIndicators = <P extends object>(
         dispatch.lecturers.setLecturersCount(lecturers.length);
       }
       if (statistics_lecturers) {
-        dispatch.statistics_lecturers.setStatistics(statistics_lecturers);
+        dispatch.lecturers.setStatistics(statistics_lecturers);
         //Do other lecturers maths and Stat Displays//
         dispatch.lecturers.setAnalytics({
           INTERNATIONAL_LECTURERS: perc(
@@ -275,6 +284,29 @@ export const withIndicators = <P extends object>(
         });
         //Do other lecturers maths and Stat Displays//
       }
+      if (faculties) {
+        dispatch.faculties.setFaculties(faculties);
+        dispatch.faculties.setFacultiesCount(faculties.length);
+      }
+      if (departments) {
+        dispatch.departments.setDepartments(departments);
+        dispatch.departments.setDepartmentsCount(departments.length);
+      }
+      if (statistics_faculties) {
+        dispatch.faculties.setStatistics(statistics_faculties);
+        //Do other faculties maths and Stat Displays//
+        dispatch.faculties.setAnalytics({});
+        //Do other faculties maths and Stat Displays//
+      }
+      if (statistics_departments) {
+        dispatch.faculties.setStatistics(statistics_departments);
+        dispatch.departments.setAnalytics({
+          FULL_ACCREDITATION: perc(
+            statistics_departments.countAccredited as number,
+            statistics_departments.count as number
+          ),
+        });
+      }
 
       dispatch.settings.setBusy(false);
     }, [schoolId]);
@@ -300,84 +332,3 @@ export const withIndicators = <P extends object>(
     );
   };
 };
-
-//         // Load All Faculties //
-//         loadFaculties(domain as string)
-//           .then((faculties) => {
-//             dispatch.faculties.setFaculties(faculties.data);
-//             dispatch.faculties.setFacultiesCount(faculties.data.length);
-//           })
-//           .catch();
-//         loadFacultiesStats(domain as string)
-//           .then((stats) => {
-//             dispatch.faculties.setStatistics(stats);
-//             //Do other faculties maths and Stat Displays//
-//             dispatch.faculties.setAnalytics({});
-//             //Do other faculties maths and Stat Displays//
-//           })
-//           .catch();
-//         // Load All Faculties //
-
-//         // Load All Departments //
-//         loadDepartments(domain as string)
-//           .then((departments) => {
-//             dispatch.departments.setDepartments(departments.data);
-//             dispatch.departments.setDepartmentsCount(departments.data.length);
-//           })
-//           .catch();
-//         loadDepartmentsStats(domain as string)
-//           .then(async (stats) => {
-//             await dispatch.departments.setStatistics(stats);
-//             //Do other departments maths and Stat Displays//
-//             await dispatch.departments.setAnalytics({
-//               FULL_ACCREDITATION: perc(
-//                 statistics_departments.countAccredited as number,
-//                 statistics_departments.count as number
-//               ),
-//             });
-//             //Do other departments maths and Stat Displays//
-//           })
-//           .catch(); // Load All Departments //
-//         dispatch.settings.setBusy(false);
-//       } else {
-//         authlogout();
-//       }
-//     }, [
-//       dispatch.settings,
-//       dispatch.students,
-//       dispatch.lecturers,
-//       dispatch.departments,
-//       dispatch.faculties,
-//       statistics_lecturers.count,
-//       statistics_students.count,
-//       statistics_students.countFemale,
-//       statistics_students.countIntl,
-//       statistics_departments.countAccredited,
-//       statistics_departments.countNonAccredited,
-//       statistics_departments.count,
-//       statistics_lecturers.countFemale,
-//       statistics_lecturers.countFullProfessors,
-//       statistics_lecturers.countIntl,
-//       // = //
-//       statistics_lecturers.countAdjunct,
-//       statistics_lecturers.countAdjunctProfessors,
-//       statistics_lecturers.countIntlProfessors,
-//       statistics_lecturers.countJuniorLecturers,
-//       statistics_lecturers.countPHDLecturers,
-//       statistics_lecturers.countProfessors,
-//       statistics_lecturers.countProfessorsFemale,
-//       statistics_lecturers.countProfessorsMale,
-//       statistics_lecturers.countSeniorLecturers,
-//       statistics_students.countChallanged,
-//     ]);
-
-//     return <WrappedComponent {...props} />;
-//   };
-//   Wrapper.getInitialProps = async (ctx: any) => {
-//     const componentProps =
-//       WrappedComponent.getInitialProps &&
-//       (await WrappedComponent.getInitialProps(ctx));
-//     return { ...componentProps };
-//   };
-//   return Wrapper;
-// };

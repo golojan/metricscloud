@@ -14,7 +14,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { schoolId } = req.query;
-      const { Accounts } = await dbCon();
+      const { Accounts, Students } = await dbCon();
 
       const count = await Accounts.count({
         schoolId: schoolId,
