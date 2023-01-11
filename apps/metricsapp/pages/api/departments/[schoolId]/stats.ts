@@ -14,20 +14,20 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         .json({ status: false, err: 'Only GET Method is allowed' });
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { domain } = req.query;
+      const { schoolId } = req.query;
       const { Departments } = await dbCon();
 
       const count = await Departments.count({
-        domain: domain,
+        schoolId: schoolId,
       }).catch(catcher);
 
       const countAccredited = await Departments.count({
-        domain: domain,
+        schoolId: schoolId,
         accredited: true,
       }).catch(catcher);
 
       const countNonAccredited = await Departments.count({
-        domain: domain,
+        schoolId: schoolId,
         accredited: false,
       }).catch(catcher);
 
