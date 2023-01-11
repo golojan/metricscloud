@@ -76,7 +76,7 @@ const AddSchool: NextPage = () => {
                 <SchoolsMenu />
               </div>
             </div>
-            <div className="col-8">
+            <div className="col-7">
               <form onSubmit={addSchool} className="stat-box">
                 <div className="row form-group">
                   <div className="my-2 col-12 col-md-4 col-lg-4 col-xl-4 col-xxl-4">

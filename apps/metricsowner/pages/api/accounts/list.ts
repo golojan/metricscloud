@@ -13,7 +13,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         .json({ status: false, err: 'Only GET Method is allowed' });
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { Accounts, Schools } = await dbCon();
+      const { Accounts } = await dbCon();
       const accounts = await Accounts.find({}).catch(catcher);
       if (accounts) {
         res.status(200).json({

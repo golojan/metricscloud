@@ -24,10 +24,10 @@ const Index: NextPage = () => {
     return schools.find((school) => school._id === schoolId)?.name;
   };
 
-  const { data, isLoading } = useSWR<AccountInfo[]>(
-    '/api/accounts/list',
-    (url) => fetch(url).then((res) => res.json())
+  const { data, isLoading } = useSWR<any>('/api/accounts/list', (url) =>
+    fetch(url).then((res) => res.json())
   );
+  const accounts: AccountInfo[] = data?.accounts ? data?.accounts : [];
 
   return (
     <OwnerLayout>
@@ -58,7 +58,7 @@ const Index: NextPage = () => {
                 <AccountsMenu />
               </div>
             </div>
-            <div className="col-7 row">
+            <div className="col-7">
               {isLoading ? (
                 <div className="text-center p-10">
                   <h1>Loading...</h1>
@@ -76,7 +76,7 @@ const Index: NextPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {data?.map((account, idx) => (
+                    {accounts?.map((account, idx) => (
                       <tr className="text-[18px]" key={idx}>
                         <td scope="row">{account.lastname}</td>
                         <td>{account.firstname}</td>
