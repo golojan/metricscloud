@@ -1,5 +1,5 @@
 import React from 'react';
-import { LecturerInfo } from '@metricsai/metrics-store';
+import { LecturerInfo } from '@metricsai/metrics-interfaces';
 
 type SchoolProps = { school: any; mid: any };
 

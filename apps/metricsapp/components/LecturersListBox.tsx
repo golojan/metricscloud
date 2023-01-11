@@ -6,11 +6,10 @@ import { Virtuoso } from 'react-virtuoso';
 
 import ScholarRatingLarge from './ScholarRatingLarge';
 import ScholarRatingSmall from './ScholarRatingSmall';
-import { GSRanking, ScholarsProps } from '@metricsai/metrics-interfaces';
+import { GSRanking, ScholarsProps, Gender} from '@metricsai/metrics-interfaces';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, Dispatch } from '@metricsai/metrics-store';
-import { getDepartment, loadLecturers } from '../utils/queries';
-import { Gender } from '@metricsai/metrics-interfaces';
+import { getDepartment, loadLecturers } from '@metricsai/metrics-utils';
 import Link from 'next/link';
 import cookie from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

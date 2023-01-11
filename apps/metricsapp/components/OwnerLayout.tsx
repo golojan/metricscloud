@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@metricsai/metrics-store';
 
 import { Dispatch } from '@metricsai/metrics-store';
-import { getWindowDimensions } from '../utils/windows';
+import { getWindowDimensions } from '@metricsai/metrics-utils';
 
 interface MyProps {
   children: ReactNode;
