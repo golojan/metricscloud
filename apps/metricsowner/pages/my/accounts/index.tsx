@@ -53,12 +53,12 @@ const Index: NextPage = () => {
 
         <div className="section pt-1">
           <div className="row mt-2">
-            <div className="col-3">
+            <div className="col-2">
               <div className="stat-box">
                 <AccountsMenu />
               </div>
             </div>
-            <div className="col-9 row">
+            <div className="col-7 row">
               {isLoading ? (
                 <div className="text-center p-10">
                   <h1>Loading...</h1>
@@ -103,6 +103,7 @@ const Index: NextPage = () => {
                 </table>
               )}
             </div>
+            <div className="col-3"></div>
           </div>
         </div>
         <Copyright />

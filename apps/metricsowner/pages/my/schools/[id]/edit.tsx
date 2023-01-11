@@ -113,13 +113,12 @@ const EditSchool: NextPage = () => {
 
         <div className="section pt-1">
           <div className="row mt-2">
-            <div className="col-12 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
+            <div className="col-12 col-md-2 col-lg-2 col-xl-2 col-xxl-2">
               <div className="stat-box">
                 <SchoolsMenu />
               </div>
             </div>
-
-            <div className="col-12 col-md-8 col-lg-8 col-xl-8 col-xxl-8">
+            <div className="col-12 col-md-7 col-lg-7 col-xl-7 col-xxl-7">
               <div className="row">
                 <form onSubmit={editSchool} className="stat-box">
                   <div className="row form-group">
@@ -209,6 +208,7 @@ const EditSchool: NextPage = () => {
                 </form>
               </div>
             </div>
+            <div className="col-12  col-md-3 col-lg-3 col-xl-3 col-xxl-3"></div>
           </div>
         </div>
         <Copyright />

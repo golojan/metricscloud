@@ -89,12 +89,12 @@ const AddIndicator: NextPage = () => {
 
         <div className="section pt-1">
           <div className="row mt-2">
-            <div className="col-4">
+            <div className="col-2">
               <div className="stat-box">
                 <AccountsMenu />
               </div>
             </div>
-            <div className="col-8">
+            <div className="col-7">
               <form onSubmit={editAccount} className="stat-box">
                 <div className="row form-group ">
                   <div className="my-2 col-12 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
@@ -274,6 +274,7 @@ const AddIndicator: NextPage = () => {
                 </div>
               </form>
             </div>
+            <div className="col-3"></div>
           </div>
         </div>
         <Copyright />
