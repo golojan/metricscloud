@@ -3,7 +3,7 @@ import { faHome, faListUl } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AppSidebar from './AppSidebar';
 import Image from 'next/image';
-import { AccountInfo } from '@metricsai/metrics-store';
+import { AccountInfo } from '@metricsai/metrics-interfaces';
 
 interface AppHeaderProps {
   profile?: AccountInfo;
