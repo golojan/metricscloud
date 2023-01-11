@@ -16,7 +16,5 @@ const departmentsScheme = new mongoose.Schema(
 if (mongoose.models.Departments) {
   delete mongoose.models.Departments;
 }
-const Departments =
-  mongoose.models.Departments ||
-  mongoose.model('Departments', departmentsScheme);
+const Departments = mongoose.model('Departments', departmentsScheme);
 export default Departments;

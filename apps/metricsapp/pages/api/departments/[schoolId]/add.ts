@@ -8,7 +8,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(400).json({ status: 0, error: error });
   const handleCase: ResponseFunctions = {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { domain } = req.query;
+      const { schoolId } = req.query;
       const { name, facultyId, accredited } = req.body;
       console.log(name);
       const { Departments } = await dbCon();

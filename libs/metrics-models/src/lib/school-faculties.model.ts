@@ -15,7 +15,5 @@ if (mongoose.models.SChoolFaculties) {
   delete mongoose.models.SChoolFaculties;
 }
 
-const SChoolFaculties =
-  mongoose.models.SChoolFaculties ||
-  mongoose.model('SChoolFaculties', schoolFacultiesScheme);
+const SChoolFaculties = mongoose.model('SChoolFaculties', schoolFacultiesScheme);
 export default SChoolFaculties;
