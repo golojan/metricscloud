@@ -52,9 +52,10 @@ export enum AccountRoles {
 }
 
 export enum Gender {
-  NOTSAY = "NOTSAY",
-  MALE = "MALE",
-  FEMALE = "FEMALE",
+  NONE = 'NONE',
+  NOTSAY = 'NOTSAY',
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
 }
 
 export enum StudentType {

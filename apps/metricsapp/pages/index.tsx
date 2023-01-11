@@ -69,7 +69,7 @@ const Home: NextPage = () => {
       <SiteBusy />
       <div className="p-10">
         <div className="section mt-[50px] text-center">
-          <h1>
+          <h1 className="mt-0">
             <Image
               className="img-responsive"
               width={80}
@@ -79,10 +79,10 @@ const Home: NextPage = () => {
               style={{ margin: '0 auto' }}
             />
             <br />
-            <div>Metrics AI Ranking System</div>
-            <div className="small">{school.name}</div>
+            <div className="text-md text-gray-600 small">School Admin</div>
+            <div className="">{school.name}</div>
           </h1>
-          <h4>Artifical Intelligence Education Ranking Engine</h4>
+          <h4>University AI Ranking Engine</h4>
         </div>
 
         <div className="section mb-5 p-2">
