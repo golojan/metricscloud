@@ -121,6 +121,22 @@ export const getSchoolInfoById = async (id: string) => {
   }
 };
 
+export const getIndicatorInfo = async (id: string) => {
+  const response = await fetch(`/api/indicators/${id}/info`);
+  const indicator = await response.json();
+  if (indicator.status) {
+    return indicator.data;
+  } else {
+    return {};
+  }
+};
+
+export const getSchoolInfoByDomain = async (domain: string) => {
+  const response = await fetch(`/api/schools/${domain}/info`);
+  const userinfo = await response.json();
+  return userinfo;
+};
+
 export const getSchoolInfo = async (domain: string) => {
   const response = await fetch(`/api/schools/${domain}/info`);
   const userinfo = await response.json();
