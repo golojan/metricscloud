@@ -1,88 +1,58 @@
-import { NextPage } from "next";
-import React, { useEffect, useState } from "react";
-import AdminLayout from "../../../components/AdminLayout";
-import AppDrawer from "../../../serverlets/AppDrawer";
+import React from 'react'
 
-import { faPlus, faUsersBetweenLines } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import LecturersListBox from '../../../components/LecturersListBox';
+import { LecturerInfo } from '@metricsai/metrics-interfaces';
+import { Gender } from '@metricsai/metrics-interfaces';
 
-import Link from "next/link";
-import AppHeader from "../../../serverlets/AppHeader";
-import Copyright from "../../../serverlets/Copyright";
-import { withAuthSync } from "../../../utils/withAuthSync";
-import { compose } from "redux";
+import { useDispatch, useSelector } from 'react-redux';
+import { Dispatch, RootState } from '@metricsai/metrics-store';
 
-import { useDispatch, useSelector } from "react-redux";
-import { Dispatch, RootState } from "@metricsai/metrics-store";
-
-import StudentsListBox from "../../../components/StudentsListBox";
-import { StudentInfo, Gender } from "@metricsai/metrics-interfaces";
-
-type sFilters = {
+type lFilters = {
   male: boolean;
   female: boolean;
+  withPhd: boolean;
+  isProfessor: boolean;
 };
-const Students: NextPage = () => {
-  const dispatch = useDispatch<Dispatch>();
-  const [query, setQuery] = useState<string>("");
-  const { studentsCount, students, list, studentId } = useSelector(
-    (state: RootState) => state.students
+
+const LectureresHomePage:React.FC() =>{
+
+const dispatch = useDispatch<Dispatch>();
+  const [query, setQuery] = useState<string>('');
+  const { lecturersCount, lecturers, list, lecturerId } = useSelector(
+    (state: RootState) => state.lecturers
   );
-  const [filter, setFilter] = useState<sFilters>({
+  const [filter, setFilter] = useState<lFilters>({
     male: false,
     female: false,
+    withPhd: false,
+    isProfessor: false,
   });
 
   useEffect(() => {
-    dispatch.students.setList(students);
-  }, [dispatch.students, students]);
+    dispatch.lecturers.setList(lecturers);
+  }, [dispatch.lecturers, lecturers]);
 
   const searchFilter = (q: string) => {
     setQuery(q);
-    const newData = students.filter((students: StudentInfo) => {
+    const newData = lecturers.filter((lecturer: LecturerInfo) => {
       return (
-        students.firstname?.toLowerCase().startsWith(q.toLowerCase()) ||
-        students.lastname?.toLowerCase().startsWith(q.toLowerCase()) ||
-        students.middlename?.toLowerCase().startsWith(q.toLowerCase()) ||
-        students.regNumber?.toLowerCase().startsWith(q.toLowerCase())
+        lecturer.firstname?.toLowerCase().startsWith(q.toLowerCase()) ||
+        lecturer.lastname?.toLowerCase().startsWith(q.toLowerCase()) ||
+        lecturer.middlename?.toLowerCase().startsWith(q.toLowerCase()) ||
+        lecturer.staffNumber?.toString().startsWith(q.toLowerCase())
       );
     });
-    dispatch.students.setList(newData);
+    dispatch.lecturers.setList(newData);
   };
 
-  const doFilter = (_list: StudentInfo[], _filter: sFilters) => {
-    const newData = _list.filter((_list: StudentInfo) => {
+  const doFilter = (_list: LecturerInfo[], _filter: lFilters) => {
+    const newData = _list.filter((_list: LecturerInfo) => {
       return _list.gender?.startsWith(Gender.MALE);
     });
-    dispatch.students.setList(newData);
+    dispatch.lecturers.setList(newData);
   };
-
   return (
     <>
-      <AdminLayout>
-        <AppHeader />
-        <div id="appCapsule" className="mb-5">
-          <div className="section wallet-card-section pt-1">
-
-            <div className="wallet-card">
-              <div className="balance">
-                <div className="left">
-                  <span className="title">Manage Students</span>
-                  <h1 className="total">
-                    <FontAwesomeIcon icon={faUsersBetweenLines} /> Students
-                  </h1>
-                </div>
-                <div className="right flex">
-                  <Link href="#" className="button">
-                      <FontAwesomeIcon icon={faPlus} />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div className="section pt-1">
             <div className="row ">
               <div className="col-12 col-md-12 col-lg-4 fa-border">
                 <div className="card-box border-0">
@@ -92,7 +62,7 @@ const Students: NextPage = () => {
                         <input
                           type="search"
                           className="form-control form-control-lg relative flex-auto min-w-0 block w-full p-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                          placeholder={`Search [${studentsCount}] records...`}
+                          placeholder={`Search [${lecturersCount}] records...`}
                           aria-label="Search"
                           aria-describedby="button-addon2"
                           onChange={(e) => searchFilter(e.target.value)}
@@ -101,7 +71,7 @@ const Students: NextPage = () => {
                     </div>
                   </div>
                   <h4 className="pl-1">
-                    Found {list.length} students in record for.
+                    Found {list.length} record for {query}...
                   </h4>
                   <ul className="listview image-listview text border-0  no-line">
                     <li className="flex-auto">
@@ -153,7 +123,7 @@ const Students: NextPage = () => {
                       </div>
                     </li>
                   </ul>
-                  {/* <ul className="listview image-listview text no-line">
+                  <ul className="listview image-listview text no-line">
                     <li className="flex-auto">
                       <div className="item">
                         <div className="in">
@@ -204,20 +174,15 @@ const Students: NextPage = () => {
                         </div>
                       </div>
                     </li>
-                  </ul> */}
+                  </ul>
                 </div>
               </div>
               <div className={`col-12 col-md-12 col-lg-8 min-h-screen`}>
-                <StudentsListBox students={list} />
+                // {/* <LecturersListBox lecturers={list} /> */}
               </div>
             </div>
-          </div>
-          <Copyright />
-        </div>
-        <AppDrawer onchat={false} menuitem="students" />
-      </AdminLayout>
     </>
-  );
-};
+  )
+}
 
-export default compose(withAuthSync)(Students);
+export default LectureresHomePage

@@ -7,9 +7,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/next:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "defaultConfiguration": "production",
           "options": {
             "root": "apps/metrics",
@@ -48,9 +46,7 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "{workspaceRoot}/coverage/{projectRoot}"
-          ],
+          "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
           "options": {
             "jestConfig": "apps/metrics/jest.config.ts",
             "passWithNoTests": true
@@ -58,41 +54,46 @@
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "apps/metrics/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["apps/metrics/**/*.{ts,tsx,js,jsx}"]
           }
         }
       },
       "tags": []
     },
-    "metrics-utils": {
-      "root": "libs/metrics-utils",
-      "sourceRoot": "libs/metrics-utils/src",
+    "metrics-images": {
+      "root": "libs/metrics-images",
+      "sourceRoot": "libs/metrics-images/src",
       "projectType": "library",
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "libs/metrics-utils/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/metrics-images/**/*.ts"]
+          }
+        }
+      },
+      "tags": []
+    },
+    "metrics-interfaces": {
+      "root": "libs/metrics-interfaces",
+      "sourceRoot": "libs/metrics-interfaces/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/metrics-interfaces/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "{workspaceRoot}/coverage/{projectRoot}"
-          ],
+          "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
           "options": {
-            "jestConfig": "libs/metrics-utils/jest.config.ts",
+            "jestConfig": "libs/metrics-interfaces/jest.config.ts",
             "passWithNoTests": true
           }
         }
@@ -106,20 +107,14 @@
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "libs/metrics-models/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/metrics-models/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "{workspaceRoot}/coverage/{projectRoot}"
-          ],
+          "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
           "options": {
             "jestConfig": "libs/metrics-models/jest.config.ts",
             "passWithNoTests": true
@@ -135,20 +130,14 @@
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "libs/metrics-store/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/metrics-store/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "{workspaceRoot}/coverage/{projectRoot}"
-          ],
+          "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
           "options": {
             "jestConfig": "libs/metrics-store/jest.config.ts",
             "passWithNoTests": true
@@ -157,29 +146,23 @@
       },
       "tags": []
     },
-    "metrics-interfaces": {
-      "root": "libs/metrics-interfaces",
-      "sourceRoot": "libs/metrics-interfaces/src",
+    "metrics-utils": {
+      "root": "libs/metrics-utils",
+      "sourceRoot": "libs/metrics-utils/src",
       "projectType": "library",
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "libs/metrics-interfaces/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/metrics-utils/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "{workspaceRoot}/coverage/{projectRoot}"
-          ],
+          "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
           "options": {
-            "jestConfig": "libs/metrics-interfaces/jest.config.ts",
+            "jestConfig": "libs/metrics-utils/jest.config.ts",
             "passWithNoTests": true
           }
         }
@@ -193,9 +176,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/next:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "defaultConfiguration": "production",
           "options": {
             "root": "apps/metricsapp",
@@ -234,13 +215,9 @@
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "apps/metricsapp/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["apps/metricsapp/**/*.{ts,tsx,js,jsx}"]
           }
         }
       },
@@ -253,9 +230,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/next:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "defaultConfiguration": "production",
           "options": {
             "root": "apps/metricsowner",
@@ -294,13 +269,9 @@
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "apps/metricsowner/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["apps/metricsowner/**/*.{ts,tsx,js,jsx}"]
           }
         }
       },

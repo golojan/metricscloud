@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import { getDataLists, getSchoolInfoById } from '@metricsai/metrics-utils';
 import { SchoolsMenu } from '../../../../components/MyMenu';
 import useSWR from 'swr';
+import { convertToBase64 } from '@metricsai/metrics-images';
 
 const { Upload } = require('upload-js');
 const upload = Upload({
@@ -102,21 +103,14 @@ const EditSchool: NextPage = () => {
   const uploadToClient = async (event: any) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      const { fileUrl, filePath } = await upload.uploadFile(file, {
-        onBegin: ({ cancel }: any) => {
-          setImageMsg('Upload Started...');
-        },
-        onProgress: ({ bytesSent, bytesTotal }: any) => {
-          setImageMsg(`Upload... ${bytesSent} bytes done`);
-        },
-        path: {
-          folderPath: '/uploads/metricsai/{UTC_YEAR}/{UTC_MONTH}/{UTC_DAY}',
-          fileName: '{UNIQUE_DIGITS_8}{ORIGINAL_FILE_EXT}',
-        },
-      });
+      convertToBase64(file)
+        .then((base64Image) => {
+          alert(base64Image);
+          setSchool({ ...school, logo: base64Image });
+        })
+        .catch();
       setImage(file);
       setCreateObjectURL(URL.createObjectURL(file));
-      setSchool({ ...school, logo: fileUrl });
     }
   };
 

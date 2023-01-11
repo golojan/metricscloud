@@ -14,11 +14,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     },
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
       const { id } = req.query;
-      const { shortname, domain, name, indicators } = await req.body;
+      const { shortname, domain, name, indicators, logo } = await req.body;
+      console.log(logo);
       const { Schools } = await dbCon();
       const saved = await Schools.updateOne(
         { _id: id },
         {
+          logo: logo,
           shortname: shortname,
           domain: domain,
           name: name,

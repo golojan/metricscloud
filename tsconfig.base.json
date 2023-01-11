@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@metricsai/metrics-images": ["libs/metrics-images/src/index.ts"],
       "@metricsai/metrics-interfaces": ["libs/metrics-interfaces/src/index.ts"],
       "@metricsai/metrics-models": ["libs/metrics-models/src/index.ts"],
       "@metricsai/metrics-store": ["libs/metrics-store/src/index.ts"],

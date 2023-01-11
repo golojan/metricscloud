@@ -1,5 +1,11 @@
 import { ReactNode } from 'react';
 
+export interface Image {
+  id?: string;
+  name?: string;
+  base64?: string;
+}
+
 export interface SchoolInfo {
   _id?: string;
   logo?: string;
