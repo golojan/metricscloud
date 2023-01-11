@@ -22,7 +22,7 @@ import { Dispatch, RootState } from '@metricsai/metrics-store';
 import LiveRankingTable from '../../../components/LiveRankingTable';
 
 import allschools from '../../../data/nuc-2021.json';
-import { getLiveStats } from '@metricsai/metrics-queries';
+import { getLiveStats } from '@metricsai/metrics-utils';
 import Loading from '../../../components/Loading';
 import cookie from 'js-cookie';
 import { Button, Modal } from 'react-bootstrap';
@@ -67,7 +67,7 @@ const Rankings: NextPage = () => {
   return (
     <>
       <AdminLayout>
-        <AppHeader isroot={true} />
+        <AppHeader />
         <div id="appCapsule" className="mb-5">
           <div className="section wallet-card-section pt-1">
             <div className="wallet-card">
@@ -194,7 +194,7 @@ const Rankings: NextPage = () => {
           <div className="section pt-1">
             <div className="row ">
               <div className="col-12 col-md-12 col-lg-12 min-h-screen">
-                <LiveRankingTable school={school} allschools={allschools} />
+                <LiveRankingTable allschools={allschools} />
               </div>
             </div>
           </div>

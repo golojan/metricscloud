@@ -114,15 +114,14 @@ export const getLiveStats = (arrData: any, statVal: any) => {
   const min = Math.min(...arrData.map((o: any) => o.points));
   const mid = parseFloat(div(max, 2));
   const ndif = parseFloat(sub(statVal, mid));
+  let _perc = perc(ndif, mid);
   if (statVal > mid) {
-    let _perc = perc(ndif, mid);
     return { max: max, min: min, mid: mid, dir: 'up', perc: _perc };
   }
   if (statVal <= mid) {
-    let _perc = perc(ndif, mid);
     return { max: max, min: min, mid: mid, dir: 'down', perc: _perc };
   }
-  return 0;
+  return { max: max, min: min, mid: mid, dir: 'down', perc: _perc };
 };
 
 export const loadSchoolsStats = async (domain: string) => {

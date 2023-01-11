@@ -17,7 +17,7 @@ const Departments: NextPage = () => {
   return (
     <>
       <AdminLayout>
-        <AppHeader isroot={true} />
+        <AppHeader />
         <div id="appCapsule" className="mb-5">
           <div className="section wallet-card-section pt-1">
             <div className="wallet-card">

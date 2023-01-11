@@ -14,7 +14,7 @@ import { Dispatch, RootState } from '@metricsai/metrics-store';
 import { useRouter } from 'next/router';
 import { GSRanking, LecturerInfo } from '@metricsai/metrics-interfaces';
 import cookie from 'js-cookie';
-import { loadLecturers } from '@metricsai/metrics-queries';
+import { loadLecturers } from '@metricsai/metrics-utils';
 import ScholarRatingLarge from '../../../../components/ScholarRatingLarge';
 import ScholarRatingSmall from '../../../../components/ScholarRatingSmall';
 
@@ -93,7 +93,7 @@ const Profile: NextPage = () => {
   return (
     <>
       <AdminLayout>
-        <AppHeader isroot={true} />
+        <AppHeader />
         <div id="appCapsule" className="mb-5">
           <div className="section wallet-card-section pt-1">
             <div className="wallet-card">

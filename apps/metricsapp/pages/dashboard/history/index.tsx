@@ -29,7 +29,7 @@ const RankingsHistory: NextPage = () => {
   return (
     <>
       <AdminLayout>
-        <AppHeader isroot={true} />
+        <AppHeader />
         <div id="appCapsule" className="mb-5">
           <div className="section wallet-card-section pt-1">
             <div className="wallet-card">
@@ -65,8 +65,8 @@ const RankingsHistory: NextPage = () => {
           <div className="section pt-1">
             <div className="row ">
               <div className="col-12 col-md-12 col-lg-12 min-h-screen">
-                <RankingHostoryTable history={school.history} />
-                {/* <LiveRankingTable school={school} allschools={allschools} /> */}
+                {/* <RankingHostoryTable history={school?.history} /> */}
+                {/* <LiveRankingTable  allschools={allschools} /> */}
               </div>
             </div>
           </div>

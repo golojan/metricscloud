@@ -10,7 +10,6 @@ import Link from 'next/link';
 import AppHeader from '../../../serverlets/AppHeader';
 import Copyright from '../../../serverlets/Copyright';
 import { withAuthSync } from '../../../utils/withAuthSync';
-import { withStatistics } from '../../../utils/withStatistics';
 import { compose } from 'redux';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -67,7 +66,7 @@ const Lecturers: NextPage = () => {
   return (
     <>
       <AdminLayout>
-        <AppHeader isroot={true} />
+        <AppHeader />
         <div id="appCapsule" className="mb-5">
           <div className="section wallet-card-section pt-1">
             <div className="wallet-card">
@@ -226,4 +225,4 @@ const Lecturers: NextPage = () => {
   );
 };
 
-export default compose(withAuthSync, withStatistics)(Lecturers);
+export default compose(withAuthSync)(Lecturers);
