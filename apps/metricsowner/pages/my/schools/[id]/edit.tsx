@@ -1,6 +1,7 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
+import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import OwnerLayout from '../../../../components/OwnerLayout';
 import AppDrawer from '../../../../serverlets/AppDrawer';
@@ -225,13 +226,22 @@ const EditSchool: NextPage = () => {
                       </ul>
                     </div>
                     <span className="mb-1 mt-6 h5">Upload Logo:</span>
+                    <div className="col-lg-12">
+                      <span style={{ float: 'right' }}>
+                        <Image
+                          src={`${school.logo}`}
+                          width={100}
+                          height={100}
+                          alt={school.name}
+                        />
+                      </span>
+                    </div>
                     <div className="col-lg-12 col-md-2 col-sm-12">
                       <div className="form-group mb-10">
                         <label htmlFor="avatar">Profile Photo</label>
                         <input
                           id="avatar"
                           type="file"
-                          name="avatar"
                           className="form-control"
                           onChange={uploadToClient}
                         />
