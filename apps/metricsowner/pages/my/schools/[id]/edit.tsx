@@ -24,6 +24,7 @@ const upload = Upload({
 
 const EditSchool: NextPage = () => {
   const [selectedIndicators] = useState<string[]>([]);
+  const [imageMsg, setImageMsg] = useState('');
 
   const [image, setImage] = useState('');
   const [createObjectURL, setCreateObjectURL] = useState('/avatar/user.png');
@@ -102,8 +103,12 @@ const EditSchool: NextPage = () => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       const { fileUrl, filePath } = await upload.uploadFile(file, {
-        onBegin: ({ cancel }: any) => {},
-        onProgress: ({ bytesSent, bytesTotal }: any) => {},
+        onBegin: ({ cancel }: any) => {
+          setImageMsg('Upload Started...');
+        },
+        onProgress: ({ bytesSent, bytesTotal }: any) => {
+          setImageMsg(`Upload... ${bytesSent} bytes done`);
+        },
         path: {
           folderPath: '/uploads/metricsai/{UTC_YEAR}/{UTC_MONTH}/{UTC_DAY}',
           fileName: '{UNIQUE_DIGITS_8}{ORIGINAL_FILE_EXT}',
@@ -225,7 +230,10 @@ const EditSchool: NextPage = () => {
                         )}
                       </ul>
                     </div>
-                    <span className="mb-1 mt-6 h5">Upload Logo:</span>
+                    <span className="mb-1 mt-6 h5">
+                      Upload Logo:{' '}
+                      <span className="text-danger">{imageMsg}</span>
+                    </span>
                     <div className="col-lg-12">
                       <span style={{ float: 'right' }}>
                         <Image
