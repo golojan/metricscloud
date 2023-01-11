@@ -11,9 +11,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
       const { lastname, firstname, middlename, email, mobile, regfee } =
         req.body;
-      const { Schools } = await dbCon();
+      const { Accounts } = await dbCon();
 
-      const created = await Schools.create({
+      const created = await Accounts.create({
         lastname: lastname,
         firstname: firstname,
         middlename: middlename,

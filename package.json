@@ -35,6 +35,7 @@
     "bootstrap": "^5.2.3",
     "bootstrap-select": "^1.13.18",
     "chart.js": "^4.1.2",
+    "cloudmailin": "^0.0.3",
     "cookies-next": "^2.1.1",
     "core-js": "^3.6.5",
     "eslint": "8.30.0",

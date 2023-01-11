@@ -14,8 +14,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     },
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
       const { token } = req.body;
-      const { Schools } = await dbCon();
-      const account = await Schools.findOne({ _id: token }).catch(catcher);
+      const { Accounts } = await dbCon();
+      const account = await Accounts.findOne({ _id: token }).catch(catcher);
       if (account) {
         res.status(200).json({
           status: true,

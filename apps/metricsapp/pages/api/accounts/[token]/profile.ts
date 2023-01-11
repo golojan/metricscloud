@@ -9,8 +9,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const handleCase: ResponseFunctions = {
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { token } = req.query;
-      const { Schools } = await dbCon();
-      const account = await Schools.findOne({ _id: token }).catch(catcher);
+      const { Accounts } = await dbCon();
+      const account = await Accounts.findOne({ _id: token }).catch(catcher);
       res.status(200).json({
         status: true,
         data: {
