@@ -16,13 +16,22 @@ import { getDataLists, getSchoolInfoById } from '@metricsai/metrics-utils';
 import { SchoolsMenu } from '../../../../components/MyMenu';
 import useSWR from 'swr';
 
+const { Upload } = require('upload-js');
+const upload = Upload({
+  apiKey: process.env.NEXT_PUBLIC_UPLOAD_JS_API_KEY || 'free',
+});
+
 const EditSchool: NextPage = () => {
   const [selectedIndicators] = useState<string[]>([]);
+
+  const [image, setImage] = useState('');
+  const [createObjectURL, setCreateObjectURL] = useState('/avatar/user.png');
 
   const router = useRouter();
   const { id } = router.query;
   const dispatch = useDispatch<Dispatch>();
   const [school, setSchool] = useState<SchoolInfo>({
+    logo: createObjectURL,
     shortname: '',
     domain: '',
     name: '',
@@ -86,6 +95,23 @@ const EditSchool: NextPage = () => {
       indicators: selectedIndicators,
     });
     dispatch.settings.setBusy(false);
+  };
+
+  const uploadToClient = async (event: any) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const { fileUrl, filePath } = await upload.uploadFile(file, {
+        onBegin: ({ cancel }: any) => {},
+        onProgress: ({ bytesSent, bytesTotal }: any) => {},
+        path: {
+          folderPath: '/uploads/metricsai/{UTC_YEAR}/{UTC_MONTH}/{UTC_DAY}',
+          fileName: '{UNIQUE_DIGITS_8}{ORIGINAL_FILE_EXT}',
+        },
+      });
+      setImage(file);
+      setCreateObjectURL(URL.createObjectURL(file));
+      setSchool({ ...school, logo: fileUrl });
+    }
   };
 
   return (
@@ -198,7 +224,19 @@ const EditSchool: NextPage = () => {
                         )}
                       </ul>
                     </div>
-
+                    <span className="mb-1 mt-6 h5">Upload Logo:</span>
+                    <div className="col-lg-12 col-md-2 col-sm-12">
+                      <div className="form-group mb-10">
+                        <label htmlFor="avatar">Profile Photo</label>
+                        <input
+                          id="avatar"
+                          type="file"
+                          name="avatar"
+                          className="form-control"
+                          onChange={uploadToClient}
+                        />
+                      </div>
+                    </div>
                     <div className="my-2 col-12">
                       <button type="submit" className="btn btn-primary">
                         Edit School

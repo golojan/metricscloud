@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 
 export interface SchoolInfo {
   _id?: string;
+  logo?: string;
   name?: string;
   domain?: string;
   shortname?: string;
