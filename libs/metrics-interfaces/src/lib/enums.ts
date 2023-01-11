@@ -67,3 +67,8 @@ export enum LecturerType {
   LOCAL = "LOCAL",
   INTERNATIONAL = "INTERNATIONAL",
 }
+
+export enum SchoolTypes {
+  LOCAL = "LOCAL",
+  INTERNATIONAL = "INTERNATIONAL",
+}

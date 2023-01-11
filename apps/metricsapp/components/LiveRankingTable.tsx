@@ -3,7 +3,6 @@ import ShowChartButton from '../components/ShowChartButton';
 import Image from 'next/image';
 
 import { Virtuoso } from 'react-virtuoso';
-import { SchoolTypes } from '@metricsai/metrics-store';
 import LiveRatingLarge from './LiveRatingLarge';
 import LiveRatingSmall from './LiveRatingSmall';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +14,6 @@ import {
 import { getLiveStats } from '../utils/queries';
 
 type LRProps = {
-  school?: SchoolTypes;
   allschools?: any;
 };
 
