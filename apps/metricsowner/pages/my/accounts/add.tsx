@@ -18,17 +18,12 @@ import {
 import { Dispatch } from '@metricsai/metrics-store';
 import { useDispatch } from 'react-redux';
 import { AccountsMenu } from '../../../components/MyMenu';
-import {
-  getAccounts,
-  getDataLists,
-  getSchools,
-} from './../../../utils/queries';
-import { genPassword } from './../../../utils/queries';
+import { genPassword } from '@metricsai/metrics-utils';
 
 const AddIndicator: NextPage = () => {
   const dispatch = useDispatch<Dispatch>();
   const [account, setAccount] = useState<AccountInfo>({
-    schoolid: '',
+    schoolId: '',
     firstname: '',
     lastname: '',
     middlename: '',
@@ -39,7 +34,9 @@ const AddIndicator: NextPage = () => {
     passwordKey: genPassword(5),
   });
 
-  const { data, isLoading } = useSWR<DataLists>('/api/list', getDataLists);
+  const { data, isLoading } = useSWR<DataLists>('/api/list', (url) =>
+    fetch(url).then((res) => res.json())
+  );
 
   const addAccount = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -200,7 +197,7 @@ const AddIndicator: NextPage = () => {
                       onChange={(e) =>
                         setAccount({
                           ...account,
-                          schoolid: e.target.value,
+                          schoolId: e.target.value,
                         })
                       }
                     >

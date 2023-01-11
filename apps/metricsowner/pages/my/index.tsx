@@ -12,7 +12,6 @@ import Copyright from '../../serverlets/Copyright';
 import { withLogon } from './../../utils/withLogon';
 import useSWR from 'swr';
 
-import { getCountStatistics } from '@metricsai/metrics-queries';
 import { IndicatorCount } from '@metricsai/metrics-interfaces';
 import {
   AccountsMenu,
@@ -21,9 +20,8 @@ import {
 } from '../../components/MyMenu';
 
 const Dashboard: NextPage = () => {
-  const { data, isLoading } = useSWR<IndicatorCount>(
-    '/api/statistics',
-    getCountStatistics
+  const { data, isLoading } = useSWR<IndicatorCount>('/api/statistics', (url) =>
+    fetch(url).then((r) => r.json())
   );
   return (
     <>
@@ -85,7 +83,6 @@ const Dashboard: NextPage = () => {
                   <AccountsMenu />
                 </div>
               </div>
-
             </div>
           </div>
           <Copyright />

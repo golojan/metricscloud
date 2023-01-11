@@ -10,9 +10,9 @@ import { NextPage } from 'next';
 import { withLogon } from './../../../utils/withLogon';
 
 import useSWR from 'swr';
-import { getSchools } from '@metricsai/metrics-queries';
-import { SchoolInfo } from '@metricsai/metrics-interfaces';
+import { getSchools } from '@metricsai/metrics-utils';
 import { SchoolsMenu } from '../../../components/MyMenu';
+import { SchoolInfo } from '@metricsai/metrics-interfaces';
 
 const Index: NextPage = () => {
   const { data, isLoading } = useSWR<SchoolInfo[]>(

@@ -10,12 +10,14 @@ import { NextPage } from 'next';
 import { withLogon } from './../../../utils/withLogon';
 
 import useSWR from 'swr';
-import { getAccounts, getDataLists } from '@metricsai/metrics-queries';
 import { AccountInfo, DataLists } from '@metricsai/metrics-interfaces';
 import { AccountsMenu } from '../../../components/MyMenu';
 
 const Index: NextPage = () => {
-  const { data: datalist } = useSWR<DataLists>('/api/list', getDataLists);
+  const { data: datalist } = useSWR<DataLists>('/api/list', (url) =>
+    fetch(url).then((res) => res.json())
+  );
+
   const schools = datalist?.schools ? datalist?.schools : [];
 
   const getSchool = (schoolId: any) => {
@@ -24,7 +26,7 @@ const Index: NextPage = () => {
 
   const { data, isLoading } = useSWR<AccountInfo[]>(
     '/api/accounts/list',
-    getAccounts
+    (url) => fetch(url).then((res) => res.json())
   );
 
   return (

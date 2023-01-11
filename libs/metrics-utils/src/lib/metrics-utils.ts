@@ -49,6 +49,18 @@ export const perc = (num: number, total: number) => {
   return ((num / total) * 100).toFixed(2);
 };
 
+
+export const genPassword = (length: number = 5) => {
+  const charset =
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let password = '';
+  for (let i = 0; i < length; i++) {
+    const randomInt = Math.floor(Math.random() * charset.length);
+    password += charset.charAt(randomInt);
+  }
+  return password;
+};
+
 export const getRoleInfo = async (id: string) => {
   const response = await fetch(`/api/roles/${id}/info`);
   const role = await response.json();
@@ -91,6 +103,22 @@ export const getAccountInfo = async (_token: string) => {
   const response = await fetch(`/api/accounts/${_token}/info`);
   const userinfo = await response.json();
   return userinfo;
+};
+
+export const getSchools = async () => {
+  const response = await fetch(`/api/schools/list`);
+  const data = await response.json();
+  return data.schools;
+};
+
+export const getSchoolInfoById = async (id: string) => {
+  const response = await fetch(`/api/schools/${id}/info`);
+  const userinfo = await response.json();
+  if (userinfo.status) {
+    return userinfo.data;
+  } else {
+    return {};
+  }
 };
 
 export const getSchoolInfo = async (domain: string) => {

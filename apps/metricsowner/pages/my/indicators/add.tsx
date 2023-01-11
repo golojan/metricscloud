@@ -13,7 +13,7 @@ import useSWR from 'swr';
 import { IndicatorInfo } from '@metricsai/metrics-interfaces';
 import { Dispatch } from '@metricsai/metrics-store';
 import { useDispatch } from 'react-redux';
-import { getIndicators } from '@metricsai/metrics-queries';
+import { getIndicators } from '@metricsai/metrics-utils';
 import { ICriteria } from '@metricsai/metrics-interfaces';
 import { IndicatorsMenu } from '../../../components/MyMenu';
 

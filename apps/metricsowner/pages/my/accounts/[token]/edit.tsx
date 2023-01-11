@@ -14,8 +14,11 @@ import { AccountInfo, DataLists } from '@metricsai/metrics-interfaces';
 import { Dispatch } from '@metricsai/metrics-store';
 import { useDispatch } from 'react-redux';
 import { AccountsMenu } from '../../../../components/MyMenu';
-import { getAccountInfo, getDataLists } from '@metricsai/metrics-queries';
-import { genPassword } from '@metricsai/metrics-queries';
+import {
+  getAccountInfo,
+  getDataLists,
+  genPassword,
+} from '@metricsai/metrics-utils';
 import { useRouter } from 'next/router';
 
 const AddIndicator: NextPage = () => {
@@ -25,7 +28,7 @@ const AddIndicator: NextPage = () => {
   const dispatch = useDispatch<Dispatch>();
 
   const [account, setAccount] = useState<AccountInfo>({
-    schoolid: '',
+    schoolId: '',
     school: {},
     firstname: '',
     lastname: '',
@@ -202,11 +205,11 @@ const AddIndicator: NextPage = () => {
                     <select
                       className="form-control"
                       required={true}
-                      value={account.schoolid}
+                      value={account.schoolId}
                       onChange={(e) =>
                         setAccount({
                           ...account,
-                          schoolid: e.target.value,
+                          schoolId: e.target.value,
                         })
                       }
                     >
