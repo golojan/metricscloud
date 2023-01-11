@@ -27,8 +27,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           lastname: account.lastname,
           role: account.role,
           accountType: account.accountType,
-          university: account.university,
-          address: account.address,
           country: account.addresses.contact.country,
           enabled: account.enabled,
         });
