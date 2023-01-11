@@ -13,11 +13,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       const account = await Accounts.findOne({ _id: token }).catch(catcher);
       if (account) {
         res.status(200).json({
+          _id: account._id,
+          accid: account._id,
           status: true,
           schoolId: account.schoolId,
           role: account.role,
           accountType: account.accountType,
-          accid: account._id,
           picture: account.picture,
           email: account.email,
           mobile: account.mobile,

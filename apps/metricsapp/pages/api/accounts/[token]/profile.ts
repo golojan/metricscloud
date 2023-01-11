@@ -11,7 +11,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       const { token } = req.query;
       const { Accounts } = await dbCon();
       const account = await Accounts.findOne({ _id: token }).catch(catcher);
-      res.status(200).json({
+      if(account){
+        res.status(200).json({
         status: true,
         data: {
           _id: account._id,
@@ -26,6 +27,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           enabled: account.enabled,
         },
       });
+      }
     },
   };
   const response = handleCase[method];
