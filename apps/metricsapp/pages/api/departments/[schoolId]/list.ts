@@ -13,9 +13,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         .json({ status: false, err: 'Only GET Method is allowed' });
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { domain } = req.query;
+      const { schoolId } = req.query;
       const { Departments } = await dbCon();
-      const departments = await Departments.find({ domain: domain }).catch(
+      const departments = await Departments.find({ schoolId: schoolId }).catch(
         catcher
       );
       if (departments) {

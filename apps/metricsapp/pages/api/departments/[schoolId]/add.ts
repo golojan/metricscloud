@@ -10,10 +10,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
       const { schoolId } = req.query;
       const { name, facultyId, accredited } = req.body;
-      console.log(name);
       const { Departments } = await dbCon();
       const department = await Departments.create({
-        domain: domain,
+        schoolId: schoolId,
         faculty: facultyId,
         accredited: accredited,
         name: name,
