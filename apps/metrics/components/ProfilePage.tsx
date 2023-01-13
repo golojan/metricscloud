@@ -5,6 +5,7 @@ import { AuthUserInfo, SchoolInfo } from '@metricsai/metrics-interfaces';
 import { getProfile } from '../libs/queries';
 import { toMonthDayYear } from '../libs/toDate';
 import { hasAuth } from '../hocs/auth/withAuth';
+import cookie from 'js-cookie';
 
 import {
   busyAtom,
@@ -19,7 +20,8 @@ function ProfilePage() {
   const auth: boolean = hasAuth();
   const { username } = router.query;
 
-  const [token] = useAtom(tokenAtom);
+  const token = cookie.get('token');
+
   const [busy] = useAtom(busyAtom);
   const [profile] = useAtom(publicProfileAtom);
   const [schools] = useAtom(schoolsAtom);
@@ -33,6 +35,7 @@ function ProfilePage() {
 
   useEffect(() => {
     if (auth) {
+      alert(token);
       if (token === profile._id) {
         setIsMe(true);
       }
