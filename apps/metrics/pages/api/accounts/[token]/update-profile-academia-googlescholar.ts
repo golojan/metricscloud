@@ -22,6 +22,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           citations:citations,
           hindex:hindex,
           i10hindex:i10hindex,
+          googlePresence: true,
         }
       ).catch(catcher);
       if (saved) {

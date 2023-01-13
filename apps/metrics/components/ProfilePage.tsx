@@ -143,6 +143,7 @@ function ProfilePage() {
                 <p className="text-muted mb-0">{`@${profile.username}`}</p>
               </div>
 
+              
               {/*
                 <div
                   className="ms-auto btn-group"
@@ -167,6 +168,8 @@ function ProfilePage() {
                     <span className="following d-none">connected</span>
                   </label>
                 </div> */}
+
+
             </div>
 
             <div className="p-3">
@@ -272,6 +275,9 @@ function ProfilePage() {
               <div className="row d-flex mt-0">
                 <div className="col-12 mb-2 mt-0 text-black text-lg">
                   Google Scholar
+                  <span className="ms-2 material-icons bg-green-700 p-0 md-16 fw-bold text-white rounded-circle ov-icon">
+                    done
+                  </span>
                 </div>
                 <div className="col-3 text-center">
                   <div className="m-0 p-0 h2 text-center">{profile.citations}</div>
