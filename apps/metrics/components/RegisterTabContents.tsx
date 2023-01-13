@@ -13,8 +13,8 @@ import useSWR from 'swr';
 
 function RegisterTabContents() {
   //
-  const [unState, setUnState] = useState(false);
-  const [emState, setEmState] = useState(false);
+  const [, setUnState] = useState(false);
+  const [, setEmState] = useState(false);
 
   const [unError, setUnError] = useState<string>('');
   const [emError, setEmError] = useState<string>('');
@@ -24,9 +24,8 @@ function RegisterTabContents() {
     '/api/schools/list',
     (url) => fetch(url).then((res) => res.json())
   );
-  
-  const schools: SchoolInfo[] = schoolData.schools ? schoolData.schools : [];
-  alert(JSON.stringify(schools));
+
+  const schools: SchoolInfo[] = schoolData?.schools ? schoolData.schools : [];
 
   const schoolOptions = schools.map((school: SchoolInfo) => ({
     value: school._id,
