@@ -156,14 +156,14 @@ function ProfilePage() {
 
               {!isMe ? (
                 <div
-                  className={`ms-auto btn-group ${auth?'disabled':''}`}
+                  className={`ms-auto btn-group ${!auth?'disabled':''}`}
                   role="group"
                   aria-label="Basic checkbox toggle button group"
                 >
                   <input
                     type="checkbox"
                     className="btn-check"
-                    disabled={auth}
+                    disabled={!auth}
                     id="btnConnect"
                     autoComplete="off"
                     defaultChecked={connected}
