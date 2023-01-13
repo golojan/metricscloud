@@ -15,7 +15,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { Schools } = await dbCon();
-      const schools = await Schools.find({}).catch(catcher);
+      const schools = await Schools.find({enabled: true}).catch(catcher);
       if (schools) {
         res.status(200).json({
           status: true,
