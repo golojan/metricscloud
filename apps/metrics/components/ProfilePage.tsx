@@ -17,7 +17,7 @@ import { useAtom } from 'jotai';
 
 function ProfilePage() {
   const router = useRouter();
-
+  const auth = hasAuth();
   const { username } = router.query;
 
   const [token] = useAtom(tokenAtom);
@@ -156,13 +156,14 @@ function ProfilePage() {
 
               {!isMe ? (
                 <div
-                  className="ms-auto btn-group"
+                  className={`ms-auto btn-group ${auth?'disabled':''}`}
                   role="group"
                   aria-label="Basic checkbox toggle button group"
                 >
                   <input
                     type="checkbox"
                     className="btn-check"
+                    disabled={auth}
                     id="btnConnect"
                     autoComplete="off"
                     defaultChecked={connected}
