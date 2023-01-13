@@ -49,7 +49,6 @@ const Academia: NextPage = ({ token }: any) => {
       if(status){
         setScrapped(true);
         setGsScrap(ranking);
-        alert(JSON .stringify(ranking, null, 2));
       }
     }
 

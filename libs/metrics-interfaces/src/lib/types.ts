@@ -53,6 +53,11 @@ export interface AuthUserInfo {
   googleScholarId?: string;
   scopusId?: string;
   orcidId?: string;
+  googlePresence?: number;
+  citations?: number;
+  hindex?: number;
+  i10hindex?: number;
+  totalPublications?: number;
   createdAt?: Date;
   updatedAt?: Date;
 }

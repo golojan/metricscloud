@@ -274,23 +274,23 @@ function ProfilePage() {
                   Google Scholar
                 </div>
                 <div className="col-3 text-center">
-                  <div className="m-0 p-0 h2 text-center">0</div>
+                  <div className="m-0 p-0 h2 text-center">{profile.citations}</div>
                   <em>Citations</em>
                 </div>
 
                 <div className="col-3 text-center">
-                  <div className="m-0 p-0 h2 text-center">0</div>
+                  <div className="m-0 p-0 h2 text-center">{profile.hindex}</div>
                   <em>H-Index</em>
                 </div>
 
                 <div className="col-3 text-center">
-                  <div className="m-0 p-0 h2 text-center">0</div>
+                  <div className="m-0 p-0 h2 text-center">{profile.i10hindex}</div>
                   <em>i-10-Index</em>
                 </div>
 
                 <div className="col-3 text-center">
-                  <div className="m-0 p-0 h2 text-center">0</div>
-                  <em>Metrix Rank</em>
+                  <div className="m-0 p-0 h2 text-center">{profile.totalPublications}</div>
+                  <em>Publications</em>
                 </div>
               </div>
               <hr />

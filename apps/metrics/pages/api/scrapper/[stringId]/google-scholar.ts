@@ -42,9 +42,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         });
         
         // get the number from the string
-        const totalPub:number = parseInt(aresult[0].replace(/[^0-9]/g, ''));
-        console .log(totalPub);
-        
+        const totalPub:number = parseInt(aresult[0].replace(/[^0-9]/g, ''));        
         res.status(200).json({
           status: true,
           ranking: {
@@ -57,8 +55,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       } catch (e) {
         res.status(404).json({
           status: false,
-          error: `no data found. Tip: Double check the url.`,
-          followerCount: -1,
+          error: `no data found. Tip: Double check the url.`
         });
       }
     },
