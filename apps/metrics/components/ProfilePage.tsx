@@ -157,7 +157,7 @@ function ProfilePage() {
                 <p className="text-muted mb-0">{`@${profile.username}`}</p>
               </div>
 
-              {!isMe ? null : (
+              {isMe ? null : (
                 <div
                   className={`ms-auto btn-group`}
                   role="group"
