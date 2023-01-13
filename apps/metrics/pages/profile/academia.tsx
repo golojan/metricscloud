@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
-import Layout from "../../components/Layout";
+import React, { useEffect, useState } from 'react';
+import Layout from '../../components/Layout';
 
-import { withAuth } from "../../hocs/auth/withAuth";
-import { NextPage } from "next";
+import { withAuth } from '../../hocs/auth/withAuth';
+import { NextPage } from 'next';
 
-import { AuthUserInfo } from '@metricsai/metrics-interfaces';
-import { getProfileInfo } from "../../libs/queries";
-import { toast } from "react-toastify";
+import { AuthUserInfo, GSRanking } from '@metricsai/metrics-interfaces';
+import { getProfileInfo } from '../../libs/queries';
+import { toast } from 'react-toastify';
 
 const Academia: NextPage = ({ token }: any) => {
+  
+  const [scrapped, setScrapped] = useState<boolean>(false);
+  const [gsScrap, setGsScrap] = useState<GSRanking>({});
   const [profile, setProfile] = useState<AuthUserInfo>({});
 
   useEffect(() => {
@@ -19,26 +22,37 @@ const Academia: NextPage = ({ token }: any) => {
 
   const saveGoogleScholarId = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch(
-      `/api/accounts/${token}/update-profile-academia`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ googleScholarId: profile.googleScholarId }),
+    if(scrapped){
+      const response = await fetch(
+        `/api/accounts/${token}/update-profile-academia`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ googleScholarId: profile.googleScholarId }),
+        }
+      );
+      const { status } = await response.json();
+      if (status) {
+        toast.success(`Google Scholar ID Updated.`, {
+          toastId: 'googleScholarId-update-success',
+        });
+      } else {
+        toast.error(`Failed to update Google Scholar ID.`, {
+          toastId: 'googleScholarId-update-success',
+        });
       }
-    );
-    const { status } = await response.json();
-    if (status) {
-      toast.success(`Google Scholar ID Updated.`, {
-        toastId: "googleScholarId-update-success",
-      });
-    } else {
-      toast.error(`Failed to update Google Scholar ID.`, {
-        toastId: "googleScholarId-update-success",
-      });
+    }else{
+      const response = await fetch(`/api/scrapper/${profile.googleScholarId}/google-scholar`);
+      const { status, ranking } = await response.json();
+      if(status){
+        setScrapped(true);
+        setGsScrap(ranking);
+        alert(JSON .stringify(ranking, null, 2));
+      }
     }
+
   };
 
   const saveScopusId = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -46,9 +60,9 @@ const Academia: NextPage = ({ token }: any) => {
     const response = await fetch(
       `/api/accounts/${token}/update-profile-academia`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ scopusId: profile.scopusId }),
       }
@@ -56,11 +70,11 @@ const Academia: NextPage = ({ token }: any) => {
     const { status } = await response.json();
     if (status) {
       toast.success(`Scopus Scholar ID Updated.`, {
-        toastId: "scopusId-update-success",
+        toastId: 'scopusId-update-success',
       });
     } else {
       toast.error(`Failed to update Scopus Scholar ID.`, {
-        toastId: "scopusId-update-success",
+        toastId: 'scopusId-update-success',
       });
     }
   };
@@ -70,9 +84,9 @@ const Academia: NextPage = ({ token }: any) => {
     const response = await fetch(
       `/api/accounts/${token}/update-profile-academia`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ orcidId: profile.orcidId }),
       }
@@ -80,11 +94,11 @@ const Academia: NextPage = ({ token }: any) => {
     const { status } = await response.json();
     if (status) {
       toast.success(`OrcId Scholar ID Updated.`, {
-        toastId: "orcidId-update-success",
+        toastId: 'orcidId-update-success',
       });
     } else {
       toast.error(`Failed to update OrcId Scholar ID.`, {
-        toastId: "orcidId-update-success",
+        toastId: 'orcidId-update-success',
       });
     }
   };
@@ -134,7 +148,7 @@ const Academia: NextPage = ({ token }: any) => {
                           </label>
                         </div>
                         <div className="mb-2 w-full">
-                          Example:{" "}
+                          Example:{' '}
                           <span className="text-muted">
                             https://scholar.google.com/citations?user=
                             <strong className="text-green-700">
@@ -144,9 +158,16 @@ const Academia: NextPage = ({ token }: any) => {
                           </span>
                         </div>
                         <div className="d-grid">
-                          <button className="btn btn-primary w-100 text-decoration-none rounded-5 py-3 fw-bold text-uppercase m-0">
-                            Save
-                          </button>
+                          {scrapped ? (
+                            <button className="btn btn-success w-100 text-decoration-none rounded-5 py-3 fw-bold text-uppercase m-0">
+                              Save
+                            </button>
+                          ) : (
+                            <button className="btn btn-primary w-100 text-decoration-none rounded-5 py-3 fw-bold text-uppercase m-0">
+                              Check Google Scholar
+                            </button>
+                          )}
+
                         </div>
                       </form>
                     </div>
@@ -192,7 +213,7 @@ const Academia: NextPage = ({ token }: any) => {
                           <label htmlFor="floatingPass">Scopus Author ID</label>
                         </div>
                         <div className="mb-2 w-full">
-                          Example:{" "}
+                          Example:{' '}
                           <span className="text-muted">
                             https://www.scopus.com/authid/detail.uri?authorId=
                             <strong className="text-green-700">
@@ -249,7 +270,7 @@ const Academia: NextPage = ({ token }: any) => {
                           <label htmlFor="floatingPass">Orcid Author ID</label>
                         </div>
                         <div className="mb-2 w-full">
-                          Example:{" "}
+                          Example:{' '}
                           <span className="text-muted">
                             https://orcid.org/
                             <strong className="text-green-700">
