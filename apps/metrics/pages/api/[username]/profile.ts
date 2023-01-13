@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
 import { ResponseFunctions } from '@metricsai/metrics-interfaces';
 
@@ -46,7 +46,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         });
         return;
       } else {
-        res.status(400).json({ status: false, error: "Account not found" });
+        res.status(400).json({ status: false, error: 'Account not found' });
         return;
       }
     },
@@ -56,5 +56,5 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   else
     res
       .status(400)
-      .json({ status: false, error: "No Response for This Request" });
+      .json({ status: false, error: 'No Response for This Request' });
 }

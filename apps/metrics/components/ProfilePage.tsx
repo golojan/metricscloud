@@ -38,7 +38,6 @@ function ProfilePage() {
       if (token === profile._id) {
         setIsMe(true);
       }
-      alert(`Welcome ${profile._id} and ${token}!`);
     }
   }, [auth]);
 
@@ -287,11 +286,9 @@ function ProfilePage() {
               <hr className="mb-2" />
               <div className="row d-flex mt-0">
                 <div className="col-12 mb-2 mt-0 text-black text-lg">
-                  Google Scholar
+                  Google Scholar {profile._id}
                   <span
-                    className={`ms-2 material-icons bg-${
-                      profile.googlePresence ? 'green' : 'red'
-                    }-500 p-0 md-16 fw-bold text-white rounded-circle ov-icon`}
+                    className={`ms-2 material-icons bg-red-500 p-0 md-16 fw-bold text-white rounded-circle ov-icon`}
                   >
                     done
                   </span>
