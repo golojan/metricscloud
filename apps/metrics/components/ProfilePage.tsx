@@ -4,19 +4,23 @@ import React, { RefObject, useRef, useState } from 'react';
 import { AuthUserInfo, SchoolInfo } from '@metricsai/metrics-interfaces';
 import { getProfile } from '../libs/queries';
 import { toMonthDayYear } from '../libs/toDate';
+import { hasAuth } from '../hocs/auth/withAuth';
+
 import useSWR from 'swr';
 import {
   busyAtom,
   publicProfileAtom,
   schoolsAtom,
+  tokenAtom,
 } from '@metricsai/metrics-store';
-import {useAtom} from 'jotai';
+import { useAtom } from 'jotai';
 
 function ProfilePage() {
   const router = useRouter();
 
   const { username } = router.query;
 
+  const [token] = useAtom(tokenAtom);
   const [busy] = useAtom(busyAtom);
   const [profile] = useAtom(publicProfileAtom);
   const [schools] = useAtom(schoolsAtom);
@@ -26,6 +30,13 @@ function ProfilePage() {
 
   // Set the connection on and off //
   const [connected, setConnected] = useState(false);
+  const [isMe, setIsMe] = useState(false);
+
+  if (hasAuth) {
+    if (token === profile._id) {
+      setIsMe(true);
+    }
+  }
 
   const handleConnect = () => {
     const connectButton = connectButtonRef.current;
@@ -143,8 +154,7 @@ function ProfilePage() {
                 <p className="text-muted mb-0">{`@${profile.username}`}</p>
               </div>
 
-              
-              {/*
+              {!isMe ? (
                 <div
                   className="ms-auto btn-group"
                   role="group"
@@ -156,7 +166,7 @@ function ProfilePage() {
                     id="btnConnect"
                     autoComplete="off"
                     defaultChecked={connected}
-                    defaultValue={"on"}
+                    defaultValue={'on'}
                     ref={connectButtonRef}
                     onChange={handleConnect}
                   />
@@ -167,9 +177,8 @@ function ProfilePage() {
                     <span className="follow">+ connect</span>
                     <span className="following d-none">connected</span>
                   </label>
-                </div> */}
-
-
+                </div>
+              ) : null}
             </div>
 
             <div className="p-3">
@@ -275,12 +284,18 @@ function ProfilePage() {
               <div className="row d-flex mt-0">
                 <div className="col-12 mb-2 mt-0 text-black text-lg">
                   Google Scholar
-                  <span className={`ms-2 material-icons bg-${profile.googlePresence?'green':'gray'}-500 p-0 md-16 fw-bold text-white rounded-circle ov-icon`}>
+                  <span
+                    className={`ms-2 material-icons bg-${
+                      profile.googlePresence ? 'green' : 'gray'
+                    }-500 p-0 md-16 fw-bold text-white rounded-circle ov-icon`}
+                  >
                     done
                   </span>
                 </div>
                 <div className="col-3 text-center">
-                  <div className="m-0 p-0 h2 text-center">{profile.citations}</div>
+                  <div className="m-0 p-0 h2 text-center">
+                    {profile.citations}
+                  </div>
                   <em>Citations</em>
                 </div>
 
@@ -290,12 +305,16 @@ function ProfilePage() {
                 </div>
 
                 <div className="col-3 text-center">
-                  <div className="m-0 p-0 h2 text-center">{profile.i10hindex}</div>
+                  <div className="m-0 p-0 h2 text-center">
+                    {profile.i10hindex}
+                  </div>
                   <em>i-10-Index</em>
                 </div>
 
                 <div className="col-3 text-center">
-                  <div className="m-0 p-0 h2 text-center">{profile.totalPublications}</div>
+                  <div className="m-0 p-0 h2 text-center">
+                    {profile.totalPublications}
+                  </div>
                   <em>Publications</em>
                 </div>
               </div>
