@@ -287,7 +287,7 @@ function ProfilePage() {
                   Google Scholar
                   <span
                     className={`ms-2 material-icons bg-${
-                      profile.googlePresence ? 'green' : 'gray'
+                      profile.googlePresence ? 'green' : 'red'
                     }-500 p-0 md-16 fw-bold text-white rounded-circle ov-icon`}
                   >
                     done
