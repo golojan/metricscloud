@@ -1,7 +1,7 @@
 import React from "react";
 import LoginTabContents from "../../components/LoginTabContents";
 import Layout from "../../components/Layout";
-import RegisterTabContents from "../../components/RegisterTabContents";
+// import RegisterTabContents from "../../components/RegisterTabContents";
 import ResetTabContents from "../../components/ResetTabContents";
 import AuthTabsBar from "./../../components/AuthTabsBar";
 
@@ -13,7 +13,7 @@ function Auth() {
           <AuthTabsBar />
           <div className="tab-content" id="pills-tabContent">
             <LoginTabContents />
-            <RegisterTabContents />
+            {/* <RegisterTabContents /> */}
             <ResetTabContents />
           </div>
         </div>
