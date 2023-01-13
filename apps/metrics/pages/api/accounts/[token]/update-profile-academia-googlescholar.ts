@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
 import { ResponseFunctions } from '@metricsai/metrics-interfaces';
 import { dbCon } from '@metricsai/metrics-models';
 
@@ -10,19 +10,19 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
       const { token } = req.query;
       const { googleScholarId, scrap } = req.body;
-      const {totalPublications,citations,hindex,i10hindex} = scrap;
+      const { totalPublications, citations, hindex, i10hindex } = scrap;
 
       const { Accounts } = await dbCon();
-    
+
       const saved = await Accounts.updateOne(
         { _id: token },
         {
           googleScholarId: googleScholarId,
-          totalPublications:totalPublications,
-          citations:citations,
-          hindex:hindex,
-          i10hindex:i10hindex,
-          googlePresence: true,
+          totalPublications: totalPublications,
+          citations: citations,
+          hindex: hindex,
+          i10hindex: i10hindex,
+          googlePresence: 1,
         }
       ).catch(catcher);
       if (saved) {
@@ -32,7 +32,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         });
         return;
       } else {
-        res.status(400).json({ status: false, error: "Account not found" });
+        res.status(400).json({ status: false, error: 'Account not found' });
         return;
       }
     },
@@ -42,5 +42,5 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   else
     res
       .status(400)
-      .json({ status: false, error: "No Response for This Request" });
+      .json({ status: false, error: 'No Response for This Request' });
 }
