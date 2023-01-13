@@ -22,13 +22,11 @@ function RegisterTabContents() {
 
   const { data: schoolData } = useSWR(
     '/api/schools/list',
-    (url) => fetch(url).then((res) => res.json()),
-    {
-      refreshInterval: 0,
-    }
+    (url) => fetch(url).then((res) => res.json())
   );
   
   const schools: SchoolInfo[] = schoolData.schools ? schoolData.schools : [];
+  alert(JSON.stringify(schools));
 
   const schoolOptions = schools.map((school: SchoolInfo) => ({
     value: school._id,
