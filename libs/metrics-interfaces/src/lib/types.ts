@@ -155,6 +155,7 @@ export type GSRanking = {
   citations?: number;
   hindex?: number;
   i10hindex?: number;
+  totalPublications?: number;
 };
 
 export type SchoolRank = {

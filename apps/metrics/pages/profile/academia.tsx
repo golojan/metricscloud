@@ -7,16 +7,18 @@ import { NextPage } from "next";
 import { AuthUserInfo } from '@metricsai/metrics-interfaces';
 import { getProfileInfo } from "../../libs/queries";
 import { toast } from "react-toastify";
+import useSWR from "swr";
+import { url } from "inspector";
 
 const Academia: NextPage = ({ token }: any) => {
   const [profile, setProfile] = useState<AuthUserInfo>({});
 
-  useEffect(() => {
-    getProfileInfo(token).then((res: AuthUserInfo) => {
-      setProfile(res);
-    });
-  }, [token]);
-
+  // get profile info with useSWr
+  const { data, error } = useSWR(`/api/accounts/${token}/profile`,(url)=>fetch(url).then((res)=>res.json()));
+  if( data){
+    setProfile(data.data);
+  }
+ 
   const saveGoogleScholarId = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await fetch(

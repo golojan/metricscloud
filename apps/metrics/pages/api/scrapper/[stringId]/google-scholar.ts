@@ -10,16 +10,17 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const catcher = (error: Error) =>
     res.status(400).json({ status: 0, error: error });
   const handleCase: ResponseFunctions = {
-    GET: async (req: NextApiRequest, res: NextApiResponse) => {
+    POST: async (req: NextApiRequest, res: NextApiResponse) => {
       res
         .status(200)
-        .json({ status: false, err: 'Only POST Method is allowed' });
+        .json({ status: false, err: 'Only GET Method is allowed' });
     },
-    POST: async (req: NextApiRequest, res: NextApiResponse) => {
-      const url = req.body.url;
+    GET: async (req: NextApiRequest, res: NextApiResponse) => {
+      const stringId = req.query.stringId;
       //   console.log(url);
       try {
-        const response = await fetch(url);
+        const googleScholarUrl = `https://scholar.google.com/citations?user=${stringId}&hl=en`;
+        const response = await fetch(googleScholarUrl);
         const htmlString = await response.text();
         const $ = cheerio.load(htmlString);
 
@@ -32,18 +33,21 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           result[idx] = value;
         });
 
-        const tkeys = [];
-        const tresult: any = [];
-        $(`div.gsc_rsb_m_a span`).each((idx: number, ref: any) => {
+        const akeys = [];
+        const aresult: any = [];
+        $(`div.gsc_rsb_m_a span`).each((adx: number, ref: any) => {
           const value = $(ref).text().trim();
-          tkeys.push(idx);
-          tresult[idx] = value;
+          akeys.push(adx);
+          aresult[adx] = value;
         });
-
+        
+        // get the number from the string
+        const totalPub:number = parseInt(aresult[0].replace(/[^0-9]/g, ''));
+        
         res.status(200).json({
           status: true,
           ranking: {
-            totalPublications: tresult[0],
+            totalPublications:totalPub,
             citations: result[0],
             hindex: result[2],
             i10hindex: result[4],
