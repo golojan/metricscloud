@@ -313,35 +313,36 @@ function ProfilePage() {
                 </div>
 
                 <div className="col-3 text-center">
+                  <div className="m-0 p-0 h2 text-center">0</div>
+                  <em>Metrix Rank</em>
+                </div>
+              </div>
+              <hr />
+              <div className="row d-flex mt-0">
+                <div className="col-3 text-center">
+                  <div className="m-0 p-0 h2 text-center">
+                    {profile.firstPublicationYear}
+                  </div>
+                  <em>First Publication</em>
+                </div>
+
+                <div className="col-3 text-center">
+                  <div className="m-0 p-0 h2 text-center">
+                    {profile.lastPublicationYear}
+                  </div>
+                  <em>First Publication</em>
+                </div>
+
+                <div className="col-3 text-center">
                   <div className="m-0 p-0 h2 text-center">
                     {profile.totalPublications}
                   </div>
                   <em>Publications</em>
                 </div>
-              </div>
-              <hr />
-              <div className="row d-flex mt-0">
-                <div className="col-12 mb-2 mt-0 text-black text-lg">
-                  Scopus Scholar
-                </div>
-                <div className="col-3 text-center">
-                  <div className="m-0 p-0 h2 text-center">0</div>
-                  <em>Citations</em>
-                </div>
 
                 <div className="col-3 text-center">
                   <div className="m-0 p-0 h2 text-center">0</div>
-                  <em>H-Index</em>
-                </div>
-
-                <div className="col-3 text-center">
-                  <div className="m-0 p-0 h2 text-center">0</div>
-                  <em>i-10-Index</em>
-                </div>
-
-                <div className="col-3 text-center">
-                  <div className="m-0 p-0 h2 text-center">0</div>
-                  <em>Metrix Rank</em>
+                  <em>Citations/Per-Capita</em>
                 </div>
               </div>
             </div>

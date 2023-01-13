@@ -16,10 +16,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         .json({ status: false, err: 'Only GET Method is allowed' });
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const stringId = req.query.stringId;
+      const stringId = req.query.stringId as string;
       //   console.log(url);
       try {
         const googleScholarUrl = `https://scholar.google.com/citations?user=${stringId}&hl=en`;
+
         const response = await fetch(googleScholarUrl);
         const htmlString = await response.text();
         const $ = cheerio.load(htmlString);
@@ -40,13 +41,34 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           akeys.push(adx);
           aresult[adx] = value;
         });
-        
+
+        const cresult: any = [];
+        $(`tr.gsc_a_tr > td > a.gsc_a_at`).each((cdx: number, ref: any) => {
+          const value = $(ref).text().trim();
+          cresult[cdx] = value;
+        });
+
+        const yresult: number[] = [];
+        $(`tr.gsc_a_tr > td.gsc_a_y > span.gsc_a_h.gsc_a_hc.gs_ibl`).each(
+          (ydx: number, ref: any) => {
+            const value = $(ref).text().trim();
+            yresult[ydx] = parseInt(value);
+          }
+        );
+
+        const minPublicationYear = Math.min(...yresult);
+        const maxPublicationYear = Math.max(...yresult);
+        console.log(yresult);
+
         // get the number from the string
-        const totalPub:number = parseInt(aresult[0].replace(/[^0-9]/g, ''));        
+        const totalPub: number = parseInt(aresult[0].replace(/[^0-9]/g, ''));
         res.status(200).json({
           status: true,
           ranking: {
-            totalPublications:totalPub,
+            googlePresence: 1,
+            totalPublications: totalPub,
+            firstPublicationYear: minPublicationYear.toString(),
+            lastPublicationYear: maxPublicationYear.toString(),
             citations: result[0],
             hindex: result[2],
             i10hindex: result[4],
@@ -55,7 +77,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       } catch (e) {
         res.status(404).json({
           status: false,
-          error: `no data found. Tip: Double check the url.`
+          error: `no data found. Tip: Double check the url.`,
         });
       }
     },
