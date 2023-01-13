@@ -35,10 +35,10 @@ function ProfilePage() {
 
   useEffect(() => {
     if (auth) {
-      alert(token);
       if (token === profile._id) {
         setIsMe(true);
       }
+      alert(`Welcome ${profile._id} and ${token}!`);
     }
   }, [auth]);
 
