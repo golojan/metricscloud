@@ -157,7 +157,7 @@ function ProfilePage() {
                 <p className="text-muted mb-0">{`@${profile.username}`}</p>
               </div>
 
-              {!isMe ? (
+              {!isMe ? null : (
                 <div
                   className={`ms-auto btn-group`}
                   role="group"
@@ -181,7 +181,7 @@ function ProfilePage() {
                     <span className="following d-none">connected</span>
                   </label>
                 </div>
-              ) : null}
+              )}
             </div>
 
             <div className="p-3">
@@ -286,7 +286,7 @@ function ProfilePage() {
               <hr className="mb-2" />
               <div className="row d-flex mt-0">
                 <div className="col-12 mb-2 mt-0 text-black text-lg">
-                  Google Scholar {profile._id}
+                  Google Scholar
                   <span
                     className={`ms-2 material-icons bg-red-500 p-0 md-16 fw-bold text-white rounded-circle ov-icon`}
                   >

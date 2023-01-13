@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import Router from "next/router";
-import nextCookie from "next-cookies";
-import { getUserName } from "../../libs/queries";
-import cookie from "js-cookie";
+import React, { useEffect } from 'react';
+import Router from 'next/router';
+import nextCookie from 'next-cookies';
+import { getUserName } from '../../libs/queries';
+import cookie from 'js-cookie';
 
 // Login & Create session for a given minutes time
 export const authLogin = (token: string) => {
@@ -10,8 +10,8 @@ export const authLogin = (token: string) => {
   const inMinutes = new Date(new Date().getTime() + expire_time * 60 * 1000);
   getUserName(token)
     .then((username) => {
-      cookie.set("token", token as string, { expires: inMinutes });
-      cookie.set("username", username as string, { expires: inMinutes });
+      cookie.set('token', token as string, { expires: inMinutes });
+      cookie.set('username', username as string, { expires: inMinutes });
       Router.push(`/${username}`);
     })
     .catch((err) => {
@@ -23,18 +23,18 @@ export const auth = (ctx: any) => {
   const { token } = nextCookie(ctx);
   // If there's no token, it means the user is not logged in.
   if (ctx.req && !token) {
-    if (typeof window === "undefined") {
-      ctx.res.writeHead(302, { Location: "/auth" });
+    if (typeof window === 'undefined') {
+      ctx.res.writeHead(302, { Location: '/auth' });
       ctx.res.end();
     } else {
-      Router.push("/auth");
+      Router.push('/auth');
     }
   }
   return token;
 };
 
 export const hasAuth = () => {
-  const token = cookie.get("token");
+  const token = cookie.get('token');
   if (token) {
     return true;
   }
@@ -42,32 +42,30 @@ export const hasAuth = () => {
 };
 
 export const authlogout = () => {
-  cookie.remove("token");
+  cookie.remove('token');
   // to support logging out from all windows
-  window.localStorage.setItem("logout", `${Date.now()}`);
-  Router.push("/auth/");
+  window.localStorage.setItem('logout', `${Date.now()}`);
+  Router.push('/auth/');
 };
 
 export const withAuth = (WrappedComponent: any) => {
   const Wrapper = (props: any) => {
     const syncLogout = (event: any) => {
-      if (event.key === "logout") {
-        console.log("logged out from storage!");
-        Router.push("/auth");
+      if (event.key === 'logout') {
+        console.log('logged out from storage!');
+        Router.push('/auth');
       }
     };
 
-    const token = cookie.get("token");
+    const token = cookie.get('token');
     useEffect(() => {
-      window.addEventListener("storage", syncLogout);
-
+      window.addEventListener('storage', syncLogout);
       if (!token) {
-        Router.push("/auth");
+        Router.push('/auth');
       }
-
       return () => {
-        window.removeEventListener("storage", syncLogout);
-        window.localStorage.removeItem("logout");
+        window.removeEventListener('storage', syncLogout);
+        window.localStorage.removeItem('logout');
       };
     }, [token]);
     return <WrappedComponent {...props} />;
