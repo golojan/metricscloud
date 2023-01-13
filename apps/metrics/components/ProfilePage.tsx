@@ -1,9 +1,12 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { RefObject, useRef, useState } from 'react';
+import { AuthUserInfo, SchoolInfo } from '@metricsai/metrics-interfaces';
+import { getProfile } from '../libs/queries';
 import { toMonthDayYear } from '../libs/toDate';
 import { hasAuth } from '../hocs/auth/withAuth';
 
+import useSWR from 'swr';
 import {
   busyAtom,
   publicProfileAtom,
@@ -14,8 +17,7 @@ import { useAtom } from 'jotai';
 
 function ProfilePage() {
   const router = useRouter();
- 
-  const auth = hasAuth();
+  const auth:boolean = hasAuth();
   const { username } = router.query;
 
   const [token] = useAtom(tokenAtom);
@@ -30,11 +32,11 @@ function ProfilePage() {
   const [connected, setConnected] = useState(false);
   const [isMe, setIsMe] = useState(false);
 
-  // if (hasAuth) {
-  //   if (token === profile._id) {
-  //     setIsMe(true);
-  //   }
-  // }
+  if (auth) {
+    if (token === profile._id) {
+      setIsMe(true);
+    }
+  }
 
   const handleConnect = () => {
     const connectButton = connectButtonRef.current;
@@ -152,16 +154,16 @@ function ProfilePage() {
                 <p className="text-muted mb-0">{`@${profile.username}`}</p>
               </div>
 
-              
+              {!isMe ? (
                 <div
-                  className={`ms-auto btn-group`}
+                  className={`ms-auto btn-group ${!auth?'disabled':''}`}
                   role="group"
                   aria-label="Basic checkbox toggle button group"
                 >
                   <input
                     type="checkbox"
                     className="btn-check"
-                    disabled={false}
+                    disabled={!auth}
                     id="btnConnect"
                     autoComplete="off"
                     defaultChecked={connected}
@@ -177,7 +179,7 @@ function ProfilePage() {
                     <span className="following d-none">connected</span>
                   </label>
                 </div>
-           
+              ) : null}
             </div>
 
             <div className="p-3">
