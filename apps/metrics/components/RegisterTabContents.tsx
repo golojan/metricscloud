@@ -20,15 +20,15 @@ function RegisterTabContents() {
   const [emError, setEmError] = useState<string>('');
   //
 
-  const { data: schoolData, error } = useSWR(
+  const { data: schoolData } = useSWR(
     '/api/schools/list',
     (url) => fetch(url).then((res) => res.json()),
     {
       refreshInterval: 0,
     }
   );
-  const schools: [] = schoolData?.data;
-
+  
+  const schools: SchoolInfo[] = schoolData.schools ? schoolData.schools : [];
 
   const schoolOptions = schools.map((school: SchoolInfo) => ({
     value: school._id,
