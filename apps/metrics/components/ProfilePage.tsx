@@ -6,7 +6,6 @@ import { getProfile } from '../libs/queries';
 import { toMonthDayYear } from '../libs/toDate';
 import { hasAuth } from '../hocs/auth/withAuth';
 
-import useSWR from 'swr';
 import {
   busyAtom,
   publicProfileAtom,
@@ -34,6 +33,7 @@ function ProfilePage() {
 
   if (auth) {
     if (token === profile._id) {
+      alert('its me')
       setIsMe(true);
     }
   }
@@ -156,14 +156,13 @@ function ProfilePage() {
 
               {!isMe ? (
                 <div
-                  className={`ms-auto btn-group ${!auth?'disabled':''}`}
+                  className={`ms-auto btn-group`}
                   role="group"
                   aria-label="Basic checkbox toggle button group"
                 >
                   <input
                     type="checkbox"
                     className="btn-check"
-                    disabled={!auth}
                     id="btnConnect"
                     autoComplete="off"
                     defaultChecked={connected}
