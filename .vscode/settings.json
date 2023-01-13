@@ -1,14 +1,14 @@
 {
   "typescript.tsc.autoDetect": "off",
   "css.lint.unknownAtRules": "ignore",
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.quickSuggestions": {
     "other": true,
     "comments": false,
     "strings": false
   },
-  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "editor.suggest.snippetsPreventQuickSuggestions": true,
   "files.exclude": {
     ".next": true,
     "**/dist": true,

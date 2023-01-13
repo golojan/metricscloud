@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { RefObject, useRef, useState } from 'react';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { AuthUserInfo, SchoolInfo } from '@metricsai/metrics-interfaces';
 import { getProfile } from '../libs/queries';
 import { toMonthDayYear } from '../libs/toDate';
@@ -16,7 +16,7 @@ import { useAtom } from 'jotai';
 
 function ProfilePage() {
   const router = useRouter();
-  const auth:boolean = hasAuth();
+  const auth: boolean = hasAuth();
   const { username } = router.query;
 
   const [token] = useAtom(tokenAtom);
@@ -31,12 +31,13 @@ function ProfilePage() {
   const [connected, setConnected] = useState(false);
   const [isMe, setIsMe] = useState(false);
 
-  if (auth) {
-    if (token === profile._id) {
-      alert('its me')
-      setIsMe(true);
+  useEffect(() => {
+    if (auth) {
+      if (token === profile._id) {
+        setIsMe(true);
+      }
     }
-  }
+  }, [auth]);
 
   const handleConnect = () => {
     const connectButton = connectButtonRef.current;
