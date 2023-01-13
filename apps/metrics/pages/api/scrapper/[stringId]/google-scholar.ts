@@ -43,6 +43,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         
         // get the number from the string
         const totalPub:number = parseInt(aresult[0].replace(/[^0-9]/g, ''));
+        console .log(totalPub);
         
         res.status(200).json({
           status: true,
