@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { ResponseFunctions } from '@metricsai/metrics-interfaces';
 import { dbCon } from '@metricsai/metrics-models';
 
-const bcrypt = require('bcryptjs');
+import bcrypt  from 'bcryptjs'
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,15 +13,18 @@ export default async function handler(
   const handleCase: ResponseFunctions = {
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { Schools, Accounts } = await dbCon();
+
+      console.log('Creating School');
+
       const created = await Schools.create({
-        domain: 'esut.metrics.ng',
+        domain: 'localhost',
         name: 'Enug State University, ESUT',
         shortname: 'ESUT',
       }).catch(catcher);
       if (created) {
         // Encrypt Password//
         const salt = bcrypt.genSaltSync(10);
-        var hashedPassword = bcrypt.hashSync('admin', salt);
+        const hashedPassword = bcrypt.hashSync('admin', salt);
         // Encrypt Password//
         const account = await Accounts.create({
           schoolid: created._id,

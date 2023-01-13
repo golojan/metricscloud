@@ -1,30 +1,34 @@
-import React, { useRef, RefObject, useState, useEffect } from "react";
-import { authLogin } from "../hocs/auth/withAuth";
-import { AccountTypes, Gender,SchoolInfo } from '@metricsai/metrics-interfaces';
-import validator from "validator";
-import { hasSpacialChars } from "../libs/hasSpacialChars";
-import Select from "react-select";
-import { getSchools } from "../libs/queries";
-import { toast } from "react-toastify";
+import React, { useRef, RefObject, useState, useEffect } from 'react';
+import { authLogin } from '../hocs/auth/withAuth';
+import {
+  AccountTypes,
+  Gender,
+  SchoolInfo,
+} from '@metricsai/metrics-interfaces';
+import validator from 'validator';
+import { hasSpacialChars } from '../libs/hasSpacialChars';
+import Select from 'react-select';
+import { toast } from 'react-toastify';
+import useSWR from 'swr';
 
 function RegisterTabContents() {
-  const [done, setDone] = useState<boolean>(true);
   //
   const [unState, setUnState] = useState(false);
   const [emState, setEmState] = useState(false);
 
-  const [unError, setUnError] = useState<string | any>("");
-  const [emError, setEmError] = useState<string | any>("");
+  const [unError, setUnError] = useState<string>('');
+  const [emError, setEmError] = useState<string>('');
   //
-  const [schools, setSchools] = useState<[SchoolInfo]>([{} as SchoolInfo]);
 
-  useEffect(() => {
-    if (done) {
-      getSchools().then((res) => {
-        setSchools(res);
-      });
+  const { data: schoolData, error } = useSWR(
+    '/api/schools',
+    (url) => fetch(url).then((res) => res.json()),
+    {
+      refreshInterval: 0,
     }
-  }, [done]);
+  );
+  const schools: [] = schoolData?.data;
+
 
   const schoolOptions = schools.map((school: SchoolInfo) => ({
     value: school._id,
