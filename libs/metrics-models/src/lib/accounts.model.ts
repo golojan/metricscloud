@@ -67,10 +67,11 @@ const accountsScheme = new mongoose.Schema(
     googleScholarId: { type: String },
     scopusId: { type: String },
     orcidId: { type: String },
-    googlePresence: { type: Number, default: 0 },
+    googlePresence: { type: Boolean, default: false },
     citations: { type: Number, default: 0 },
     hindex: { type: Number, default: 0 },
     i10hindex: { type: Number, default: 0 },
+    totalPublications: { type: Number, default: 0 },
     publications: [{}],
   },
   { timestamps: true }

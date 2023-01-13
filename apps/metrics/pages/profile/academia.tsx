@@ -24,13 +24,13 @@ const Academia: NextPage = ({ token }: any) => {
     e.preventDefault();
     if(scrapped){
       const response = await fetch(
-        `/api/accounts/${token}/update-profile-academia`,
+        `/api/accounts/${token}/update-profile-academia-googlescholar`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ googleScholarId: profile.googleScholarId }),
+          body: JSON.stringify({ googleScholarId: profile.googleScholarId, scrap:gsScrap }),
         }
       );
       const { status } = await response.json();
@@ -58,7 +58,7 @@ const Academia: NextPage = ({ token }: any) => {
   const saveScopusId = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await fetch(
-      `/api/accounts/${token}/update-profile-academia`,
+      `/api/accounts/${token}/update-profile-academia-scopusscholar`,
       {
         method: 'POST',
         headers: {
@@ -82,7 +82,7 @@ const Academia: NextPage = ({ token }: any) => {
   const saveOrcidId = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await fetch(
-      `/api/accounts/${token}/update-profile-academia`,
+      `/api/accounts/${token}/update-profile-academia-orcidscholar`,
       {
         method: 'POST',
         headers: {
