@@ -9,11 +9,11 @@ import { Dispatch, RootState } from '@metricsai/metrics-store';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Login & Create session for a given minutes time
-export const authLogin = ({ token, domain }: Token) => {
+export const authLogin = ({ token, schoolId }: Token) => {
   const expire_time: any = process.env.NEXT_PUBLIC_COOKIE_TIME_IN_MINS || 10;
   const inMinutes = new Date(new Date().getTime() + expire_time * 60 * 1000);
   cookie.set('token', token as string, { expires: inMinutes });
-  cookie.set('domain', domain as string, { expires: inMinutes });
+  cookie.set('schoolId', schoolId as string, { expires: inMinutes });
   Router.push('/dashboard');
 };
 
@@ -23,8 +23,8 @@ const getUserInfo = async (_token: string) => {
   return userinfo;
 };
 
-const getSchoolInfoByDomain = async (domain: string) => {
-  const response = await fetch(`/api/schools/domains/${domain}`);
+const getSchoolInfoById = async (schoolId: string) => {
+  const response = await fetch(`/api/schools/${schoolId}/info}`);
   const school = await response.json();
   return school;
 };
@@ -77,14 +77,13 @@ export const withAuthSync = (WrappedComponent: any) => {
       window.addEventListener('storage', syncLogout);
 
       const token = cookie.get('token');
-      const domain = cookie.get('domain');
+      const schoolId = cookie.get('schoolId');
 
-      if (token && domain) {
+      if (token && schoolId) {
         //
         dispatch.settings.setBusy(true);
         dispatch.settings.setIsLogged(true);
         dispatch.settings.setAccid(token);
-        dispatch.settings.setDomain(domain as string);
         //
         // Get account info to state //
         getUserInfo(token)
@@ -94,10 +93,10 @@ export const withAuthSync = (WrappedComponent: any) => {
           .catch((error) => console.log(error));
         // Get account info to state //
         // ========================== //
-
         // Get school info to state //
-        getSchoolInfoByDomain(domain as string)
+        getSchoolInfoById(schoolId as string)
           .then((school) => {
+            alert(JSON.stringify(school));
             dispatch.settings.setSchool(school.data);
           })
           .catch((error) => console.log(error));

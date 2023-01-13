@@ -425,6 +425,7 @@ export type UserInfo = {
 
 export type Token = {
   domain?: string;
+  schoolId?: string;
   token?: string;
   url?: string;
 };

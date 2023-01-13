@@ -19,14 +19,12 @@ export default async function handler(
       // Get the School info with domain //
       const school = await Schools.findOne({ domain: domain }).catch(catcher);
       if (school) {
-        res
-          .status(200)
-          .json({
-            status: true,
-            domain: domain,
-            schoolid: school._id,
-            data: school,
-          });
+        res.status(200).json({
+          status: true,
+          domain: domain,
+          schoolId: school._id,
+          data: school,
+        });
       } else {
         res.status(400).json({ status: false });
       }

@@ -42,7 +42,12 @@ export default async function handler(
               if (isPasswordValid) {
                 res
                   .status(200)
-                  .json({ status: true, token: account._id, domain: domain });
+                  .json({
+                    status: true,
+                    token: account._id,
+                    domain: domain,
+                    schoolId: account.schoolId,
+                  });
               } else {
                 res.status(400).json({ status: false, domain: domain });
               }

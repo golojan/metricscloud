@@ -17,7 +17,7 @@ const Home: NextPage = () => {
 
   const isloggedin: boolean = hasAuth();
   if (isloggedin) {
-    router.push('/my');
+    router.push('/dashboard');
   }
 
   const [school, setSchool] = useState({
@@ -35,14 +35,14 @@ const Home: NextPage = () => {
   useEffect(() => {
     const domainInfo = async () => {
       const result = await fetch(`/api/schools/info`);
-      const { status, data, domain, schoolid } = await result.json();
+      const { status, data, domain, schoolId } = await result.json();
       if (status) {
         setSchool(data);
         dispatch.settings.setDomain(domain);
-        dispatch.settings.setSchoolId(schoolid);
+        dispatch.settings.setSchoolId(schoolId);
       }
     };
-    domainInfo();
+      domainInfo();
   }, []);
 
   const adminLogon = async (e: React.SyntheticEvent) => {
@@ -56,9 +56,9 @@ const Home: NextPage = () => {
       },
       body: JSON.stringify(logon),
     });
-    const { status, token, domain } = await response.json();
+    const { status, token, schoolId } = await response.json();
     if (status) {
-      authLogin({ token, domain });
+      authLogin({ token, schoolId });
     } else {
       setErrorMsg('Invalid Username and Password.');
     }
