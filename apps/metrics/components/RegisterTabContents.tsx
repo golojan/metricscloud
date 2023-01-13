@@ -1,4 +1,4 @@
-import React, { useRef, RefObject, useState, useEffect } from 'react';
+import React, { useRef, RefObject, useState } from 'react';
 import { authLogin } from '../hocs/auth/withAuth';
 import {
   AccountTypes,
@@ -21,7 +21,7 @@ function RegisterTabContents() {
   //
 
   const { data: schoolData, error } = useSWR(
-    '/api/schools',
+    '/api/schools/list',
     (url) => fetch(url).then((res) => res.json()),
     {
       refreshInterval: 0,
