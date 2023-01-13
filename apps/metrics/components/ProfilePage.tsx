@@ -275,7 +275,7 @@ function ProfilePage() {
               <div className="row d-flex mt-0">
                 <div className="col-12 mb-2 mt-0 text-black text-lg">
                   Google Scholar
-                  <span className="ms-2 material-icons bg-green-700 p-0 md-16 fw-bold text-white rounded-circle ov-icon">
+                  <span className={`ms-2 material-icons bg-${profile.googlePresence?'green':'gray'}-500 p-0 md-16 fw-bold text-white rounded-circle ov-icon`}>
                     done
                   </span>
                 </div>
