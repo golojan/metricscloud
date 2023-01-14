@@ -100,6 +100,39 @@
       },
       "tags": []
     },
+    "metrics-mail": {
+      "root": "libs/metrics-mail",
+      "sourceRoot": "libs/metrics-mail/src",
+      "projectType": "library",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/js:tsc",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/metrics-mail",
+            "main": "libs/metrics-mail/src/index.ts",
+            "tsConfig": "libs/metrics-mail/tsconfig.lib.json",
+            "assets": ["libs/metrics-mail/*.md"]
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/metrics-mail/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+          "options": {
+            "jestConfig": "libs/metrics-mail/jest.config.ts",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
     "metrics-models": {
       "root": "libs/metrics-models",
       "sourceRoot": "libs/metrics-models/src",

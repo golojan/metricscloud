@@ -1,8 +1,9 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
 import { ResponseFunctions } from '@metricsai/metrics-interfaces';
+import { sendMail } from '@metricsai/metrics-mail';
 
-const bcrypt = require("bcryptjs");
+const bcrypt = require('bcryptjs');
 
 export default async function handler(
   req: NextApiRequest,
@@ -25,6 +26,17 @@ export default async function handler(
               account.password
             );
             if (isPasswordValid) {
+              const mailOptions = {
+                from: 'noReply@metrics.ng',
+                fromName: 'Metrics AI',
+                to: account.email,
+                toName: `${account.firstname} ${account.lastname}`,
+                subject: 'Login Notification',
+                text: `You have logged in to your account at ${new Date()}`,
+                html: `<p>You have logged in to your account at ${new Date()}</p>`,
+              };
+              const sent = sendMail(mailOptions);
+              console.log(sent);
               res.status(200).json({
                 status: true,
                 token: account._id,
@@ -32,13 +44,13 @@ export default async function handler(
             } else {
               res
                 .status(400)
-                .json({ status: false, error: "Invalid Login detailes" });
+                .json({ status: false, error: 'Invalid Login detailes' });
               return;
             }
           } else {
             res
               .status(400)
-              .json({ status: false, error: "Invalid Login detailes" });
+              .json({ status: false, error: 'Invalid Login detailes' });
             return;
           }
         })
@@ -47,5 +59,5 @@ export default async function handler(
   };
   const response = handleCase[method];
   if (response) response(req, res);
-  else res.status(400).json({ error: "No Response for This Request" });
+  else res.status(400).json({ error: 'No Response for This Request' });
 }
