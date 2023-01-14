@@ -1,11 +1,11 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
 const AdBox = () => {
   return (
     <>
-      <div className="input-group my-3 shadow-sm rounded-4 min-h-[50px] overflow-hidden bg-gradient-to-b from-[#556c91] to-[#3266af]">
-        <Link href={"#"}>
+      <div className="input-group my-3 shadow-sm min-h-[50px] overflow-hidden bg-gradient-to-b from-[#556c91] to-[#3266af]">
+        <Link href={'#'}>
           <img src="/assets/NUCAdvert.png" className="w-full" alt="Metrics" />
         </Link>
       </div>
@@ -13,13 +13,11 @@ const AdBox = () => {
   );
 };
 
-
-
 const AdBoxSlim = () => {
   return (
     <>
       <div className="input-group my-3 shadow-sm rounded-4 min-h-[50px] overflow-hidden bg-gradient-to-b from-[#556c91] to-[#3266af]">
-        <Link href={"#"}>
+        <Link href={'#'}>
           <img src="/assets/welcome.png" className="w-full" alt="Metrics" />
         </Link>
       </div>
