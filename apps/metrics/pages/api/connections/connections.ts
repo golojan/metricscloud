@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
 import { ResponseFunctions } from '@metricsai/metrics-interfaces';
 
@@ -8,7 +8,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(400).json({ status: false, error: error });
   const handleCase: ResponseFunctions = {
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { token, fromUser, toUser } = req.query;
+      const { fromUser, toUser } = req.query;
 
       const { Connections } = await dbCon();
       const connection = await Connections.findOne({
@@ -17,7 +17,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           { fromUser: toUser, toUser: fromUser },
         ],
       }).catch(catcher);
-
       if (connection) {
         res.status(200).json({
           status: true,
@@ -27,7 +26,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       } else {
         res.status(400).json({
           status: false,
-          error: "No Connection Found",
+          error: 'No Connection Found',
         });
         return;
       }
@@ -38,5 +37,5 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   else
     res
       .status(400)
-      .json({ status: false, error: "No Response for This Request" });
+      .json({ status: false, error: 'No Response for This Request' });
 }

@@ -1,8 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { RefObject, useEffect, useRef, useState } from 'react';
-import { AuthUserInfo, SchoolInfo } from '@metricsai/metrics-interfaces';
-import { getProfile } from '../libs/queries';
 import { toMonthDayYear } from '../libs/toDate';
 import { hasAuth } from '../hocs/auth/withAuth';
 import cookie from 'js-cookie';
@@ -11,7 +9,6 @@ import {
   busyAtom,
   publicProfileAtom,
   schoolsAtom,
-  tokenAtom,
 } from '@metricsai/metrics-store';
 import { useAtom } from 'jotai';
 
@@ -33,11 +30,21 @@ function ProfilePage() {
   const [connected, setConnected] = useState(false);
   const [isMe, setIsMe] = useState(false);
 
+  const { data, isLoading } = useSWR<{
+    status: boolean;
+    connection: any;
+  }>(
+    `/api/connections/connections?fromUser=${token}&toUser${profile._id}`,
+    (url) => fetch(url).then((res) => res.json())
+  );
+  const { status, connections } = data;
+
   useEffect(() => {
     if (auth) {
       if (token === profile._id) {
         setIsMe(true);
       }
+      // Check if the logged user is connected to the user on profile
     }
   }, [auth]);
 
@@ -356,3 +363,9 @@ function ProfilePage() {
 }
 
 export default ProfilePage;
+function useSWR<T>(
+  arg0: string,
+  arg1: (url: any) => Promise<any>
+): { data: any; isLoading: any } {
+  throw new Error('Function not implemented.');
+}
