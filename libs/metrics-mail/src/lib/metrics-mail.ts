@@ -1,9 +1,12 @@
 // Library for sending email via nodemailer and smtp server
 const nodemailer = require('nodemailer');
-
+const handlebars = require('handlebars');
+const fs = require('fs');
 export interface MailOptions {
   from: string;
+  fromName: string;
   to: string;
+  toName: string;
   subject: string;
   text: string;
   html: string;
@@ -21,7 +24,16 @@ export const transporter = nodemailer.createTransport({
 });
 
 // send mail with defined transport object
-export const sendMail = (mailOptions: MailOptions) => {
+export const sendMail = (templatename: string, mailOptions: MailOptions) => {
+  const source = fs.readFileSync(
+    `./templates/${templatename}.template.hbs`,
+    'utf8'
+  );
+  const template = handlebars.compile(source);
+  const html = template({
+    name: mailOptions.toName,
+    email: mailOptions.to,
+  });
   transporter.sendMail(mailOptions, (error: Error, info: any) => {
     if (error) {
       return console.log(error);
