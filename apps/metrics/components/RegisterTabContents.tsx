@@ -20,9 +20,8 @@ function RegisterTabContents() {
   const [emError, setEmError] = useState<string>('');
   //
 
-  const { data: schoolData } = useSWR(
-    '/api/schools/list',
-    (url) => fetch(url).then((res) => res.json())
+  const { data: schoolData } = useSWR('/api/schools/list', (url) =>
+    fetch(url).then((res) => res.json())
   );
 
   const schools: SchoolInfo[] = schoolData?.schools ? schoolData.schools : [];
