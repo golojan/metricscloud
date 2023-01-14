@@ -3,6 +3,8 @@ import Router from 'next/router';
 import nextCookie from 'next-cookies';
 import { getUserName } from '../../libs/queries';
 import cookie from 'js-cookie';
+import { useAtom } from 'jotai';
+import { profileAtom } from '@metricsai/metrics-store';
 
 // Login & Create session for a given minutes time
 export const authLogin = (token: string) => {

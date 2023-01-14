@@ -56,9 +56,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           }
         );
 
-        const minPublicationYear = Math.min(...yresult);
-        const maxPublicationYear = Math.max(...yresult);
-        console.log(yresult);
+        const minPublicationYear: number = Math.min(...yresult);
+        const maxPublicationYear: number = Math.max(...yresult);
+
+        console.log(maxPublicationYear);
 
         // get the number from the string
         const totalPub: number = parseInt(aresult[0].replace(/[^0-9]/g, ''));
@@ -67,8 +68,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           ranking: {
             googlePresence: 1,
             totalPublications: totalPub,
-            firstPublicationYear: minPublicationYear.toString(),
-            lastPublicationYear: maxPublicationYear.toString(),
+            firstPublicationYear: minPublicationYear,
+            lastPublicationYear: maxPublicationYear,
             citations: result[0],
             hindex: result[2],
             i10hindex: result[4],

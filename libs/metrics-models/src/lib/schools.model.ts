@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose';
 
 mongoose.Promise = global.Promise;
 
@@ -49,8 +49,8 @@ const schoolsScheme = new mongoose.Schema(
   { timestamps: true }
 );
 
-if  (mongoose.models.Schools) {
+if (mongoose.models.Schools) {
   delete mongoose.models.Schools;
 }
-const Schools = mongoose.model("Schools", schoolsScheme);
+const Schools = mongoose.model('Schools', schoolsScheme);
 export default Schools;

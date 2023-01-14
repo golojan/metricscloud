@@ -5,24 +5,32 @@ import { withAuth } from '../../hocs/auth/withAuth';
 import { NextPage } from 'next';
 
 import { AuthUserInfo, GSRanking } from '@metricsai/metrics-interfaces';
-import { getProfileInfo } from '../../libs/queries';
 import { toast } from 'react-toastify';
 
+const ProfileInfoByToken = async (token: string) => {
+  const response = await fetch(`/api/accounts/${token}/profile`);
+  const membership = await response.json();
+  if (membership.status) {
+    return membership.data;
+  } else {
+    return {};
+  }
+};
+
 const Academia: NextPage = ({ token }: any) => {
-  
   const [scrapped, setScrapped] = useState<boolean>(false);
   const [gsScrap, setGsScrap] = useState<GSRanking>({});
   const [profile, setProfile] = useState<AuthUserInfo>({});
 
   useEffect(() => {
-    getProfileInfo(token).then((res: AuthUserInfo) => {
+    ProfileInfoByToken(token).then((res: AuthUserInfo) => {
       setProfile(res);
     });
   }, [token]);
 
   const saveGoogleScholarId = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(scrapped){
+    if (scrapped) {
       const response = await fetch(
         `/api/accounts/${token}/update-profile-academia-googlescholar`,
         {
@@ -30,7 +38,10 @@ const Academia: NextPage = ({ token }: any) => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ googleScholarId: profile.googleScholarId, scrap:gsScrap }),
+          body: JSON.stringify({
+            googleScholarId: profile.googleScholarId,
+            scrap: gsScrap,
+          }),
         }
       );
       const { status } = await response.json();
@@ -38,20 +49,32 @@ const Academia: NextPage = ({ token }: any) => {
         toast.success(`Google Scholar ID Updated.`, {
           toastId: 'googleScholarId-update-success',
         });
+        setScrapped(false);
       } else {
         toast.error(`Failed to update Google Scholar ID.`, {
           toastId: 'googleScholarId-update-success',
         });
       }
-    }else{
-      const response = await fetch(`/api/scrapper/${profile.googleScholarId}/google-scholar`);
+    } else {
+      const response = await fetch(
+        `/api/scrapper/${profile.googleScholarId}/google-scholar`
+      );
       const { status, ranking } = await response.json();
-      if(status){
+      if (status) {
+        toast.info(
+          'Google Scholar data retrieved. Please save the data to update your profile.',
+          {
+            toastId: 'scrapped-update-success',
+          }
+        );
         setScrapped(true);
         setGsScrap(ranking);
+      } else {
+        toast.error(`Failed to retrieve Google Scholar data.`, {
+          toastId: 'scrapped-update-success',
+        });
       }
     }
-
   };
 
   const saveScopusId = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -166,7 +189,6 @@ const Academia: NextPage = ({ token }: any) => {
                               Check Google Scholar
                             </button>
                           )}
-
                         </div>
                       </form>
                     </div>

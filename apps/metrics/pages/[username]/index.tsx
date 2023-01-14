@@ -15,42 +15,51 @@ import {
 } from '@metricsai/metrics-store';
 import { useAtom } from 'jotai';
 
+const ProfileInfo = async (username: string) => {
+  const response = await fetch(`/api/${username}/profile`);
+  const membership = await response.json();
+  if (membership.status) {
+    return membership.data;
+  } else {
+    return {};
+  }
+};
+
+const getSchools = async () => {
+  const response = await fetch(`/api/schools/list`);
+  const data = await response.json();
+  if (data.status) {
+    return data.schools;
+  } else {
+    return [];
+  }
+};
+
 const Home: NextPage = () => {
   const [busy, setBusy] = useAtom(busyAtom);
   // Get the router object
   const router = useRouter();
   const { username } = router.query;
-  // Determine if the user is authenticated or not
-  const { data: profile, isLoading: profileBusy } = useSWR<{
-    status: boolean;
-    data: AuthUserInfo;
-  }>(`/api/${username}/profile`, (url) => fetch(url).then((res) => res.json()));
-  const [publicProfile, setPublicProfile] = useAtom(publicProfileAtom);
-  const _status = profile?.status;
 
-  // const [schools, setSchools] = useState<>(false);
-  const { data: dataschools, isLoading: schoolbusy } = useSWR<{
-    status: boolean;
-    schools: SchoolInfo[];
-  }>(`/api/schools/list`, (url) => fetch(url).then((res) => res.json()));
-  const [schools, setSchools] = useAtom(schoolsAtom);
+  const [publicProfile, setPublicProfile] = useAtom(publicProfileAtom);
+  const [_, setSchools] = useAtom(schoolsAtom);
 
   useEffect(() => {
     setBusy(true);
-    if (!profileBusy && profile) {
-      setPublicProfile(profile.data);
-    }
-    if (!schoolbusy && dataschools) {
-      setSchools(dataschools.schools);
-    }
+    ProfileInfo(username as string).then((res) => {
+      setPublicProfile(res);
+    });
+    getSchools().then((res) => {
+      setSchools(res);
+    });
     setBusy(false);
-  }, [username, profileBusy, schoolbusy, _status]);
+  }, [username]);
 
   return (
     <PublicLayout>
       {/* Head component with a title */}
       <Head>
-        {_status ? (
+        {publicProfile ? (
           <title>{`${publicProfile?.firstname} ${publicProfile?.lastname} @ MetricsAI`}</title>
         ) : (
           <title>{`Profiles@MetricsAI`}</title>
@@ -59,7 +68,13 @@ const Home: NextPage = () => {
       <main className="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
         <div className="main-content">
           <div className="tab-content" id="pills-tabContent">
-            {busy ? 'Busy...' : _status ? <ProfilePage /> : <NoProfilePage />}
+            {busy ? (
+              'Busy...'
+            ) : publicProfile?._id ? (
+              <ProfilePage />
+            ) : (
+              <NoProfilePage />
+            )}
           </div>
         </div>
       </main>

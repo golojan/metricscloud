@@ -1,31 +1,44 @@
-import React, { useEffect, useState } from "react";
-import Layout from "../../components/Layout";
+import React, { useEffect, useState } from 'react';
+import Layout from '../../components/Layout';
 
-import { withAuth } from "../../hocs/auth/withAuth";
-import { NextPage } from "next";
+import { withAuth } from '../../hocs/auth/withAuth';
+import { NextPage } from 'next';
 import { AuthUserInfo } from '@metricsai/metrics-interfaces';
-import { getProfileInfo } from "../../libs/queries";
+import { toast } from 'react-toastify';
+
+const ProfileInfoByToken = async (token: string) => {
+  const response = await fetch(`/api/accounts/${token}/profile`);
+  const membership = await response.json();
+  if (membership.status) {
+    return membership.data;
+  } else {
+    return {};
+  }
+};
 
 const Notifications: NextPage = ({ token }: any) => {
-  const [profile, setProfile] = useState<AuthUserInfo>({});
+  const [notification, setNotification] = useState<{
+    smsNotification: boolean;
+    emailNotification: boolean;
+  }>({
+    smsNotification: false,
+    emailNotification: false,
+  });
 
   useEffect(() => {
-    getProfileInfo(token).then((res: AuthUserInfo) => {
-      setProfile(res);
+    ProfileInfoByToken(token).then((res: AuthUserInfo) => {
+      setNotification({
+        smsNotification: res.smsNotification,
+        emailNotification: res.emailNotification,
+      });
     });
   }, [token]);
 
   const handleSettings = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setProfile({
-        ...profile,
-        [e.target.name]: true,
-      });
+      setNotification({ ...notification, [e.target.name]: true });
     } else {
-      setProfile({
-        ...profile,
-        [e.target.name]: false,
-      });
+      setNotification({ ...notification, [e.target.name]: false });
     }
   };
 
@@ -34,18 +47,23 @@ const Notifications: NextPage = ({ token }: any) => {
     const response = await fetch(
       `/api/accounts/${token}/update-profile-settings`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          smsNotification: profile.smsNotification,
-          emailNotification: profile.emailNotification,
-        }),
+        body: JSON.stringify(notification),
       }
     );
     const { status } = await response.json();
-    alert(status);
+    if (status) {
+      toast.success(`Notification Information Updated.`, {
+        toastId: 'notification-update-success',
+      });
+    } else {
+      toast.error(`Failed to update Notification Information.`, {
+        toastId: 'notification-update-success',
+      });
+    }
   };
 
   return (
@@ -58,8 +76,7 @@ const Notifications: NextPage = ({ token }: any) => {
                 <div className="bg-white p-4 feed-item rounded-4 shadow-sm faq-page">
                   <div className="mb-3">
                     <h5 className="lead fw-bold text-body my-2">
-                      Settings and Notification {profile.emailNotification}{" "}
-                      {profile.smsNotification}
+                      Settings and Notification
                     </h5>
                     <p className="mb-0">
                       Adjust your settings and notification preferences.
@@ -78,8 +95,7 @@ const Notifications: NextPage = ({ token }: any) => {
                                 type="checkbox"
                                 id="emailNotification"
                                 name="emailNotification"
-                                checked={profile.emailNotification}
-                                value={1}
+                                checked={notification.emailNotification}
                                 onChange={handleSettings}
                               />
                             </span>
@@ -92,8 +108,7 @@ const Notifications: NextPage = ({ token }: any) => {
                                 type="checkbox"
                                 id="smsNotification"
                                 name="smsNotification"
-                                checked={profile.smsNotification}
-                                value={1}
+                                checked={notification.smsNotification}
                                 onChange={handleSettings}
                               />
                             </span>

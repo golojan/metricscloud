@@ -10,7 +10,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
       const { token } = req.query;
       const { googleScholarId, scrap } = req.body;
-      const { totalPublications, citations, hindex, i10hindex } = scrap;
+      const {
+        totalPublications,
+        citations,
+        hindex,
+        i10hindex,
+        firstPublicationYear,
+        lastPublicationYear,
+      } = scrap;
 
       const { Accounts } = await dbCon();
 
@@ -23,6 +30,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           hindex: hindex,
           i10hindex: i10hindex,
           googlePresence: 1,
+          firstPublicationYear: firstPublicationYear,
+          lastPublicationYear: lastPublicationYear,
         }
       ).catch(catcher);
       if (saved) {

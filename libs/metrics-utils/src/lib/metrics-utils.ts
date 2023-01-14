@@ -49,6 +49,13 @@ export const perc = (num: number, total: number) => {
   return ((num / total) * 100).toFixed(2);
 };
 
+export const getConnections = async (fromUser: string, toUse: string) => {
+  const response = await fetch(
+    `/api/accounts/${fromUser}/connections?fromUser=${fromUser}&toUser=${toUse}`
+  );
+  const userinfo = await response.json();
+  return userinfo;
+};
 
 export const genPassword = (length: number = 5) => {
   const charset =
@@ -103,6 +110,16 @@ export const getAccountInfo = async (_token: string) => {
   const response = await fetch(`/api/accounts/${_token}/info`);
   const userinfo = await response.json();
   return userinfo;
+};
+
+export const getProfileInfo = async (token: string) => {
+  const response = await fetch(`/api/accounts/${token}/profile`);
+  const membership = await response.json();
+  if (membership.status) {
+    return membership.data;
+  } else {
+    return {};
+  }
 };
 
 export const getSchools = async () => {

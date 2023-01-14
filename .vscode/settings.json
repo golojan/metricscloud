@@ -28,5 +28,8 @@
     "plaintext": false,
     "markdown": true,
     "javascript": true
+  },
+  "[dotenv]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
   }
 }

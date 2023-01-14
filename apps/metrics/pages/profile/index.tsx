@@ -1,24 +1,55 @@
-import React, { RefObject, useEffect, useRef, useState } from "react";
-import Layout from "../../components/Layout";
+import React, { RefObject, useEffect, useRef, useState } from 'react';
+import Layout from '../../components/Layout';
 
-import { withAuth } from "../../hocs/auth/withAuth";
-import { NextPage } from "next";
+import { withAuth } from '../../hocs/auth/withAuth';
+import { NextPage } from 'next';
 
 import { AccountTypes, Gender } from '@metricsai/metrics-interfaces';
 import { AuthUserInfo } from '@metricsai/metrics-interfaces';
-import { getProfileInfo } from "../../libs/queries";
 
-import validator from "validator";
-import { hasSpacialChars } from "../../libs/hasSpacialChars";
-import { toast } from "react-toastify";
+import validator from 'validator';
+import { hasSpacialChars } from '../../libs/hasSpacialChars';
+import { toast } from 'react-toastify';
+import {
+  busyAtom,
+  profileAtom,
+  publicProfileAtom,
+  schoolsAtom,
+} from '@metricsai/metrics-store';
+import { useAtom } from 'jotai';
+
+const ProfileInfoByToken = async (token: string) => {
+  const response = await fetch(`/api/accounts/${token}/profile`);
+  const membership = await response.json();
+  if (membership.status) {
+    return membership.data;
+  } else {
+    return {};
+  }
+};
+
+const getSchools = async () => {
+  const response = await fetch(`/api/schools/list`);
+  const data = await response.json();
+  if (data.status) {
+    return data.schools;
+  } else {
+    return [];
+  }
+};
 
 const EditProfile: NextPage = ({ token }: any) => {
   // Username Processing System //
 
+  const [busy, setBusy] = useAtom(busyAtom);
+
+  const [profile, setProfile] = useAtom(profileAtom);
+  const [_, setSchools] = useAtom(schoolsAtom);
+
   const [bioCount, setBioCount] = useState<number>(0);
 
   const [unState, setUnState] = useState(false);
-  const [unError, setUnError] = useState<string | any>("");
+  const [unError, setUnError] = useState<string | any>('');
   const usernameRef: RefObject<HTMLInputElement> =
     useRef<HTMLInputElement>(null);
   const buttonRef: RefObject<HTMLButtonElement> =
@@ -30,10 +61,10 @@ const EditProfile: NextPage = ({ token }: any) => {
   const aboutMeLength = process.env.NEXT_PUBLIC_ABOUT_ME_LENGTH || 200;
 
   const busyURef = () => {
-    setUnError("Checking...");
+    setUnError('Checking...');
     if (usernameRef.current) {
       usernameRef.current.className =
-        "form-control rounded-5 border-5 bg-blue-100 focus:bg-blue-100";
+        'form-control rounded-5 border-5 bg-blue-100 focus:bg-blue-100';
       usernameRef.current.disabled = true;
     }
     if (buttonRef.current) {
@@ -41,10 +72,10 @@ const EditProfile: NextPage = ({ token }: any) => {
     }
   };
   const wrongURef = () => {
-    setUnError("Username is invalid.");
+    setUnError('Username is invalid.');
     if (usernameRef.current) {
       usernameRef.current.className =
-        "form-control rounded-5 border-5 border-red-500  bg-red-200";
+        'form-control rounded-5 border-5 border-red-500  bg-red-200';
       usernameRef.current.disabled = false;
     }
     if (buttonRef.current) {
@@ -52,10 +83,10 @@ const EditProfile: NextPage = ({ token }: any) => {
     }
   };
   const rightURef = () => {
-    setUnError("");
+    setUnError('');
     if (usernameRef.current) {
       usernameRef.current.className =
-        "form-control rounded-5 border-5 border-green-300  bg-green-100";
+        'form-control rounded-5 border-5 border-green-300  bg-green-100';
       usernameRef.current.disabled = false;
     }
     if (buttonRef.current) {
@@ -64,10 +95,10 @@ const EditProfile: NextPage = ({ token }: any) => {
   };
 
   const existURef = () => {
-    setUnError("Username is already in use.");
+    setUnError('Username is already in use.');
     if (usernameRef.current) {
       usernameRef.current.className =
-        "form-control rounded-5 border-5 border-red-300  bg-red-100";
+        'form-control rounded-5 border-5 border-red-300  bg-red-100';
       usernameRef.current.disabled = false;
     }
     if (buttonRef.current) {
@@ -84,17 +115,17 @@ const EditProfile: NextPage = ({ token }: any) => {
       validator.isEmpty(newUsername) ||
       newUsername.length < minUsernameLength ||
       validator.isEmail(newUsername) ||
-      validator.contains(newUsername, "@") ||
+      validator.contains(newUsername, '@') ||
       hasSpacialChars(newUsername)
     ) {
       wrongURef();
       return;
     }
     busyURef();
-    const response = await fetch("/api/accounts/checkusername", {
-      method: "POST",
+    const response = await fetch('/api/accounts/checkusername', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ username: newUsername }),
     });
@@ -109,11 +140,22 @@ const EditProfile: NextPage = ({ token }: any) => {
 
   // Username Processing System //
 
-  const [profile, setProfile] = useState<AuthUserInfo>({});
+  // const [profile, setProfile] = useState<AuthUserInfo>({});
+  // useEffect(() => {
+  //   getProfileInfo(token).then((res: AuthUserInfo) => {
+  //     setProfile(res);
+  //   });
+  // }, [token]);
+
   useEffect(() => {
-    getProfileInfo(token).then((res: AuthUserInfo) => {
+    setBusy(true);
+    ProfileInfoByToken(token as string).then((res: AuthUserInfo) => {
       setProfile(res);
     });
+    getSchools().then((res) => {
+      setSchools(res);
+    });
+    setBusy(false);
   }, [token]);
 
   const handleUsernameUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -121,9 +163,9 @@ const EditProfile: NextPage = ({ token }: any) => {
     const response = await fetch(
       `/api/accounts/${token}/update-profile-username`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username: profile.username }),
       }
@@ -131,11 +173,11 @@ const EditProfile: NextPage = ({ token }: any) => {
     const { status } = await response.json();
     if (status) {
       toast.success(`Username @${profile.username} updated successfully.`, {
-        toastId: "username-update-success",
+        toastId: 'username-update-success',
       });
     } else {
       toast.error(`Failed to update username @${profile.username}.`, {
-        toastId: "username-update-success",
+        toastId: 'username-update-success',
       });
     }
   };
@@ -145,9 +187,9 @@ const EditProfile: NextPage = ({ token }: any) => {
     const response = await fetch(
       `/api/accounts/${token}/update-profile-basics`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(profile),
       }
@@ -155,11 +197,11 @@ const EditProfile: NextPage = ({ token }: any) => {
     const { status } = await response.json();
     if (status) {
       toast.success(`Profile Updated.`, {
-        toastId: "profile-update-success",
+        toastId: 'profile-update-success',
       });
     } else {
       toast.error(`Failed to update Profile.`, {
-        toastId: "profile-update-success",
+        toastId: 'profile-update-success',
       });
     }
   };
@@ -279,11 +321,10 @@ const EditProfile: NextPage = ({ token }: any) => {
                         className="btn-check"
                         id="guest"
                         name="membership"
-                        disabled={true}
-                        value={AccountTypes.GUEST}
+                        value={AccountTypes.ALUMNI}
                         checked={
                           profile.accountType ==
-                          AccountTypes[AccountTypes.GUEST]
+                          AccountTypes[AccountTypes.ALUMNI]
                         }
                         onChange={(e) =>
                           setProfile({
@@ -297,7 +338,7 @@ const EditProfile: NextPage = ({ token }: any) => {
                         className="btn btn-language btn-sm px-2 py-2 rounded-5 d-flex align-items-center justify-content-between"
                       >
                         <span className="text-start d-grid">
-                          <small className="ln-18">I am a Guest</small>
+                          <small className="ln-18">I am an Alumni</small>
                         </span>
                         <span className="material-icons text-muted md-20">
                           check_circle
@@ -513,10 +554,10 @@ const EditProfile: NextPage = ({ token }: any) => {
                               {profile.aboutMe}
                             </textarea>
                             <label htmlFor="aboutMe">
-                              About Me -{" "}
+                              About Me -{' '}
                               <strong className="text-danger">
                                 {bioCount}
-                              </strong>{" "}
+                              </strong>{' '}
                               of {aboutMeLength as number} chars.
                             </label>
                           </div>

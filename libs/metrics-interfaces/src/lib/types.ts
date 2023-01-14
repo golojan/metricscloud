@@ -58,8 +58,8 @@ export interface AuthUserInfo {
   hindex?: number;
   i10hindex?: number;
   totalPublications?: number;
-  firstPublicationYear?: string;
-  lastPublicationYear?: string;
+  firstPublicationYear?: number;
+  lastPublicationYear?: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -163,8 +163,8 @@ export type GSRanking = {
   hindex?: number;
   i10hindex?: number;
   totalPublications?: number;
-  firstPublicationYear?: string;
-  lastPublicationYear?: string;
+  firstPublicationYear?: number;
+  lastPublicationYear?: number;
 };
 
 export type SchoolRank = {

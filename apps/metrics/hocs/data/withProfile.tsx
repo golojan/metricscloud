@@ -1,8 +1,8 @@
 // HOC
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import { AuthUserInfo } from '@metricsai/metrics-interfaces';
-import { getUserInfo } from "../../libs/queries";
-const cookie = require("js-cookie");
+import { getUserInfo } from '../../libs/queries';
+const cookie = require('js-cookie');
 
 const withProfile = <P extends object>(
   WrappedComponent: React.ComponentType<P>
@@ -12,7 +12,7 @@ const withProfile = <P extends object>(
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
-      const token = cookie.get("token");
+      const token = cookie.get('token');
       if (token) {
         setLoading(true);
         getUserInfo(token).then((res) => {

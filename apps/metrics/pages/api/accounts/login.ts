@@ -35,8 +35,8 @@ export default async function handler(
                 text: `You have logged in to your account at ${new Date()}`,
                 html: `<p>You have logged in to your account at ${new Date()}</p>`,
               };
-              const sent = sendMail('welcome', mailOptions);
-              console.log(sent);
+              // const sent = sendMail('welcome', mailOptions);
+              // console.log(sent);
               res.status(200).json({
                 status: true,
                 token: account._id,

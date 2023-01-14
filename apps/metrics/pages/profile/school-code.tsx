@@ -1,16 +1,34 @@
-import React, { useEffect, useState } from "react";
-import Layout from "../../components/Layout";
+import React, { useEffect, useState } from 'react';
+import Layout from '../../components/Layout';
 
-import { withAuth } from "./../../hocs/auth/withAuth";
-import { NextPage } from "next";
+import { withAuth } from './../../hocs/auth/withAuth';
+import { NextPage } from 'next';
 
 import { AuthUserInfo, SchoolInfo } from '@metricsai/metrics-interfaces';
-import { getProfileInfo, getSchools } from "./../../libs/queries";
-import Select from "react-select";
-import { toast } from "react-toastify";
+import Select from 'react-select';
+import { toast } from 'react-toastify';
+
+const ProfileInfoByToken = async (token: string) => {
+  const response = await fetch(`/api/accounts/${token}/profile`);
+  const membership = await response.json();
+  if (membership.status) {
+    return membership.data;
+  } else {
+    return {};
+  }
+};
+
+const getSchools = async () => {
+  const response = await fetch(`/api/schools/list`);
+  const data = await response.json();
+  if (data.status) {
+    return data.schools;
+  } else {
+    return [];
+  }
+};
 
 const SchoolCode: NextPage = ({ token }: any) => {
-
   const [schools, setSchools] = useState<[SchoolInfo]>([{} as SchoolInfo]);
   const [profile, setProfile] = useState<AuthUserInfo>({});
 
@@ -20,7 +38,7 @@ const SchoolCode: NextPage = ({ token }: any) => {
   }));
 
   useEffect(() => {
-    getProfileInfo(token).then((res: AuthUserInfo) => {
+    ProfileInfoByToken(token).then((res: AuthUserInfo) => {
       setProfile(res);
     });
     getSchools().then((res) => {
@@ -33,9 +51,9 @@ const SchoolCode: NextPage = ({ token }: any) => {
     const response = await fetch(
       `/api/accounts/${token}/update-profile-school-code`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(profile),
       }
@@ -43,11 +61,11 @@ const SchoolCode: NextPage = ({ token }: any) => {
     const { status } = await response.json();
     if (status) {
       toast.success(`School Code Updated.`, {
-        toastId: "school-code-update-success",
+        toastId: 'school-code-update-success',
       });
     } else {
       toast.error(`Failed to update School Code.`, {
-        toastId: "school-code-update-success",
+        toastId: 'school-code-update-success',
       });
     }
   };
@@ -57,9 +75,9 @@ const SchoolCode: NextPage = ({ token }: any) => {
     const response = await fetch(
       `/api/accounts/${token}/update-profile-school-information`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           schoolId: profile.schoolId,
@@ -70,11 +88,11 @@ const SchoolCode: NextPage = ({ token }: any) => {
     const { status } = await response.json();
     if (status) {
       toast.success(`School Information Updated.`, {
-        toastId: "schoolinfo-update-success",
+        toastId: 'schoolinfo-update-success',
       });
     } else {
       toast.error(`Failed to update School Information.`, {
-        toastId: "schoolinfo-update-success",
+        toastId: 'schoolinfo-update-success',
       });
     }
   };

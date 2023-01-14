@@ -15,7 +15,7 @@ function RightColumn() {
   return (
     <>
       <div className="fix-sidebar">
-        <div className="side-trend lg-none">
+        <div className="side-trend sm-none xs-none md-none">
           <div className="sticky-sidebar2 mb-3">
             <>
               {token ? <SearchBar /> : null}

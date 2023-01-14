@@ -3,12 +3,11 @@ import { useRouter } from 'next/router';
 import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { toMonthDayYear } from '../libs/toDate';
 import { hasAuth } from '../hocs/auth/withAuth';
-import cookie from 'js-cookie';
 
 import {
-  busyAtom,
   publicProfileAtom,
   schoolsAtom,
+  tokenAtom,
 } from '@metricsai/metrics-store';
 import { useAtom } from 'jotai';
 
@@ -17,51 +16,40 @@ function ProfilePage() {
   const auth: boolean = hasAuth();
   const { username } = router.query;
 
-  const token = cookie.get('token');
+  const [token] = useAtom(tokenAtom);
 
-  const [busy] = useAtom(busyAtom);
-  const [profile] = useAtom(publicProfileAtom);
+  const [profile, setProfile] = useAtom(publicProfileAtom);
   const [schools] = useAtom(schoolsAtom);
 
   const connectButtonRef: RefObject<HTMLInputElement> =
     useRef<HTMLInputElement>(null);
 
   // Set the connection on and off //
-  const [connected, setConnected] = useState(false);
+  const [connections, setConnections] = useState(false);
   const [isMe, setIsMe] = useState(false);
-
-  const { data, isLoading } = useSWR<{
-    status: boolean;
-    connection: any;
-  }>(
-    `/api/connections/connections?fromUser=${token}&toUser${profile._id}`,
-    (url) => fetch(url).then((res) => res.json())
-  );
-  const { status, connections } = data;
 
   useEffect(() => {
     if (auth) {
       if (token === profile._id) {
         setIsMe(true);
       }
-      // Check if the logged user is connected to the user on profile
     }
-  }, [auth]);
+  }, [token]);
 
-  const handleConnect = () => {
-    const connectButton = connectButtonRef.current;
-    if (connectButton) {
-      if (connectButton.checked) {
-        connectButton.parentElement?.classList.add('active');
-        connectButton.parentElement?.classList.remove('inactive');
-        setConnected(false);
-      } else {
-        connectButton.parentElement?.classList.remove('active');
-        connectButton.parentElement?.classList.add('inactive');
-        setConnected(false);
-      }
-    }
-  };
+  // const handleConnect = () => {
+  //   const connectButton = connectButtonRef.current;
+  //   if (connectButton) {
+  //     if (connectButton.checked) {
+  //       connectButton.parentElement?.classList.add('active');
+  //       connectButton.parentElement?.classList.remove('inactive');
+  //       setConnected(false);
+  //     } else {
+  //       connectButton.parentElement?.classList.remove('active');
+  //       connectButton.parentElement?.classList.add('inactive');
+  //       setConnected(false);
+  //     }
+  //   }
+  // };
 
   return (
     <>
@@ -164,7 +152,7 @@ function ProfilePage() {
                 <p className="text-muted mb-0">{`@${profile.username}`}</p>
               </div>
 
-              {isMe ? null : (
+              {/* {isMe ? null : (
                 <div
                   className={`ms-auto btn-group`}
                   role="group"
@@ -188,7 +176,7 @@ function ProfilePage() {
                     <span className="following d-none">connected</span>
                   </label>
                 </div>
-              )}
+              )} */}
             </div>
 
             <div className="p-3">
@@ -326,7 +314,15 @@ function ProfilePage() {
               </div>
               <hr />
               <div className="row d-flex mt-0">
-                <div className="col-3 text-center">
+                <div className="col-4 text-center">
+                  <div className="m-0 p-0 h2 text-center">
+                    {profile.totalPublications ? profile.totalPublications : 0}
+                    <sup>+</sup>
+                  </div>
+                  <em>Publications</em>
+                </div>
+
+                <div className="col-4 text-center">
                   <div className="m-0 p-0 h2 text-center">
                     {profile.firstPublicationYear
                       ? profile.firstPublicationYear
@@ -335,27 +331,13 @@ function ProfilePage() {
                   <em>First Publication</em>
                 </div>
 
-                <div className="col-3 text-center">
+                <div className="col-4 text-center">
                   <div className="m-0 p-0 h2 text-center">
                     {profile.lastPublicationYear
                       ? profile.lastPublicationYear
                       : '-'}
                   </div>
                   <em>First Publication</em>
-                </div>
-
-                <div className="col-3 text-center">
-                  <div className="m-0 p-0 h2 text-center">
-                    {profile.totalPublications
-                      ? profile.lastPublicationYear
-                      : 0}
-                  </div>
-                  <em>Publications</em>
-                </div>
-
-                <div className="col-3 text-center">
-                  <div className="m-0 p-0 h2 text-center">0</div>
-                  <em>Citations/Per-Capita</em>
                 </div>
               </div>
             </div>

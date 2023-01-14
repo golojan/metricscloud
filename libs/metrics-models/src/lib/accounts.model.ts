@@ -72,10 +72,11 @@ const accountsScheme = new mongoose.Schema(
     hindex: { type: Number, default: 0 },
     i10hindex: { type: Number, default: 0 },
     totalPublications: { type: Number, default: 0 },
-    minPublicationYear: { type: String, default: '-' },
-    maxPublicationYear: { type: String, default: '-' },
+    firstPublicationYear: { type: Number },
+    lastPublicationYear: { type: Number },
     publications: [{}],
   },
+
   { timestamps: true }
 );
 
