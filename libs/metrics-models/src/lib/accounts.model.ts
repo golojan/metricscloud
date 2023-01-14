@@ -9,6 +9,10 @@ const accountsScheme = new mongoose.Schema(
       type: String,
       unique: true,
     },
+    verified: {
+      type: Boolean,
+      unique: false,
+    },
     schoolId: {
       type: String,
     },

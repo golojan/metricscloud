@@ -10,6 +10,7 @@ import {
   tokenAtom,
 } from '@metricsai/metrics-store';
 import { useAtom } from 'jotai';
+import { GSStatus, UserStatus } from './Status';
 
 function ProfilePage() {
   const router = useRouter();
@@ -144,10 +145,7 @@ function ProfilePage() {
               />
               <div className="ms-3 clear-both">
                 <h6 className="mb-0 d-flex align-items-start text-body fs-6 fw-bold">
-                  {` ${profile.lastname} ${profile.firstname} `}
-                  <span className="ms-2 material-icons bg-green-700 p-0 md-16 fw-bold text-white rounded-circle ov-icon">
-                    done
-                  </span>
+                  {` ${profile.lastname} ${profile.firstname} `} <UserStatus />
                 </h6>
                 <p className="text-muted mb-0">{`@${profile.username}`}</p>
               </div>
@@ -281,12 +279,7 @@ function ProfilePage() {
               <hr className="mb-2" />
               <div className="row d-flex mt-0">
                 <div className="col-12 mb-2 mt-0 text-black text-lg">
-                  Google Scholar
-                  <span
-                    className={`ms-2 material-icons bg-red-500 p-0 md-16 fw-bold text-white rounded-circle ov-icon`}
-                  >
-                    done
-                  </span>
+                  Google Scholar <GSStatus />
                 </div>
                 <div className="col-3 text-center">
                   <div className="m-0 p-0 h2 text-center">
@@ -337,7 +330,7 @@ function ProfilePage() {
                       ? profile.lastPublicationYear
                       : '-'}
                   </div>
-                  <em>First Publication</em>
+                  <em>Last Publication</em>
                 </div>
               </div>
             </div>
