@@ -328,21 +328,27 @@ function ProfilePage() {
               <div className="row d-flex mt-0">
                 <div className="col-3 text-center">
                   <div className="m-0 p-0 h2 text-center">
-                    {profile.firstPublicationYear}
+                    {profile.firstPublicationYear
+                      ? profile.firstPublicationYear
+                      : '-'}
                   </div>
                   <em>First Publication</em>
                 </div>
 
                 <div className="col-3 text-center">
                   <div className="m-0 p-0 h2 text-center">
-                    {profile.lastPublicationYear}
+                    {profile.lastPublicationYear
+                      ? profile.lastPublicationYear
+                      : '-'}
                   </div>
                   <em>First Publication</em>
                 </div>
 
                 <div className="col-3 text-center">
                   <div className="m-0 p-0 h2 text-center">
-                    {profile.totalPublications}
+                    {profile.totalPublications
+                      ? profile.lastPublicationYear
+                      : 0}
                   </div>
                   <em>Publications</em>
                 </div>
