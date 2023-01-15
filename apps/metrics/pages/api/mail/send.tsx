@@ -1,0 +1,82 @@
+import { NextApiRequest, NextApiResponse } from 'next';
+import { dbCon } from '@metricsai/metrics-models';
+import { ResponseFunctions } from '@metricsai/metrics-interfaces';
+
+const nodemailer = require('nodemailer');
+
+// Create reusable transporter object using the default SMTP transport
+// const transporter = nodemailer.createTransport({
+//   host: 'in-v3.mailjet.com',
+//   port: 587,
+//   auth: {
+//     user: '84912638d615c7fab87f10066ddfc934', // generated ethereal user
+//     pass: 'abf622807081550b330301532e319126', // generated ethereal password
+//   },
+// });
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.ethereal.email',
+  port: 587,
+  auth: {
+    user: 'jermaine.pfeffer@ethereal.email',
+    pass: 'HeprrJPgzgGZ3ZMT31',
+  },
+});
+// const mailOptions = {
+//   from: 'noReply@metrics.ng',
+//   fromName: 'Metrics AI',
+//   to: account.email,
+//   toName: `${account.firstname} ${account.lastname}`,
+//   subject: 'Login Notification',
+//   text: `You have logged in to your account at ${new Date()}`,
+//   html: `<p>You have logged in to your account at ${new Date()}</p>`,
+// };
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
+  const catcher = (error: Error) => res.status(400).json({ error });
+  const handleCase: ResponseFunctions = {
+    POST: async (req: NextApiRequest, res: NextApiResponse) => {
+      const { toEmail, toName, sebject, htmlBody } = req.body;
+      const trx = transporter.sendMail(
+        {
+          from: 'noReply@metrics.ng',
+          fromName: 'Metrics AI',
+          to: toEmail,
+          toName: `${toName}`,
+          subject: `${sebject}`,
+          text: `${htmlBody}`,
+          html: `${htmlBody}</p>`,
+        },
+        (error: Error, info: any) => {
+          if (error) {
+            return console.log(error);
+          }
+          console.log('Message sent: %s', info.messageId);
+          // Preview only available when sending through an Ethereal account
+          console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+        }
+      );
+      if (trx) {
+        res.status(200).json({
+          status: true,
+          message: {
+            toEmail: toEmail,
+            toName: toName,
+            sebject: sebject,
+            htmlBody: htmlBody,
+            status: trx,
+          },
+        });
+      } else {
+        res.status(400).json({ status: false, err: 'Failed to send mail' });
+      }
+    },
+  };
+  const response = handleCase[method];
+  if (response) response(req, res);
+  else res.status(400).json({ error: 'No Response for This Request' });
+}
