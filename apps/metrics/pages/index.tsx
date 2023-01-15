@@ -55,7 +55,7 @@ const Home: NextPage = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        toEmail: 'agu.chux@yahoo.com',
+        toEmail: 'agu.chux@gmail.com',
         toName: 'Agu Chux',
         subject: 'Testing Email',
         htmlBody: 'We are testing emails and other stuffs...',

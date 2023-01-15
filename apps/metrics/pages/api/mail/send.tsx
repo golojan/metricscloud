@@ -40,29 +40,24 @@ export default async function handler(
                 },
               ],
               Subject: `${sebject}`,
-              TextPart:
-                'Dear passenger 1, welcome to Mailjet! May the delivery force be with you!',
-              HTMLPart: `<h3>Dear passenger 1, welcome to <a href="https://www.mailjet.com/">Mailjet</a>!</h3><br />May the delivery force be with you! ${htmlBody}`,
+              TextPart: `${htmlBody}`,
             },
           ],
         })
         .then((result) => {
-          console.log(result.body);
           res.status(200).json({
             status: true,
             message: {
-              toEmail: toEmail,
-              toName: toName,
-              sebject: sebject,
-              htmlBody: htmlBody,
               status: result.body,
             },
           });
+          return;
         })
         .catch((err) => {
-          console.log(err.statusCode);
+          res.status(400).json({ status: false, err: err.statusCode });
+          return;
         });
-      res.status(400).json({ status: false, err: 'Failed to send mail' });
+      return;
     },
   };
   const response = handleCase[method];
