@@ -41,7 +41,9 @@ export default async function handler(
   const handleCase: ResponseFunctions = {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
       const { toEmail, toName, sebject, htmlBody } = req.body;
-      const trx = transporter.sendMail(
+
+      //
+      transporter.sendMail(
         {
           from: 'noReply@metrics.ng',
           fromName: 'Metrics AI',
@@ -55,25 +57,22 @@ export default async function handler(
           if (error) {
             return console.log(error);
           }
-          console.log('Message sent: %s', info.messageId);
+          //   console.log('Message sent: %s', info.messageId);
           // Preview only available when sending through an Ethereal account
-          console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+          //   console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+          res.status(200).json({
+            status: true,
+            message: {
+              toEmail: toEmail,
+              toName: toName,
+              sebject: sebject,
+              htmlBody: htmlBody,
+              status: info.messageId,
+            },
+          });
         }
       );
-      if (trx) {
-        res.status(200).json({
-          status: true,
-          message: {
-            toEmail: toEmail,
-            toName: toName,
-            sebject: sebject,
-            htmlBody: htmlBody,
-            status: trx,
-          },
-        });
-      } else {
-        res.status(400).json({ status: false, err: 'Failed to send mail' });
-      }
+      res.status(400).json({ status: false, err: 'Failed to send mail' });
     },
   };
   const response = handleCase[method];
