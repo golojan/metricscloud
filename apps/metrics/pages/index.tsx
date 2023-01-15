@@ -37,7 +37,6 @@ const Home: NextPage = () => {
   const auth = hasAuth();
   const [page, setPage] = useAtom(pageAtom);
   const [profile, setProfile] = useAtom(profileAtom);
-  const [mailout, setMailout] = useAtom(profileAtom);
 
   useEffect(() => {
     setPage('home');
@@ -47,25 +46,6 @@ const Home: NextPage = () => {
       });
     }
   }, []);
-
-  const senOutMail = () => {
-    fetch('/api/mail/send', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        toEmail: 'agu.chux@yahoo.com',
-        toName: 'Agu Chux',
-        subject: 'Testing Email',
-        htmlBody: 'We are testing emails and other stuffs...',
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        setMailout(res.message);
-      });
-  };
 
   return (
     <Layout>
@@ -92,10 +72,6 @@ const Home: NextPage = () => {
                 <div className="feeds">
                   <AdBox />
                   <AdBoxMidium />
-                  <div className="text-center justify-items-center">
-                    <button onClick={senOutMail}>Mail Out Test</button>
-                    <p>{JSON.stringify(mailout)}</p>
-                  </div>
                 </div>
               </>
             )}
