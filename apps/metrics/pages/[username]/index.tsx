@@ -60,6 +60,7 @@ const Home: NextPage = () => {
   const [page, setPage] = useAtom(pageAtom);
   const [publicProfile, setPublicProfile] = useAtom(publicProfileAtom);
   const [_, setSchools] = useAtom(schoolsAtom);
+  const [isScrolling, setIsScrolling] = useState(false);
 
   useEffect(() => {
     setPage('metrics');
@@ -102,11 +103,13 @@ const Home: NextPage = () => {
                     style={{ height: '800px' }}
                     data={postFeeds}
                     totalCount={postFeeds?.length}
+                    isScrolling={setIsScrolling}
                     itemContent={(index, post) => (
                       <PostFeed
                         key={index}
                         username={username as string}
                         post={post}
+                        isScrolling={isScrolling}
                       />
                     )}
                   />

@@ -19,9 +19,12 @@ import CommentsFeedItem from './CommentsFeedItem';
 import { Virtuoso } from 'react-virtuoso';
 import { Components } from 'react-virtuoso';
 
+import avatar from '/img/rmate2.jpg';
+
 interface PostFeedProps {
   username: string;
   post: IPostFeed;
+  isScrolling: boolean;
 }
 
 const ProfileInfo = async (username: string) => {
@@ -290,9 +293,6 @@ function PostFeed(props: PostFeedProps) {
                   {comments.slice(0, currentPosition).map((comment) => (
                     <CommentsFeedItem key={comment._id} commentInfo={comment} />
                   ))}
-                  <Link onClick={loadMore} href="#">
-                    Load More
-                  </Link>
                 </div>
               </div>
             </div>

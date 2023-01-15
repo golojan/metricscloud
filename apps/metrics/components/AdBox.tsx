@@ -20,11 +20,7 @@ const AdBox = () => {
 const AdBoxSlim = () => {
   return (
     <>
-      <div className="input-group my-3 shadow-sm rounded-4 min-h-[50px] overflow-hidden bg-gradient-to-b from-[#556c91] to-[#3266af]">
-        <Link href={'#'}>
-          <img src="/assets/welcome.png" className="w-full" alt="Metrics" />
-        </Link>
-      </div>
+      <div className="input-group my-3 shadow-sm rounded-4 min-h-[50px] overflow-hidden bg-gradient-to-b from-[#556c91] to-[#3266af] relative p-2"></div>
     </>
   );
 };

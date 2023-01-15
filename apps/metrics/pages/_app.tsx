@@ -1,14 +1,17 @@
-import type { AppProps } from "next/app";
-import Script from "next/script";
-import Head from "next/head";
+import type { AppProps } from 'next/app';
+import Script from 'next/script';
+import Head from 'next/head';
 
 // Import css files
 
-import "../styles/globals.scss";
+import '../styles/globals.scss';
 import { Provider as JotaiProvider } from 'jotai';
 import { ToastContainer } from 'react-toastify';
+import { RefObject, useEffect, useRef } from 'react';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const hashed: RefObject<HTMLAnchorElement> = useRef<HTMLAnchorElement>(null);
+
   return (
     <>
       <Head>

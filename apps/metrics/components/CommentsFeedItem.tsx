@@ -2,6 +2,8 @@ import { AuthUserInfo, IPostComment } from '@metricsai/metrics-interfaces';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { timeAgo } from '../libs/toDate';
+import { authToken } from '../hocs/auth/withAuth';
+import { toast } from 'react-toastify';
 
 type TCommentFeed = {
   commentInfo?: IPostComment;
@@ -18,9 +20,63 @@ const fromUserInfo = async (token: string) => {
 };
 
 const CommentsFeedItem = (props: TCommentFeed) => {
+  const token = authToken();
+
   const { commentInfo } = props;
   const { _id, fromUser, toUser, comment, createdAt } = commentInfo;
   const [userInfo, setUserInfo] = React.useState<AuthUserInfo>({});
+
+  const likePost = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    alert(0);
+    if (!token)
+      return toast.error(`You must be logged in to like`, {
+        toastId: 'like-not-logged-in',
+      });
+    // setBusy(true);
+    // const response = await fetch(`/api/posts/like/${post._id}`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({ token }),
+    // });
+    // const { status, data } = await response.json();
+    // if (status) {
+    //   toast.success(`Post liked successfully`, {
+    //     toastId: 'post-liked-success',
+    //   });
+    // } else {
+    //   toast.error(`Post like failed, please try again later`, {
+    //     toastId: 'post-liked-failed',
+    //   });
+    // }
+    // setBusy(false);
+  };
+
+  const dislikePost = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (!token)
+      return toast.error(`You must be logged in to like`, {
+        toastId: 'like-not-logged-in',
+      });
+  };
+
+  const agreePost = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (!token)
+      return toast.error(`You must be logged in to agree`, {
+        toastId: 'agree-not-logged-in',
+      });
+  };
+
+  const disagreePost = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (!token)
+      return toast.error(`You must be logged in to disagree`, {
+        toastId: 'disagree-not-logged-in',
+      });
+  };
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -55,6 +111,7 @@ const CommentsFeedItem = (props: TCommentFeed) => {
             <Link
               href="#"
               className=" text-gray-500  hover:text-blue-800 text-muted text-decoration-none"
+              onClick={likePost}
             >
               Like <sup className="text-green-500 font-bold">{0}</sup>
             </Link>
@@ -62,6 +119,7 @@ const CommentsFeedItem = (props: TCommentFeed) => {
             <Link
               href="#"
               className=" text-gray-500 text-decoration-none hover:text-red-600"
+              onClick={dislikePost}
             >
               Dislike <sub className="text-red-500 font-bold">{0}</sub>
             </Link>
@@ -69,6 +127,7 @@ const CommentsFeedItem = (props: TCommentFeed) => {
             <Link
               href="#"
               className="text-gray-500  hover:text-blue-800 text-muted text-decoration-none"
+              onClick={agreePost}
             >
               Agree <sup className="text-green-500 font-bold">{0}</sup>
             </Link>
@@ -76,6 +135,7 @@ const CommentsFeedItem = (props: TCommentFeed) => {
             <Link
               href="#"
               className=" text-gray-500 text-decoration-none hover:text-red-600"
+              onClick={disagreePost}
             >
               Disagree <sub className="text-red-500 font-bold">{0}</sub>
             </Link>
