@@ -52,13 +52,34 @@ const CommentsFeedItem = (props: TCommentFeed) => {
             </div>
           </Link>
           <div className="d-flex align-items-center ms-2">
-            <Link href="#" className="small text-muted text-decoration-none">
-              Like
+            <Link
+              href="#"
+              className=" text-gray-500  hover:text-blue-800 text-muted text-decoration-none"
+            >
+              Like <sup className="text-green-500 font-bold">{0}</sup>
             </Link>
             <span className="fs-3 text-muted material-icons mx-1">circle</span>
-            <Link href="#" className="small text-muted text-decoration-none">
-              Dislike
+            <Link
+              href="#"
+              className=" text-gray-500 text-decoration-none hover:text-red-600"
+            >
+              Dislike <sub className="text-red-500 font-bold">{0}</sub>
             </Link>
+            <span className="fs-3 text-muted material-icons mx-1">circle</span>
+            <Link
+              href="#"
+              className="text-gray-500  hover:text-blue-800 text-muted text-decoration-none"
+            >
+              Agree <sup className="text-green-500 font-bold">{0}</sup>
+            </Link>
+            <span className="fs-3 text-muted material-icons mx-1">circle</span>
+            <Link
+              href="#"
+              className=" text-gray-500 text-decoration-none hover:text-red-600"
+            >
+              Disagree <sub className="text-red-500 font-bold">{0}</sub>
+            </Link>
+
             <span className="fs-3 text-muted material-icons mx-1">circle</span>
             <span className="small text-muted">{timeAgo(createdAt)}</span>
           </div>

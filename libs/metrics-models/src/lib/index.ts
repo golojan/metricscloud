@@ -15,6 +15,7 @@ import SchoolFaculties from './school-faculties.model';
 import SchoolDepartments from './school-departments.model';
 import PostFeeds from './posts.model';
 import PostFeedComments from './comments.model';
+import UserReactions from './reactions.model';
 
 const { NEXT_PUBLIC_MONGOOSE_URI } = process.env;
 
@@ -41,5 +42,6 @@ export const dbCon = async () => {
     SchoolDepartments,
     PostFeeds,
     PostFeedComments,
+    UserReactions,
   };
 };

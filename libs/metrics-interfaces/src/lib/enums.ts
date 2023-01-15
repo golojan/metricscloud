@@ -2,6 +2,7 @@ export enum PostFeedTypes {
   POST = 'POST',
   FEED = 'FEED',
   ARTICLE = 'ARTICLE',
+  COMMENT = 'COMMENT',
 }
 
 export enum AccreditationTypes {

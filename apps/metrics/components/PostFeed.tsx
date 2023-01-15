@@ -3,7 +3,13 @@ import {
   IPostComment,
   IPostFeed,
 } from '@metricsai/metrics-interfaces';
-import React, { RefObject, useEffect, useRef, useState } from 'react';
+import React, {
+  RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { OwnerStatus, UserStatus } from './Status';
 import Link from 'next/link';
 import { toDayMonth } from '../libs/toDate';
@@ -45,7 +51,16 @@ function PostFeed(props: PostFeedProps) {
   const [commentCount, setCommentCount] = React.useState<number>(0);
   const [comments, setComments] = React.useState<IPostComment[]>([]);
 
+  const [loading, setLoading] = useState(false);
+
   const token = authToken();
+
+  const [currentPosition, setCurrentPosition] = useState(0);
+  const [chunkSize] = useState<number>(5);
+
+  const loadMore = () => {
+    setCurrentPosition(currentPosition + chunkSize);
+  };
 
   const [postComment, setPostComment] = React.useState<IPostComment>({
     postFeedId: post._id,
@@ -115,8 +130,11 @@ function PostFeed(props: PostFeedProps) {
     };
     const getComments = async () => {
       const result = await allComments(post._id);
-      setComments(result);
-      setCommentCount(result.length);
+      const _chunkSize = currentPosition + chunkSize;
+      const chunk = result.slice(0, _chunkSize);
+      setCurrentPosition(_chunkSize);
+      setComments(chunk);
+      setCommentCount(chunk.length);
     };
     getProfile();
     getComments();
@@ -269,15 +287,12 @@ function PostFeed(props: PostFeedProps) {
                   </div>
                 </form>
                 <div className="comments">
-                  <Virtuoso
-                    style={{ height: commentCount > 0 ? '300px' : 'auto' }}
-                    data={comments}
-                    seamless={true}
-                    overscan={5}
-                    itemContent={(index, comment) => (
-                      <CommentsFeedItem key={index} commentInfo={comment} />
-                    )}
-                  />
+                  {comments.slice(0, currentPosition).map((comment) => (
+                    <CommentsFeedItem key={comment._id} commentInfo={comment} />
+                  ))}
+                  <Link onClick={loadMore} href="#">
+                    Load More
+                  </Link>
                 </div>
               </div>
             </div>
