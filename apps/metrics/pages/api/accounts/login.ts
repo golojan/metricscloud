@@ -5,10 +5,9 @@ import { ResponseFunctions } from '@metricsai/metrics-interfaces';
 const nodemailer = require('nodemailer');
 
 // Create reusable transporter object using the default SMTP transport
-export const transporter = nodemailer.createTransport({
+const transporter = nodemailer.createTransport({
   host: 'in-v3.mailjet.com',
   port: 587,
-  secure: false, // true for 465, false for other ports
   auth: {
     user: '84912638d615c7fab87f10066ddfc934', // generated ethereal user
     pass: 'abf622807081550b330301532e319126', // generated ethereal password
