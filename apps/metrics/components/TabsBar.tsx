@@ -1,5 +1,5 @@
-import React from "react";
-import { useAtom } from "jotai";
+import React from 'react';
+import { useAtom } from 'jotai';
 import { profileAtom } from '@metricsai/metrics-store';
 
 function TabsBar() {
@@ -14,15 +14,15 @@ function TabsBar() {
         <li className="nav-item" role="presentation">
           <button
             className="p-3 nav-link text-muted active"
-            id="pills-feed-tab"
+            id="pills-trending-tab"
             data-bs-toggle="pill"
-            data-bs-target="#pills-feeds"
+            data-bs-target="#pills-trending"
             type="button"
             role="tab"
-            aria-controls="pills-feeds"
+            aria-controls="pills-trending"
             aria-selected="true"
           >
-            Feeds
+            Trending
           </button>
         </li>
         <li className="nav-item" role="presentation">
@@ -56,15 +56,15 @@ function TabsBar() {
         <li className="nav-item" role="presentation">
           <button
             className="p-3 nav-link text-muted"
-            id="pills-trending-tab"
+            id="pills-alumni-tab"
             data-bs-toggle="pill"
-            data-bs-target="#pills-trending"
+            data-bs-target="#pills-alumni"
             type="button"
             role="tab"
-            aria-controls="pills-trending"
+            aria-controls="pills-alumni"
             aria-selected="false"
           >
-            Trending
+            Alumni
           </button>
         </li>
       </ul>

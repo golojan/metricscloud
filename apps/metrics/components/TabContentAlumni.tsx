@@ -2,21 +2,21 @@ import React from 'react';
 import AllPostFeeds from './AllPostFeeds';
 import SlickSlider from './SlickSlider';
 
-function TabContentStudents() {
+function TabContentAlumni() {
   return (
     <div
       className="tab-pane"
-      id="pills-students"
+      id="pills-alumni"
       role="tabpanel"
-      aria-labelledby="pills-students-tab"
+      aria-labelledby="pills-alumni-tab"
     >
       <div>
         <div className="feeds text-center">
-          <h1>Students</h1>
+          <h1>Alumni</h1>
         </div>
       </div>
     </div>
   );
 }
 
-export default TabContentStudents;
+export default TabContentAlumni;

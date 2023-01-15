@@ -1,9 +1,13 @@
-import Link from "next/link";
-import React from "react";
-import { AdBoxSlim } from "../AdBox";
-import MetricsLogo from "../MetricsLogo";
+import Link from 'next/link';
+import React from 'react';
+import { AdBoxSlim } from '../AdBox';
+import MetricsLogo from '../MetricsLogo';
+import { useAtom } from 'jotai';
+import { pageAtom } from '@metricsai/metrics-store';
 
 function FixedPageMenu() {
+  const [page] = useAtom(pageAtom);
+
   return (
     <div className="ps-0 m-none fix-sidebar">
       <div className="sidebar-nav mb-3">
@@ -11,14 +15,17 @@ function FixedPageMenu() {
         <AdBoxSlim />
         <ul className="navbar-nav justify-content-end flex-grow-1">
           <li className="nav-item">
-            <Link href="/" className="nav-link">
+            <Link
+              href="/"
+              className={`nav-link ${page === 'home' ? 'active' : ''}`}
+            >
               <span className="material-icons me-3">local_fire_department</span>
               <span>Trending</span>
             </Link>
           </li>
 
-          <li className="nav-item">
-            <Link href="/" className="nav-link active">
+          {/* <li className="nav-item">
+            <Link href="/" className={`nav-link ${page === 'metrics' ? 'active' : ''}`}>
               <span className="material-icons me-3">
                 <img
                   src="img/logo.png"
@@ -30,7 +37,7 @@ function FixedPageMenu() {
               </span>
               <span>Metrics</span>
             </Link>
-          </li>
+          </li> */}
         </ul>
       </div>
       <Link

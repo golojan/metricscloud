@@ -1,6 +1,6 @@
-import React from "react";
-import AllPostFeeds from "./AllPostFeeds";
-import SlickSlider from "./SlickSlider";
+import React from 'react';
+import AllPostFeeds from './AllPostFeeds';
+import SlickSlider from './SlickSlider';
 
 function TabContentLecturers() {
   return (
@@ -11,7 +11,7 @@ function TabContentLecturers() {
       aria-labelledby="pills-lecturers-tab"
     >
       <div>
-        <div className="feeds">
+        <div className="feeds text-center">
           <h1>Lecturers</h1>
         </div>
       </div>

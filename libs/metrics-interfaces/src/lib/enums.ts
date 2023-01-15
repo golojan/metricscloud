@@ -1,36 +1,41 @@
+export enum PostFeedTypes {
+  POST = 'POST',
+  FEED = 'FEED',
+  ARTICLE = 'ARTICLE',
+}
 
 export enum AccreditationTypes {
-  NONE = "NONE",
-  PARTIAL = "PARTIAL",
-  FULL = "FULL"
+  NONE = 'NONE',
+  PARTIAL = 'PARTIAL',
+  FULL = 'FULL',
 }
 
 export enum ICriteria {
-  GENERAL = "GENERAL",
-  CITATIONS = "CITATIONS",
-  INTERNATIONAL_OUTLOOK = "INTERNATIONAL_OUTLOOK",
-  TEACHING = "TEACHING",
-  RESEARCH = "RESEARCH",
-  STUDENTS_EVALUATION = "STUDENTS_EVALUATION",
+  GENERAL = 'GENERAL',
+  CITATIONS = 'CITATIONS',
+  INTERNATIONAL_OUTLOOK = 'INTERNATIONAL_OUTLOOK',
+  TEACHING = 'TEACHING',
+  RESEARCH = 'RESEARCH',
+  STUDENTS_EVALUATION = 'STUDENTS_EVALUATION',
 }
 
 export enum StateTypes {
-  ABIA = "ABIA",
-  ANAMBRA = "ANAMBRA",
-  ENUGU = "ENUGU",
-  EBONYI = "EBONYI",
-  IMO = "IMO",
+  ABIA = 'ABIA',
+  ANAMBRA = 'ANAMBRA',
+  ENUGU = 'ENUGU',
+  EBONYI = 'EBONYI',
+  IMO = 'IMO',
 }
 
 export enum LecturerLevel {
-  JUNIOR = "JUNIOR",
-  SENIOR = "SENIOR",
+  JUNIOR = 'JUNIOR',
+  SENIOR = 'SENIOR',
 }
 
 export enum OwnerTypes {
-  STATE = "STATE",
-  FEDERAL = "FEDERAL",
-  PRIVATE = "PRIVATE",
+  STATE = 'STATE',
+  FEDERAL = 'FEDERAL',
+  PRIVATE = 'PRIVATE',
 }
 
 export enum AccountTypes {
@@ -44,11 +49,11 @@ export enum AccountTypes {
 }
 
 export enum AccountRoles {
-  OWNER = "OWNER",
-  ADMIN = "ADMIN",
-  VC = "VC",
-  HOD = "HOD",
-  USER = "USER",
+  OWNER = 'OWNER',
+  ADMIN = 'ADMIN',
+  VC = 'VC',
+  HOD = 'HOD',
+  USER = 'USER',
 }
 
 export enum Gender {
@@ -59,16 +64,16 @@ export enum Gender {
 }
 
 export enum StudentType {
-  LOCAL = "LOCAL",
-  INTERNATIONAL = "INTERNATIONAL",
+  LOCAL = 'LOCAL',
+  INTERNATIONAL = 'INTERNATIONAL',
 }
 
 export enum LecturerType {
-  LOCAL = "LOCAL",
-  INTERNATIONAL = "INTERNATIONAL",
+  LOCAL = 'LOCAL',
+  INTERNATIONAL = 'INTERNATIONAL',
 }
 
 export enum SchoolTypes {
-  LOCAL = "LOCAL",
-  INTERNATIONAL = "INTERNATIONAL",
+  LOCAL = 'LOCAL',
+  INTERNATIONAL = 'INTERNATIONAL',
 }

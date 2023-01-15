@@ -3,6 +3,9 @@ const cookie = require('js-cookie');
 
 import { AuthUserInfo, SchoolInfo } from '@metricsai/metrics-interfaces';
 
+export const pageAtom = atom<string>('home');
+export const showUserPostFeedDialogAtom = atom<boolean>(false);
+
 export const schoolsAtom = atom<SchoolInfo[]>([]);
 export const busyAtom = atom<boolean>(false);
 

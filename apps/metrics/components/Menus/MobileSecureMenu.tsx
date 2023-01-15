@@ -1,10 +1,14 @@
-import Link from "next/link";
-import React from "react";
-import { authlogout } from "../../hocs/auth/withAuth";
-import { AdBoxSlim } from "../AdBox";
-import MetricsLogo from "../MetricsLogo";
+import Link from 'next/link';
+import React from 'react';
+import { authlogout } from '../../hocs/auth/withAuth';
+import { AdBoxSlim } from '../AdBox';
+import MetricsLogo from '../MetricsLogo';
+import { useAtom } from 'jotai';
+import { pageAtom } from '@metricsai/metrics-store';
 
 function MobileSecureMenu() {
+  const [page] = useAtom(pageAtom);
+
   return (
     <div
       className="p-2 bg-light offcanvas offcanvas-start"
@@ -15,22 +19,22 @@ function MobileSecureMenu() {
         <MetricsLogo />
         <AdBoxSlim />
         <ul className="navbar-nav justify-content-end flex-grow-1">
-          <li className="nav-item">
+          <li className={`nav-link ${page === 'home' ? 'active' : ''}`}>
             <Link href="/" className="nav-link">
               <span className="material-icons me-3">local_fire_department</span>
               <span>Trending</span>
             </Link>
           </li>
 
-          <li className="nav-item">
+          <li className={`nav-link ${page === 'metrics' ? 'active' : ''}`}>
             <Link href="/" className="nav-link active">
               <span className="material-icons me-3">
                 <img
                   src="/img/logo.png"
                   className="img-fluid"
                   alt="brand-logo"
-                  width={"22px"}
-                  height={"22px"}
+                  width={'22px'}
+                  height={'22px'}
                 />
               </span>
               <span>Metrics</span>
@@ -53,7 +57,9 @@ function MobileSecureMenu() {
 
           <li className="nav-item dropdown">
             <Link
-              className="nav-link dropdown-toggle"
+              className={`nav-link dropdown-toggle ${
+                page === 'profile' ? 'active' : ''
+              }`}
               href="#"
               id="offcanvasNavbarDropdown"
               role="button"
@@ -103,7 +109,7 @@ function MobileSecureMenu() {
           </li>
 
           <li className="nav-item">
-            <Link href={"#"} onClick={authlogout} className="nav-link">
+            <Link href={'#'} onClick={authlogout} className="nav-link">
               <span className="material-icons me-3">logout</span>
               <span>Logout</span>
             </Link>

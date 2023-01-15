@@ -1,9 +1,42 @@
 import { ReactNode } from 'react';
 
+export interface IPostComment {
+  _id?: string;
+  postFeedId: string;
+  fromUser: string;
+  toUser: string;
+  comment?: string;
+  image?: string;
+  viewsCount?: Number;
+  likesCount?: Number;
+  commentsCount?: Number;
+  onReview?: boolean;
+  approved?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 export interface Image {
   id?: string;
   name?: string;
   base64?: string;
+}
+
+export interface IPostFeed {
+  _id?: string;
+  postType?: string;
+  accountId?: string;
+  schoolId?: string;
+  title?: string;
+  shortname?: string;
+  content?: string;
+  image?: string;
+  views?: Number;
+  onReview?: boolean;
+  approved?: boolean;
+  enabled?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface SchoolInfo {

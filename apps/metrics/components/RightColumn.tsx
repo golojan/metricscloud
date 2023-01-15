@@ -24,7 +24,6 @@ function RightColumn() {
                 <h6 className="fw-bold text-body p-3 mb-0 border-bottom">
                   What&apos;s happening
                 </h6>
-                <AdBox />
                 {/* <TrendingWith /> */}
                 {/* <HashBox /> */}
                 {/* <TrendingBox /> */}

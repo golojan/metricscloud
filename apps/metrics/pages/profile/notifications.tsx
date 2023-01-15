@@ -5,6 +5,8 @@ import { withAuth } from '../../hocs/auth/withAuth';
 import { NextPage } from 'next';
 import { AuthUserInfo } from '@metricsai/metrics-interfaces';
 import { toast } from 'react-toastify';
+import { pageAtom } from '@metricsai/metrics-store';
+import { useAtom } from 'jotai';
 
 const ProfileInfoByToken = async (token: string) => {
   const response = await fetch(`/api/accounts/${token}/profile`);
@@ -17,6 +19,7 @@ const ProfileInfoByToken = async (token: string) => {
 };
 
 const Notifications: NextPage = ({ token }: any) => {
+  const [, setPage] = useAtom(pageAtom);
   const [notification, setNotification] = useState<{
     smsNotification: boolean;
     emailNotification: boolean;
@@ -26,6 +29,7 @@ const Notifications: NextPage = ({ token }: any) => {
   });
 
   useEffect(() => {
+    setPage('profile');
     ProfileInfoByToken(token).then((res: AuthUserInfo) => {
       setNotification({
         smsNotification: res.smsNotification,

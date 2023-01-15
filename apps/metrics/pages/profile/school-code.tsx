@@ -7,6 +7,8 @@ import { NextPage } from 'next';
 import { AuthUserInfo, SchoolInfo } from '@metricsai/metrics-interfaces';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
+import { pageAtom } from '@metricsai/metrics-store';
+import { useAtom } from 'jotai';
 
 const ProfileInfoByToken = async (token: string) => {
   const response = await fetch(`/api/accounts/${token}/profile`);
@@ -31,6 +33,7 @@ const getSchools = async () => {
 const SchoolCode: NextPage = ({ token }: any) => {
   const [schools, setSchools] = useState<[SchoolInfo]>([{} as SchoolInfo]);
   const [profile, setProfile] = useState<AuthUserInfo>({});
+  const [, setPage] = useAtom(pageAtom);
 
   const schoolOptions = schools.map((school: SchoolInfo) => ({
     value: school._id,
@@ -38,6 +41,7 @@ const SchoolCode: NextPage = ({ token }: any) => {
   }));
 
   useEffect(() => {
+    setPage('profile');
     ProfileInfoByToken(token).then((res: AuthUserInfo) => {
       setProfile(res);
     });

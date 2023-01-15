@@ -43,6 +43,14 @@ export const hasAuth = () => {
   return false;
 };
 
+export const authToken = () => {
+  const token = cookie.get('token');
+  if (token) {
+    return token;
+  }
+  return null;
+};
+
 export const authlogout = () => {
   cookie.remove('token');
   // to support logging out from all windows

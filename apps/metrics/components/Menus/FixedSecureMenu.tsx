@@ -1,12 +1,16 @@
-import Link from "next/link";
-import React from "react";
-import { authlogout } from "../../hocs/auth/withAuth";
-import cookie from "js-cookie";
-import { AdBoxSlim } from "../AdBox";
-import MetricsLogo from "../MetricsLogo";
+import Link from 'next/link';
+import React from 'react';
+import { authlogout } from '../../hocs/auth/withAuth';
+import cookie from 'js-cookie';
+import { AdBoxSlim } from '../AdBox';
+import MetricsLogo from '../MetricsLogo';
+import { useAtom } from 'jotai';
+import { pageAtom } from '@metricsai/metrics-store';
 
 function FixedSecureMenu() {
-  const username = cookie.get("username");
+  const username = cookie.get('username');
+  const [page] = useAtom(pageAtom);
+
   return (
     <div className="ps-0 m-none fix-sidebar">
       <div className="sidebar-nav mb-3">
@@ -14,24 +18,30 @@ function FixedSecureMenu() {
         <AdBoxSlim />
         <ul className="navbar-nav justify-content-end flex-grow-1">
           <li className="nav-item">
-            <Link href="/" className="nav-link">
+            <Link
+              href="/"
+              className={`nav-link ${page === 'home' ? 'active' : ''}`}
+            >
               <span className="material-icons me-3">local_fire_department</span>
               <span>Trending</span>
             </Link>
           </li>
 
           <li className="nav-item">
-            <Link href={`/${username}`} className="nav-link active">
+            <Link
+              href={`/${username}`}
+              className={`nav-link ${page === 'metrics' ? 'active' : ''}`}
+            >
               <span className="material-icons me-3">
                 <img
                   src="/img/logo.png"
                   className="img-fluid"
                   alt="brand-logo"
-                  width={"22px"}
-                  height={"22px"}
+                  width={'22px'}
+                  height={'22px'}
                 />
               </span>
-              <span>Metrics</span>
+              <span>My Metrics</span>
             </Link>
           </li>
           {/* <li className="nav-item">
@@ -50,7 +60,9 @@ function FixedSecureMenu() {
 
           <li className="nav-item dropdown">
             <Link
-              className="nav-link dropdown-toggle"
+              className={`nav-link dropdown-toggle ${
+                page === 'profile' ? 'active' : ''
+              }`}
               href="#"
               id="offcanvasNavbarDropdown"
               role="button"
@@ -100,7 +112,7 @@ function FixedSecureMenu() {
           </li>
 
           <li className="nav-item">
-            <Link href={"#"} onClick={authlogout} className="nav-link">
+            <Link href={'#'} onClick={authlogout} className="nav-link">
               <span className="material-icons me-3">logout</span>
               <span>Logout</span>
             </Link>

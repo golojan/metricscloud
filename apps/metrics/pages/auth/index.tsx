@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import LoginTabContents from '../../components/LoginTabContents';
 import Layout from '../../components/Layout';
 import RegisterTabContents from '../../components/RegisterTabContents';
 import ResetTabContents from '../../components/ResetTabContents';
 import AuthTabsBar from './../../components/AuthTabsBar';
+import { useAtom } from 'jotai';
+import { pageAtom } from '@metricsai/metrics-store';
 
 function Auth() {
+  const [page, setPage] = useAtom(pageAtom);
+
+  useEffect(() => {
+    setPage('home');
+  }, []);
+
   return (
     <Layout>
       <main className="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">

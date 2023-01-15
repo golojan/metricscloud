@@ -15,6 +15,7 @@ import {
   profileAtom,
   publicProfileAtom,
   schoolsAtom,
+  pageAtom,
 } from '@metricsai/metrics-store';
 import { useAtom } from 'jotai';
 
@@ -42,6 +43,7 @@ const EditProfile: NextPage = ({ token }: any) => {
   // Username Processing System //
 
   const [busy, setBusy] = useAtom(busyAtom);
+  const [, setPage] = useAtom(pageAtom);
 
   const [profile, setProfile] = useAtom(profileAtom);
   const [_, setSchools] = useAtom(schoolsAtom);
@@ -148,6 +150,7 @@ const EditProfile: NextPage = ({ token }: any) => {
   // }, [token]);
 
   useEffect(() => {
+    setPage('profile');
     setBusy(true);
     ProfileInfoByToken(token as string).then((res: AuthUserInfo) => {
       setProfile(res);

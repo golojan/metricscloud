@@ -1,45 +1,170 @@
-import React from "react";
+import {
+  AuthUserInfo,
+  IPostComment,
+  IPostFeed,
+} from '@metricsai/metrics-interfaces';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
+import { OwnerStatus, UserStatus } from './Status';
+import Link from 'next/link';
+import { toDayMonth } from '../libs/toDate';
+import { authToken } from '../hocs/auth/withAuth';
+import { toast } from 'react-toastify';
+import CommentsFeedItem from './CommentsFeedItem';
+import { Virtuoso } from 'react-virtuoso';
+import { Components } from 'react-virtuoso';
 
-function PostFeed() {
+interface PostFeedProps {
+  username: string;
+  post: IPostFeed;
+}
+
+const ProfileInfo = async (username: string) => {
+  const response = await fetch(`/api/${username}/profile`);
+  const membership = await response.json();
+  if (membership.status) {
+    return membership.data;
+  } else {
+    return {};
+  }
+};
+
+const allComments = async (postFeedId: string) => {
+  const response = await fetch(`/api/posts/comments/${postFeedId}/all`);
+  const result = await response.json();
+  if (result.status) {
+    return result.comments;
+  } else {
+    return {};
+  }
+};
+
+function PostFeed(props: PostFeedProps) {
+  const [busy, setBusy] = useState<boolean>(false);
+  const { username, post } = props;
+  const [ownerProfile, setOwnerProfile] = React.useState<AuthUserInfo>({});
+  const [commentCount, setCommentCount] = React.useState<number>(0);
+  const [comments, setComments] = React.useState<IPostComment[]>([]);
+
+  const token = authToken();
+
+  const [postComment, setPostComment] = React.useState<IPostComment>({
+    postFeedId: post._id,
+    fromUser: token,
+    toUser: ownerProfile.username,
+  });
+
+  const scrollRef: RefObject<Components['Scroller']> =
+    useRef<Components['Scroller']>(null);
+  const itemRef: RefObject<Components['Item']> =
+    useRef<Components['Item']>(null);
+
+  const commentRef: RefObject<HTMLTextAreaElement> =
+    useRef<HTMLTextAreaElement>(null);
+
+  const commentUpdate = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (commentRef.current) {
+      setPostComment({ ...postComment, comment: e.target.value });
+      const height = commentRef.current.scrollHeight;
+      commentRef.current.style.height = `${height}px`;
+    }
+    return;
+  };
+
+  const clearComment = () => {
+    if (commentRef.current) {
+      commentRef.current.value = '';
+      commentRef.current.style.height = `10px`;
+      commentRef.current.rows = 1;
+    }
+    return;
+  };
+
+  const postCommentHandler = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (!postComment.comment) return;
+    if (!token)
+      return toast.error(`You must be logged in to comment`, {
+        toastId: 'comment-not-logged-in',
+      });
+    setBusy(true);
+    const response = await fetch(`/api/posts/comments/add-comment`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(postComment),
+    });
+    const { status, data } = await response.json();
+    if (status) {
+      toast.success(`Comment created successfully`, {
+        toastId: 'comment-created-success',
+      });
+      clearComment();
+    } else {
+      toast.error(`Comment creation failed, please try again later`, {
+        toastId: 'comment-created-success',
+      });
+    }
+    setBusy(false);
+  };
+
+  useEffect(() => {
+    const getProfile = async () => {
+      const profile = await ProfileInfo(username);
+      setOwnerProfile(profile);
+    };
+    const getComments = async () => {
+      const result = await allComments(post._id);
+      setComments(result);
+      setCommentCount(result.length);
+    };
+    getProfile();
+    getComments();
+  }, [username, post._id, busy]);
+
   return (
     <>
-      <div className="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">
+      <div className="bg-white p-3 feed-item rounded-4 mb-2 shadow-sm">
         <div className="d-flex">
           <img
-            src="/img/rmate2.jpg"
+            src={ownerProfile.picture || '/img/rmate2.jpg'}
             className="img-fluid rounded-circle user-img"
-            alt="profile-img"
+            alt={ownerProfile.firstname || 'profile-img'}
           />
           <div className="d-flex ms-3 align-items-start w-100">
             <div className="w-100">
               <div className="d-flex align-items-center justify-content-between">
-                <a
+                <Link
                   href="#"
                   className="text-decoration-none d-flex align-items-center"
                 >
-                  <h6 className="fw-bold mb-0 text-body">Shay Jordon</h6>
-                  <span className="ms-2 material-icons bg-gray-300 p-0 md-16 fw-bold text-white rounded-circle ov-icon">
-                    done
-                  </span>
-                  <small className="text-muted ms-2">@shay-jordon</small>
-                </a>
+                  <h6 className="fw-bold mb-0 text-body">
+                    {ownerProfile.firstname} {ownerProfile.lastname}
+                  </h6>
+                  <OwnerStatus username={username} />
+                  <small className="text-muted ms-2">
+                    @{ownerProfile.username}
+                  </small>
+                </Link>
                 <div className="d-flex align-items-center small">
-                  <p className="text-muted mb-0">19 Feb</p>
+                  <p className="text-muted mb-0">
+                    {toDayMonth(ownerProfile.createdAt)}
+                  </p>
                   <div className="dropdown">
-                    <a
+                    <Link
                       href="#"
-                      className="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1"
+                      className="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light hover:bg-green-500 p-1"
                       id="dropdownMenuButton1"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
                       more_vert
-                    </a>
-                    <ul
+                    </Link>
+                    {/* <ul
                       className="dropdown-menu fs-13 dropdown-menu-end"
                       aria-labelledby="dropdownMenuButton1"
                     >
-                      {/* <li>
+                     <li>
                         <a className="dropdown-item text-muted" href="#">
                           <span className="material-icons md-13 me-1">
                             edit
@@ -62,7 +187,7 @@ function PostFeed() {
                           </span>
                           Embed Vogel
                         </a>
-                      </li> */}
+                      </li> 
                       <li>
                         <a
                           className="dropdown-item text-muted d-flex align-items-center"
@@ -74,247 +199,85 @@ function PostFeed() {
                           Share Post
                         </a>
                       </li>
-                    </ul>
+                    </ul>*/}
                   </div>
                 </div>
               </div>
               <div className="my-2">
-                <p className="mb-3 text-primary">
-                  Welcome to the Vogel family 🙂
-                </p>
-                <ul className="list-unstyled mb-3">
-                  <li>
-                    1. Follow people you like by clicking on the ’+ Follow’
-                    button to see their posts in your feed.
-                  </li>
-                  <li>
-                    2. Share your thoughts with others and gain a following.
-                  </li>
-                </ul>
-                <p className="text-dark">Happy Vogel to you!</p>
-                <a
-                  href="#"
-                  className="text-decoration-none"
-                  data-bs-toggle="modal"
-                  data-bs-target="#commentModal"
-                >
-                  <img
-                    src="/img/post1.png"
-                    className="img-fluid rounded mb-3"
-                    alt="post-img"
-                  />
-                </a>
+                <div className="my-3">
+                  <p className="text-gray-900">{post.content}</p>
+                </div>
+
                 <div className="d-flex align-items-center justify-content-between mb-2">
                   <div>
-                    <a
+                    <Link
                       href="#"
                       className="text-muted text-decoration-none d-flex align-items-start fw-light"
                     >
-                      <span className="material-icons md-20 me-2">
+                      <span className="material-icons md-20 me-2 hover:text-blue-500">
                         thumb_up_off_alt
                       </span>
-                      <span>30.4k</span>
-                    </a>
+                      <span>{0}</span>
+                    </Link>
                   </div>
                   <div>
-                    <a
+                    <Link
                       href="#"
                       className="text-muted text-decoration-none d-flex align-items-start fw-light"
                     >
                       <span className="material-icons md-20 me-2">
                         chat_bubble_outline
                       </span>
-                      <span>4.0k</span>
-                    </a>
+                      <span>{commentCount}</span>
+                    </Link>
                   </div>
                   <div>
-                    <a
+                    <Link
                       href="#"
                       className="text-muted text-decoration-none d-flex align-items-start fw-light"
                     >
                       <span className="material-icons md-20 me-2">repeat</span>
-                      <span>617</span>
-                    </a>
+                      <span>{0}</span>
+                    </Link>
                   </div>
                   <div>
-                    <a
+                    <Link
                       href="#"
                       className="text-muted text-decoration-none d-flex align-items-start fw-light"
                     >
                       <span className="material-icons md-18 me-2">share</span>
                       <span>Share</span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
-                <div
-                  className="d-flex align-items-center mb-3"
-                  data-bs-toggle="modal"
-                  data-bs-target="#commentModal"
-                >
-                  <span className="material-icons bg-white border-0 text-primary pe-2 md-36">
-                    account_circle
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control form-control-sm rounded-3 fw-light"
-                    placeholder="Write Your comment"
-                  />
-                </div>
+                <form onSubmit={postCommentHandler}>
+                  <div className="d-flex align-items-center mb-3">
+                    <span className="material-icons bg-white border-0 text-primary pe-2 md-36">
+                      account_circle
+                    </span>
+
+                    <textarea
+                      className="form-control form-control-sm rounded-3 border-2 fw-light relative"
+                      placeholder="Write Your comment (text only)"
+                      ref={commentRef}
+                      rows={1}
+                      onChange={commentUpdate}
+                    />
+                    <button className="material-icons bg-white border-0 text-gray-300 hover:text-gray-400 pe-2 md-36 me-2 md-16">
+                      send
+                    </button>
+                  </div>
+                </form>
                 <div className="comments">
-                  <div className="d-flex mb-2">
-                    <a
-                      href="#"
-                      className="text-dark text-decoration-none"
-                      data-bs-toggle="modal"
-                      data-bs-target="#commentModal"
-                    >
-                      <img
-                        src="/img/rmate1.jpg"
-                        className="img-fluid rounded-circle"
-                        alt="commenters-img"
-                      />
-                    </a>
-                    <div className="ms-2 small">
-                      <a
-                        href="#"
-                        className="text-dark text-decoration-none"
-                        data-bs-toggle="modal"
-                        data-bs-target="#commentModal"
-                      >
-                        <div className="bg-light px-3 py-2 rounded-4 mb-1 chat-text">
-                          <p className="fw-500 mb-0">Macie Bellis</p>
-                          <span className="text-muted">
-                            Consectetur adipisicing elit, sed do eiusmod tempor
-                            incididunt ut labore et dolor.
-                          </span>
-                        </div>
-                      </a>
-                      <div className="d-flex align-items-center ms-2">
-                        <a
-                          href="#"
-                          className="small text-muted text-decoration-none"
-                        >
-                          Like
-                        </a>
-                        <span className="fs-3 text-muted material-icons mx-1">
-                          circle
-                        </span>
-                        <a
-                          href="#"
-                          className="small text-muted text-decoration-none"
-                        >
-                          Reply
-                        </a>
-                        <span className="fs-3 text-muted material-icons mx-1">
-                          circle
-                        </span>
-                        <span className="small text-muted">1h</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex mb-2">
-                    <a
-                      href="#"
-                      className="text-dark text-decoration-none"
-                      data-bs-toggle="modal"
-                      data-bs-target="#commentModal"
-                    >
-                      <img
-                        src="/img/rmate3.jpg"
-                        className="img-fluid rounded-circle"
-                        alt="commenters-img"
-                      />
-                    </a>
-                    <div className="ms-2 small">
-                      <a
-                        href="#"
-                        className="text-dark text-decoration-none"
-                        data-bs-toggle="modal"
-                        data-bs-target="#commentModal"
-                      >
-                        <div className="bg-light px-3 py-2 rounded-4 mb-1 chat-text">
-                          <p className="fw-500 mb-0">John Smith</p>
-                          <span className="text-muted">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam.
-                          </span>
-                        </div>
-                      </a>
-                      <div className="d-flex align-items-center ms-2">
-                        <a
-                          href="#"
-                          className="small text-muted text-decoration-none"
-                        >
-                          Like
-                        </a>
-                        <span className="fs-3 text-muted material-icons mx-1">
-                          circle
-                        </span>
-                        <a
-                          href="#"
-                          className="small text-muted text-decoration-none"
-                        >
-                          Reply
-                        </a>
-                        <span className="fs-3 text-muted material-icons mx-1">
-                          circle
-                        </span>
-                        <span className="small text-muted">20min</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex mb-2">
-                    <a
-                      href="#"
-                      className="text-dark text-decoration-none"
-                      data-bs-toggle="modal"
-                      data-bs-target="#commentModal"
-                    >
-                      <img
-                        src="/img/rmate2.jpg"
-                        className="img-fluid rounded-circle"
-                        alt="commenters-img"
-                      />
-                    </a>
-                    <div className="ms-2 small">
-                      <a
-                        href="#"
-                        className="text-dark text-decoration-none"
-                        data-bs-toggle="modal"
-                        data-bs-target="#commentModal"
-                      >
-                        <div className="bg-light px-3 py-2 rounded-4 mb-1 chat-text">
-                          <p className="fw-500 mb-0">Shay Jordon</p>
-                          <span className="text-muted">
-                            With our vastly improved notifications system, users
-                            have more control.
-                          </span>
-                        </div>
-                      </a>
-                      <div className="d-flex align-items-center ms-2">
-                        <a
-                          href="#"
-                          className="small text-muted text-decoration-none"
-                        >
-                          Like
-                        </a>
-                        <span className="fs-3 text-muted material-icons mx-1">
-                          circle
-                        </span>
-                        <a
-                          href="#"
-                          className="small text-muted text-decoration-none"
-                        >
-                          Reply
-                        </a>
-                        <span className="fs-3 text-muted material-icons mx-1">
-                          circle
-                        </span>
-                        <span className="small text-muted">10min</span>
-                      </div>
-                    </div>
-                  </div>
+                  <Virtuoso
+                    style={{ height: commentCount > 0 ? '300px' : 'auto' }}
+                    data={comments}
+                    seamless={true}
+                    overscan={5}
+                    itemContent={(index, comment) => (
+                      <CommentsFeedItem key={index} commentInfo={comment} />
+                    )}
+                  />
                 </div>
               </div>
             </div>

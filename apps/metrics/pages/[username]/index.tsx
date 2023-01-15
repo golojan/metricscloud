@@ -1,9 +1,13 @@
-import { RefObject, useEffect, useRef } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { NextPage } from 'next';
 import PublicLayout from '../../components/PublicLayout';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { AuthUserInfo, SchoolInfo } from '@metricsai/metrics-interfaces';
+import {
+  AuthUserInfo,
+  IPostFeed,
+  SchoolInfo,
+} from '@metricsai/metrics-interfaces';
 import useSWR from 'swr';
 import ProfilePage from '../../components/ProfilePage';
 import NoProfilePage from '../../components/NoProfilePage';
@@ -12,8 +16,11 @@ import {
   publicProfileAtom,
   busyAtom,
   schoolsAtom,
+  pageAtom,
 } from '@metricsai/metrics-store';
 import { useAtom } from 'jotai';
+import PostFeed from 'apps/metrics/components/PostFeed';
+import { Virtuoso } from 'react-virtuoso';
 
 const ProfileInfo = async (username: string) => {
   const response = await fetch(`/api/${username}/profile`);
@@ -35,16 +42,27 @@ const getSchools = async () => {
   }
 };
 
+const getPostFeeds = async (token: string) => {
+  const response = await fetch(`/api/accounts/${token}/post-feeds`);
+  const data = await response.json();
+  if (data.status) {
+    return data.posts;
+  } else {
+    return [];
+  }
+};
+
 const Home: NextPage = () => {
   const [busy, setBusy] = useAtom(busyAtom);
   // Get the router object
   const router = useRouter();
   const { username } = router.query;
-
+  const [page, setPage] = useAtom(pageAtom);
   const [publicProfile, setPublicProfile] = useAtom(publicProfileAtom);
   const [_, setSchools] = useAtom(schoolsAtom);
 
   useEffect(() => {
+    setPage('metrics');
     setBusy(true);
     ProfileInfo(username as string).then((res) => {
       setPublicProfile(res);
@@ -54,6 +72,12 @@ const Home: NextPage = () => {
     });
     setBusy(false);
   }, [username]);
+
+  const { data, isLoading } = useSWR(
+    `/api/accounts/${publicProfile?._id}/post-feeds`,
+    (url) => fetch(url).then((res) => res.json())
+  );
+  const postFeeds: IPostFeed[] = data ? data?.data : [];
 
   return (
     <PublicLayout>
@@ -71,7 +95,23 @@ const Home: NextPage = () => {
             {busy ? (
               'Busy...'
             ) : publicProfile?._id ? (
-              <ProfilePage />
+              <>
+                <ProfilePage />
+                <div className="ui-block feeds mt-4">
+                  <Virtuoso
+                    style={{ height: '800px' }}
+                    data={postFeeds}
+                    totalCount={postFeeds?.length}
+                    itemContent={(index, post) => (
+                      <PostFeed
+                        key={index}
+                        username={username as string}
+                        post={post}
+                      />
+                    )}
+                  />
+                </div>
+              </>
             ) : (
               <NoProfilePage />
             )}

@@ -6,6 +6,8 @@ import { NextPage } from 'next';
 
 import { AuthUserInfo, GSRanking } from '@metricsai/metrics-interfaces';
 import { toast } from 'react-toastify';
+import { pageAtom } from '@metricsai/metrics-store';
+import { useAtom } from 'jotai';
 
 const ProfileInfoByToken = async (token: string) => {
   const response = await fetch(`/api/accounts/${token}/profile`);
@@ -21,8 +23,10 @@ const Academia: NextPage = ({ token }: any) => {
   const [scrapped, setScrapped] = useState<boolean>(false);
   const [gsScrap, setGsScrap] = useState<GSRanking>({});
   const [profile, setProfile] = useState<AuthUserInfo>({});
+  const [, setPage] = useAtom(pageAtom);
 
   useEffect(() => {
+    setPage('profile');
     ProfileInfoByToken(token).then((res: AuthUserInfo) => {
       setProfile(res);
     });

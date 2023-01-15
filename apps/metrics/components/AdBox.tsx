@@ -6,7 +6,11 @@ const AdBox = () => {
     <>
       <div className="input-group my-3 shadow-sm min-h-[50px] overflow-hidden bg-gradient-to-b from-[#556c91] to-[#3266af]">
         <Link href={'#'}>
-          <img src="/assets/NUCAdvert.png" className="w-full" alt="Metrics" />
+          <img
+            src="https://support.content.office.net/en-us/media/3490b636-e76f-4c9b-83a6-1a132c94433e.png"
+            className="w-full"
+            alt="Metrics"
+          />
         </Link>
       </div>
     </>
