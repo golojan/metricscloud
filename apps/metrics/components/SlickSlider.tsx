@@ -17,8 +17,8 @@ const SlickSlider = () => {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: 3,
+    slidesToScroll: 3,
     adaptiveHeight: true,
     arrows: false,
     centerPadding: '0px',
@@ -44,7 +44,6 @@ const SlickSlider = () => {
 
   const slickCliked = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
-    console.log('slick clicked');
   };
 
   return (
@@ -65,7 +64,7 @@ const SlickSlider = () => {
               <div className="me-2 bg-white shadow-sm rounded-4 p-3 user-list-item d-flex justify-content-center my-2">
                 <div className="text-center">
                   <div className="position-relative d-flex justify-content-center">
-                    <a
+                    <Link
                       href="#"
                       className="text-decoration-none"
                       onClick={slickCliked}
@@ -78,7 +77,7 @@ const SlickSlider = () => {
                       <div className="position-absolute">
                         <UserStatus />
                       </div>
-                    </a>
+                    </Link>
                   </div>
                   <p className="fw-bold text-dark m-0">{`${user.firstname} ${user.lastname}`}</p>
                   <p className="small text-muted">Designer</p>
