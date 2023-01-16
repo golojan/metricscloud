@@ -2,6 +2,7 @@ import { AuthUserInfo } from '@metricsai/metrics-interfaces';
 import Link from 'next/link';
 import React from 'react';
 import Slider from 'react-slick';
+import { UserStatus } from './Status';
 
 const SlickSlider = () => {
   const [users, setUsers] = React.useState<AuthUserInfo[]>([]);
@@ -14,20 +15,20 @@ const SlickSlider = () => {
     touchMove: true,
     accessibility: true,
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 1,
+    slidesToScroll: 4,
     adaptiveHeight: true,
     arrows: false,
     centerPadding: '0px',
     className: 'account-slider',
     initialSlide: 0,
     slidesPerRow: 1,
-    // variableWidth: true,
-    focusOnSelect: true,
-    pauseOnFocus: true,
-    pauseOnHover: true,
+    variableWidth: true,
+    // focusOnSelect: true,
+    // pauseOnFocus: true,
+    // pauseOnHover: true,
   };
 
   React.useEffect(() => {
@@ -40,6 +41,11 @@ const SlickSlider = () => {
     };
     getUsers();
   }, [busy]);
+
+  const slickCliked = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    console.log('slick clicked');
+  };
 
   return (
     <>
@@ -59,16 +65,18 @@ const SlickSlider = () => {
               <div className="me-2 bg-white shadow-sm rounded-4 p-3 user-list-item d-flex justify-content-center my-2">
                 <div className="text-center">
                   <div className="position-relative d-flex justify-content-center">
-                    <a href="profile.html" className="text-decoration-none">
+                    <a
+                      href="#"
+                      className="text-decoration-none"
+                      onClick={slickCliked}
+                    >
                       <img
                         src="/img/rmate1.jpg"
                         className="img-fluid rounded-circle mb-3"
                         alt="profile-img"
                       />
                       <div className="position-absolute">
-                        <span className="material-icons bg-primary small p-1 fw-bold text-white rounded-circle">
-                          done
-                        </span>
+                        <UserStatus />
                       </div>
                     </a>
                   </div>
