@@ -145,7 +145,8 @@ function ProfilePage() {
               />
               <div className="ms-3 clear-both">
                 <h6 className="mb-0 d-flex align-items-start text-body fs-6 fw-bold">
-                  {` ${profile.lastname} ${profile.firstname} `} <UserStatus />
+                  {` ${profile.lastname} ${profile.firstname} `}{' '}
+                  <UserStatus username={username as string} />
                 </h6>
                 <p className="text-muted mb-0">{`@${profile.username}`}</p>
               </div>
@@ -344,9 +345,3 @@ function ProfilePage() {
 }
 
 export default ProfilePage;
-function useSWR<T>(
-  arg0: string,
-  arg1: (url: any) => Promise<any>
-): { data: any; isLoading: any } {
-  throw new Error('Function not implemented.');
-}

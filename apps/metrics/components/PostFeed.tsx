@@ -207,7 +207,7 @@ function PostFeed(props: PostFeedProps) {
                 </Link>
                 <div className="d-flex align-items-center small">
                   <p className="text-muted mb-0">
-                    {toDayMonth(ownerProfile.createdAt)}
+                    {toDayMonth(post.createdAt)}
                   </p>
                   <div className="dropdown">
                     <Link

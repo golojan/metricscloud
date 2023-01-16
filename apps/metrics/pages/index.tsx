@@ -18,7 +18,7 @@ import TabContentTrending from '../components/TabContentTrending';
 import TabContentAlumni from '../components/TabContentAlumni';
 import { hasAuth } from '../hocs/auth/withAuth';
 import { useAtom } from 'jotai';
-import { pageAtom, profileAtom } from '@metricsai/metrics-store';
+import { pageAtom, profileAtom, schoolsAtom } from '@metricsai/metrics-store';
 import { useEffect } from 'react';
 import cookie from 'js-cookie';
 
@@ -32,14 +32,28 @@ const ProfileInfo = async (username: string) => {
   }
 };
 
+const getSchools = async () => {
+  const response = await fetch(`/api/schools/list`);
+  const data = await response.json();
+  if (data.status) {
+    return data.schools;
+  } else {
+    return [];
+  }
+};
+
 const Home: NextPage = () => {
   // use router
   const auth = hasAuth();
   const [page, setPage] = useAtom(pageAtom);
   const [profile, setProfile] = useAtom(profileAtom);
+  const [schools, setSchools] = useAtom(schoolsAtom);
 
   useEffect(() => {
     setPage('home');
+    getSchools().then((res) => {
+      setSchools(res);
+    });
     if (auth) {
       ProfileInfo(cookie.get('username')).then((res) => {
         setProfile(res);

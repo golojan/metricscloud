@@ -1,13 +1,8 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import PublicLayout from '../../components/PublicLayout';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import {
-  AuthUserInfo,
-  IPostFeed,
-  SchoolInfo,
-} from '@metricsai/metrics-interfaces';
+import { IPostFeed } from '@metricsai/metrics-interfaces';
 import useSWR from 'swr';
 import ProfilePage from '../../components/ProfilePage';
 import NoProfilePage from '../../components/NoProfilePage';
@@ -19,8 +14,8 @@ import {
   pageAtom,
 } from '@metricsai/metrics-store';
 import { useAtom } from 'jotai';
-import PostFeed from 'apps/metrics/components/PostFeed';
 import { Virtuoso } from 'react-virtuoso';
+import PostFeed from '../../components/PostFeed';
 
 const ProfileInfo = async (username: string) => {
   const response = await fetch(`/api/${username}/profile`);
@@ -37,16 +32,6 @@ const getSchools = async () => {
   const data = await response.json();
   if (data.status) {
     return data.schools;
-  } else {
-    return [];
-  }
-};
-
-const getPostFeeds = async (token: string) => {
-  const response = await fetch(`/api/accounts/${token}/post-feeds`);
-  const data = await response.json();
-  if (data.status) {
-    return data.posts;
   } else {
     return [];
   }

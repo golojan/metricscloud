@@ -4,10 +4,14 @@ import Image from 'next/image';
 import React from 'react';
 import Slider from 'react-slick';
 import { UserStatus } from './Status';
+import { useAtom } from 'jotai';
+import { schoolsAtom } from '@metricsai/metrics-store';
 
 const SlickSlider = () => {
   const [users, setUsers] = React.useState<AuthUserInfo[]>([]);
   const [busy, setBusy] = React.useState(false);
+
+  const [schools] = useAtom(schoolsAtom);
 
   // get all users from the database
 
@@ -16,10 +20,10 @@ const SlickSlider = () => {
     touchMove: true,
     accessibility: true,
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToShow: 1,
+    slidesToScroll: 1,
     adaptiveHeight: false,
     arrows: false,
     centerPadding: '0px',
@@ -27,7 +31,7 @@ const SlickSlider = () => {
     initialSlide: 0,
     slidesPerRow: 1,
     variableWidth: true,
-    focusOnSelect: true,
+    // focusOnSelect: true,
     // pauseOnFocus: true,
     // pauseOnHover: true,
   };
@@ -80,7 +84,18 @@ const SlickSlider = () => {
                   <p className="fw-bold text-dark m-0">
                     {`${user.firstname} ${user.lastname}`}
                   </p>
-                  <p className="small text-muted">Designer</p>
+                  <p className="small text-muted  my-1">
+                    <Link
+                      href={`#`}
+                      className="text-decoration-none text-gray-500 hover:text-blue-500"
+                    >
+                      {schools?.find((s) => s._id === user.schoolId)?.shortname}
+                      <span className="fs-3 text-muted material-icons mx-1">
+                        circle
+                      </span>
+                      {schools?.find((s) => s._id === user.schoolId)?.state}
+                    </Link>
+                  </p>
                   <div
                     className="btn-group"
                     role="group"
