@@ -16,7 +16,7 @@ const SlickSlider = () => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: users.length,
+    slidesToShow: 4,
     slidesToScroll: 1,
     adaptiveHeight: true,
     arrows: false,
