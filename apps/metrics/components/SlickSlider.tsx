@@ -13,27 +13,20 @@ const SlickSlider = () => {
 
   const [schools] = useAtom(schoolsAtom);
 
-  // get all users from the database
-
+  // get all users from the database //
   const settings = {
     swipe: true,
     touchMove: true,
-    accessibility: true,
     dots: false,
-    infinite: false,
+    infinite: true,
     speed: 500,
-    slidesToShow: 1,
+    slidesToShow: 3,
     slidesToScroll: 1,
     adaptiveHeight: false,
     arrows: false,
     centerPadding: '0px',
     className: 'account-slider',
-    initialSlide: 0,
-    slidesPerRow: 1,
     variableWidth: true,
-    // focusOnSelect: true,
-    // pauseOnFocus: true,
-    // pauseOnHover: true,
   };
 
   React.useEffect(() => {

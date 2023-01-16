@@ -181,7 +181,7 @@ function PostFeed(props: PostFeedProps) {
 
   return (
     <>
-      <div className="bg-white p-3 feed-item rounded-4 mb-2 shadow-sm">
+      <div className="bg-white px-3 pt-3 pb-5 feed-item rounded-4 mb-2 shadow-sm">
         <div className="d-flex">
           <Image
             src={ownerProfile.picture || '/images/avatar/user.png'}
