@@ -90,20 +90,13 @@ const SlickSlider = () => {
                     </Link>
                   </p>
                   <div
-                    className="btn-group"
+                    className="btn-group btn-group-toggle"
                     role="group"
                     aria-label="Basic checkbox toggle button group"
                   >
-                    <input
-                      type="checkbox"
-                      className="btn-check"
-                      id={`btncheck_${user.firstname}`}
-                    />
-                    <label
-                      className="btn btn-outline-primary btn-sm px-3 rounded-pill"
-                      htmlFor={`btncheck_${user.firstname}`}
-                    >
+                    <label className="btn btn-outline-primary btn-sm px-3 rounded-pill">
                       <span className="follow">+ Follow</span>
+                      <span className="following d-none">Following</span>
                     </label>
                   </div>
                 </div>
