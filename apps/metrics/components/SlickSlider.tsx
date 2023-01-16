@@ -67,7 +67,6 @@ const SlickSlider = () => {
                     <Link
                       href={`/${user.username}`}
                       className="text-decoration-none"
-                      onClick={slickCliked}
                     >
                       <img
                         src={user.picture || '/images/profile.png'}
