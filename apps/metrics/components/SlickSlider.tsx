@@ -65,12 +65,12 @@ const SlickSlider = () => {
                 <div className="text-center">
                   <div className="position-relative d-flex justify-content-center">
                     <Link
-                      href="#"
+                      href={`/${user.username}`}
                       className="text-decoration-none"
                       onClick={slickCliked}
                     >
                       <img
-                        src="/img/rmate1.jpg"
+                        src={user.picture || '/images/profile.png'}
                         className="img-fluid rounded-circle mb-3"
                         alt="profile-img"
                       />
@@ -79,7 +79,9 @@ const SlickSlider = () => {
                       </div>
                     </Link>
                   </div>
-                  <p className="fw-bold text-dark m-0">{`${user.firstname} ${user.lastname}`}</p>
+                  <p className="fw-bold text-dark m-0">
+                    {`${user.firstname} ${user.lastname}`}
+                  </p>
                   <p className="small text-muted">Designer</p>
                   <div
                     className="btn-group"
