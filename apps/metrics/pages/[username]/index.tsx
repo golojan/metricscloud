@@ -37,15 +37,26 @@ const getSchools = async () => {
   }
 };
 
+const getPostFeeds = async (token: string) => {
+  const response = await fetch(`/api/accounts/${token}/post-feeds`);
+  const data = await response.json();
+  if (data.status) {
+    return data.data;
+  } else {
+    return [];
+  }
+};
+
 const Home: NextPage = () => {
   const [busy, setBusy] = useAtom(busyAtom);
   // Get the router object
   const router = useRouter();
   const { username } = router.query;
-  const [page, setPage] = useAtom(pageAtom);
+  const [, setPage] = useAtom(pageAtom);
   const [publicProfile, setPublicProfile] = useAtom(publicProfileAtom);
-  const [_, setSchools] = useAtom(schoolsAtom);
+  const [, setSchools] = useAtom(schoolsAtom);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [postFeeds, setPostFeeds] = useState<IPostFeed[]>([]);
 
   useEffect(() => {
     setPage('metrics');
@@ -56,14 +67,11 @@ const Home: NextPage = () => {
     getSchools().then((res) => {
       setSchools(res);
     });
+    getPostFeeds(publicProfile?._id).then((res) => {
+      setPostFeeds(res);
+    });
     setBusy(false);
-  }, [username]);
-
-  const { data, isLoading } = useSWR(
-    `/api/accounts/${publicProfile?._id}/post-feeds`,
-    (url) => fetch(url).then((res) => res.json())
-  );
-  const postFeeds: IPostFeed[] = data ? data?.data : [];
+  }, [busy]);
 
   return (
     <PublicLayout>
