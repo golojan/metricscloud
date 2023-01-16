@@ -4,6 +4,10 @@ import { useAtom } from 'jotai';
 import { publicProfileAtom } from '@metricsai/metrics-store';
 import { AuthUserInfo } from '@metricsai/metrics-interfaces';
 
+type TOSProps = {
+  username?: string;
+};
+
 const ProfileInfo = async (username: string) => {
   const response = await fetch(`/api/${username}/profile`);
   const membership = await response.json();
@@ -60,10 +64,6 @@ export const UserStatus: React.FC = () => {
       </span>
     </>
   );
-};
-
-type TOSProps = {
-  username?: string;
 };
 
 export const OwnerStatus = (props: TOSProps) => {

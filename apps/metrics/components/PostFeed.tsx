@@ -7,6 +7,7 @@ import {
 import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { OwnerStatus } from './Status';
 import Link from 'next/link';
+import Image from 'next/image';
 import { toDayMonth } from '../libs/toDate';
 import { authToken } from '../hocs/auth/withAuth';
 import { toast } from 'react-toastify';
@@ -182,10 +183,12 @@ function PostFeed(props: PostFeedProps) {
     <>
       <div className="bg-white p-3 feed-item rounded-4 mb-2 shadow-sm">
         <div className="d-flex">
-          <img
+          <Image
             src={ownerProfile.picture || '/images/avatar/user.png'}
             className="img-fluid rounded-circle user-img"
             alt={ownerProfile.firstname}
+            width={50}
+            height={50}
           />
           <div className="d-flex ms-3 align-items-start w-100">
             <div className="w-100">
@@ -265,7 +268,6 @@ function PostFeed(props: PostFeedProps) {
                 </div>
 
                 <div className="d-flex align-items-center justify-content-between mb-2">
-                  {JSON.stringify(likes)}
                   <div>
                     <Link
                       href="#"
