@@ -1,5 +1,6 @@
 import { AuthUserInfo } from '@metricsai/metrics-interfaces';
 import Link from 'next/link';
+import Image from 'next/image';
 import React from 'react';
 import Slider from 'react-slick';
 import { UserStatus } from './Status';
@@ -42,10 +43,6 @@ const SlickSlider = () => {
     getUsers();
   }, [busy]);
 
-  const slickCliked = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    e.preventDefault();
-  };
-
   return (
     <>
       <div className="d-flex align-items-center justify-content-between mb-1">
@@ -68,10 +65,12 @@ const SlickSlider = () => {
                       href={`/${user.username}`}
                       className="text-decoration-none"
                     >
-                      <img
+                      <Image
                         src={user.picture || '/images/profile.png'}
                         className="img-fluid rounded-circle mb-3"
-                        alt="profile-img"
+                        alt={`${user.firstname} ${user.lastname}`}
+                        width={50}
+                        height={50}
                       />
                       <div className="position-absolute">
                         <UserStatus />
