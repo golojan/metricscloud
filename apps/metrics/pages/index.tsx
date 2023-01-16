@@ -20,6 +20,7 @@ import { hasAuth } from '../hocs/auth/withAuth';
 import { useAtom } from 'jotai';
 import { pageAtom, profileAtom } from '@metricsai/metrics-store';
 import { useEffect } from 'react';
+import cookie from 'js-cookie';
 
 const ProfileInfo = async (username: string) => {
   const response = await fetch(`/api/${username}/profile`);
@@ -31,7 +32,6 @@ const ProfileInfo = async (username: string) => {
   }
 };
 
-const cookie = require('js-cookie');
 const Home: NextPage = () => {
   // use router
   const auth = hasAuth();
@@ -59,6 +59,7 @@ const Home: NextPage = () => {
             </>
           ) : null}
           {auth ? <></> : <SearchBarLarge />}
+          <SlickSlider />
           <div className="tab-content" id="pills-tabContent">
             {auth ? (
               <>

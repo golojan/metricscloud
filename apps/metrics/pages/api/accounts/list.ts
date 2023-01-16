@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
 import { ResponseFunctions } from '@metricsai/metrics-interfaces';
 
@@ -10,12 +10,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
       res
         .status(200)
-        .json({ status: false, err: "Only GET Method is allowed" });
-        return;
+        .json({ status: false, err: 'Only GET Method is allowed' });
+      return;
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { Accounts, Schools } = await dbCon();
-      const accounts = await Accounts.find({}).catch(catcher);
+      const { Accounts } = await dbCon();
+      const accounts = await Accounts.find({}).sort({}).catch(catcher);
       if (accounts) {
         res.status(200).json({
           status: true,
@@ -23,12 +23,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         });
         return;
       } else {
-        res.status(404).json({ status: false, err: "Accounts not found" });
+        res.status(404).json({ status: false, err: 'Accounts not found' });
         return;
       }
     },
   };
   const response = handleCase[method];
   if (response) response(req, res);
-  else res.status(400).json({ error: "No Response for This Request" });
+  else res.status(400).json({ error: 'No Response for This Request' });
 }
