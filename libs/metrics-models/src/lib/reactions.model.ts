@@ -9,8 +9,7 @@ const reactionsScheme = new mongoose.Schema(
     postFeedId: { type: String },
     commentId: { type: String },
     fromUser: { type: String },
-    likes: { type: Boolean, default: false },
-    agrees: { type: Boolean, default: false },
+    like: { type: Boolean, default: false },
     toUser: { type: String },
   },
   { timestamps: true }

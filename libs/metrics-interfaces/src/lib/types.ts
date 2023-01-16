@@ -1,5 +1,15 @@
 import { ReactNode } from 'react';
 
+export interface IUserReactions {
+  _id?: string;
+  postFeedId?: string;
+  commentId?: string;
+  fromUser?: string;
+  toUser?: string;
+  like?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
 export interface IPostComment {
   _id?: string;
   postFeedId: string;

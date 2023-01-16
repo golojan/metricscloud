@@ -1,4 +1,8 @@
-import { AuthUserInfo, IPostComment } from '@metricsai/metrics-interfaces';
+import {
+  AuthUserInfo,
+  IPostComment,
+  IUserReactions,
+} from '@metricsai/metrics-interfaces';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { timeAgo } from '../libs/toDate';
@@ -19,63 +23,66 @@ const fromUserInfo = async (token: string) => {
   }
 };
 
+const getCommentLikes = async (commentId: string) => {
+  const response = await fetch(`/api/reactions/comments/${commentId}/likes`);
+  const commentLikes = await response.json();
+  if (commentLikes.status) {
+    return commentLikes.data;
+  } else {
+    return {};
+  }
+};
+
 const CommentsFeedItem = (props: TCommentFeed) => {
   const token = authToken();
 
+  const [busy, setBusy] = React.useState(false);
+
   const { commentInfo } = props;
-  const { _id, fromUser, toUser, comment, createdAt } = commentInfo;
+  const { _id, postFeedId, fromUser, toUser, comment, createdAt } = commentInfo;
   const [userInfo, setUserInfo] = React.useState<AuthUserInfo>({});
+  const [likes, setLikes] = React.useState<IUserReactions[]>([]);
+
+  // find if user has liked this post
+
+  const hasLiked = likes.find((like) => like.fromUser === token);
 
   const likePost = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    alert(0);
     if (!token)
       return toast.error(`You must be logged in to like`, {
         toastId: 'like-not-logged-in',
       });
-    // setBusy(true);
-    // const response = await fetch(`/api/posts/like/${post._id}`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({ token }),
-    // });
-    // const { status, data } = await response.json();
-    // if (status) {
-    //   toast.success(`Post liked successfully`, {
-    //     toastId: 'post-liked-success',
-    //   });
-    // } else {
-    //   toast.error(`Post like failed, please try again later`, {
-    //     toastId: 'post-liked-failed',
-    //   });
-    // }
-    // setBusy(false);
-  };
-
-  const dislikePost = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    if (!token)
-      return toast.error(`You must be logged in to like`, {
-        toastId: 'like-not-logged-in',
+    setBusy(true);
+    const response = await fetch(`/api/reactions/comments/like`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        postFeedId: postFeedId,
+        commentId: _id,
+        fromUser: token,
+        toUser: fromUser,
+      }),
+    });
+    const { status, like } = await response.json();
+    if (status) {
+      if (like) {
+        // toast.success(`Post liked successfully`, {
+        //   toastId: 'post-liked-success',
+        // });
+      } else {
+        // toast.warning(`Post unliked successfully`, {
+        //   toastId: 'post-unliked-success',
+        // });
+      }
+    } else {
+      toast.error(`Post like failed, please try again later`, {
+        toastId: 'post-liked-failed',
       });
-  };
-
-  const agreePost = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    if (!token)
-      return toast.error(`You must be logged in to agree`, {
-        toastId: 'agree-not-logged-in',
-      });
-  };
-
-  const disagreePost = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    if (!token)
-      return toast.error(`You must be logged in to disagree`, {
-        toastId: 'disagree-not-logged-in',
-      });
+    }
+    setBusy(false);
   };
 
   useEffect(() => {
@@ -83,8 +90,13 @@ const CommentsFeedItem = (props: TCommentFeed) => {
       const user = await fromUserInfo(fromUser);
       setUserInfo(user);
     };
+    const getAllCommentLikes = async () => {
+      const commentLikes = await getCommentLikes(_id);
+      setLikes(commentLikes);
+    };
+    getAllCommentLikes();
     getUserInfo();
-  }, []);
+  }, [busy]);
 
   return (
     <>
@@ -100,47 +112,28 @@ const CommentsFeedItem = (props: TCommentFeed) => {
             alt="commenters-img"
           />
         </Link>
-        <div className="ms-2 small">
+        <div className="ms-2 ">
           <Link href="#" className="text-dark text-decoration-none">
             <div className="bg-light px-3 py-2 rounded-4 mb-1 chat-text">
               <p className="fw-500 mb-0">{`${userInfo.firstname} ${userInfo.lastname}`}</p>
               <span className="text-muted">{comment}</span>
             </div>
           </Link>
-          <div className="d-flex align-items-center ms-2">
+          <div className="d-flex align-items-center ms-3">
             <Link
               href="#"
               className=" text-gray-500  hover:text-blue-800 text-muted text-decoration-none"
               onClick={likePost}
             >
-              Like <sup className="text-green-500 font-bold">{0}</sup>
+              {hasLiked ? (
+                <span className="text-green-500">Liked</span>
+              ) : (
+                <span className="">Like</span>
+              )}{' '}
+              <sup className="text-green-500 font-bold">{likes.length}</sup>
             </Link>
-            <span className="fs-3 text-muted material-icons mx-1">circle</span>
-            <Link
-              href="#"
-              className=" text-gray-500 text-decoration-none hover:text-red-600"
-              onClick={dislikePost}
-            >
-              Dislike <sub className="text-red-500 font-bold">{0}</sub>
-            </Link>
-            <span className="fs-3 text-muted material-icons mx-1">circle</span>
-            <Link
-              href="#"
-              className="text-gray-500  hover:text-blue-800 text-muted text-decoration-none"
-              onClick={agreePost}
-            >
-              Agree <sup className="text-green-500 font-bold">{0}</sup>
-            </Link>
-            <span className="fs-3 text-muted material-icons mx-1">circle</span>
-            <Link
-              href="#"
-              className=" text-gray-500 text-decoration-none hover:text-red-600"
-              onClick={disagreePost}
-            >
-              Disagree <sub className="text-red-500 font-bold">{0}</sub>
-            </Link>
+            <span className="fs-3 text-muted material-icons mx-2">circle</span>
 
-            <span className="fs-3 text-muted material-icons mx-1">circle</span>
             <span className="small text-muted">{timeAgo(createdAt)}</span>
           </div>
         </div>

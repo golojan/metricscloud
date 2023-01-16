@@ -5,8 +5,8 @@ import { ResponseFunctions } from '@metricsai/metrics-interfaces';
 const Mailjet = require('node-mailjet');
 
 const mailjet = new Mailjet({
-  apiKey: '84912638d615c7fab87f10066ddfc934',
-  apiSecret: 'abf622807081550b330301532e319126',
+  apiKey: 'b41c6d1d392c55521e65a9e21d1edbe3',
+  apiSecret: 'd8db20927625af621539d6a5b6dc840b',
   config: {
     host: 'api.mailjet.com',
     version: 'v3',
@@ -22,7 +22,7 @@ export default async function handler(
   const catcher = (error: Error) => res.status(400).json({ error });
   const handleCase: ResponseFunctions = {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { toEmail, toName, sebject, htmlBody } = req.body;
+      const { toEmail, toName, subject, htmlBody } = req.body;
       //Send mail now
       mailjet
         .post('send', { version: 'v3.1' })
@@ -39,7 +39,7 @@ export default async function handler(
                   Name: `${toName}`,
                 },
               ],
-              Subject: `${sebject}`,
+              Subject: `${subject}`,
               TextPart: `${htmlBody}`,
             },
           ],

@@ -10,7 +10,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { token } = req.query;
       const { PostFeeds } = await dbCon();
-      const posts = await PostFeeds.find({ accountId: token }).catch(catcher);
+      const posts = await PostFeeds.find({ accountId: token })
+        .sort({ createdAt: -1 })
+        .catch(catcher);
       if (posts) {
         res.status(200).json({
           status: true,

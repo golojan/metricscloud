@@ -2,24 +2,15 @@ import {
   AuthUserInfo,
   IPostComment,
   IPostFeed,
+  IUserReactions,
 } from '@metricsai/metrics-interfaces';
-import React, {
-  RefObject,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { OwnerStatus, UserStatus } from './Status';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
+import { OwnerStatus } from './Status';
 import Link from 'next/link';
 import { toDayMonth } from '../libs/toDate';
 import { authToken } from '../hocs/auth/withAuth';
 import { toast } from 'react-toastify';
 import CommentsFeedItem from './CommentsFeedItem';
-import { Virtuoso } from 'react-virtuoso';
-import { Components } from 'react-virtuoso';
-
-import avatar from '/img/rmate2.jpg';
 
 interface PostFeedProps {
   username: string;
@@ -47,6 +38,16 @@ const allComments = async (postFeedId: string) => {
   }
 };
 
+const getPostLikesLikes = async (postFeedId: string) => {
+  const response = await fetch(`/api/reactions/posts/${postFeedId}/likes`);
+  const postLikes = await response.json();
+  if (postLikes.status) {
+    return postLikes.data;
+  } else {
+    return {};
+  }
+};
+
 function PostFeed(props: PostFeedProps) {
   const [busy, setBusy] = useState<boolean>(false);
   const { username, post } = props;
@@ -54,27 +55,18 @@ function PostFeed(props: PostFeedProps) {
   const [commentCount, setCommentCount] = React.useState<number>(0);
   const [comments, setComments] = React.useState<IPostComment[]>([]);
 
-  const [loading, setLoading] = useState(false);
+  const [likes, setLikes] = React.useState<IUserReactions[]>([]);
+
+  const hasLiked = likes.find((like) => like.fromUser === token);
+  const postFeedId = post._id;
 
   const token = authToken();
 
-  const [currentPosition, setCurrentPosition] = useState(0);
-  const [chunkSize] = useState<number>(5);
-
-  const loadMore = () => {
-    setCurrentPosition(currentPosition + chunkSize);
-  };
-
   const [postComment, setPostComment] = React.useState<IPostComment>({
-    postFeedId: post._id,
+    postFeedId: postFeedId,
     fromUser: token,
     toUser: ownerProfile.username,
   });
-
-  const scrollRef: RefObject<Components['Scroller']> =
-    useRef<Components['Scroller']>(null);
-  const itemRef: RefObject<Components['Item']> =
-    useRef<Components['Item']>(null);
 
   const commentRef: RefObject<HTMLTextAreaElement> =
     useRef<HTMLTextAreaElement>(null);
@@ -112,7 +104,7 @@ function PostFeed(props: PostFeedProps) {
       },
       body: JSON.stringify(postComment),
     });
-    const { status, data } = await response.json();
+    const { status } = await response.json();
     if (status) {
       toast.success(`Comment created successfully`, {
         toastId: 'comment-created-success',
@@ -126,31 +118,74 @@ function PostFeed(props: PostFeedProps) {
     setBusy(false);
   };
 
+  const likePost = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (!token)
+      return toast.error(`You must be logged in to like this post`, {
+        toastId: 'like-not-logged-in',
+      });
+    setBusy(true);
+    const response = await fetch(`/api/reactions/posts/like`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        postFeedId: postFeedId,
+        fromUser: token,
+        toUser: post.accountId,
+      }),
+    });
+    const { status, like } = await response.json();
+    if (status) {
+      if (like) {
+        toast.success(`Post liked successfully`, {
+          toastId: 'post-liked-success',
+        });
+      } else {
+        toast.warning(`Post unliked successfully`, {
+          toastId: 'post-unliked-success',
+        });
+      }
+    } else {
+      toast.error(`Post like failed, please try again later`, {
+        toastId: 'post-liked-failed',
+      });
+    }
+    setBusy(false);
+  };
+
   useEffect(() => {
     const getProfile = async () => {
       const profile = await ProfileInfo(username);
       setOwnerProfile(profile);
     };
     const getComments = async () => {
-      const result = await allComments(post._id);
-      const _chunkSize = currentPosition + chunkSize;
-      const chunk = result.slice(0, _chunkSize);
-      setCurrentPosition(_chunkSize);
-      setComments(chunk);
-      setCommentCount(chunk.length);
+      const result = await allComments(postFeedId);
+      setComments(result);
+      setCommentCount(result.length);
     };
+    // get comments //
+    const getAllPostLikes = async () => {
+      const commentLikes = await getPostLikesLikes(postFeedId);
+      setLikes(commentLikes);
+    };
+
+    // get likes //
+    getAllPostLikes();
     getProfile();
     getComments();
-  }, [username, post._id, busy]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [busy]);
 
   return (
     <>
       <div className="bg-white p-3 feed-item rounded-4 mb-2 shadow-sm">
         <div className="d-flex">
           <img
-            src={ownerProfile.picture || '/img/rmate2.jpg'}
+            src={ownerProfile.picture || '/images/avatar/user.png'}
             className="img-fluid rounded-circle user-img"
-            alt={ownerProfile.firstname || 'profile-img'}
+            alt={ownerProfile.firstname}
           />
           <div className="d-flex ms-3 align-items-start w-100">
             <div className="w-100">
@@ -230,15 +265,28 @@ function PostFeed(props: PostFeedProps) {
                 </div>
 
                 <div className="d-flex align-items-center justify-content-between mb-2">
+                  {JSON.stringify(likes)}
                   <div>
                     <Link
                       href="#"
                       className="text-muted text-decoration-none d-flex align-items-start fw-light"
+                      onClick={likePost}
                     >
-                      <span className="material-icons md-20 me-2 hover:text-blue-500">
-                        thumb_up_off_alt
-                      </span>
-                      <span>{0}</span>
+                      {hasLiked ? (
+                        <>
+                          <span className="material-icons md-20 me-2 text-green-500 hover:text-blue-500">
+                            thumb_up_off_alt
+                          </span>
+                          <span>{likes.length}</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="material-icons md-20 me-2 hover:text-blue-500">
+                            thumb_up_off_alt
+                          </span>
+                          <span>{likes.length}</span>
+                        </>
+                      )}
                     </Link>
                   </div>
                   <div>
@@ -290,7 +338,7 @@ function PostFeed(props: PostFeedProps) {
                   </div>
                 </form>
                 <div className="comments">
-                  {comments.slice(0, currentPosition).map((comment) => (
+                  {comments.map((comment) => (
                     <CommentsFeedItem key={comment._id} commentInfo={comment} />
                   ))}
                 </div>
