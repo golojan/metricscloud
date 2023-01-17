@@ -15,8 +15,7 @@ const SlickSlider = () => {
 
   // get all users from the database //
   const settings = {
-    swipe: false,
-    touchMove: false,
+    swipe: true,
     dots: false,
     infinite: true,
     speed: 500,
