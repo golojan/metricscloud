@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ResponseFunctions } from '@metricsai/metrics-interfaces';
+import { ResponseFunctions, AccountTypes } from '@metricsai/metrics-interfaces';
 import { dbCon } from '@metricsai/metrics-models';
 
-import bcrypt  from 'bcryptjs'
+import bcrypt from 'bcryptjs';
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,43 +12,34 @@ export default async function handler(
   const catcher = (error: Error) => res.status(400).json({ error });
   const handleCase: ResponseFunctions = {
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { Schools, Accounts } = await dbCon();
+      const { Accounts } = await dbCon();
 
-      console.log('Creating School');
+      // Encrypt Password//
+      const salt = bcrypt.genSaltSync(10);
+      const hashedPassword = bcrypt.hashSync('admin', salt);
+      // Encrypt Password//
 
-      const created = await Schools.create({
-        domain: 'localhost',
-        name: 'Enug State University, ESUT',
-        shortname: 'ESUT',
+      const account = await Accounts.create({
+        schoolid: '63c6a0d3bdbe486760187b66',
+        accountType: AccountTypes.ADMIN,
+        email: 'agu.chux@yahoo.com',
+        firstname: 'Agu',
+        lastname: 'Chux',
+        mobile: '07068573376',
+        enabled: true,
+        password: hashedPassword,
       }).catch(catcher);
-      if (created) {
-        // Encrypt Password//
-        const salt = bcrypt.genSaltSync(10);
-        const hashedPassword = bcrypt.hashSync('admin', salt);
-        // Encrypt Password//
-        const account = await Accounts.create({
-          schoolid: created._id,
-          email: 'agu.chux@yahoo.com',
-          firstname: 'Agu',
-          lastname: 'Chux',
-          mobile: '07068573376',
-          enabled: true,
-          password: hashedPassword,
-        }).catch(catcher);
 
-        if (account) {
-          res.status(200).json({
-            status: true,
-            accid: account._id,
-            schoolid: created._id,
-          });
-        } else {
-          res
-            .status(400)
-            .json({ status: false, err: 'Failed to create Account' });
-        }
+      if (account) {
+        res.status(200).json({
+          status: true,
+          accid: account._id,
+          schoolid: account.schoolId,
+        });
       } else {
-        res.status(400).json({ status: false, err: 'Failed to create School' });
+        res
+          .status(400)
+          .json({ status: false, err: 'Failed to create Account' });
       }
     },
   };

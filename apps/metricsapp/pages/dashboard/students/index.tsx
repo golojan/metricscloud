@@ -1,22 +1,22 @@
-import { NextPage } from "next";
-import React, { useEffect, useState } from "react";
-import AdminLayout from "../../../components/AdminLayout";
-import AppDrawer from "../../../serverlets/AppDrawer";
+import { NextPage } from 'next';
+import React, { useEffect, useState } from 'react';
+import AdminLayout from '../../../components/AdminLayout';
+import AppDrawer from '../../../serverlets/AppDrawer';
 
-import { faPlus, faUsersBetweenLines } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faUsersBetweenLines } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Link from "next/link";
-import AppHeader from "../../../serverlets/AppHeader";
-import Copyright from "../../../serverlets/Copyright";
-import { withAuthSync } from "../../../utils/withAuthSync";
-import { compose } from "redux";
+import Link from 'next/link';
+import AppHeader from '../../../serverlets/AppHeader';
+import Copyright from '../../../serverlets/Copyright';
+import { withAuthSync } from '../../../utils/withAuthSync';
+import { compose } from 'redux';
 
-import { useDispatch, useSelector } from "react-redux";
-import { Dispatch, RootState } from "@metricsai/metrics-store";
+import { useDispatch, useSelector } from 'react-redux';
+import { Dispatch, RootState } from '@metricsai/metrics-store';
 
-import StudentsListBox from "../../../components/StudentsListBox";
-import { StudentInfo, Gender } from "@metricsai/metrics-interfaces";
+import StudentsListBox from '../../../components/StudentsListBox';
+import { StudentInfo, Gender } from '@metricsai/metrics-interfaces';
 
 type sFilters = {
   male: boolean;
@@ -24,7 +24,7 @@ type sFilters = {
 };
 const Students: NextPage = () => {
   const dispatch = useDispatch<Dispatch>();
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState<string>('');
   const { studentsCount, students, list, studentId } = useSelector(
     (state: RootState) => state.students
   );
@@ -50,20 +50,12 @@ const Students: NextPage = () => {
     dispatch.students.setList(newData);
   };
 
-  const doFilter = (_list: StudentInfo[], _filter: sFilters) => {
-    const newData = _list.filter((_list: StudentInfo) => {
-      return _list.gender?.startsWith(Gender.MALE);
-    });
-    dispatch.students.setList(newData);
-  };
-
   return (
     <>
       <AdminLayout>
         <AppHeader />
         <div id="appCapsule" className="mb-5">
           <div className="section wallet-card-section pt-1">
-
             <div className="wallet-card">
               <div className="balance">
                 <div className="left">
@@ -74,13 +66,12 @@ const Students: NextPage = () => {
                 </div>
                 <div className="right flex">
                   <Link href="#" className="button">
-                      <FontAwesomeIcon icon={faPlus} />
+                    <FontAwesomeIcon icon={faPlus} />
                   </Link>
                 </div>
               </div>
             </div>
           </div>
-
 
           <div className="section pt-1">
             <div className="row ">

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-
+import { Gender, LecturerLevel, LecturerType, StudentType } from './enums';
 export interface IUserReactions {
   _id?: string;
   postFeedId?: string;
@@ -17,9 +17,9 @@ export interface IPostComment {
   toUser: string;
   comment?: string;
   image?: string;
-  viewsCount?: Number;
-  likesCount?: Number;
-  commentsCount?: Number;
+  viewsCount?: number;
+  likesCount?: number;
+  commentsCount?: number;
   onReview?: boolean;
   approved?: boolean;
   createdAt?: Date;
@@ -41,7 +41,7 @@ export interface IPostFeed {
   shortname?: string;
   content?: string;
   image?: string;
-  views?: Number;
+  views?: number;
   onReview?: boolean;
   approved?: boolean;
   enabled?: boolean;
@@ -58,7 +58,7 @@ export interface SchoolInfo {
   state?: string;
   location?: string;
   ownedBy?: string;
-  founded?: Number;
+  founded?: number;
   enabled?: boolean;
   indicators?: any;
 }
@@ -109,11 +109,9 @@ export interface AuthUserInfo {
 }
 
 export interface ResponseFunctions {
-  GET?: Function;
-  POST?: Function;
+  GET?: () => Function;
+  POST?: () => Function;
 }
-
-import { Gender, LecturerLevel, LecturerType, StudentType } from './enums';
 
 export type DataLists = {
   schools?: SchoolInfo[];
@@ -194,7 +192,7 @@ export interface IHistory {
   citations?: number;
   hindex?: number;
   i10hindex?: number;
-  allschools?: [{}];
+  allschools?: [object];
   adminId?: string;
 }
 
@@ -264,7 +262,7 @@ export type SchoolStats = {
   i10hindex?: number;
 };
 
-export type SchoolAnalitics = {};
+export type SchoolAnalitics = object;
 
 export interface Props {
   children?: ReactNode;
@@ -360,7 +358,7 @@ export type LecturerAnalitics = {
 
 export type FacultiesInfo = {
   _id?: string;
-  domain?: string;
+  scoolId?: string;
   name?: string;
   description?: string;
   enabled?: boolean;
@@ -368,7 +366,7 @@ export type FacultiesInfo = {
 
 export type DepartmentsInfo = {
   _id?: string;
-  domain?: string;
+  scoolId?: string;
   facultyId?: string;
   name?: string;
   description?: string;

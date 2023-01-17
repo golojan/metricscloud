@@ -20,11 +20,13 @@ import UserReactions from './reactions.model';
 const { NEXT_PUBLIC_MONGOOSE_URI } = process.env;
 
 export const dbCon = async () => {
+  mongoose.set('strictQuery', true);
   const conn = await mongoose
     .connect(NEXT_PUBLIC_MONGOOSE_URI as string)
-    .then(() => {})
+    .then(() => {
+      console.log('Mongoose Connection Established');
+    })
     .catch((err) => console.log(err));
-  console.log('Mongoose Connection Established');
   return {
     conn,
     Schools,
