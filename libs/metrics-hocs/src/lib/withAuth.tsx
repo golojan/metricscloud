@@ -1,13 +1,35 @@
 import React, { useEffect } from 'react';
 import Router from 'next/router';
 import nextCookie from 'next-cookies';
-import { getUserName } from '../../libs/queries';
 import cookie from 'js-cookie';
-import { useAtom } from 'jotai';
-import { profileAtom } from '@metricsai/metrics-store';
 
-// Login & Create session for a given minutes time
-export const authLogin = (token: string) => {
+const getUserName = async (token: string) => {
+  const response = await fetch(`/api/accounts/${token}/username`);
+  const user = await response.json();
+  if (user.status) {
+    return user.username;
+  } else {
+    return {};
+  }
+};
+
+// Login & Create session for Cloud user a given minutes time
+export const cloudLogin = (token: string) => {
+  const expire_time: any = process.env.NEXT_PUBLIC_COOKIE_TIME_IN_MINS || 10;
+  const inMinutes = new Date(new Date().getTime() + expire_time * 60 * 1000);
+  getUserName(token)
+    .then((username) => {
+      cookie.set('token', token as string, { expires: inMinutes });
+      cookie.set('username', username as string, { expires: inMinutes });
+      Router.push(`/${username}`);
+    })
+    .catch((err) => {
+      authlogout();
+    });
+};
+
+// Login & Create session for Apps user a given minutes time
+export const appLogin = (token: string) => {
   const expire_time: any = process.env.NEXT_PUBLIC_COOKIE_TIME_IN_MINS || 10;
   const inMinutes = new Date(new Date().getTime() + expire_time * 60 * 1000);
   getUserName(token)
@@ -51,11 +73,29 @@ export const authToken = () => {
   return null;
 };
 
-export const authlogout = () => {
-  cookie.remove('token');
+export const authUsername = () => {
+  const username = cookie.get('username');
+  if (username) {
+    return username;
+  }
+  return null;
+};
+
+export const authSchoolId = () => {
+  const schoolId = cookie.get('schoolId');
+  if (schoolId) {
+    return schoolId;
+  }
+  return null;
+};
+
+export const authlogout = (url = '/') => {
+  if (authToken()) cookie.remove('token');
+  if (authUsername()) cookie.remove('username');
+  if (authSchoolId()) cookie.remove('schoolId');
   // to support logging out from all windows
   window.localStorage.setItem('logout', `${Date.now()}`);
-  Router.push('/auth/');
+  Router.push(`${url}`);
 };
 
 export const withAuth = (WrappedComponent: any) => {

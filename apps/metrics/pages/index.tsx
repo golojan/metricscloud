@@ -16,7 +16,7 @@ import TabContentLecturers from '../components/TabContentLecturers';
 import TabContentStudents from '../components/TabContentStudents';
 import TabContentTrending from '../components/TabContentTrending';
 import TabContentAlumni from '../components/TabContentAlumni';
-import { hasAuth } from '../hocs/auth/withAuth';
+import { hasAuth } from '@metricsai/metrics-hocs';
 import { useAtom } from 'jotai';
 import { pageAtom, profileAtom, schoolsAtom } from '@metricsai/metrics-store';
 import { useEffect } from 'react';

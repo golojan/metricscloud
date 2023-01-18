@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { RefObject, useEffect, useRef, useState } from 'react';
-import { toMonthDayYear } from '../libs/toDate';
-import { hasAuth } from '../hocs/auth/withAuth';
+import { toMonthDayYear } from '@metricsai/metrics-utils';
+import { hasAuth } from '@metricsai/metrics-hocs';
 
 import {
   publicProfileAtom,

@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@metricsai/metrics-hocs": ["libs/metrics-hocs/src/index.ts"],
       "@metricsai/metrics-images": ["libs/metrics-images/src/index.ts"],
       "@metricsai/metrics-interfaces": ["libs/metrics-interfaces/src/index.ts"],
       "@metricsai/metrics-mail": ["libs/metrics-mail/src/index.ts"],

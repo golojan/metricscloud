@@ -1,33 +1,33 @@
-import React from "react";
-import { toast } from "react-toastify";
-import { authLogin } from "../hocs/auth/withAuth";
+import React from 'react';
+import { toast } from 'react-toastify';
+import { cloudLogin } from '@metricsai/metrics-hocs';
 
 function LoginTabContents() {
   const [login, setLogin] = React.useState({
-    username: "",
-    password: "",
+    username: '',
+    password: '',
   });
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
-    const response = await fetch("/api/accounts/login", {
-      method: "POST",
+    const response = await fetch('/api/accounts/login', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(login),
     });
     const { status, token } = await response.json();
     if (status) {
       toast.success(`Account found, redirecting you to your profile page...`, {
-        toastId: "account-login-success",
+        toastId: 'account-login-success',
       });
-      authLogin(token);
+      cloudLogin(token);
     } else {
       toast.error(
         `Invalid Email or Password: Try again or try resetting your password.`,
         {
-          toastId: "account-login-success",
+          toastId: 'account-login-success',
         }
       );
     }

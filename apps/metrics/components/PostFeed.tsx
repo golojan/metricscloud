@@ -8,8 +8,8 @@ import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { OwnerStatus } from './Status';
 import Link from 'next/link';
 import Image from 'next/image';
-import { toDayMonth } from '../libs/toDate';
-import { authToken } from '../hocs/auth/withAuth';
+import { toDayMonth } from '@metricsai/metrics-utils';
+import { authToken } from '@metricsai/metrics-hocs';
 import { toast } from 'react-toastify';
 import CommentsFeedItem from './CommentsFeedItem';
 

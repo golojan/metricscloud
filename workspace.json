@@ -62,6 +62,29 @@
       },
       "tags": []
     },
+    "metrics-hocs": {
+      "root": "libs/metrics-hocs",
+      "sourceRoot": "libs/metrics-hocs/src",
+      "projectType": "library",
+      "tags": [],
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/metrics-hocs/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+          "options": {
+            "jestConfig": "libs/metrics-hocs/jest.config.ts",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "metrics-images": {
       "root": "libs/metrics-images",
       "sourceRoot": "libs/metrics-images/src",

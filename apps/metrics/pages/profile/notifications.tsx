@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 
-import { withAuth } from '../../hocs/auth/withAuth';
+import { withAuth } from '@metricsai/metrics-hocs';
 import { NextPage } from 'next';
 import { AuthUserInfo } from '@metricsai/metrics-interfaces';
 import { toast } from 'react-toastify';

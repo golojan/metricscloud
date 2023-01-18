@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { authlogout } from '../../hocs/auth/withAuth';
+import { authlogout } from '@metricsai/metrics-hocs';
 import cookie from 'js-cookie';
 import { AdBoxSlim } from '../AdBox';
 import MetricsLogo from '../MetricsLogo';
@@ -112,7 +112,11 @@ function FixedSecureMenu() {
           </li>
 
           <li className="nav-item">
-            <Link href={'#'} onClick={authlogout} className="nav-link">
+            <Link
+              href={'#'}
+              onClick={() => authlogout('/auth/')}
+              className="nav-link"
+            >
               <span className="material-icons me-3">logout</span>
               <span>Logout</span>
             </Link>

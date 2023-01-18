@@ -1,17 +1,17 @@
-import React from "react";
-import { authLogin } from "../hocs/auth/withAuth";
+import React from 'react';
+import { authLogin } from '@metricsai/metrics-hocs';
 
 function ResetTabContents() {
   const [login, setLogin] = React.useState({
-    username: "",
+    username: '',
   });
 
   const handleReset = async (e: any) => {
     e.preventDefault();
-    const response = await fetch("/api/accounts/reset", {
-      method: "POST",
+    const response = await fetch('/api/accounts/reset', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(login),
     });
@@ -19,7 +19,7 @@ function ResetTabContents() {
     if (status) {
       authLogin(token);
     } else {
-      alert("Invalid Username and Password.");
+      alert('Invalid Username and Password.');
     }
   };
 

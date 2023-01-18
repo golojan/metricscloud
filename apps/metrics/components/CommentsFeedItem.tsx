@@ -5,8 +5,8 @@ import {
 } from '@metricsai/metrics-interfaces';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
-import { timeAgo } from '../libs/toDate';
-import { authToken } from '../hocs/auth/withAuth';
+import { timeAgo } from '@metricsai/metrics-utils';
+import { authToken } from '@metricsai/metrics-hocs';
 import { toast } from 'react-toastify';
 
 type TCommentFeed = {

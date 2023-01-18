@@ -5,7 +5,7 @@ import {
   showUserPostFeedDialogAtom,
 } from '@metricsai/metrics-store';
 import { useAtom } from 'jotai';
-import { hasAuth } from 'apps/metrics/hocs/auth/withAuth';
+import { hasAuth } from '@metricsai/metrics-hocs';
 import Modal from 'react-bootstrap/Modal';
 import { PostFeedTypes } from '@metricsai/metrics-interfaces';
 import { toast } from 'react-toastify';

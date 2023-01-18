@@ -1,9 +1,8 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { AuthUserInfo, SchoolInfo } from '@metricsai/metrics-interfaces';
-import { getProfile, getSchools } from "../libs/queries";
-import { toMonthYear } from "../libs/toDate";
+import { getProfile, getSchools, toMonthYear } from '@metricsai/metrics-utils';
 
 function NoProfilePage() {
   const router = useRouter();

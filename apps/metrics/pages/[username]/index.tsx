@@ -3,7 +3,6 @@ import { NextPage } from 'next';
 import PublicLayout from '../../components/PublicLayout';
 import { useRouter } from 'next/router';
 import { IPostFeed } from '@metricsai/metrics-interfaces';
-import useSWR from 'swr';
 import ProfilePage from '../../components/ProfilePage';
 import NoProfilePage from '../../components/NoProfilePage';
 import Head from 'next/head';

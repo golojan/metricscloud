@@ -1,19 +1,18 @@
 import React, { RefObject, useEffect, useRef, useState } from 'react';
 import Layout from '../../components/Layout';
 
-import { withAuth } from '../../hocs/auth/withAuth';
+import { withAuth } from '@metricsai/metrics-hocs';
 import { NextPage } from 'next';
 
 import { AccountTypes, Gender } from '@metricsai/metrics-interfaces';
 import { AuthUserInfo } from '@metricsai/metrics-interfaces';
 
 import validator from 'validator';
-import { hasSpacialChars } from '../../libs/hasSpacialChars';
+import { hasSpacialChars } from '@metricsai/metrics-utils';
 import { toast } from 'react-toastify';
 import {
   busyAtom,
   profileAtom,
-  publicProfileAtom,
   schoolsAtom,
   pageAtom,
 } from '@metricsai/metrics-store';

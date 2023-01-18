@@ -7,7 +7,7 @@ import Head from 'next/head';
 import '../styles/globals.scss';
 import { Provider as JotaiProvider } from 'jotai';
 import { ToastContainer } from 'react-toastify';
-import { RefObject, useEffect, useRef } from 'react';
+import { RefObject, useRef } from 'react';
 
 export default function App({ Component, pageProps }: AppProps) {
   const hashed: RefObject<HTMLAnchorElement> = useRef<HTMLAnchorElement>(null);

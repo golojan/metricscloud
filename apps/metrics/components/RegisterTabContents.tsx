@@ -1,12 +1,12 @@
 import React, { useRef, RefObject, useState } from 'react';
-import { authLogin } from '../hocs/auth/withAuth';
+import { cloudLogin } from '@metricsai/metrics-hocs';
 import {
   AccountTypes,
   Gender,
   SchoolInfo,
 } from '@metricsai/metrics-interfaces';
 import validator from 'validator';
-import { hasSpacialChars } from '../libs/hasSpacialChars';
+import { hasSpacialChars } from '@metricsai/metrics-utils';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import useSWR from 'swr';
@@ -69,7 +69,7 @@ function RegisterTabContents() {
       toast.success(`Account created successfully, logging you in...`, {
         toastId: 'register-account-success',
       });
-      authLogin(token);
+      cloudLogin(token);
     } else {
       toast.error(
         `Account registration failed. Server may be having issues, try again after some time.`,

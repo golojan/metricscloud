@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import FooterBar from "./FooterBar";
-import SocialMenu from "./SocialMenu";
-import TopBar from "./TopBar";
-import RightColumn from "./RightColumn";
-import { hasAuth } from "../hocs/auth/withAuth";
-import RightPageColumn from "./RightPageColumn";
-import FixedPageMenu from "./Menus/FixedPageMenu";
-import FixedSecureMenu from "./Menus/FixedSecureMenu";
-import MobileSecureMenu from "./Menus/MobileSecureMenu";
-import MobilePageMenu from "./Menus/MobilePageMenu";
+import React, { useEffect } from 'react';
+import FooterBar from './FooterBar';
+import SocialMenu from './SocialMenu';
+import TopBar from './TopBar';
+import RightColumn from './RightColumn';
+import { hasAuth } from '@metricsai/metrics-hocs';
+import RightPageColumn from './RightPageColumn';
+import FixedPageMenu from './Menus/FixedPageMenu';
+import FixedSecureMenu from './Menus/FixedSecureMenu';
+import MobileSecureMenu from './Menus/MobileSecureMenu';
+import MobilePageMenu from './Menus/MobilePageMenu';
 
 // Props interface for the Layout component
 interface Props {
@@ -17,7 +17,6 @@ interface Props {
 
 // Layout component that takes in the children prop
 function PublicLayout({ children }: Props) {
-
   const auth = hasAuth();
 
   // Return JSX that represents the layout of a page
