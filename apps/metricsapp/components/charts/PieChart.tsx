@@ -1,6 +1,6 @@
-import React from "react";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie } from "react-chartjs-2";
+import React from 'react';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -11,18 +11,19 @@ type ChartProps = {
   height?: string;
   width?: string;
 };
+
 const PieChart = ({
-  labels = ["D1"],
+  labels = ['D1'],
   data = [1],
-  color = "#3265af",
-  height = "auto",
-  width = "auto",
+  color = '#3265af',
+  height = 'auto',
+  width = 'auto',
 }: ChartProps) => {
   return (
     <>
       <div
         style={{
-          position: "relative",
+          position: 'relative',
           //   bottom: "10px",
           //   right: "25px",
           height: height,
