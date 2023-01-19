@@ -1,5 +1,5 @@
 import React from 'react';
-import { authLogin } from '@metricsai/metrics-hocs';
+import { cloudLogin } from '@metricsai/metrics-hocs';
 
 function ResetTabContents() {
   const [login, setLogin] = React.useState({
@@ -17,7 +17,7 @@ function ResetTabContents() {
     });
     const { status, token } = await response.json();
     if (status) {
-      authLogin(token);
+      cloudLogin(token);
     } else {
       alert('Invalid Username and Password.');
     }
