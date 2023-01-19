@@ -1,3 +1,4 @@
+import { accountInitialStats } from './../../../../metrics-interfaces/src/lib/types';
 import {
   SchoolAnalitics,
   SchoolInfo,
@@ -7,7 +8,7 @@ import {
   StateTypes,
   UserInfo,
   WebWindow,
-  AuthUserInfo
+  AuthUserInfo,
 } from '@metricsai/metrics-interfaces';
 import { createModel } from '@rematch/core';
 import { RootModel } from '.';
@@ -38,12 +39,7 @@ export const settings = createModel<RootModel>()({
     uploaded: false,
     idelTime: 0,
     total: 0,
-    ranking: {
-      googlePresence: 0,
-      citations: 0,
-      hindex: 0,
-      i10hindex: 0,
-    } as SchoolRank,
+    ranking: accountInitialStats as SchoolRank,
     statistics_school: {} as SchoolAnalitics,
     analytics_school: {} as SchoolAnalitics,
   },
@@ -89,9 +85,6 @@ export const settings = createModel<RootModel>()({
     },
     setAnalytics(state, payload: object) {
       return { ...state, analytics_school: payload };
-    },
-    setRank(state, payload: object) {
-      return { ...state, ranking: payload };
     },
     setTotal(state, payload: number) {
       return { ...state, total: payload };
