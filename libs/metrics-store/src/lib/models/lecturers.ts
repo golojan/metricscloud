@@ -16,7 +16,7 @@ export const lecturers = createModel<RootModel>()({
     lecturers: [] as AuthUserInfo[],
     list: [] as AuthUserInfo[],
     loaded: false,
-    statistics_lecturers: accountInitialStats as AccountsStats,
+    statistics_lecturers: {},
     analytics_lecturers: {} as LecturerAnalitics,
   },
   reducers: {

@@ -39,7 +39,7 @@ export const settings = createModel<RootModel>()({
     uploaded: false,
     idelTime: 0,
     total: 0,
-    ranking: accountInitialStats as SchoolRank,
+    ranking: {},
     statistics_school: {} as SchoolAnalitics,
     analytics_school: {} as SchoolAnalitics,
   },
@@ -85,6 +85,9 @@ export const settings = createModel<RootModel>()({
     },
     setAnalytics(state, payload: object) {
       return { ...state, analytics_school: payload };
+    },
+    setRank(state, payload: object) {
+      return { ...state, ranking: payload };
     },
     setTotal(state, payload: number) {
       return { ...state, total: payload };

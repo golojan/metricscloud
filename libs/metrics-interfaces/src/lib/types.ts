@@ -241,7 +241,7 @@ export type SchoolRank = {
   totalStaffWithGooglePresence?: number;
   internationalStaff?: number;
   localStaff?: number;
-  totalInternationalColaborations;
+  totalInternationalColaborations?: number;
 };
 
 export type SchoolStats = {

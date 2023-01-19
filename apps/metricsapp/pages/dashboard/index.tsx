@@ -64,7 +64,7 @@ const Dashboard: NextPage = () => {
                   </h1>
                 </div>
                 <div className="right flex">
-                  <Link href="/dashboard/todos" className="button">
+                  <Link href="/dashboard" className="button">
                     <FontAwesomeIcon icon={faPlus} />
                   </Link>
                 </div>
