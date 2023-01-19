@@ -2,8 +2,8 @@ import { faAreaChart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import {
+  AccountsStats,
   LecturerAnalitics,
-  LecturerStats,
   StudentAnalitics,
   StudentStats,
 } from '@metricsai/metrics-interfaces';
@@ -13,7 +13,7 @@ import ShowChartButton from './ShowChartButton';
 interface IProps {
   statistics_students?: StudentStats;
   analytics_students?: StudentAnalitics;
-  statistics_lecturers?: LecturerStats;
+  statistics_lecturers?: AccountsStats;
   analytics_lecturers?: LecturerAnalitics;
 }
 
@@ -37,7 +37,10 @@ const StudentTeacherRatio = ({
             </h1>
             <ChartComponent
               labels={['Stud', 'Lects']}
-              data={[statistics_students?.count, statistics_lecturers?.count]}
+              data={[
+                statistics_students?.count,
+                statistics_lecturers?.totalStaff,
+              ]}
               color={['#3265af', 'black']}
             />
           </div>

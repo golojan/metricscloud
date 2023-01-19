@@ -19,8 +19,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       const stringId = req.query.stringId as string;
       //   console.log(url);
       try {
-        const googleScholarUrl = `https://scholar.google.com/citations?user=${stringId}&hl=en`;
-
+        const uri = `https://scholar.google.com/citations?user=${stringId}&hl=en&cstart=0&pagesize=100&sortby=pubdate`;
+        const googleScholarUrl = encodeURI(uri);
         const response = await fetch(googleScholarUrl);
         const htmlString = await response.text();
         const $ = cheerio.load(htmlString);
