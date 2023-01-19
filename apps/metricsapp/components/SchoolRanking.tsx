@@ -12,6 +12,11 @@ import GraduateOutput from './indicators/Teaching/GraduateOutput';
 import FullProfessors from './indicators/Teaching/FullProfessors';
 import PercPHDs from './indicators/Teaching/PercPHDs';
 import FullAcreditationStatus from './indicators/Teaching/FullAcreditationStatus';
+import TeachStudentRatio from './indicators/Teaching/TeachStudentRatio';
+import FemaleStudents from './indicators/Teaching/FemaleStudents';
+import ProfessorsAndReader from './indicators/Teaching/ProfessorsAndReader';
+import SeniorLecturers from './indicators/Teaching/SeniorLEcturers';
+import OtherLecturers from './indicators/Teaching/OtherLecturers';
 
 interface SRProps {
   schoolId: string;
@@ -35,6 +40,11 @@ const SchoolRanking = (props: SRProps) => {
           <FullProfessors />
           <PercPHDs />
           <FullAcreditationStatus />
+          <TeachStudentRatio />
+          <FemaleStudents />
+          <ProfessorsAndReader />
+          <SeniorLecturers />
+          <OtherLecturers />
         </div>
       </div>
     </>

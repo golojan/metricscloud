@@ -40,7 +40,7 @@ const InternationalStudents = () => {
             <strong className="text-green-600">
               {statistics_students.totalStaff}
             </strong>{' '}
-            staff are Foreign students
+            are Foreign students
           </em>
         </div>
       </div>
