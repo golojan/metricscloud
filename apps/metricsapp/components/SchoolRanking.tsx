@@ -7,6 +7,11 @@ import PerCapitaI10Index from './indicators/Citations/PerCapitaI10Index';
 import GoogleScholarPresence from './indicators/Citations/GoogleScholarPresence';
 import InternationalStaff from './indicators/InternationalOutlook/InternationalStaff';
 import InternationalStudents from './indicators/InternationalOutlook/InternationalStudents';
+import InternationalColaborations from './indicators/InternationalOutlook/InternationalColaborations';
+import GraduateOutput from './indicators/Teaching/GraduateOutput';
+import FullProfessors from './indicators/Teaching/FullProfessors';
+import PercPHDs from './indicators/Teaching/PercPHDs';
+import FullAcreditationStatus from './indicators/Teaching/FullAcreditationStatus';
 
 interface SRProps {
   schoolId: string;
@@ -25,6 +30,11 @@ const SchoolRanking = (props: SRProps) => {
           <GoogleScholarPresence ranking={ranking} />
           <InternationalStaff />
           <InternationalStudents />
+          <InternationalColaborations ranking={ranking} />
+          <GraduateOutput />
+          <FullProfessors />
+          <PercPHDs />
+          <FullAcreditationStatus />
         </div>
       </div>
     </>

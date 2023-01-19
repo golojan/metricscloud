@@ -213,7 +213,7 @@ export type GSRanking = {
 export type SchoolRank = {
   status?: boolean;
   ooglePresence?: number;
-  cigtations?: number;
+  citations?: number;
   hindex?: number;
   i10hindex?: number;
   totalPublications?: number;
@@ -241,6 +241,7 @@ export type SchoolRank = {
   totalStaffWithGooglePresence?: number;
   internationalStaff?: number;
   localStaff?: number;
+  totalInternationalColaborations;
 };
 
 export type SchoolStats = {
@@ -370,6 +371,22 @@ export type AccountsStats = {
   totalStaffWithGooglePresence?: number;
   internationalStaff?: number;
   localStaff?: number;
+  totalInternationalColaborations;
+};
+
+export type TInternationalCollaboration = {
+  projectId: number;
+  projectTitle: string;
+  projectDescription: string;
+  country: string;
+  startDate: string;
+  endDate: string;
+  role: string;
+  status: string;
+  fundingAgency: string;
+  fundingAmount: string;
+  fundingCurrency: string;
+  fundingDuration: string;
 };
 
 export const accountInitialStats = {
@@ -403,6 +420,7 @@ export const accountInitialStats = {
   totalStaffWithGooglePresence: 0,
   internationalStaff: 0,
   localStaff: 0,
+  totalInternationalColaborations: 0,
 };
 
 export type LecturerAnalitics = {

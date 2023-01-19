@@ -27,6 +27,7 @@ const InternationalStaff = () => {
               statistics_lecturers.internationalStaff,
               statistics_lecturers.totalStaff
             )}
+            %
           </h1>
           <em className="absolute bottom-0 right-5">
             <strong className="text-green-600 small">

@@ -16,7 +16,6 @@ const InternationalStudents = () => {
       {/*  */}
       <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 my-1">
         <div className="stat-box relative">
-          {JSON.stringify(statistics_students)}
           <ShowChartButton show={true} />
           <div className="title">
             <strong className="text-black">% International Students</strong>
@@ -27,6 +26,7 @@ const InternationalStudents = () => {
               statistics_students.internationalStaff,
               statistics_students.totalStaff
             )}
+            %
           </h1>
           <em className="absolute bottom-0 right-5">
             <strong className="text-green-600 small">
@@ -40,7 +40,7 @@ const InternationalStudents = () => {
             <strong className="text-green-600">
               {statistics_students.totalStaff}
             </strong>{' '}
-            staff are Foreign Students
+            staff are Foreign students
           </em>
         </div>
       </div>

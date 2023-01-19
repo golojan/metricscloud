@@ -1,17 +1,15 @@
 import { faAreaChart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SchoolRank } from '@metricsai/metrics-interfaces';
 import React from 'react';
 import ShowChartButton from '../../ShowChartButton';
-import { perc } from '@metricsai/metrics-utils';
+import { SchoolRank } from '@metricsai/metrics-interfaces';
 
 interface IProps {
   ranking: SchoolRank;
 }
 
-const GoogleScholarPresence = (props: IProps) => {
+const InternationalColaborations = (props: IProps) => {
   const { ranking } = props;
-
   return (
     <>
       {/*  */}
@@ -19,21 +17,24 @@ const GoogleScholarPresence = (props: IProps) => {
         <div className="stat-box relative">
           <ShowChartButton show={true} />
           <div className="title">
-            <strong className="text-black">% Google Scholar Presence</strong>
+            <strong className="text-black">
+              % Intnl. Colaborated Projects
+            </strong>
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {perc(ranking.totalStaffWithGooglePresence, ranking.totalStaff)}%
+            {ranking.totalInternationalColaborations
+              ? ranking.totalInternationalColaborations
+              : 0}
+            %
           </h1>
           <em className="absolute bottom-0 right-5">
             <strong className="text-green-600 small">
-              {perc(ranking.totalStaffWithGooglePresence, ranking.totalStaff)}
-            </strong>
-            {'% '}
-            of <strong className="text-green-600">
-              {ranking.totalStaff}
+              {ranking.totalInternationalColaborations
+                ? ranking.totalInternationalColaborations
+                : 0}
             </strong>{' '}
-            staff are Google Scholar
+            Intnl. projects
           </em>
         </div>
       </div>
@@ -42,4 +43,4 @@ const GoogleScholarPresence = (props: IProps) => {
   );
 };
 
-export default GoogleScholarPresence;
+export default InternationalColaborations;

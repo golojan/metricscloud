@@ -74,7 +74,7 @@ export const divide = (a: number, b: number) => {
   return (a / b).toFixed(0);
 };
 export const perc = (num: number, total: number) => {
-  return ((num / total) * 100).toFixed(2);
+  return ((num / total) * 100).toFixed(1);
 };
 
 export const getConnections = async (token: string) => {

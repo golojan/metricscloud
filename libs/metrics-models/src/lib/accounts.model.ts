@@ -90,6 +90,22 @@ const accountsScheme = new mongoose.Schema(
     firstPublicationYear: { type: Number },
     lastPublicationYear: { type: Number },
     publications: [{}],
+    internationalColaborations: [
+      {
+        projectId: Number,
+        projectTitle: String,
+        projectDescription: String,
+        country: String,
+        startDate: String,
+        endDate: String,
+        role: String,
+        status: String,
+        fundingAgency: String,
+        fundingAmount: String,
+        fundingCurrency: String,
+        fundingDuration: String,
+      },
+    ],
   },
 
   { timestamps: true }
