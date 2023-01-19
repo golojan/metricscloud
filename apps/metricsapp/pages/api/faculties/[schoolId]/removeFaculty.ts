@@ -8,26 +8,26 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(400).json({ status: 0, error: error });
   const handleCase: ResponseFunctions = {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
-      res
-        .status(200)
-        .json({ status: false, err: 'Only GET Method is allowed' });
-    },
-    GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { schoolId, facultyId } = req.query;
-      const { SchoolDepartments } = await dbCon();
-      const departments = await SchoolDepartments.find({
+      const { schoolId } = req.query;
+      const { facultyId } = req.body;
+      const { SchoolFaculties } = await dbCon();
+      const removed = await SchoolFaculties.findOneAndRemove({
         schoolId: schoolId,
         facultyId: facultyId,
       }).catch(catcher);
-      console.log(departments);
-      if (departments) {
+      if (removed) {
         res.status(200).json({
           status: true,
-          data: departments,
+          ...removed,
         });
       } else {
-        res.status(404).json({ status: false, err: 'Faculties not found' });
+        res.status(404).json({ status: false, err: 'Faculty deletion failed' });
       }
+    },
+    GET: async (req: NextApiRequest, res: NextApiResponse) => {
+      res
+        .status(200)
+        .json({ status: false, err: 'Only POST Method is allowed' });
     },
   };
   const response = handleCase[method];

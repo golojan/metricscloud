@@ -8,26 +8,35 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(400).json({ status: 0, error: error });
   const handleCase: ResponseFunctions = {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
-      res
-        .status(200)
-        .json({ status: false, err: 'Only GET Method is allowed' });
-    },
-    GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { schoolId, facultyId } = req.query;
+      const { _id, departmentName, departmentCode, departmentDescription } =
+        req.body;
+
       const { SchoolDepartments } = await dbCon();
-      const departments = await SchoolDepartments.find({
-        schoolId: schoolId,
-        facultyId: facultyId,
-      }).catch(catcher);
-      console.log(departments);
-      if (departments) {
+      const saved = await SchoolDepartments.findOneAndUpdate(
+        {
+          _id: _id,
+        },
+        {
+          departmentName: departmentName,
+          departmentCode: departmentCode,
+          departmentDescription: departmentDescription,
+        }
+      ).catch(catcher);
+      if (saved) {
         res.status(200).json({
           status: true,
-          data: departments,
+          ...saved,
         });
       } else {
-        res.status(404).json({ status: false, err: 'Faculties not found' });
+        res
+          .status(404)
+          .json({ status: false, err: 'Department Updating failed' });
       }
+    },
+    GET: async (req: NextApiRequest, res: NextApiResponse) => {
+      res
+        .status(200)
+        .json({ status: false, err: 'Only POST Method is allowed' });
     },
   };
   const response = handleCase[method];

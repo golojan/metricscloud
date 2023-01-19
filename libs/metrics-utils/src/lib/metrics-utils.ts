@@ -313,10 +313,22 @@ export const loadLecturersStats = async (schoolId: string) => {
   return stats;
 };
 
-export const loadFaculties = async (domain: string) => {
-  const response = await fetch(`/api/faculties/${domain}/list`);
+export const listFaculties = async () => {
+  const response = await fetch(`/api/faculties/list`);
   const faculties = await response.json();
-  return faculties;
+  if (faculties.status) {
+    return faculties.data;
+  }
+  return [];
+};
+
+export const loadFaculties = async (schoolId: string) => {
+  const response = await fetch(`/api/faculties/${schoolId}/list`);
+  const faculties = await response.json();
+  if (faculties.status) {
+    return faculties.data;
+  }
+  return [];
 };
 export const loadFacultiesStats = async (domain: string) => {
   const response = await fetch(`/api/faculties/${domain}/stats`);
@@ -324,10 +336,35 @@ export const loadFacultiesStats = async (domain: string) => {
   return stats;
 };
 
-export const loadDepartments = async (domain: string) => {
-  const response = await fetch(`/api/departments/${domain}/list`);
+export const listDepartments = async () => {
+  const response = await fetch(`/api/departments/list`);
   const departments = await response.json();
-  return departments;
+  if (departments.status) {
+    return departments.data;
+  }
+  return [];
+};
+export const loadDepartments = async (schoolId: string) => {
+  const response = await fetch(`/api/departments/${schoolId}/list`);
+  const departments = await response.json();
+  if (departments.status) {
+    return departments.data;
+  }
+  return [];
+};
+
+export const loadFacultyDepartments = async (
+  schoolId: string,
+  facultyId: string
+) => {
+  const response = await fetch(
+    `/api/departments/${schoolId}/faculties/${facultyId}/list`
+  );
+  const departments = await response.json();
+  if (departments.status) {
+    return departments.data;
+  }
+  return [];
 };
 
 //Convert mondoDB date to month and year

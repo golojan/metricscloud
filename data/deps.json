@@ -1,0 +1,519 @@
+[
+  {
+    "name": "Accountancy/Accounting",
+    "shortname": "ACC"
+  },
+  {
+    "name": "Actuarial Science",
+    "shortname": "ACT"
+  },
+  {
+    "name": "Banking/Finance",
+    "shortname": "BNF"
+  },
+  {
+    "name": "Banking, Finance and Insurance",
+    "shortname": "BFI"
+  },
+  {
+    "name": "Business Administration",
+    "shortname": "BUS"
+  },
+  {
+    "name": "Business Management",
+    "shortname": "BUS"
+  },
+  {
+    "name": "Business Economics",
+    "shortname": "BUS"
+  },
+  {
+    "name": "Cooperative and Rural Development",
+    "shortname": "CRD"
+  },
+  {
+    "name": "Cooperative Economics and Management",
+    "shortname": "CEM"
+  },
+  {
+    "name": "Economics",
+    "shortname": "ECO"
+  },
+  {
+    "name": "Entrepreneurship",
+    "shortname": "ENT"
+  },
+  {
+    "name": "Film and Video Studies",
+    "shortname": "FVS"
+  },
+  {
+    "name": "Finance",
+    "shortname": "FIN"
+  },
+  {
+    "name": "Human Resources Management",
+    "shortname": "HRM"
+  },
+  {
+    "name": "Hotel Tourism Management",
+    "shortname": "HTM"
+  },
+  {
+    "name": "Industrial Relations and Personnel Management",
+    "shortname": "IRM"
+  },
+  {
+    "name": "Insurance",
+    "shortname": "INS"
+  },
+  {
+    "name": "Insurance and Risk Management",
+    "shortname": "INS"
+  },
+  {
+    "name": "International Relations",
+    "shortname": "INT"
+  },
+  {
+    "name": "International Relations and Strategic Studies",
+    "shortname": "INT"
+  },
+  {
+    "name": "Local Government Administration",
+    "shortname": "LGA"
+  },
+  {
+    "name": "Mass Communication",
+    "shortname": "MAS"
+  },
+  {
+    "name": "Media Studies and Mass Communication",
+    "shortname": "MAS"
+  },
+  {
+    "name": "Management Studies",
+    "shortname": "MAN"
+  },
+  {
+    "name": "Marketing",
+    "shortname": "MAR"
+  },
+  {
+    "name": "Office Management Technology",
+    "shortname": "OMT"
+  },
+  {
+    "name": "Public Administration",
+    "shortname": "PUB"
+  },
+  {
+    "name": "Public Relations and Advertising",
+    "shortname": "PRA"
+  },
+  {
+    "name": "Secretarial Administration",
+    "shortname": "SEC"
+  },
+  {
+    "name": "Transport and Tourism",
+    "shortname": "TRA"
+  },
+  {
+    "name": "Agriculture",
+    "shortname": "AGRI"
+  },
+  {
+    "name": "Agricultural Administration",
+    "shortname": "AGADA"
+  },
+  {
+    "name": "Fisheries Management",
+    "shortname": "FISHM"
+  },
+  {
+    "name": "Fisheries",
+    "shortname": "FISH"
+  },
+  {
+    "name": "Fisheries and Aquatic Resources Management",
+    "shortname": "FARM"
+  },
+  {
+    "name": "Fisheries Technology",
+    "shortname": "FIST"
+  },
+  {
+    "name": "Agricultural Cooperative Management",
+    "shortname": "AGCOM"
+  },
+  {
+    "name": "Fisheries and Agriculture",
+    "shortname": "FISAG"
+  },
+  {
+    "name": "Fisheries and Aquatic Environmental Management",
+    "shortname": "FAEM"
+  },
+  {
+    "name": "Agricultural Economics",
+    "shortname": "AGECO"
+  },
+  {
+    "name": "Agricultural Economics and Farm Management",
+    "shortname": "AGFARM"
+  },
+  {
+    "name": "Agricultural Administration",
+    "shortname": "AGADA"
+  },
+  {
+    "name": "Agricultural Economics and Extension",
+    "shortname": "AGEXT"
+  },
+  {
+    "name": "Agricultural Extension and Rural Sociology",
+    "shortname": "AGERS"
+  },
+  {
+    "name": "Agricultural Extension and Management",
+    "shortname": "AGEM"
+  },
+  {
+    "name": "Agricultural Extension",
+    "shortname": "AGEXT"
+  },
+  {
+    "name": "Agricultural Extension Service",
+    "shortname": "AGES"
+  },
+  {
+    "name": "Agricultural Extension and Rural Development",
+    "shortname": "AGRD"
+  },
+  {
+    "name": "Agricultural Extension and Communication Technology",
+    "shortname": "AGCOMT"
+  },
+  {
+    "name": "Agricultural Extension and Social Engineering",
+    "shortname": "AGSE"
+  },
+  {
+    "name": "Agronomy",
+    "shortname": "AGRO"
+  },
+  {
+    "name": "Animals Production and Health Services",
+    "shortname": "APH"
+  },
+  {
+    "name": "Animals Production and Health",
+    "shortname": "APHS"
+  },
+  {
+    "name": "Animals Production",
+    "shortname": "ANPR"
+  },
+  {
+    "name": "Animals Production and Fisheries",
+    "shortname": "ANPF"
+  },
+  { "name": "Livestock Production Technology", "shortname": "LIVT" },
+  {
+    "name": "Pasture and Range Management",
+    "shortname": "PARM"
+  },
+  {
+    "name": "Animals Nutrition",
+    "shortname": "ANUT"
+  },
+  {
+    "name": "Animals Nutrition and Biotechnology",
+    "shortname": "ANBT"
+  },
+  {
+    "name": "Animals Science and Range Management",
+    "shortname": "ASRM"
+  },
+  {
+    "name": "Animals Science",
+    "shortname": "ASCI"
+  },
+  {
+    "name": "Animals Science and Fisheries Management",
+    "shortname": "ASFM"
+  },
+  {
+    "name": "Animals Science and Technology",
+    "shortname": "ASTE"
+  },
+  {
+    "name": "Animals Physiology",
+    "shortname": "APHY"
+  },
+  {
+    "name": "Animals Breeding and Genetics",
+    "shortname": "ABRG"
+  },
+  {
+    "name": "Animals Science and Fisheries",
+    "shortname": "ASAF"
+  },
+  {
+    "name": "Crop Production",
+    "shortname": "CROP"
+  },
+  {
+    "name": "Crop, Soil and Pest Management",
+    "shortname": "CSPM"
+  },
+  {
+    "name": "Crop Production and Landscape Management",
+    "shortname": "CPLM"
+  },
+  {
+    "name": "Crop Production and Horticulture",
+    "shortname": "CPH"
+  },
+  {
+    "name": "Crop Production and Protection",
+    "shortname": "CPP"
+  },
+  {
+    "name": "Crop Protection",
+    "shortname": "CROP"
+  },
+  {
+    "name": "Crop Science",
+    "shortname": "CROS"
+  },
+  {
+    "name": "Crop Science/Soil Science",
+    "shortname": "CROSO"
+  },
+  {
+    "name": "Crop Science and Horticulture",
+    "shortname": "CROH"
+  },
+  {
+    "name": "Crop and Environmental Protection",
+    "shortname": "CEP"
+  },
+  {
+    "name": "Plant Breeding and Seed Technology",
+    "shortname": "PLBS"
+  },
+  {
+    "name": "Crop Production and Soil Science",
+    "shortname": "CPSS"
+  },
+  {
+    "name": "Crop Production Technology",
+    "shortname": "CPT"
+  },
+  {
+    "name": "Crop Science and Technology",
+    "shortname": "CRST"
+  },
+  {
+    "name": "African and Asian Studies",
+    "shortname": "AFAS"
+  },
+  {
+    "name": "Archaeology",
+    "shortname": "ARCH"
+  },
+  {
+    "name": "Anthropology",
+    "shortname": "ANTH"
+  },
+  {
+    "name": "Arabic Studies",
+    "shortname": "ARBS"
+  },
+  {
+    "name": "Arabic Language and Literature",
+    "shortname": "ARLL"
+  },
+  {
+    "name": "Arabic and IS",
+    "shortname": "ARIS"
+  },
+  {
+    "name": "Arts (Combined)",
+    "shortname": "ARTC"
+  },
+  {
+    "name": "Christian Religious Knowledge/Studies",
+    "shortname": "CRKS"
+  },
+  {
+    "name": "Christian Studies",
+    "shortname": "CRST"
+  },
+  {
+    "name": "Classical Studies",
+    "shortname": "CLAS"
+  },
+  {
+    "name": "Communication Arts",
+    "shortname": "COMA"
+  },
+  {
+    "name": "Communication and Language Arts",
+    "shortname": "COMLA"
+  },
+  {
+    "name": "Comparative Religious Studies",
+    "shortname": "CRS"
+  },
+  {
+    "name": "Counselling and Psychology",
+    "shortname": "COUN"
+  },
+  {
+    "name": "Creative Arts",
+    "shortname": "CREA"
+  },
+  {
+    "name": "Drama, Dramatic Arts, Theatre Arts and Performing Arts",
+    "shortname": "DRA"
+  },
+  {
+    "name": "Afik-Ibibio",
+    "shortname": "AFIB"
+  },
+  {
+    "name": "English Language",
+    "shortname": "ENLA"
+  },
+  {
+    "name": "English Language and Literature",
+    "shortname": "ENLL"
+  },
+  {
+    "name": "English Studies",
+    "shortname": "ENST"
+  },
+  {
+    "name": "English and Literary Studies",
+    "shortname": "ENLS"
+  },
+  {
+    "name": "English and International Studies",
+    "shortname": "ENIS"
+  },
+  {
+    "name": "Economics",
+    "shortname": "ECON"
+  },
+  {
+    "name": "Fine Arts/Fine and Applied Arts",
+    "shortname": "FAAF"
+  },
+  {
+    "name": "Foreign Language and Literature",
+    "shortname": "FLL"
+  },
+  {
+    "name": "French",
+    "shortname": "FREN"
+  },
+  {
+    "name": "French and International Relations",
+    "shortname": "FRIR"
+  },
+  {
+    "name": "French and German/Russian",
+    "shortname": "FRGR"
+  },
+  {
+    "name": "Fulfude",
+    "shortname": "FULD"
+  },
+  {
+    "name": "Geography and Environmental Studies",
+    "shortname": "GEEN"
+  },
+  {
+    "name": "German",
+    "shortname": "GERM"
+  },
+  {
+    "name": "Hausa",
+    "shortname": "HAUS"
+  },
+  {
+    "name": "History",
+    "shortname": "HIST"
+  },
+  {
+    "name": "History and Archeology",
+    "shortname": "HIAR"
+  },
+  {
+    "name": "History/International Studies",
+    "shortname": "HIIS"
+  },
+  {
+    "name": "History and Diplomacy",
+    "shortname": "HIDI"
+  },
+  {
+    "name": "History and Diplomatic Studies",
+    "shortname": "HIDS"
+  },
+  {
+    "name": "History and Strategic Studies",
+    "shortname": "HISS"
+  },
+  {
+    "name": "History and Political Studies",
+    "shortname": "HIPS"
+  },
+  {
+    "name": "Igbo",
+    "shortname": "IGBO"
+  },
+  {
+    "name": "Igbo/Linguistics",
+    "shortname": "IGBL"
+  },
+  {
+    "name": "International Studies and Diplomacy",
+    "shortname": "ISDI"
+  },
+  {
+    "name": "International and Comparative Politics",
+    "shortname": "ICOP"
+  },
+  {
+    "name": "IS",
+    "shortname": "IS"
+  },
+  {
+    "name": "Kanuri",
+    "shortname": "KANU"
+  },
+  {
+    "name": "Kiswahili",
+    "shortname": "KISW"
+  },
+  {
+    "name": "Languages",
+    "shortname": "LANG"
+  },
+  {
+    "name": "Languages Arts",
+    "shortname": "LA"
+  },
+  {
+    "name": "Language Arts and Yoruba",
+    "shortname": "LAYO"
+  },
+  {
+    "name": "Language and Linguistics",
+    "shortname": "LILI"
+  }
+]

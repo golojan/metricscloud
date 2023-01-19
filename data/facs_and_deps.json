@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Agriculture",
+    "shortname": "AGR"
+  },
+  {
+    "name": "Arts",
+    "shortname": "ART"
+  },
+  {
+    "name": "Education",
+    "shortname": "EDU"
+  },
+  {
+    "name": "Engineering",
+    "shortname": "ENG"
+  },
+  {
+    "name": "Law",
+    "shortname": "LLB"
+  },
+  {
+    "name": "Management Sciences",
+    "shortname": "MGTS"
+  },
+  {
+    "name": "Medicine",
+    "shortname": "MED"
+  },
+  {
+    "name": "Science",
+    "shortname": "SCI"
+  },
+  {
+    "name": "Social Sciences",
+    "shortname": "SSCI"
+  },
+  {
+    "name": "Veterinary Medicine",
+    "shortname": "VET"
+  },
+  {
+    "name": "Humanities",
+    "shortname": "HUMT"
+  },
+  {
+    "name": "Clinical Sciences",
+    "shortname": "CLINS"
+  },
+  {
+    "name": "Basic Medical Sciences",
+    "shortname": "BMEDS"
+  },
+  {
+    "name": "Biological Science",
+    "shortname": "BIOS"
+  },
+  {
+    "name": "Business Administration",
+    "shortname": "BADM"
+  },
+  {
+    "name": "Dentistry",
+    "shortname": "DEN"
+  },
+  {
+    "name": "Environmental Studies",
+    "shortname": "ENV"
+  },
+  {
+    "name": "Health Sciences",
+    "shortname": "HTHS"
+  },
+  {
+    "name": "Pharmaceutical Science",
+    "shortname": "PHAR"
+  },
+  {
+    "name": "Physical Sciences",
+    "shortname": "PHYS"
+  }
+]

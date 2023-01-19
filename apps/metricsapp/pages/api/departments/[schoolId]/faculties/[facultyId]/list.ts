@@ -14,12 +14,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { schoolId, facultyId } = req.query;
+
       const { SchoolDepartments } = await dbCon();
       const departments = await SchoolDepartments.find({
         schoolId: schoolId,
         facultyId: facultyId,
       }).catch(catcher);
-      console.log(departments);
       if (departments) {
         res.status(200).json({
           status: true,

@@ -444,6 +444,7 @@ export type FacultiesInfo = {
   scoolId?: string;
   name?: string;
   description?: string;
+  shortname?: string;
   enabled?: boolean;
 };
 
@@ -453,6 +454,7 @@ export type DepartmentsInfo = {
   facultyId?: string;
   name?: string;
   description?: string;
+  shortname?: string;
   accredited?: boolean;
   enabled?: boolean;
 };

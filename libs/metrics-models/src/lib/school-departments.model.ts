@@ -1,19 +1,15 @@
 import mongoose from 'mongoose';
-import {AccountTypes} from '@metricsai/metrics-interfaces'
-
+// import { AccreditationTypes } from '@metricsai/metrics-interfaces';
 mongoose.Promise = global.Promise;
+
 const schoolDepartmentsScheme = new mongoose.Schema(
   {
-    schoolId: String,
-    facultyId: String,
-    name: String,
-    shortname: String,
-    accredited: { type: Boolean, default: false },
-    accreditation: {
-      type: String,
-      enum: Object.values(AccountTypes),
-      required: true,
-    },
+    schoolId: { type: String, required: true },
+    facultyId: { type: String, required: true },
+    departmentId: { type: String, required: true },
+    departmentName: String,
+    departmentCode: String,
+    departmentDescription: String,
     headOfDepartment: String,
   },
   { timestamps: true }
@@ -23,5 +19,8 @@ if (mongoose.models.SchoolDepartments) {
   delete mongoose.models.SchoolDepartments;
 }
 
-const SchoolDepartments = mongoose.model('SchoolDepartments', schoolDepartmentsScheme);
+const SchoolDepartments = mongoose.model(
+  'SchoolDepartments',
+  schoolDepartmentsScheme
+);
 export default SchoolDepartments;

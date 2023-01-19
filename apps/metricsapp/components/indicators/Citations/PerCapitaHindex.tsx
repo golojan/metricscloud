@@ -22,11 +22,12 @@ const PerCapitaHindex = (props: IProps) => {
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {divide(ranking.citations, ranking.totalStaff)}
+            {divide(ranking.hindex, ranking.totalStaff)}
           </h1>
           <em className="absolute bottom-0 right-5">
-            <strong className="text-green-600">{ranking.hindex}</strong> H-Index
-            by <strong className="text-green-600">{ranking.totalStaff}</strong>{' '}
+            Total <strong className="text-green-600">{ranking.hindex}</strong>{' '}
+            H-Index by{' '}
+            <strong className="text-green-600">{ranking.totalStaff}</strong>{' '}
             staff
           </em>
         </div>
