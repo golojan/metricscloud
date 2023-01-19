@@ -1,23 +1,22 @@
 import {
-  FakerLecturer,
   LecturerAnalitics,
-  LecturerInfo,
-  LecturerStats,
+  AuthUserInfo,
+  AccountsStats,
+  accountInitialStats,
 } from '@metricsai/metrics-interfaces';
-import { createModel } from "@rematch/core";
-import { RootModel } from ".";
-import { loadLecturers } from '@metricsai/metrics-utils';
+import { createModel } from '@rematch/core';
+import { RootModel } from '.';
 
 export const lecturers = createModel<RootModel>()({
   state: {
     updated: 0,
-    lecturerId: "",
+    lecturerId: '',
     lecturersCount: 0,
     lBusy: false,
-    lecturers: [] as LecturerInfo[],
-    list: [] as LecturerInfo[],
+    lecturers: [] as AuthUserInfo[],
+    list: [] as AuthUserInfo[],
     loaded: false,
-    statistics_lecturers: {} as LecturerStats,
+    statistics_lecturers: accountInitialStats as AccountsStats,
     analytics_lecturers: {} as LecturerAnalitics,
   },
   reducers: {
@@ -47,29 +46,6 @@ export const lecturers = createModel<RootModel>()({
     },
   },
   effects: (dispatch) => ({
-    countLecturers: async () => {
-      const response = await fetch("/api/lecturers/count");
-      const {} = await response.json();
-    },
-    async addFakeLecturer(payload: FakerLecturer, rootState) {
-      this.setBusy(true);
-      const response = await fetch(
-        `/api/fakes/lecturer?sex=${payload.sex}&type=${payload.type}&isprofessor=${payload.isprofessor}&isfullprofessor=${payload.isfullprofessor}&adjunct=${payload.adjunct}&departmentId=${payload.departmentId}`
-      );
-      const { status } = await response.json();
-      if (status) {
-        const domain = rootState.settings.domain;
-        loadLecturers(domain)
-          .then((lecturers) => {
-            this.setLecturers(lecturers.data);
-            this.setLecturersCount(lecturers.data.length);
-          })
-          .catch();
-      }
-      this.setBusy(false);
-      return status;
-    },
-
     async loadLecturers(domain: string) {
       const response = await fetch(`/api/lecturers/${domain}/list`);
       const lecturers = await response.json();

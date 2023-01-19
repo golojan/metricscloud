@@ -1,18 +1,18 @@
-import { NextPage } from "next";
-import React from "react";
-import AdminLayout from "../../../components/AdminLayout";
-import { compose } from "redux";
+import { NextPage } from 'next';
+import React from 'react';
+import AdminLayout from '../../../components/AdminLayout';
+import { compose } from 'redux';
 
-import { faPlus, faSchoolCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faSchoolCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Link from "next/link";
-import AppHeader from "../../../serverlets/AppHeader";
-import Copyright from "../../../serverlets/Copyright";
-import AppAnalytics from "../../../serverlets/AppAnalytics";
-import AppSummary from "../../../serverlets/AppSummary";
-import { withAuthSync } from "../../../utils/withAuthSync";
-import AppDrawer from "../../../serverlets/AppDrawer";
+import Link from 'next/link';
+import AppHeader from '../../../serverlets/AppHeader';
+import Copyright from '../../../serverlets/Copyright';
+import AppAnalytics from '../../../serverlets/AppAnalytics';
+import AppSummary from '../../../serverlets/AppSummary';
+import { withAuth } from '@metricsai/metrics-hocs';
+import AppDrawer from '../../../serverlets/AppDrawer';
 
 const Reports: NextPage = () => {
   return (
@@ -49,4 +49,4 @@ const Reports: NextPage = () => {
   );
 };
 
-export default compose(withAuthSync)(Reports);
+export default compose(withAuth)(Reports);

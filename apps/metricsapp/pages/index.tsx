@@ -7,7 +7,7 @@ import Layout from '../components/Layout';
 import SiteBusy from '../components/SiteBusy';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from '@metricsai/metrics-store';
-import { authLogin, hasAuth } from '../utils/withAuthSync';
+import { appLogin, hasAuth } from '@metricsai/metrics-hocs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -42,7 +42,7 @@ const Home: NextPage = () => {
         dispatch.settings.setSchoolId(schoolId);
       }
     };
-      domainInfo();
+    domainInfo();
   }, []);
 
   const adminLogon = async (e: React.SyntheticEvent) => {
@@ -58,7 +58,7 @@ const Home: NextPage = () => {
     });
     const { status, token, schoolId } = await response.json();
     if (status) {
-      authLogin({ token, schoolId });
+      appLogin({ token, schoolId });
     } else {
       setErrorMsg('Invalid Username and Password.');
     }

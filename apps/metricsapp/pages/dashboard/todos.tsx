@@ -9,13 +9,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import AppHeader from '../../serverlets/AppHeader';
 import Copyright from '../../serverlets/Copyright';
-import { withAuthSync } from '../../utils/withAuthSync';
 
 import AdminLayout from '../../components/AdminLayout';
 import DashboardMenu from '../../components/DashboardMenu';
 
 import { Dispatch, RootState } from '@metricsai/metrics-store';
 import { useDispatch, useSelector } from 'react-redux';
+import { withAuth } from '@metricsai/metrics-hocs';
 
 const ToDos: NextPage = () => {
   const { students, loaded } = useSelector(
@@ -23,8 +23,7 @@ const ToDos: NextPage = () => {
   );
   const dispatch = useDispatch<Dispatch>();
   useEffect(() => {
-    if (!loaded) {
-    }
+    return;
   }, [loaded, dispatch.students]);
 
   return (
@@ -62,4 +61,4 @@ const ToDos: NextPage = () => {
   );
 };
 
-export default compose(withAuthSync)(ToDos);
+export default compose(withAuth)(ToDos);

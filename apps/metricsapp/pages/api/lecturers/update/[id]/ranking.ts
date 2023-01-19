@@ -1,12 +1,12 @@
 import {
   Gender,
   LecturerLevel,
-  LecturerType,ResponseFunctions
+  LecturerType,
+  ResponseFunctions,
 } from '@metricsai/metrics-interfaces';
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
-
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;

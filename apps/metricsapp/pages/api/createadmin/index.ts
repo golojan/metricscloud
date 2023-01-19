@@ -1,5 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ResponseFunctions, AccountTypes } from '@metricsai/metrics-interfaces';
+import {
+  ResponseFunctions,
+  AccountTypes,
+  AccountRoles,
+} from '@metricsai/metrics-interfaces';
 import { dbCon } from '@metricsai/metrics-models';
 
 import bcrypt from 'bcryptjs';
@@ -20,12 +24,14 @@ export default async function handler(
       // Encrypt Password//
 
       const account = await Accounts.create({
-        schoolid: '63c6a0d3bdbe486760187b66',
+        schoolId: '63c7ca3d019a5de4d1ce206d',
         accountType: AccountTypes.ADMIN,
-        email: 'agu.chux@yahoo.com',
+        username: 'appadmin',
+        email: 'agu.chux@gmail.com',
         firstname: 'Agu',
         lastname: 'Chux',
         mobile: '07068573376',
+        role: AccountRoles.VC,
         enabled: true,
         password: hashedPassword,
       }).catch(catcher);

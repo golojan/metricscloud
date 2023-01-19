@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
 mongoose.Promise = global.Promise;
 
@@ -16,12 +16,13 @@ const schoolsScheme = new mongoose.Schema(
     ownedBy: { type: String },
     founded: Number,
     website: { type: String },
-    ranking: {
-      googlePresence: { type: Number, default: 0 },
-      citations: { type: Number, default: 0 },
-      hindex: { type: Number, default: 0 },
-      i10hindex: { type: Number, default: 0 },
-    },
+
+    googlePresenceCount: { type: Number, default: 0 },
+    googlePresence: { type: Number, default: 0 },
+    citations: { type: Number, default: 0 },
+    hindex: { type: Number, default: 0 },
+    i10hindex: { type: Number, default: 0 },
+
     history: [
       {
         name: String,
@@ -41,6 +42,20 @@ const schoolsScheme = new mongoose.Schema(
         type: String,
       },
     ],
+    settings: {
+      includeStudentsInMetrics: {
+        type: Boolean,
+        default: false,
+      },
+      includeLecturersInMetrics: {
+        type: Boolean,
+        default: true,
+      },
+      includeAlumniInMetrics: {
+        type: Boolean,
+        default: false,
+      },
+    },
     enabled: {
       type: Boolean,
       default: false,

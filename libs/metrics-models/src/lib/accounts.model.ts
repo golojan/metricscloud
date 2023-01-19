@@ -1,5 +1,9 @@
 import mongoose from 'mongoose';
-import { AccountTypes, Gender } from '@metricsai/metrics-interfaces';
+import {
+  AccountTypes,
+  Gender,
+  MembershipTypes,
+} from '@metricsai/metrics-interfaces';
 
 mongoose.Promise = global.Promise;
 
@@ -26,6 +30,13 @@ const accountsScheme = new mongoose.Schema(
       type: String,
       enum: Object.values(AccountTypes),
       required: true,
+      default: AccountTypes.GUEST,
+    },
+    membershipType: {
+      type: String,
+      enum: Object.values(MembershipTypes),
+      required: true,
+      default: MembershipTypes.LOCAL,
     },
     picture: {
       type: String,

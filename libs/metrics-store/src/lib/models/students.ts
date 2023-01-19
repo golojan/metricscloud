@@ -1,25 +1,23 @@
 import {
-  FakerStudent,
   StudentAnalitics,
-  StudentInfo,
-  StudentStats,
+  AuthUserInfo,
+  AccountsStats,
+  accountInitialStats,
 } from '@metricsai/metrics-interfaces';
 import { createModel } from '@rematch/core';
 import { RootModel } from '.';
-
-import { loadStudents } from "@metricsai/metrics-utils";
 
 export const students = createModel<RootModel>()({
   state: {
     studentId: '',
     studentsCount: 0,
     sBusy: false,
-    students: [] as StudentInfo[],
-    list: [] as StudentInfo[],
+    students: [] as AuthUserInfo[],
+    list: [] as AuthUserInfo[],
     loaded: false,
     maleStudents: 0,
     femaleStudents: 0,
-    statistics_students: {} as StudentStats,
+    statistics_students: accountInitialStats as AccountsStats,
     analytics_students: {
       STUDENT_TEACHER_RATIO: 0,
       PERCENTAGE_FEMALE: 0,
@@ -32,7 +30,7 @@ export const students = createModel<RootModel>()({
     setBusy(state, payload: boolean) {
       return { ...state, sBusy: payload };
     },
-    setStatistics(state, payload: object) {
+    setStatistics(state, payload: AccountsStats) {
       return { ...state, statistics_students: payload };
     },
     setAnalytics(state, payload: object) {
@@ -44,7 +42,7 @@ export const students = createModel<RootModel>()({
     setStudentId(state, payload: any) {
       return { ...state, studentId: payload };
     },
-    setList(state, payload: StudentInfo[]) {
+    setList(state, payload: AuthUserInfo[]) {
       return { ...state, list: payload };
     },
     setStudentsCount(state, payload: number) {
@@ -52,32 +50,6 @@ export const students = createModel<RootModel>()({
     },
   },
   effects: (dispatch) => ({
-    countStudents: async () => {
-      const response = await fetch('/api/students/count');
-      const {} = await response.json();
-    },
-    getMale: async () => {
-      const response = await fetch('/api/students/count');
-      const {} = await response.json();
-    },
-    async addFakeStudent(payload: FakerStudent, rootState) {
-      this.setBusy(true);
-      const response = await fetch(
-        `/api/fakes/student?sex=${payload.sex}&type=${payload.type}&challanged=${payload.challanged}&departmentId=${payload.departmentId}`
-      );
-      const { status } = await response.json();
-      if (status) {
-        const domain = rootState.settings.domain;
-        loadStudents(domain)
-          .then((students) => {
-            this.setStudents(students.data);
-            this.setStudentsCount(students.data.length);
-          })
-          .catch();
-      }
-      this.setBusy(false);
-      return status;
-    },
     async loadStudents(domain: string, rootState) {
       const response = await fetch(`/api/students/${domain}/list`);
       const students = await response.json();

@@ -16,7 +16,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
       const { schoolId } = req.query;
       const { lecturers, students, school, name, allschools } = req.body;
-      //   const { token } = req.cookies;
+
       const { Schools } = await dbCon();
       const saved = await Schools.findOneAndUpdate(
         { _id: schoolId },

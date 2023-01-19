@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import React from 'react';
+import React, { useEffect } from 'react';
 import AppDrawer from '../../serverlets/AppDrawer';
 import AdminLayout from '../../components/AdminLayout';
 
@@ -10,19 +10,41 @@ import { compose } from 'redux';
 import Link from 'next/link';
 import AppHeader from '../../serverlets/AppHeader';
 import Copyright from '../../serverlets/Copyright';
-import { withAuthSync } from '../../utils/withAuthSync';
-import { useSelector } from 'react-redux';
-import { RootState } from '@metricsai/metrics-store';
-
+import { withAuth } from '@metricsai/metrics-hocs';
+import { authSchoolId } from '@metricsai/metrics-hocs';
 import SchoolRanking from '../../components/SchoolRanking';
-import { withIndicators } from '../../hocs/withIndicators';
+import { SchoolStats } from '@metricsai/metrics-interfaces';
+import {
+  loadSchoolsStats,
+  loadLecturersStats,
+  loadStudentsStats,
+} from '@metricsai/metrics-utils';
 
-const ISchoolRanking = withIndicators(SchoolRanking);
+import { Dispatch } from '@metricsai/metrics-store';
+import { useDispatch } from 'react-redux';
 
 const Dashboard: NextPage = () => {
-  const { total, school, busy } = useSelector(
-    (state: RootState) => state.settings
-  );
+  const schoolId = authSchoolId();
+  const dispatch = useDispatch<Dispatch>();
+  const [ranking, setRanking] = React.useState<SchoolStats>(null);
+  useEffect(() => {
+    loadSchoolsStats(schoolId).then((stats) => {
+      dispatch.settings.setRank(stats);
+    });
+    loadLecturersStats(schoolId).then((stats) => {
+      dispatch.lecturers.setStatistics(stats);
+    });
+    loadStudentsStats(schoolId).then((stats) => {
+      dispatch.students.setStatistics(stats);
+    });
+  }, [
+    schoolId,
+    setRanking,
+    dispatch.settings,
+    dispatch.lecturers,
+    dispatch.students,
+  ]);
+
   return (
     <>
       <AdminLayout>
@@ -38,7 +60,7 @@ const Dashboard: NextPage = () => {
                       className="text-danger"
                       icon={faBriefcase}
                     />{' '}
-                    {total}
+                    {ranking?.total}
                   </h1>
                 </div>
                 <div className="right flex">
@@ -49,7 +71,7 @@ const Dashboard: NextPage = () => {
               </div>
             </div>
           </div>
-          <ISchoolRanking schoolId={school._id} isLoading={busy} />
+          <SchoolRanking schoolId={schoolId} />
           <Copyright />
         </div>
         <AppDrawer onchat={false} menuitem="dashboard" />
@@ -58,4 +80,4 @@ const Dashboard: NextPage = () => {
   );
 };
 
-export default compose(withAuthSync)(Dashboard);
+export default compose(withAuth)(Dashboard);

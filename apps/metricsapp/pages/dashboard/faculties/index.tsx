@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import AppHeader from '../../../serverlets/AppHeader';
 import Copyright from '../../../serverlets/Copyright';
-import { withAuthSync } from '../../../utils/withAuthSync';
+import { withAuth } from '@metricsai/metrics-hocs';
 import { compose } from 'redux';
 
 import { FacultiesInfo } from '@metricsai/metrics-interfaces';
@@ -24,7 +24,6 @@ const getFaculties = async () => {
     return {};
   }
 };
-
 
 const Faculties: NextPage = () => {
   const [query, setQuery] = useState<string>('');
@@ -97,9 +96,11 @@ const Faculties: NextPage = () => {
                     {query ? query : 'all records'}
                   </h4>
                   <hr />
-                  {list.map((faculty)=><>
-                  <h1>eieee</h1>
-                  </>)}
+                  {list.map((faculty) => (
+                    <>
+                      <h1>eieee</h1>
+                    </>
+                  ))}
                 </div>
               </div>
               <div className={`col-12 col-md-12 col-lg-4 fa-border`}>
@@ -119,4 +120,4 @@ const Faculties: NextPage = () => {
   );
 };
 
-export default compose(withAuthSync)(Faculties);
+export default compose(withAuth)(Faculties);

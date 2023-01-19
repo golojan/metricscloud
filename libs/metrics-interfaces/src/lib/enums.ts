@@ -64,6 +64,11 @@ export enum Gender {
   FEMALE = 'FEMALE',
 }
 
+export enum MembershipTypes {
+  LOCAL = 'LOCAL',
+  INTERNATIONAL = 'INTERNATIONAL',
+}
+
 export enum StudentType {
   LOCAL = 'LOCAL',
   INTERNATIONAL = 'INTERNATIONAL',

@@ -8,6 +8,12 @@ type ShowChatProps = {
 };
 
 const ShowChartButton = ({ show = false }: ShowChatProps) => {
+  const [showChart, setShowChart] = React.useState<boolean>(show);
+  const toggleShowChart = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setShowChart(!showChart);
+  };
+
   return (
     <div
       style={{
@@ -17,13 +23,15 @@ const ShowChartButton = ({ show = false }: ShowChatProps) => {
         fontWeight: 'bolder',
         width: '40px',
         height: '40px',
-        display: show ? 'block' : 'none'
+        display: show ? 'block' : 'none',
       }}
     >
-      <Link href="#" legacyBehavior>
-        <a className="button text-primary">
-          <FontAwesomeIcon icon={faChartPie} fontSize={25} />
-        </a>
+      <Link
+        href="#"
+        className="button text-primary"
+        onClick={(e) => toggleShowChart}
+      >
+        <FontAwesomeIcon icon={faChartPie} fontSize={25} />
       </Link>
     </div>
   );

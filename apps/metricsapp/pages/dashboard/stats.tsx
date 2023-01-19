@@ -1,7 +1,7 @@
-import { NextPage } from "next";
-import React from "react";
-import { withAuthSync } from "../../utils/withAuthSync";
-import { compose } from "redux";
+import { NextPage } from 'next';
+import React from 'react';
+import { withAuth } from '@metricsai/metrics-hocs';
+import { compose } from 'redux';
 
 const Stats: NextPage = () => {
   return (
@@ -22,4 +22,4 @@ const Stats: NextPage = () => {
   );
 };
 
-export default compose(withAuthSync)(Stats);
+export default compose(withAuth)(Stats);

@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 import AppHeader from '../../../../serverlets/AppHeader';
 import Copyright from '../../../../serverlets/Copyright';
-import { withAuthSync } from '../../../../utils/withAuthSync';
+import { withAuth } from '@metricsai/metrics-hocs';
 import { compose } from 'redux';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,7 +38,7 @@ const Profile: NextPage = () => {
       .then((data) => {
         setThisLecturer(data);
       })
-      .catch((err: Error) => {});
+      .catch((err: Error) => console.log(err));
   }, [id]);
 
   const [ranking, setRanking] = useState<GSRanking>({
@@ -259,4 +259,4 @@ const Profile: NextPage = () => {
   );
 };
 
-export default compose(withAuthSync)(Profile);
+export default compose(withAuth)(Profile);

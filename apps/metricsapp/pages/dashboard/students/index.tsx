@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import AppHeader from '../../../serverlets/AppHeader';
 import Copyright from '../../../serverlets/Copyright';
-import { withAuthSync } from '../../../utils/withAuthSync';
+import { withAuth } from '@metricsai/metrics-hocs';
 import { compose } from 'redux';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -211,4 +211,4 @@ const Students: NextPage = () => {
   );
 };
 
-export default compose(withAuthSync)(Students);
+export default compose(withAuth)(Students);

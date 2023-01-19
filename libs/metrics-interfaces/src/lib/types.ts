@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Gender, LecturerLevel, LecturerType, StudentType } from './enums';
+import { NextApiRequest, NextApiResponse } from 'next/types';
 export interface IUserReactions {
   _id?: string;
   postFeedId?: string;
@@ -109,8 +110,8 @@ export interface AuthUserInfo {
 }
 
 export interface ResponseFunctions {
-  GET?: () => Function;
-  POST?: () => Function;
+  GET?: (req: NextApiRequest, res: NextApiResponse) => void;
+  POST?: (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
 }
 
 export type DataLists = {
@@ -210,10 +211,46 @@ export type GSRanking = {
 };
 
 export type SchoolRank = {
-  googlePresence?: number;
-  citations?: number;
+  status?: boolean;
+  ooglePresence?: number;
+  cigtations?: number;
   hindex?: number;
   i10hindex?: number;
+  totalPublications?: number;
+  firstPublicationYear?: number;
+  lastPublicationYear?: number;
+  highestCitations?: number;
+  highestHindex?: number;
+  highestI10hindex?: number;
+  highestTotalPublications?: number;
+  highestFirstPublicationYear?: number;
+  highestLastPublicationYear?: number;
+  lowestCitations?: number;
+  lowestHindex?: number;
+  lowestI10hindex?: number;
+  lowestTotalPublications?: number;
+  lowestFirstPublicationYear?: number;
+  lowestLastPublicationYear?: number;
+  averageCitations?: number;
+  averageHindex?: number;
+  averageI10hindex?: number;
+  averageTotalPublications?: number;
+  totalStaff?: number;
+  totalGooglePresence?: number;
+  totalStaffWithOutGooglePresence?: number;
+  totalStaffWithGooglePresence?: number;
+  internationalStaff?: number;
+  localStaff?: number;
+};
+
+export type SchoolStats = {
+  status?: boolean;
+  count?: number;
+  googlePresence?: number;
+  citation?: number;
+  hindex?: number;
+  i10hindex?: number;
+  total?: number;
 };
 
 export type IStats = {
@@ -251,15 +288,6 @@ export type FakerStudent = {
 
 export type IndustryProps = {
   indystryType: string;
-};
-
-export type SchoolStats = {
-  status?: boolean;
-  count?: number;
-  googlePresence?: number;
-  citation?: number;
-  hindex?: number;
-  i10hindex?: number;
 };
 
 export type SchoolAnalitics = object;
@@ -311,33 +339,70 @@ export type LecturerInfo = {
   enabled?: boolean;
 };
 
-export type LecturerStats = {
-  status?: string;
-  count?: number;
-  countLocal?: number;
-  countIntl?: number;
-  countMale?: number;
-  countFemale?: number;
-  countLocalFemale?: number;
-  countLocalMale?: number;
-  countIntlFemale?: number;
-  countIntlMale?: number;
-  countProfessors?: number;
-  countProfessorsMale?: number;
-  countProfessorsFemale?: number;
-  countIntlProfessors?: number;
-  countFullProfessors?: number;
-  countFullProfessorsMale?: number;
-  countFullProfessorsFemale?: number;
-  countAdjunct?: number;
-  countAdjunctFemale?: number;
-  countAdjunctMale?: number;
-  countAdjunctProfessors?: number;
-  countAdjunctProfessorsMale?: number;
-  countAdjunctProfessorsFemale?: number;
-  countPHDLecturers?: number;
-  countSeniorLecturers?: number;
-  countJuniorLecturers?: number;
+export type AccountsStats = {
+  status?: boolean;
+  googlePresence?: number;
+  cigtations?: number;
+  hindex?: number;
+  i10hindex?: number;
+  totalPublications?: number;
+  firstPublicationYear?: number;
+  lastPublicationYear?: number;
+  highestCitations?: number;
+  highestHindex?: number;
+  highestI10hindex?: number;
+  highestTotalPublications?: number;
+  highestFirstPublicationYear?: number;
+  highestLastPublicationYear?: number;
+  lowestCitations?: number;
+  lowestHindex?: number;
+  lowestI10hindex?: number;
+  lowestTotalPublications?: number;
+  lowestFirstPublicationYear?: number;
+  lowestLastPublicationYear?: number;
+  averageCitations?: number;
+  averageHindex?: number;
+  averageI10hindex?: number;
+  averageTotalPublications?: number;
+  totalStaff?: number;
+  totalGooglePresence?: number;
+  totalStaffWithOutGooglePresence?: number;
+  totalStaffWithGooglePresence?: number;
+  internationalStaff?: number;
+  localStaff?: number;
+};
+
+export const accountInitialStats = {
+  status: false,
+  googlePresence: 0,
+  cigtations: 0,
+  hindex: 0,
+  i10hindex: 0,
+  totalPublications: 0,
+  firstPublicationYear: 0,
+  lastPublicationYear: 0,
+  highestCitations: 0,
+  highestHindex: 0,
+  highestI10hindex: 0,
+  highestTotalPublications: 0,
+  highestFirstPublicationYear: 0,
+  highestLastPublicationYear: 0,
+  lowestCitations: 0,
+  lowestHindex: 0,
+  lowestI10hindex: 0,
+  lowestTotalPublications: 0,
+  lowestFirstPublicationYear: 0,
+  lowestLastPublicationYear: 0,
+  averageCitations: 0,
+  averageHindex: 0,
+  averageI10hindex: 0,
+  averageTotalPublications: 0,
+  totalStaff: 0,
+  totalGooglePresence: 0,
+  totalStaffWithOutGooglePresence: 0,
+  totalStaffWithGooglePresence: 0,
+  internationalStaff: 0,
+  localStaff: 0,
 };
 
 export type LecturerAnalitics = {

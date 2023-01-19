@@ -2,9 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { ResponseFunctions } from '@metricsai/metrics-interfaces';
 import { dbCon } from '@metricsai/metrics-models';
 import { getDomain } from '@metricsai/metrics-utils';
-import mongoose from 'mongoose';
 
-const bcrypt = require('bcryptjs');
+import bcrypt from 'bcryptjs';
 
 export default async function handler(
   req: NextApiRequest,
@@ -27,11 +26,12 @@ export default async function handler(
       const school = await Schools.findOne({
         domain: domain,
       }).catch(catcher);
+
       if (school) {
         // Get the School info with domain //
         await Accounts.findOne({
           email: username,
-          schoolid: school._id,
+          schoolId: school._id,
         })
           .then((account) => {
             if (account) {
@@ -40,14 +40,13 @@ export default async function handler(
                 account.password
               );
               if (isPasswordValid) {
-                res
-                  .status(200)
-                  .json({
-                    status: true,
-                    token: account._id,
-                    domain: domain,
-                    schoolId: account.schoolId,
-                  });
+                res.status(200).json({
+                  status: true,
+                  token: account._id,
+                  username: account.username,
+                  domain: domain,
+                  schoolId: account.schoolId,
+                });
               } else {
                 res.status(400).json({ status: false, domain: domain });
               }

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Router from 'next/router';
 import nextCookie from 'next-cookies';
 import cookie from 'js-cookie';
+import { Token } from '@metricsai/metrics-interfaces';
 
 const getUserName = async (token: string) => {
   const response = await fetch(`/api/accounts/${token}/username`);
@@ -17,7 +18,7 @@ const getUserName = async (token: string) => {
 export const cloudLogin = (token: string) => {
   const expire_time: any = process.env.NEXT_PUBLIC_COOKIE_TIME_IN_MINS || 10;
   const inMinutes = new Date(new Date().getTime() + expire_time * 60 * 1000);
-  getUserName(token)
+  getUserName(token as string)
     .then((username) => {
       cookie.set('token', token as string, { expires: inMinutes });
       cookie.set('username', username as string, { expires: inMinutes });
@@ -29,14 +30,15 @@ export const cloudLogin = (token: string) => {
 };
 
 // Login & Create session for Apps user a given minutes time
-export const appLogin = (token: string) => {
+export const appLogin = ({ token, schoolId }: Token) => {
   const expire_time: any = process.env.NEXT_PUBLIC_COOKIE_TIME_IN_MINS || 10;
   const inMinutes = new Date(new Date().getTime() + expire_time * 60 * 1000);
-  getUserName(token)
+  getUserName(token as string)
     .then((username) => {
       cookie.set('token', token as string, { expires: inMinutes });
       cookie.set('username', username as string, { expires: inMinutes });
-      Router.push(`/${username}`);
+      cookie.set('schoolId', schoolId as string, { expires: inMinutes });
+      Router.push(`/dashboard`);
     })
     .catch((err) => {
       authlogout();
@@ -100,14 +102,20 @@ export const authlogout = (url = '/') => {
 
 export const withAuth = (WrappedComponent: any) => {
   const Wrapper = (props: any) => {
+    const schoolId = authSchoolId();
+    const token = authToken();
+
     const syncLogout = (event: any) => {
       if (event.key === 'logout') {
         console.log('logged out from storage!');
-        Router.push('/auth');
+        if (schoolId) {
+          Router.push('/');
+        } else {
+          Router.push('/auth');
+        }
       }
     };
 
-    const token = cookie.get('token');
     useEffect(() => {
       window.addEventListener('storage', syncLogout);
       if (!token) {

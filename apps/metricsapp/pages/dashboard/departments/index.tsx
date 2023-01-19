@@ -1,17 +1,17 @@
-import { NextPage } from "next";
-import React from "react";
-import AdminLayout from "../../../components/AdminLayout";
-import AppDrawer from "../../../serverlets/AppDrawer";
+import { NextPage } from 'next';
+import React from 'react';
+import AdminLayout from '../../../components/AdminLayout';
+import AppDrawer from '../../../serverlets/AppDrawer';
 
-import { faPlus, faSchoolCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faSchoolCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Link from "next/link";
-import AppHeader from "../../../serverlets/AppHeader";
-import Copyright from "../../../serverlets/Copyright";
-import { withAuthSync } from "../../../utils/withAuthSync";
-import { compose } from "redux";
-import DepartmentsRanking from "../../../serverlets/DepartmentsRanking";
+import Link from 'next/link';
+import AppHeader from '../../../serverlets/AppHeader';
+import Copyright from '../../../serverlets/Copyright';
+import { withAuth } from '@metricsai/metrics-hocs';
+import { compose } from 'redux';
+import DepartmentsRanking from '../../../serverlets/DepartmentsRanking';
 
 const Departments: NextPage = () => {
   return (
@@ -112,4 +112,4 @@ const Departments: NextPage = () => {
   );
 };
 
-export default compose(withAuthSync)(Departments);
+export default compose(withAuth)(Departments);

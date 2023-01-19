@@ -69,6 +69,10 @@ export const mul = (a: number, b: number) => {
 export const div = (a: number, b: number) => {
   return (a / b).toFixed(2);
 };
+
+export const divide = (a: number, b: number) => {
+  return (a / b).toFixed(0);
+};
 export const perc = (num: number, total: number) => {
   return ((num / total) * 100).toFixed(2);
 };
@@ -213,10 +217,13 @@ export const getLiveStats = (arrData: any, statVal: any) => {
   return { max: max, min: min, mid: mid, dir: 'down', perc: _perc };
 };
 
-export const loadSchoolsStats = async (domain: string) => {
-  const response = await fetch(`/api/schools/${domain}/stats`);
+export const loadSchoolsStats = async (schoolId: string) => {
+  const response = await fetch(`/api/schools/${schoolId}/stats`);
   const stats = await response.json();
-  return stats;
+  if (stats.status) {
+    return stats;
+  }
+  return {};
 };
 
 export const loadStudents = async (domain: string) => {
@@ -224,8 +231,8 @@ export const loadStudents = async (domain: string) => {
   const students = await response.json();
   return students;
 };
-export const loadStudentsStats = async (domain: string) => {
-  const response = await fetch(`/api/students/${domain}/stats`);
+export const loadStudentsStats = async (schoolId: string) => {
+  const response = await fetch(`/api/students/${schoolId}/stats`);
   const stats = await response.json();
   return stats;
 };
@@ -300,8 +307,8 @@ export const getProfile = async (username: string) => {
   }
 };
 
-export const loadLecturersStats = async (domain: string) => {
-  const response = await fetch(`/api/lecturers/${domain}/stats`);
+export const loadLecturersStats = async (schoolId: string) => {
+  const response = await fetch(`/api/lecturers/${schoolId}/stats`);
   const stats = await response.json();
   return stats;
 };

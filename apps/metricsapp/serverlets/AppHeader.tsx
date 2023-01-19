@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  faArrowLeft,
   faHome,
   faListUl,
   faUserLock,
@@ -9,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AppSidebar from './AppSidebar';
 import Link from 'next/link';
 import Image from 'next/image';
-import { authlogout } from '../utils/withAuthSync';
+import { authlogout } from '@metricsai/metrics-hocs';
 import Loading from '../components/Loading';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -28,13 +27,13 @@ const AppHeader: React.FunctionComponent = () => {
       <AppSidebar />
       <div className="appHeader bg-primary text-light relative">
         <div className="left">
-          <a
+          <Link
             href="#"
             className="headerButton"
             onClick={() => dispatch.settings.toggleMenu(!menuOpened)}
           >
             <FontAwesomeIcon icon={faListUl} size={'2x'} />
-          </a>
+          </Link>
         </div>
         <div className="pageTitle">
           {size == 'sm' || size == 'xs' ? (
@@ -44,30 +43,31 @@ const AppHeader: React.FunctionComponent = () => {
           )}
         </div>
         <div className="right">
-          <a href={'/dashboard/reports'} className="headerButton">
+          <Link href={'/dashboard/reports'} className="headerButton">
             <FontAwesomeIcon icon={faHome} />
-          </a>
-          <a href="#" className="headerButton">
+          </Link>
+          <Link href="#" className="headerButton bg-transparent">
             <Image
-              width={25}
-              height={25}
+              width={32}
+              height={32}
               src={user.picture}
               className="imaged w32"
               alt="profile"
             />
-          </a>
+          </Link>
           {busy ? (
             <Loading />
           ) : (
-            <a
+            <Link
               href="#"
               className="headerButton text-white"
-              onClick={authlogout} >
+              onClick={() => authlogout()}
+            >
               <FontAwesomeIcon icon={faUserLock} />
               <span className="badge badge-black bg-black p-1">
                 {windows.size}
               </span>
-            </a>
+            </Link>
           )}
         </div>
       </div>

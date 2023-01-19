@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import AppHeader from '../../../serverlets/AppHeader';
 import Copyright from '../../../serverlets/Copyright';
-import { withAuthSync } from '../../../utils/withAuthSync';
+import { withAuth } from '@metricsai/metrics-hocs';
 import AppDrawer from '../../../serverlets/AppDrawer';
 
 import { useSelector } from 'react-redux';
@@ -79,4 +79,4 @@ const RankingsHistory: NextPage = () => {
   );
 };
 
-export default compose(withAuthSync)(RankingsHistory);
+export default compose(withAuth)(RankingsHistory);

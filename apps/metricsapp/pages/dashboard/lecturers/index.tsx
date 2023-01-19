@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import AppHeader from '../../../serverlets/AppHeader';
 import Copyright from '../../../serverlets/Copyright';
-import { withAuthSync } from '../../../utils/withAuthSync';
+import { withAuth } from '@metricsai/metrics-hocs';
 import { compose } from 'redux';
 import cookie from 'js-cookie';
 
@@ -83,7 +83,6 @@ const Lecturers: NextPage = () => {
     });
     dispatch.lecturers.setList(newData);
   };
-
 
   return (
     <>
@@ -233,7 +232,7 @@ const Lecturers: NextPage = () => {
                 </div>
               </div>
               <div className={`col-12 col-md-12 col-lg-8 min-h-screen`}>
-                // {/* <LecturersListBox lecturers={list} /> */}
+                {/* <LecturersListBox lecturers={list} /> */}
               </div>
             </div>
           </div>
@@ -245,4 +244,4 @@ const Lecturers: NextPage = () => {
   );
 };
 
-export default compose(withAuthSync)(Lecturers);
+export default compose(withAuth)(Lecturers);

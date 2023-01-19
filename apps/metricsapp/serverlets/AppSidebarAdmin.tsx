@@ -54,7 +54,10 @@ function AppSidebarAdmin() {
                 </div>
                 <div className="in">
                   <strong>{`${user.firstname} ${user.lastname}`}</strong>
-                  <div className="text-muted">Metrics AI {user.role}</div>
+                  <div>
+                    <span className="text-muted"> Metrics AI</span>{' '}
+                    <strong className="bg-green-500">{user.role}</strong>
+                  </div>
                 </div>
                 <Link href="#" legacyBehavior>
                   <a

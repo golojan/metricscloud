@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AppSidebarAdmin from './AppSidebarAdmin';
 import Link from 'next/link';
 import Image from 'next/image';
-import { authlogout } from '../utils/withAuthSync';
+import { authlogout } from '@metricsai/metrics-hocs';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, Dispatch } from '@metricsai/metrics-store';
@@ -68,7 +68,11 @@ function AppHeaderAdmin({ isroot }: AppHeaderProps) {
               alt=""
             />
           </a>
-          <a href="#" className="headerButton text-white" onClick={authlogout}>
+          <a
+            href="#"
+            className="headerButton text-white"
+            onClick={() => authlogout()}
+          >
             <FontAwesomeIcon icon={faUserLock} />
             <span className="badge badge-black bg-black p-1">
               {windows.size}

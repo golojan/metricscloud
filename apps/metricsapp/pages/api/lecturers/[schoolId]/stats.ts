@@ -1,9 +1,8 @@
 import {
   Gender,
-  LecturerLevel,
-  LecturerType,
   ResponseFunctions,
-  AccountTypes
+  AccountTypes,
+  MembershipTypes,
 } from '@metricsai/metrics-interfaces';
 
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -20,208 +19,117 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         .json({ status: false, err: 'Only GET Method is allowed' });
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-
       const { schoolId } = req.query;
-      const { Accounts, Lecturers } = await dbCon();
+      const { Accounts } = await dbCon();
 
-      const count = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-      }).catch(catcher);
+      const lecturers = await Accounts.aggregate([
+        {
+          $match: {
+            schoolId: schoolId,
+            accountType: AccountTypes.LECTURER,
+          },
+        },
+        {
+          $group: {
+            _id: '$_id',
+            citations: { $sum: '$citations' },
+            hindex: { $sum: '$hindex' },
+            i10hindex: { $sum: '$i10hindex' },
+            totalPublications: { $sum: '$totalPublications' },
+            firstPublicationYear: { $min: '$firstPublicationYear' },
+            lastPublicationYear: { $max: '$lastPublicationYear' },
+            highestCitations: { $max: '$citations' },
+            highestHindex: { $max: '$hindex' },
+            highestI10hindex: { $max: '$i10hindex' },
+            highestTotalPublications: { $max: '$totalPublications' },
+            lowestCitations: { $min: '$citations' },
+            lowestHindex: { $min: '$hindex' },
+            lowestI10hindex: { $min: '$i10hindex' },
+            lowestTotalPublications: { $min: '$totalPublications' },
+            totalStaff: { $sum: 1 },
+            totalStaffWithGooglePresence: {
+              $sum: {
+                $cond: [
+                  {
+                    $or: [
+                      { $gt: ['$citations', 0] },
+                      { $gt: ['$hindex', 0] },
+                      { $gt: ['$i10hindex', 0] },
+                    ],
+                  },
+                  1,
+                  0,
+                ],
+              },
+            },
+            totalStaffWithOutGooglePresence: {
+              $sum: {
+                $cond: [
+                  {
+                    $and: [
+                      { $eq: ['$citations', 0] },
+                      { $eq: ['$hindex', 0] },
+                      { $eq: ['$i10hindex', 0] },
+                    ],
+                  },
+                  1,
+                  0,
+                ],
+              },
+            },
+            internationalStaff: {
+              $sum: {
+                $cond: [
+                  { $eq: ['$membershipType', MembershipTypes.INTERNATIONAL] },
+                  1,
+                  0,
+                ],
+              },
+            },
+            localStaff: {
+              $sum: {
+                $cond: [
+                  { $eq: ['$membershipType', MembershipTypes.LOCAL] },
+                  1,
+                  0,
+                ],
+              },
+            },
+          },
+        },
+      ]).catch(catcher);
 
-      const countLocal = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        lecturerType: LecturerType.LOCAL,
-      }).catch(catcher);
-
-      const countIntl = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        lecturerType: LecturerType.INTERNATIONAL,
-      }).catch(catcher);
-
-      const countMale = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        gender: Gender.MALE,
-      }).catch(catcher);
-
-      const countFemale = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        gender: Gender.FEMALE,
-      }).catch(catcher);
-
-      const countLocalFemale = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        gender: Gender.FEMALE,
-        lecturerType: LecturerType.LOCAL,
-      }).catch(catcher);
-
-      const countLocalMale = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        gender: Gender.MALE,
-        lecturerType: LecturerType.LOCAL,
-      }).catch(catcher);
-
-      const countIntlFemale = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        gender: Gender.FEMALE,
-        lecturerType: LecturerType.INTERNATIONAL,
-      }).catch(catcher);
-
-      const countIntlMale = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        gender: Gender.MALE,
-        lecturerType: LecturerType.INTERNATIONAL,
-      }).catch(catcher);
-
-      const countProfessors = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        'professor.isProfessor': true,
-      }).catch(catcher);
-
-      const countProfessorsMale = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        gender: Gender.MALE,
-        'professor.isProfessor': true,
-      }).catch(catcher);
-
-      const countProfessorsFemale = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        gender: Gender.FEMALE,
-        'professor.isProfessor': true,
-      }).catch(catcher);
-
-      const countIntlProfessors = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        'professor.isProfessor': true,
-        lecturerType: LecturerType.INTERNATIONAL,
-      }).catch(catcher);
-
-      const countFullProfessors = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        'professor.isProfessor': true,
-        'professor.isFullProfessor': true,
-      }).catch(catcher);
-
-      const countFullProfessorsMale = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        gender: Gender.MALE,
-        'professor.isProfessor': true,
-        'professor.isFullProfessor': true,
-      }).catch(catcher);
-
-      const countFullProfessorsFemale = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        gender: Gender.FEMALE,
-        'professor.isProfessor': true,
-        'professor.isFullProfessor': true,
-      }).catch(catcher);
-
-      const countAdjunct = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        adjunct: true,
-      }).catch(catcher);
-
-      const countAdjunctMale = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        gender: Gender.MALE,
-        adjunct: true,
-      }).catch(catcher);
-
-      const countAdjunctFemale = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        gender: Gender.FEMALE,
-        adjunct: true,
-      }).catch(catcher);
-
-      const countAdjunctProfessorsMale = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        gender: Gender.MALE,
-        adjunct: true,
-        'professor.isProfessor': true,
-        'professor.isFullProfessor': true,
-      }).catch(catcher);
-
-      const countAdjunctProfessorsFemale = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        gender: Gender.FEMALE,
-        adjunct: true,
-        'professor.isProfessor': true,
-        'professor.isFullProfessor': true,
-      }).catch(catcher);
-
-      const countAdjunctProfessors = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        adjunct: true,
-        'professor.isProfessor': true,
-      }).catch(catcher);
-
-      const countPHDLecturers = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        withPhd: true,
-      }).catch(catcher);
-
-      const countSeniorLecturers = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        level: LecturerLevel.SENIOR,
-      }).catch(catcher);
-
-      const countJuniorLecturers = await Accounts.count({
-        schoolId: schoolId,
-        accountType: AccountTypes.LECTURER,
-        level: LecturerLevel.SENIOR,
-      }).catch(catcher);
-
-      res.status(200).json({
-        status: true,
-        count: count,
-        countLocal: countLocal,
-        countIntl: countIntl,
-        countMale: countMale,
-        countFemale: countFemale,
-        countLocalFemale: countLocalFemale,
-        countLocalMale: countLocalMale,
-        countIntlFemale: countIntlFemale,
-        countIntlMale: countIntlMale,
-        countProfessors: countProfessors,
-        countProfessorsMale: countProfessorsMale,
-        countProfessorsFemale: countProfessorsFemale,
-        countIntlProfessors: countIntlProfessors,
-        countFullProfessors: countFullProfessors,
-        countFullProfessorsMale: countFullProfessorsMale,
-        countFullProfessorsFemale: countFullProfessorsFemale,
-        countAdjunct: countAdjunct,
-        countAdjunctFemale: countAdjunctFemale,
-        countAdjunctMale: countAdjunctMale,
-        countAdjunctProfessors: countAdjunctProfessors,
-        countAdjunctProfessorsMale: countAdjunctProfessorsMale,
-        countAdjunctProfessorsFemale: countAdjunctProfessorsFemale,
-        countPHDLecturers: countPHDLecturers,
-        countSeniorLecturers: countSeniorLecturers,
-        countJuniorLecturers: countJuniorLecturers,
-      });
+      if (lecturers[0]) {
+        res.status(200).json({
+          status: true,
+          count: lecturers[0].totalStaff,
+          citations: lecturers[0].citations,
+          hindex: lecturers[0].hindex,
+          i10hindex: lecturers[0].i10hindex,
+          totalPublications: lecturers[0].totalPublications,
+          firstPublicationYear: lecturers[0].firstPublicationYear,
+          lastPublicationYear: lecturers[0].lastPublicationYear,
+          totalStaff: lecturers[0].totalStaff,
+          totalStaffWithGooglePresence:
+            lecturers[0].totalStaffWithGooglePresence,
+          totalStaffWithOutGooglePresence:
+            lecturers[0].totalStaffWithOutGooglePresence,
+          internationalStaff: lecturers[0].internationalStaff,
+          localStaff: lecturers[0].localStaff,
+          highestCitations: lecturers[0].highestCitations,
+          highestHindex: lecturers[0].highestHindex,
+          highestI10hindex: lecturers[0].highestI10hindex,
+          highestTotalPublications: lecturers[0].highestTotalPublications,
+          lowestCitations: lecturers[0].lowestCitations,
+          lowestHindex: lecturers[0].lowestHindex,
+          lowestI10hindex: lecturers[0].lowestI10hindex,
+          lowestTotalPublications: lecturers[0].lowestTotalPublications,
+        });
+      } else {
+        res
+          .status(400)
+          .json({ status: false, error: 'No Statistics returned' });
+      }
     },
   };
   const response = handleCase[method];
