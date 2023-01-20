@@ -38,37 +38,37 @@ const Rankings: NextPage = () => {
   const [fileName, setFileName] = useState(Date.now());
   const [toggle, setToggle] = useState(false);
 
-  const saveRankingHistory = async () => {
-    dispatch.settings.setBusy(true);
-    const _domain = cookie.get('domain');
-    const response: any = await fetch(`/api/schools/${_domain}/save`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: fileName,
-        lecturers: lecturers,
-        students: students,
-        school: {
-          googlePresence: ranking.googlePresence,
-          citations: ranking.citations,
-          hindex: ranking.hindex,
-          i10hindex: ranking.i10hindex,
-        },
-        allschools: allschools,
-      }),
-    });
-    const { status } = await response.json();
-    setToggle(false);
-    dispatch.settings.setBusy(false);
-  };
+  // const saveRankingHistory = async () => {
+  //   dispatch.settings.setBusy(true);
+  //   const _domain = cookie.get('domain');
+  //   const response: any = await fetch(`/api/schools/${_domain}/save`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       name: fileName,
+  //       lecturers: lecturers,
+  //       students: students,
+  //       school: {
+  //         googlePresence: ranking.googlePresence,
+  //         citations: ranking.citations,
+  //         hindex: ranking.hindex,
+  //         i10hindex: ranking.i10hindex,
+  //       },
+  //       allschools: allschools,
+  //     }),
+  //   });
+  //   const { status } = await response.json();
+  //   setToggle(false);
+  //   dispatch.settings.setBusy(false);
+  // };
 
   return (
     <>
       <AdminLayout>
         <AppHeader />
-        <div id="appCapsule" className="mb-5">
+        {/* <div id="appCapsule" className="mb-5">
           <div className="section wallet-card-section pt-1">
             <div className="wallet-card">
               <div className="balance row">
@@ -200,7 +200,7 @@ const Rankings: NextPage = () => {
           </div>
 
           <Copyright />
-        </div>
+        </div> */}
         <AppDrawer onchat={false} menuitem="dashboard" />
       </AdminLayout>
     </>

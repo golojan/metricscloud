@@ -25,7 +25,6 @@ import { RootState } from '@metricsai/metrics-store';
 import RankingHostoryTable from '../../../components/RankingHostoryTable';
 
 const RankingsHistory: NextPage = () => {
-  const { school, ranking } = useSelector((state: RootState) => state.settings);
   return (
     <>
       <AdminLayout>
@@ -36,25 +35,25 @@ const RankingsHistory: NextPage = () => {
               <div className="wallet-footer">
                 <div className="item">
                   <div>
-                    <span className="h1">{ranking.googlePresence}</span>
+                    <span className="h1">{0}</span>
                     <strong>Googgle Presence</strong>
                   </div>
                 </div>
                 <div className="item">
                   <div>
-                    <span className="h1">{ranking.citations}</span>
+                    <span className="h1">{0}</span>
                     <strong>Citations</strong>
                   </div>
                 </div>
                 <div className="item">
                   <div>
-                    <span className="h1">{ranking.hindex}</span>
+                    <span className="h1">{0}</span>
                     <strong>H-Index</strong>
                   </div>
                 </div>
                 <div className="item">
                   <div>
-                    <span className="h1">{ranking.i10hindex}</span>
+                    <span className="h1">{0}</span>
                     <strong>i10-H-Index</strong>
                   </div>
                 </div>
