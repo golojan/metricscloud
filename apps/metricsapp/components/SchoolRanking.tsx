@@ -15,7 +15,7 @@ import FullAcreditationStatus from './indicators/Teaching/FullAcreditationStatus
 import TeachStudentRatio from './indicators/Teaching/TeachStudentRatio';
 import FemaleStudents from './indicators/Teaching/FemaleStudents';
 import ProfessorsAndReader from './indicators/Teaching/ProfessorsAndReader';
-import SeniorLecturers from './indicators/Teaching/SeniorLEcturers';
+import SeniorLecturers from './indicators/Teaching/SeniorLecturers';
 import OtherLecturers from './indicators/Teaching/OtherLecturers';
 
 interface SRProps {
