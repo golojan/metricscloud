@@ -27,8 +27,8 @@ const Faculties: NextPage = () => {
   const [done, setDone] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [list, setList] = useState<FacultiesInfo[]>([]);
-  // const [faculties, setFaculties] = useState<FacultiesInfo[]>([]);
   const [schoolFaculties, setSchoolFaculties] = useState<SCHFaculty[]>([]);
+
   const schoolId = authSchoolId();
 
   const { data: faculties, isLoading } = useSWR(
@@ -147,20 +147,45 @@ const Faculties: NextPage = () => {
   const saveFaculty = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setDone(true);
-    const result = await fetch(`/api/faculties/${schoolId}/updateFaculty`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(faculty),
-    });
-    const { status, data } = await result.json();
-    if (status) {
-      console.log(data);
+
+    if (faculty._id) {
+      //edit faculty
+      const result = await fetch(`/api/faculties/${schoolId}/updateFaculty`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(faculty),
+      });
+      const { status, data } = await result.json();
+      if (status) {
+        console.log(data);
+      } else {
+        console.log(data);
+      }
     } else {
-      console.log(data);
+      //add faculty
+      const result = await fetch(`/api/faculties/${schoolId}/addFaculty`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(faculty),
+      });
+      const { status, data } = await result.json();
+      if (status) {
+        console.log(data);
+      } else {
+        console.log(data);
+      }
     }
+
     setDone(false);
+  };
+
+  const doNewFaculty = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setFaculty({ schoolId: schoolId });
   };
 
   return (
@@ -178,7 +203,11 @@ const Faculties: NextPage = () => {
                   </h1>
                 </div>
                 <div className="right flex">
-                  <Link href="#" className="button">
+                  <Link
+                    href="#"
+                    className="button"
+                    onClick={(e) => doNewFaculty(e)}
+                  >
                     <FontAwesomeIcon icon={faPlus} />
                   </Link>
                 </div>
@@ -295,22 +324,35 @@ const Faculties: NextPage = () => {
               <div className={`col-12 col-md-12 col-lg-4 min-h-screen`}>
                 <form onSubmit={saveFaculty}>
                   <div className="card-box border-0">
-                    <h1 className="mb-2">
-                      Edit Faculty <br />
-                      <small>
-                        Edit faculty details.
-                        <hr className="my-2" />
-                      </small>
-                    </h1>
+                    {faculty._id ? (
+                      <>
+                        <h1 className="mb-2">
+                          Edit Faculty <br />
+                          <small>
+                            Edit faculty details.
+                            <hr className="my-2" />
+                          </small>
+                        </h1>
+                      </>
+                    ) : (
+                      <>
+                        <h1 className="mb-2">
+                          Create Faculty <br />
+                          <small>
+                            New Faculty Details.
+                            <hr className="my-2" />
+                          </small>
+                        </h1>
+                      </>
+                    )}
+
                     <div className="form-group basic">
                       <div className="input-wrapper">
                         <label className="text-xl" htmlFor="facultyName">
                           Faculty Name
                         </label>
-                        <input
-                          type="text"
+                        <textarea
                           className="form-control form-control-lg"
-                          placeholder="Enter faculty name"
                           value={faculty.facultyName}
                           onChange={(e) =>
                             setFaculty({
@@ -320,7 +362,7 @@ const Faculties: NextPage = () => {
                           }
                         />
                         <i className="clear-input show d-block">
-                          <FontAwesomeIcon className="" icon={faEdit} />
+                          <FontAwesomeIcon icon={faEdit} />
                         </i>
                       </div>
                     </div>
@@ -328,12 +370,11 @@ const Faculties: NextPage = () => {
                     <div className="form-group basic">
                       <div className="input-wrapper">
                         <label className="text-xl" htmlFor="facultyCode">
-                          Faculty Code/Short Name
+                          Code/Short Name
                         </label>
                         <input
                           type="text"
                           className="form-control form-control-lg"
-                          placeholder="Enter faculty Code"
                           value={faculty.facultyCode}
                           onChange={(e) =>
                             setFaculty({
@@ -351,11 +392,10 @@ const Faculties: NextPage = () => {
                     <div className="form-group basic">
                       <div className="input-wrapper">
                         <label className="text-xl" htmlFor="facultyDescription">
-                          Faculty Description
+                          Description
                         </label>
                         <textarea
                           className="form-control form-control-lg"
-                          placeholder="Enter faculty Description"
                           value={faculty.facultyDescription}
                           onChange={(e) =>
                             setFaculty({
@@ -370,7 +410,17 @@ const Faculties: NextPage = () => {
                     <div className="form-group basic">
                       <div className="input-wrapper">
                         <button className="btn btn-primary btn-block btn-lg">
-                          Update Faculty
+                          {faculty._id ? (
+                            <>
+                              <FontAwesomeIcon className="mr-2" icon={faEdit} />{' '}
+                              Update Faculty
+                            </>
+                          ) : (
+                            <>
+                              <FontAwesomeIcon className="mr-2" icon={faPlus} />{' '}
+                              Create Faculty
+                            </>
+                          )}
                         </button>
                       </div>
                     </div>

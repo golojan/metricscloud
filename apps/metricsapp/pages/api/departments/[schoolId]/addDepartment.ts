@@ -17,40 +17,76 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         departmentDescription,
       } = req.body;
 
-      console.log(req.body);
+      const { SchoolDepartments, Departments } = await dbCon();
 
-      const { SchoolDepartments } = await dbCon();
-
-      const department = await SchoolDepartments.findOne({
-        schoolId: schoolId,
-        departmentId: departmentId,
-        facultyId: facultyId,
-      }).catch(catcher);
-      if (department) {
-        res.status(200).json({
-          status: true,
-          ...department,
-        });
-      } else {
-        const created = await SchoolDepartments.create({
+      if (departmentId) {
+        //Edit existing department
+        const department = await SchoolDepartments.findOne({
           schoolId: schoolId,
-          facultyId: facultyId,
           departmentId: departmentId,
-          departmentName: departmentName,
-          departmentCode: departmentCode,
-          departmentDescription: departmentDescription
-            ? departmentDescription
-            : '',
+          facultyId: facultyId,
         }).catch(catcher);
-        if (created) {
+        if (department) {
           res.status(200).json({
             status: true,
-            ...created,
+            ...department,
           });
         } else {
+          const created = await SchoolDepartments.create({
+            schoolId: schoolId,
+            facultyId: facultyId,
+            departmentId: departmentId,
+            departmentName: departmentName,
+            departmentCode: departmentCode,
+            departmentDescription: departmentDescription
+              ? departmentDescription
+              : '',
+          }).catch(catcher);
+          if (created) {
+            res.status(200).json({
+              status: true,
+              ...created,
+            });
+          } else {
+            res
+              .status(404)
+              .json({ status: false, err: 'Faculty creation failed' });
+          }
+        }
+      } else {
+        //Create new department globally and add to school
+        const created = await Departments.create({
+          name: departmentName,
+          shortname: departmentCode,
+          description: departmentDescription ? departmentDescription : '',
+        }).catch(catcher);
+        if (created) {
+          // Add department to school
+          const createdSchoolDepartment = await SchoolDepartments.create({
+            schoolId: schoolId,
+            facultyId: facultyId,
+            departmentId: created._id,
+            departmentName: departmentName,
+            departmentCode: departmentCode,
+            departmentDescription: departmentDescription
+              ? departmentDescription
+              : '',
+          }).catch(catcher);
+          if (createdSchoolDepartment) {
+            res.status(200).json({
+              status: true,
+              ...createdSchoolDepartment,
+            });
+          } else {
+            res
+              .status(404)
+              .json({ status: false, err: 'Department creation failed' });
+          }
+        } else {
           res
+
             .status(404)
-            .json({ status: false, err: 'Faculty creation failed' });
+            .json({ status: false, err: 'Department creation failed' });
         }
       }
     },

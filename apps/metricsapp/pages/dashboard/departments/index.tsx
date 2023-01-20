@@ -32,17 +32,6 @@ import {
   loadFacultyDepartments,
 } from '@metricsai/metrics-utils';
 
-// //Get all faculties from the faculties collection api
-// const getFaculties = async () => {
-//   const result = await fetch('/api/faculties/list');
-//   const { status, data } = await result.json();
-//   if (status) {
-//     return data;
-//   } else {
-//     return {};
-//   }
-// };
-
 const Departments: NextPage = () => {
   const [done, setDone] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
@@ -199,9 +188,27 @@ const Departments: NextPage = () => {
   const saveDepartment = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setDone(true);
-    const result = await fetch(
-      `/api/departments/${schoolId}/updateDepartment`,
-      {
+    if (department._id) {
+      const result = await fetch(
+        `/api/departments/${schoolId}/updateDepartment`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...department,
+          }),
+        }
+      );
+      const { status, data } = await result.json();
+      if (status) {
+        console.log(data);
+      } else {
+        console.log(data);
+      }
+    } else {
+      const result = await fetch(`/api/departments/${schoolId}/addDepartment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -209,15 +216,27 @@ const Departments: NextPage = () => {
         body: JSON.stringify({
           ...department,
         }),
+      });
+      const { status, data } = await result.json();
+      if (status) {
+        console.log(data);
+      } else {
+        console.log(data);
       }
-    );
-    const { status, data } = await result.json();
-    if (status) {
-      console.log(data);
-    } else {
-      console.log(data);
     }
     setDone(false);
+  };
+
+  const doNewDepartment = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setDepartment({
+      schoolId: schoolId,
+      facultyId: facultyId,
+      departmentId: '',
+      departmentName: '',
+      departmentCode: '',
+      departmentDescription: '',
+    });
   };
 
   return (
@@ -235,7 +254,11 @@ const Departments: NextPage = () => {
                   </h1>
                 </div>
                 <div className="right flex">
-                  <Link href="#" className="button">
+                  <Link
+                    href="#"
+                    className="button"
+                    onClick={(e) => doNewDepartment(e)}
+                  >
                     <FontAwesomeIcon icon={faPlus} />
                   </Link>
                 </div>
@@ -422,23 +445,36 @@ const Departments: NextPage = () => {
               <div className={`col-12 col-md-12 col-lg-3 min-h-screen`}>
                 <form onSubmit={saveDepartment}>
                   <div className="card-box border-0">
-                    <h1 className="mb-2">
-                      Edit Department <br />
-                      <small>
-                        Department details.
-                        <hr className="my-2" />
-                      </small>
-                    </h1>
+                    {department._id ? (
+                      <>
+                        <h1 className="mb-2">
+                          Edit Department <br />
+                          <small>
+                            Department details.
+                            <hr className="my-2" />
+                          </small>
+                        </h1>
+                      </>
+                    ) : (
+                      <>
+                        <h1 className="mb-2">
+                          Create Department <br />
+                          <small>
+                            Department details.
+                            <hr className="my-2" />
+                          </small>
+                        </h1>
+                      </>
+                    )}
                     <div className="form-group basic">
                       <div className="input-wrapper">
                         <label className="text-xl" htmlFor="departmentName">
                           Name
                         </label>
-                        <input
-                          type="text"
+                        <textarea
                           className="form-control form-control-lg"
-                          placeholder="Enter department name"
                           value={department.departmentName}
+                          disabled={facultyId ? false : true}
                           onChange={(e) =>
                             setDepartment({
                               ...department,
@@ -459,8 +495,8 @@ const Departments: NextPage = () => {
                         </label>
                         <input
                           type="text"
+                          disabled={facultyId ? false : true}
                           className="form-control form-control-lg"
-                          placeholder="Enter department Code"
                           value={department.departmentCode}
                           onChange={(e) =>
                             setDepartment({
@@ -485,7 +521,7 @@ const Departments: NextPage = () => {
                         </label>
                         <textarea
                           className="form-control form-control-lg"
-                          placeholder="Enter department Description"
+                          disabled={facultyId ? false : true}
                           value={department.departmentDescription}
                           onChange={(e) =>
                             setDepartment({
@@ -499,8 +535,21 @@ const Departments: NextPage = () => {
 
                     <div className="form-group basic">
                       <div className="input-wrapper">
-                        <button className="btn btn-primary btn-block btn-lg">
-                          Update Department
+                        <button
+                          className="btn btn-primary btn-block btn-lg"
+                          disabled={facultyId ? false : true}
+                        >
+                          {department._id ? (
+                            <>
+                              <FontAwesomeIcon className="mr-2" icon={faEdit} />{' '}
+                              Update Department
+                            </>
+                          ) : (
+                            <>
+                              <FontAwesomeIcon className="mr-2" icon={faPlus} />{' '}
+                              Create Department
+                            </>
+                          )}
                         </button>
                       </div>
                     </div>
