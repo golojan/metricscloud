@@ -21,7 +21,11 @@ import { compose } from 'redux';
 // use virtuozzo api to get faculties and departments
 import { Virtuoso } from 'react-virtuoso';
 
-import { DepartmentsInfo } from '@metricsai/metrics-interfaces';
+import {
+  DepartmentsInfo,
+  SCHDepartment,
+  SCHFaculty,
+} from '@metricsai/metrics-interfaces';
 import {
   loadFaculties,
   listDepartments,
@@ -38,25 +42,6 @@ import {
 //     return {};
 //   }
 // };
-
-type SCHFaculty = {
-  _id?: string;
-  facultyId?: string;
-  schoolId?: string;
-  facultyName?: string;
-  facultyCode?: string;
-  facultyDescription?: string;
-};
-
-type SCHDepartment = {
-  _id?: string;
-  departmentId?: string;
-  facultyId?: string;
-  schoolId?: string;
-  departmentName?: string;
-  departmentCode?: string;
-  departmentDescription?: string;
-};
 
 const Departments: NextPage = () => {
   const [done, setDone] = useState<boolean>(false);

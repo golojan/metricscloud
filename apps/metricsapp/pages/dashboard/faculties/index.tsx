@@ -17,29 +17,9 @@ import Copyright from '../../../serverlets/Copyright';
 import { authSchoolId, withAuth } from '@metricsai/metrics-hocs';
 import { compose } from 'redux';
 
-import { FacultiesInfo } from '@metricsai/metrics-interfaces';
+import { FacultiesInfo, SCHFaculty } from '@metricsai/metrics-interfaces';
 import { listFaculties, loadFaculties } from '@metricsai/metrics-utils';
 import { Virtuoso } from 'react-virtuoso';
-
-// //Get all faculties from the faculties collection api
-// const getFaculties = async () => {
-//   const result = await fetch('/api/faculties/list');
-//   const { status, data } = await result.json();
-//   if (status) {
-//     return data;
-//   } else {
-//     return {};
-//   }
-// };
-
-type SCHFaculty = {
-  _id?: string;
-  facultyId?: string;
-  schoolId?: string;
-  facultyName?: string;
-  facultyCode?: string;
-  facultyDescription?: string;
-};
 
 const Faculties: NextPage = () => {
   const [done, setDone] = useState<boolean>(false);

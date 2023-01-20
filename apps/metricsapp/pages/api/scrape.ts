@@ -7,8 +7,10 @@ import { GSRanking } from '@metricsai/metrics-interfaces';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
+
   const catcher = (error: Error) =>
     res.status(400).json({ status: 0, error: error });
+
   const handleCase: ResponseFunctions = {
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       res
@@ -17,7 +19,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     },
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
       const url = req.body.url;
-      //   console.log(url);
       try {
         const response = await fetch(url);
         const htmlString = await response.text();

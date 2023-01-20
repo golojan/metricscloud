@@ -1,7 +1,7 @@
 import React from 'react';
-import { LecturerInfo } from '@metricsai/metrics-interfaces';
+import { AuthUserInfo } from '@metricsai/metrics-interfaces';
 
-type ScholarProps = { lecturer: LecturerInfo };
+type ScholarProps = { lecturer: AuthUserInfo };
 
 const ScholarRatingLarge = ({ lecturer }: ScholarProps) => {
   return (

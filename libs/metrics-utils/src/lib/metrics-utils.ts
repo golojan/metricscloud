@@ -237,12 +237,6 @@ export const loadStudentsStats = async (schoolId: string) => {
   return stats;
 };
 
-export const loadLecturers = async (domain: string) => {
-  const response = await fetch(`/api/lecturers/${domain}/list`);
-  const lecturers = await response.json();
-  return lecturers;
-};
-
 export const loadUsers: any = async () => {
   const response = await fetch('/api/accounts/listusers');
   const users = await response.json();
@@ -305,6 +299,15 @@ export const getProfile = async (username: string) => {
   } else {
     return {};
   }
+};
+
+export const loadLecturers = async (schoolId: string) => {
+  const response = await fetch(`/api/lecturers/${schoolId}/list`);
+  const lecturers = await response.json();
+  if (lecturers.status) {
+    return lecturers.data;
+  }
+  return [];
 };
 
 export const loadLecturersStats = async (schoolId: string) => {

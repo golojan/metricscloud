@@ -79,6 +79,7 @@ export interface AuthUserInfo {
   picture?: string;
   firstname?: string;
   lastname?: string;
+  middlename?: string;
   aboutMe?: string;
   username?: string;
   role?: string;
@@ -198,8 +199,10 @@ export interface IHistory {
 }
 
 export type GSRanking = {
+  canScrap?: boolean;
+  accountId?: string;
+  googleScholarId?: string;
   scrap?: boolean;
-  url?: string;
   scrapper?: string;
   googlePresence?: number;
   citations?: number;
@@ -262,7 +265,7 @@ export type IStats = {
   perc: number;
 };
 
-export type ScholarsProps = { lecturers: LecturerInfo[] };
+export type ScholarsProps = { lecturers: AuthUserInfo[] };
 
 export type WebWindow = {
   addEventListener(arg0: string, handleResize: () => void): unknown;
@@ -565,4 +568,23 @@ export type Token = {
   schoolId?: string;
   token?: string;
   url?: string;
+};
+
+export type SCHFaculty = {
+  _id?: string;
+  facultyId?: string;
+  schoolId?: string;
+  facultyName?: string;
+  facultyCode?: string;
+  facultyDescription?: string;
+};
+
+export type SCHDepartment = {
+  _id?: string;
+  departmentId?: string;
+  facultyId?: string;
+  schoolId?: string;
+  departmentName?: string;
+  departmentCode?: string;
+  departmentDescription?: string;
 };

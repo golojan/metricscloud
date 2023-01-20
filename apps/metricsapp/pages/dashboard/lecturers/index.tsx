@@ -11,14 +11,15 @@ import AppHeader from '../../../serverlets/AppHeader';
 import Copyright from '../../../serverlets/Copyright';
 import { withAuth } from '@metricsai/metrics-hocs';
 import { compose } from 'redux';
-import cookie from 'js-cookie';
 
 import LecturersListBox from '../../../components/LecturersListBox';
-import { LecturerInfo } from '@metricsai/metrics-interfaces';
+import { AuthUserInfo, LecturerInfo } from '@metricsai/metrics-interfaces';
 import { Gender } from '@metricsai/metrics-interfaces';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, RootState } from '@metricsai/metrics-store';
+import { authSchoolId } from '@metricsai/metrics-hocs';
+import { loadLecturers } from '@metricsai/metrics-utils';
 
 import useSWR from 'swr';
 
@@ -30,27 +31,17 @@ type lFilters = {
 };
 
 const Lecturers: NextPage = () => {
-  const dispatch = useDispatch<Dispatch>();
+  const schoolId = authSchoolId();
+
+  const [done, setDone] = useState<boolean>(false);
+
   const [query, setQuery] = useState<string>('');
+  const [list, setList] = useState<AuthUserInfo[]>([]);
 
-  const schoolId = cookie.get('schoolId');
-
-  const loadLecturers = async (schoolId: string) => {
-    const response = await fetch(`/api/lecturers/${schoolId}/list`);
-    const lecturers = await response.json();
-    return lecturers.data;
-  };
-
-  const {
-    data: lecturers,
-    error: lError,
-    isValidating: lValidation,
-  } = useSWR<LecturerInfo[]>(`/api/lecturers/${schoolId}/list`, () =>
-    loadLecturers(schoolId)
-  );
-
-  const { lecturersCount, list, lecturerId } = useSelector(
-    (state: RootState) => state.lecturers
+  // use SWR to fetch data from the API
+  const { data: lecturers, isLoading } = useSWR(
+    `/api/lecturers/${schoolId}/list`,
+    async () => await loadLecturers(schoolId)
   );
 
   const [filter, setFilter] = useState<lFilters>({
@@ -61,8 +52,11 @@ const Lecturers: NextPage = () => {
   });
 
   useEffect(() => {
-    dispatch.lecturers.setList(lecturers);
-  }, [dispatch.lecturers, lecturers]);
+    if (lecturers) {
+      setDone(true);
+      setList(lecturers);
+    }
+  }, [lecturers]);
 
   const searchFilter = (q: string) => {
     setQuery(q);
@@ -74,14 +68,7 @@ const Lecturers: NextPage = () => {
         lecturer.staffNumber?.toString().startsWith(q.toLowerCase())
       );
     });
-    dispatch.lecturers.setList(newData);
-  };
-
-  const doFilter = (_list: LecturerInfo[], _filter: lFilters) => {
-    const newData = _list.filter((_list: LecturerInfo) => {
-      return _list.gender?.startsWith(Gender.MALE);
-    });
-    dispatch.lecturers.setList(newData);
+    setList(newData);
   };
 
   return (
@@ -116,7 +103,9 @@ const Lecturers: NextPage = () => {
                         <input
                           type="search"
                           className="form-control form-control-lg relative flex-auto min-w-0 block w-full p-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                          placeholder={`Search [${lecturersCount}] records...`}
+                          placeholder={`Search [${
+                            isLoading ? 0 : list.length
+                          }] records...`}
                           aria-label="Search"
                           aria-describedby="button-addon2"
                           onChange={(e) => searchFilter(e.target.value)}
@@ -124,9 +113,7 @@ const Lecturers: NextPage = () => {
                       </div>
                     </div>
                   </div>
-                  <h4 className="pl-1">
-                    Found {list.length} record for {query}...
-                  </h4>
+                  <h4 className="pl-1">Found 0 record for {query}...</h4>
                   <ul className="listview image-listview text border-0  no-line">
                     <li className="flex-auto">
                       <div className="item">
@@ -232,7 +219,7 @@ const Lecturers: NextPage = () => {
                 </div>
               </div>
               <div className={`col-12 col-md-12 col-lg-8 min-h-screen`}>
-                {/* <LecturersListBox lecturers={list} /> */}
+                <LecturersListBox lecturers={list} />
               </div>
             </div>
           </div>

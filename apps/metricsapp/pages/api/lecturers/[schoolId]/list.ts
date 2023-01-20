@@ -15,7 +15,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { schoolId } = req.query;
       const { Accounts } = await dbCon();
-      const lecturers = await Accounts.find({ schoolId: schoolId, accountType: AccountTypes.LECTURER, }).catch(catcher);
+      const lecturers = await Accounts.find({
+        schoolId: schoolId,
+        accountType: AccountTypes.LECTURER,
+      }).catch(catcher);
       if (lecturers) {
         res.status(200).json({
           status: true,
