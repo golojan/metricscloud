@@ -12,7 +12,11 @@ import { compose } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, RootState } from '@metricsai/metrics-store';
 import { useRouter } from 'next/router';
-import { GSRanking, LecturerInfo } from '@metricsai/metrics-interfaces';
+import {
+  AuthUserInfo,
+  GSRanking,
+  LecturerInfo,
+} from '@metricsai/metrics-interfaces';
 import cookie from 'js-cookie';
 import { loadLecturers } from '@metricsai/metrics-utils';
 import ScholarRatingLarge from '../../../../components/ScholarRatingLarge';
@@ -27,7 +31,7 @@ const Profile: NextPage = () => {
     (state: RootState) => state.lecturers
   );
   const { departments } = useSelector((state: RootState) => state.departments);
-  const [thisLecturer, setThisLecturer] = useState<LecturerInfo>({});
+  const [thisLecturer, setThisLecturer] = useState<AuthUserInfo>({});
   useEffect(() => {
     const getLecturer = async () => {
       const response = await fetch(`/api/lecturers/info/${id}`);
@@ -43,7 +47,6 @@ const Profile: NextPage = () => {
 
   const [ranking, setRanking] = useState<GSRanking>({
     scrap: false,
-    url: 'https://scholar.google.com/citations?user=H3PEkCEAAAAJ&hl=en',
   });
 
   const startScrapper = (e: React.SyntheticEvent) => {
@@ -53,7 +56,7 @@ const Profile: NextPage = () => {
       headers: {
         'content-type': 'application/json',
       },
-      body: JSON.stringify({ url: ranking.url }),
+      body: JSON.stringify({ url: ranking.googleScholarId }),
     })
       .then((res) => res.json())
       .then(({ status, ranking }) => {
@@ -124,9 +127,12 @@ const Profile: NextPage = () => {
                       type="text"
                       className="form-control relative flex-auto min-w-0 block text-md w-full text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       placeholder={``}
-                      value={ranking.url}
+                      value={ranking.googleScholarId}
                       onChange={(e) =>
-                        setRanking({ ...ranking, url: e.target.value })
+                        setRanking({
+                          ...ranking,
+                          googleScholarId: e.target.value,
+                        })
                       }
                     />
                     <div className="input-group-append ">
@@ -210,7 +216,7 @@ const Profile: NextPage = () => {
                         <td scope="row">
                           {thisLecturer.picture ? (
                             <Image
-                              src={`${thisLecturer.avatar}`}
+                              src={`${thisLecturer.picture}`}
                               alt={`${thisLecturer.firstname}`}
                               width={90}
                               height={90}
@@ -233,16 +239,16 @@ const Profile: NextPage = () => {
                       <tr>
                         <td scope="row">Type</td>
                         <td className="text-black">
-                          {thisLecturer.lecturerType}
+                          {thisLecturer.accountType}
                         </td>
                       </tr>
                       <tr>
                         <td scope="row">Level</td>
-                        <td className="text-black">{thisLecturer.level}</td>
+                        <td className="text-black">{0}</td>
                       </tr>
                       <tr>
                         <td scope="row">Level</td>
-                        <td className="text-black">{thisLecturer.level}</td>
+                        <td className="text-black">{0}</td>
                       </tr>
                     </tbody>
                   </table>
