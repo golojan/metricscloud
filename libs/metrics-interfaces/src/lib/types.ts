@@ -82,6 +82,7 @@ export interface AuthUserInfo {
   middlename?: string;
   aboutMe?: string;
   username?: string;
+  staffNumber?: string;
   role?: string;
   email?: string;
   gender?: string;

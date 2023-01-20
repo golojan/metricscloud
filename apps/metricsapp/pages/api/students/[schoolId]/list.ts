@@ -33,5 +33,3 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (response) response(req, res);
   else res.status(400).json({ error: 'No Response for This Request' });
 }
-
-

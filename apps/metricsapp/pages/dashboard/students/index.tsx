@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import AdminLayout from '../../../components/AdminLayout';
 import AppDrawer from '../../../serverlets/AppDrawer';
 
-import { faPlus, faUsersBetweenLines } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faUsersCog } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Link from 'next/link';
@@ -12,56 +12,75 @@ import Copyright from '../../../serverlets/Copyright';
 import { withAuth } from '@metricsai/metrics-hocs';
 import { compose } from 'redux';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { Dispatch, RootState } from '@metricsai/metrics-store';
+import { AuthUserInfo } from '@metricsai/metrics-interfaces';
+import { Gender } from '@metricsai/metrics-interfaces';
 
+import { authSchoolId } from '@metricsai/metrics-hocs';
+import { loadStudents } from '@metricsai/metrics-utils';
+
+import useSWR from 'swr';
 import StudentsListBox from '../../../components/StudentsListBox';
-import { StudentInfo, Gender } from '@metricsai/metrics-interfaces';
 
-type sFilters = {
+type lFilters = {
   male: boolean;
   female: boolean;
+  withPhd: boolean;
+  isProfessor: boolean;
 };
+
 const Students: NextPage = () => {
-  const dispatch = useDispatch<Dispatch>();
+  const schoolId = authSchoolId();
+
+  const [done, setDone] = useState<boolean>(false);
+
   const [query, setQuery] = useState<string>('');
-  const { studentsCount, students, list, studentId } = useSelector(
-    (state: RootState) => state.students
+  const [list, setList] = useState<AuthUserInfo[]>([]);
+
+  // use SWR to fetch data from the API
+  const { data: students, isLoading } = useSWR(
+    `/api/students/${schoolId}/list`,
+    async () => await loadStudents(schoolId)
   );
-  const [filter, setFilter] = useState<sFilters>({
+
+  const [filter, setFilter] = useState<lFilters>({
     male: false,
     female: false,
+    withPhd: false,
+    isProfessor: false,
   });
 
   useEffect(() => {
-    dispatch.students.setList(students);
-  }, [dispatch.students, students]);
+    if (students) {
+      setDone(true);
+      setList(students);
+    }
+  }, [students]);
 
   const searchFilter = (q: string) => {
     setQuery(q);
-    const newData = students.filter((students: StudentInfo) => {
+    const newData = students.filter((student: AuthUserInfo) => {
       return (
-        students.firstname?.toLowerCase().startsWith(q.toLowerCase()) ||
-        students.lastname?.toLowerCase().startsWith(q.toLowerCase()) ||
-        students.middlename?.toLowerCase().startsWith(q.toLowerCase()) ||
-        students.regNumber?.toLowerCase().startsWith(q.toLowerCase())
+        student.firstname?.toLowerCase().startsWith(q.toLowerCase()) ||
+        student.lastname?.toLowerCase().startsWith(q.toLowerCase()) ||
+        student.middlename?.toLowerCase().startsWith(q.toLowerCase()) ||
+        student.staffNumber?.toString().startsWith(q.toLowerCase())
       );
     });
-    dispatch.students.setList(newData);
+    setList(newData);
   };
 
   return (
     <>
       <AdminLayout>
         <AppHeader />
-        <div id="appCapsule" className="mb-5">
+        <div id="appCapsule" className="mb-5 relative">
           <div className="section wallet-card-section pt-1">
             <div className="wallet-card">
               <div className="balance">
                 <div className="left">
                   <span className="title">Manage Students</span>
                   <h1 className="total">
-                    <FontAwesomeIcon icon={faUsersBetweenLines} /> Students
+                    <FontAwesomeIcon icon={faUsersCog} /> Students
                   </h1>
                 </div>
                 <div className="right flex">
@@ -72,7 +91,6 @@ const Students: NextPage = () => {
               </div>
             </div>
           </div>
-
           <div className="section pt-1">
             <div className="row ">
               <div className="col-12 col-md-12 col-lg-4 fa-border">
@@ -83,7 +101,9 @@ const Students: NextPage = () => {
                         <input
                           type="search"
                           className="form-control form-control-lg relative flex-auto min-w-0 block w-full p-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                          placeholder={`Search [${studentsCount}] records...`}
+                          placeholder={`Search [${
+                            isLoading ? 0 : list.length
+                          }] records...`}
                           aria-label="Search"
                           aria-describedby="button-addon2"
                           onChange={(e) => searchFilter(e.target.value)}
@@ -91,9 +111,7 @@ const Students: NextPage = () => {
                       </div>
                     </div>
                   </div>
-                  <h4 className="pl-1">
-                    Found {list.length} students in record for.
-                  </h4>
+                  <h4 className="pl-1">Found 0 record for {query}...</h4>
                   <ul className="listview image-listview text border-0  no-line">
                     <li className="flex-auto">
                       <div className="item">
@@ -144,7 +162,7 @@ const Students: NextPage = () => {
                       </div>
                     </li>
                   </ul>
-                  {/* <ul className="listview image-listview text no-line">
+                  <ul className="listview image-listview text no-line">
                     <li className="flex-auto">
                       <div className="item">
                         <div className="in">
@@ -195,7 +213,7 @@ const Students: NextPage = () => {
                         </div>
                       </div>
                     </li>
-                  </ul> */}
+                  </ul>
                 </div>
               </div>
               <div className={`col-12 col-md-12 col-lg-8 min-h-screen`}>

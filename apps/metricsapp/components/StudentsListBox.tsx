@@ -19,7 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList } from '@fortawesome/free-solid-svg-icons';
 import { authSchoolId } from '@metricsai/metrics-hocs';
 
-const StudentsListBox = ({ lecturers }: ScholarsProps) => {
+const StudentsListBox = ({ students }: ScholarsProps) => {
   //
   const [busy, setBusy] = useState<boolean>(false);
 
@@ -93,8 +93,8 @@ const StudentsListBox = ({ lecturers }: ScholarsProps) => {
   return (
     <>
       <Virtuoso
-        data={lecturers}
-        totalCount={lecturers.length}
+        data={students}
+        totalCount={students.length}
         itemContent={(index, student) => (
           <>
             <div
