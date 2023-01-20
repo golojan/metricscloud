@@ -1,7 +1,6 @@
 import { AccountTypes, ResponseFunctions } from '@metricsai/metrics-interfaces';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
-import { $CombinedState } from 'redux';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
@@ -22,9 +21,17 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         catcher
       );
 
-      const studentsInMetrics = schoolInfo.settings?.includeStudentsInMetrics;
-      const lecturersInMetrics = schoolInfo.settings?.includeLecturersInMetrics;
-      const alumniInMetrics = schoolInfo.settings?.includeAlumniInMetrics;
+      console.log(schoolInfo);
+
+      const studentsInMetrics = schoolInfo
+        ? schoolInfo.includeStudentsInMetrics
+        : false;
+      const lecturersInMetrics = schoolInfo
+        ? schoolInfo.includeLecturersInMetrics
+        : false;
+      const alumniInMetrics = schoolInfo
+        ? schoolInfo.includeAlumniInMetrics
+        : false;
 
       let matchQuery = {};
 

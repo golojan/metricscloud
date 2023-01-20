@@ -42,19 +42,17 @@ const schoolsScheme = new mongoose.Schema(
         type: String,
       },
     ],
-    settings: {
-      includeStudentsInMetrics: {
-        type: Boolean,
-        default: false,
-      },
-      includeLecturersInMetrics: {
-        type: Boolean,
-        default: true,
-      },
-      includeAlumniInMetrics: {
-        type: Boolean,
-        default: false,
-      },
+    includeStudentsInMetrics: {
+      type: Boolean,
+      default: false,
+    },
+    includeLecturersInMetrics: {
+      type: Boolean,
+      default: true,
+    },
+    includeAlumniInMetrics: {
+      type: Boolean,
+      default: false,
     },
     enabled: {
       type: Boolean,

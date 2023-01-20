@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { NextPage } from 'next';
 import Layout from '../components/Layout';
