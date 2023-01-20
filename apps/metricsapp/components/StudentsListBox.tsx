@@ -12,7 +12,7 @@ import { Dispatch, RootState } from '@metricsai/metrics-store';
 import { useDispatch, useSelector } from 'react-redux';
 import StudentRatingLarge from './StudentRatingLarge';
 import StudentRatingSmall from './StudentRatingSmall';
-import { getDepartment } from '../utils/queries';
+import { getDepartment } from '@metricsai/metrics-utils';
 import { Gender } from '@metricsai/metrics-interfaces';
 import Link from 'next/link';
 

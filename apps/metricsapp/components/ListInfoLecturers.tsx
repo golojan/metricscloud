@@ -8,7 +8,7 @@ import ScholarRatingSmall from './ScholarRatingSmall';
 import { ScholarsProps } from '@metricsai/metrics-interfaces';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, Dispatch } from '@metricsai/metrics-store';
-import { getDepartment } from '../utils/queries';
+import { getDepartment } from '@metricsai/metrics-utils';
 import { Gender } from '@metricsai/metrics-interfaces';
 import Link from 'next/link';
 import cookie from 'js-cookie';

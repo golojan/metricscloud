@@ -11,7 +11,7 @@ import {
   faDownLong,
   faUpLong,
 } from '@fortawesome/free-solid-svg-icons';
-import { getLiveStats } from '../utils/queries';
+import { getLiveStats } from '@metricsai/metrics-utils';
 
 type LRProps = {
   allschools?: any;
