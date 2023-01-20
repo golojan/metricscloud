@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { Logon } from '@metricsai/metrics-interfaces';
-import { authLogin } from '../utils/withAuthSync';
 import { NextPage } from 'next';
 import Layout from '../components/Layout';
 
@@ -23,9 +20,9 @@ const ErrorPage: NextPage = () => {
                   style={{ margin: '0 auto' }}
                 />
                 <br />
-                Prime Admin
+                Metrics AI Ranking System
               </h1>
-              <h4>2FA is required to log in</h4>
+              <h4>You just hit the wall</h4>
             </div>
             <h1>404</h1>
             <h2 className="mb-2">Page not found!</h2>

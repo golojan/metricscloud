@@ -21,26 +21,31 @@ import { FacultiesInfo, SCHFaculty } from '@metricsai/metrics-interfaces';
 import { listFaculties, loadFaculties } from '@metricsai/metrics-utils';
 import { Virtuoso } from 'react-virtuoso';
 
+import useSWR from 'swr';
+
 const Faculties: NextPage = () => {
   const [done, setDone] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [list, setList] = useState<FacultiesInfo[]>([]);
-  const [faculties, setFaculties] = useState<FacultiesInfo[]>([]);
+  // const [faculties, setFaculties] = useState<FacultiesInfo[]>([]);
   const [schoolFaculties, setSchoolFaculties] = useState<SCHFaculty[]>([]);
   const schoolId = authSchoolId();
+
+  const { data: faculties, isLoading } = useSWR(
+    `/api/faculties/list`,
+    async () => await listFaculties()
+  );
 
   const [faculty, setFaculty] = useState<SCHFaculty>({ schoolId: schoolId });
 
   useEffect(() => {
+    if (faculties && !isLoading) {
+      setList(faculties);
+    }
     loadFaculties(schoolId).then((fres) => {
       setSchoolFaculties(fres);
     });
-    listFaculties().then((res) => {
-      alert(0);
-      setFaculties(res);
-      setList(res);
-    });
-  }, [done, schoolId]);
+  }, [done, faculties, isLoading, schoolId]);
 
   const getFacultyInfo = (facultyId: string) => {
     const faculty = faculties.find((faculty) => faculty._id === facultyId);
