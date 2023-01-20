@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Dispatch } from '@metricsai/metrics-store';
 import { useDispatch } from 'react-redux';
 
-import { getSchools } from '../utils/queries';
+import { getSchools } from '@metricsai/metrics-utils';
 
 export const withSchools = (WrappedComponent: any) => {
   const Wrapper = (props: any) => {
@@ -21,7 +21,6 @@ export const withSchools = (WrappedComponent: any) => {
         })
         .catch();
       dispatch.settings.setBusy(false);
-      return () => {};
     }, [dispatch.schools]);
 
     return <WrappedComponent {...props} />;

@@ -36,7 +36,7 @@ const LecturersListBox = ({ lecturers }: ScholarsProps) => {
               key={index}
             >
               <Image
-                src={`${lecturer.avatar}`}
+                src={`${lecturer.picture}`}
                 alt={`${lecturer.firstname}`}
                 width={90}
                 height={90}
@@ -66,7 +66,7 @@ const LecturersListBox = ({ lecturers }: ScholarsProps) => {
               </h4>
               <div className="text-md mt-0">
                 <span>ID:</span>{' '}
-                <span className="text-black">{lecturer.staffNumber}</span>
+                <span className="text-black">{lecturer.username}</span>
                 <span className="text-gray-400"> | </span>
                 <span>
                   {lecturer.gender === Gender.MALE ? 'Male' : 'Female'}

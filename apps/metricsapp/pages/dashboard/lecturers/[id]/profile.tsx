@@ -208,9 +208,9 @@ const Profile: NextPage = () => {
                       </tr>
                       <tr>
                         <td scope="row">
-                          {thisLecturer.avatar ? (
+                          {thisLecturer.picture ? (
                             <Image
-                              src={`${thisLecturer.avatar}`}
+                              src={`${thisLecturer.picture}`}
                               alt={`${thisLecturer.firstname}`}
                               width={90}
                               height={90}
