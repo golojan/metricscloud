@@ -3,15 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import ShowChartButton from '../../ShowChartButton';
 import { perc } from '@metricsai/metrics-utils';
-import { authSchoolId } from '@metricsai/metrics-hocs';
-import { RootState } from '@metricsai/metrics-store';
-import { useSelector } from 'react-redux';
 
 const InternationalStaff = () => {
-  const { statistics_lecturers } = useSelector(
-    (state: RootState) => state.lecturers
-  );
-
   return (
     <>
       {/*  */}
@@ -23,25 +16,13 @@ const InternationalStaff = () => {
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {perc(
-              statistics_lecturers.internationalStaff,
-              statistics_lecturers.totalStaff
-            )}
-            %
+            {perc(1, 1)}%
           </h1>
           <em className="absolute bottom-0 right-5">
-            <strong className="text-green-600 small">
-              {perc(
-                statistics_lecturers.internationalStaff,
-                statistics_lecturers.totalStaff
-              )}
-            </strong>
+            <strong className="text-green-600 small">{perc(1, 1)}</strong>
             {'% '}
-            of{' '}
-            <strong className="text-green-600">
-              {statistics_lecturers.totalStaff}
-            </strong>{' '}
-            staff are Foreign staff
+            of <strong className="text-green-600">{1}</strong> staff are Foreign
+            staff
           </em>
         </div>
       </div>

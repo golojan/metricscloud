@@ -36,6 +36,7 @@ const Faculties: NextPage = () => {
       setSchoolFaculties(fres);
     });
     listFaculties().then((res) => {
+      alert(0);
       setFaculties(res);
       setList(res);
     });
