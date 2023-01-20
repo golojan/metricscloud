@@ -265,7 +265,10 @@ export type IStats = {
   perc: number;
 };
 
-export type ScholarsProps = { lecturers: AuthUserInfo[] };
+export type ScholarsProps = {
+  lecturers?: AuthUserInfo[];
+  students?: AuthUserInfo[];
+};
 
 export type WebWindow = {
   addEventListener(arg0: string, handleResize: () => void): unknown;
