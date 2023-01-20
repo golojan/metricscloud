@@ -108,8 +108,10 @@ export const withAuth = (WrappedComponent: any) => {
     const syncLogout = (event: any) => {
       if (event.key === 'logout') {
         console.log('logged out from storage!');
-        if (schoolId) {
+        if (schoolId && token) {
           Router.push('/');
+        } else if (token) {
+          Router.push('/auth');
         } else {
           Router.push('/auth');
         }
@@ -119,7 +121,7 @@ export const withAuth = (WrappedComponent: any) => {
     useEffect(() => {
       window.addEventListener('storage', syncLogout);
       if (!token) {
-        Router.push('/auth');
+        authlogout('/auth');
       }
       return () => {
         window.removeEventListener('storage', syncLogout);
