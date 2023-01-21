@@ -235,6 +235,27 @@ export type GSRanking = {
   highestI10hindex?: number;
   highestTotalPublications?: number;
   highestFirstPublicationYear?: number;
+  highestLastPublicationYear?: number;
+  lowestCitations?: number;
+  lowestHindex?: number;
+  lowestI10hindex?: number;
+  lowestTotalPublications?: number;
+  lowestFirstPublicationYear?: number;
+  lowestLastPublicationYear?: number;
+  averageCitations?: number;
+  averageHindex?: number;
+  averageI10hindex?: number;
+  averageTotalPublications?: number;
+  totalStaff?: number;
+  totalGooglePresence?: number;
+  totalStaffWithOutGooglePresence?: number;
+  totalStaffWithGooglePresence?: number;
+  internationalStaff?: number;
+  localStaff?: number;
+  totalInternationalColaborations?: number;
+  perCapitaAllCitations?: number;
+  perCapitaAllHindex?: number;
+  perCapitaAllI10hindex?: number;
 };
 
 export type SchoolRank = {
@@ -269,6 +290,9 @@ export type SchoolRank = {
   internationalStaff?: number;
   localStaff?: number;
   totalInternationalColaborations?: number;
+  perCapitaAllCitations?: number;
+  perCapitaAllHindex?: number;
+  perCapitaAllI10hindex?: number;
 };
 
 export type SchoolSettingsType = {

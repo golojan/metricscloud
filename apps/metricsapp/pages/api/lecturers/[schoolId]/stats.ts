@@ -3,10 +3,16 @@ import {
   ResponseFunctions,
   AccountTypes,
   MembershipTypes,
+  SchoolSettingsType,
 } from '@metricsai/metrics-interfaces';
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
+import {
+  citationByWeight,
+  hindexByWeight,
+  i10indexByWeight,
+} from '@metricsai/metrics-utils';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
@@ -20,7 +26,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { schoolId } = req.query;
-      const { Accounts } = await dbCon();
+      const { Accounts, Schools } = await dbCon();
+
+      const school = await Schools.findById(schoolId).catch(catcher);
+      let SETTINGS: SchoolSettingsType = {};
+      if (school) {
+        SETTINGS = school.settings;
+      }
 
       const lecturers = await Accounts.aggregate([
         {
@@ -97,6 +109,34 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             },
           },
         },
+        {
+          $lookup: {
+            from: 'lecturers',
+            localField: '_id',
+            foreignField: '_id',
+            as: 'lecturers',
+          },
+        },
+        {
+          $project: {
+            firstPublicationYear: 1,
+            lastPublicationYear: 1,
+            citations: 1,
+            hindex: 1,
+            i10index: 1,
+            citationsPerCapita: {
+              $divide: [
+                '$citations',
+                {
+                  $subtract: [
+                    new Date().getFullYear(),
+                    '$firstPublicationYear',
+                  ],
+                },
+              ],
+            },
+          },
+        },
       ]).catch(catcher);
 
       if (lecturers[0]) {
@@ -124,6 +164,24 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           lowestHindex: lecturers[0].lowestHindex,
           lowestI10hindex: lecturers[0].lowestI10hindex,
           lowestTotalPublications: lecturers[0].lowestTotalPublications,
+          perCapitaAllCitations: citationByWeight(
+            lecturers[0].citations,
+            lecturers[0].totalPublications,
+            lecturers[0].highestCitations,
+            SETTINGS.citationsWeight
+          ).toFixed(1),
+          perCapitaAllHindex: hindexByWeight(
+            lecturers[0].hindex,
+            lecturers[0].firstPublicationYear,
+            lecturers[0].highestHindex,
+            SETTINGS.hindexWeight
+          ).toFixed(1),
+          perCapitaAllI10hindex: i10indexByWeight(
+            lecturers[0].i10hindex,
+            lecturers[0].firstPublicationYear,
+            lecturers[0].highestI10hindex,
+            SETTINGS.i10hindexWeight
+          ).toFixed(1),
         });
       } else {
         res

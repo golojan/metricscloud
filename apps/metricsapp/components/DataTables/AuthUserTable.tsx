@@ -18,7 +18,7 @@ import {
   ViewColumn,
 } from '@material-ui/icons';
 
-const tableIcons: Icons = {
+const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
@@ -88,11 +88,11 @@ const AuthUserTable = (props: Props) => {
 
   return (
     <MaterialTable
+      actions={actions}
       title={title}
       isLoading={loading}
       columns={columns}
       data={data}
-      actions={actions}
       options={options}
       icons={tableIcons}
     />
