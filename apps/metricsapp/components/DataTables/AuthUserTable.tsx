@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import MaterialTable, { Column, Icons } from '@material-table/core';
+
 import {
   AddBox,
   ArrowDownward,
@@ -18,7 +19,7 @@ import {
   ViewColumn,
 } from '@material-ui/icons';
 
-const tableIcons = {
+const tableIcons: Icons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
