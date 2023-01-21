@@ -12,7 +12,7 @@
     "jsx": "preserve",
     "module": "esnext",
     "esModuleInterop": true,
-    "lib": ["es2018", "esnext.asynciterable", "dom"],
+    "lib": ["es2018", "ES6", "esnext.asynciterable", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",

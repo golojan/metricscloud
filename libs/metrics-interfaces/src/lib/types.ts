@@ -198,6 +198,24 @@ export interface IHistory {
   allschools?: [object];
   adminId?: string;
 }
+export type GSIRanking = {
+  id: string;
+  name: string;
+  citations: number;
+  hindex: number;
+  i10hindex: number;
+  total: number;
+};
+
+export type USERGSIRanking = {
+  id?: string;
+  username?: string;
+  name?: string;
+  citations?: number;
+  hindex?: number;
+  i10hindex?: number;
+  total?: number;
+};
 
 export type GSRanking = {
   canScrap?: boolean;
@@ -212,11 +230,16 @@ export type GSRanking = {
   totalPublications?: number;
   firstPublicationYear?: number;
   lastPublicationYear?: number;
+  highestCitations?: number;
+  highestHindex?: number;
+  highestI10hindex?: number;
+  highestTotalPublications?: number;
+  highestFirstPublicationYear?: number;
 };
 
 export type SchoolRank = {
   status?: boolean;
-  ooglePresence?: number;
+  googlePresence?: number;
   citations?: number;
   hindex?: number;
   i10hindex?: number;
@@ -246,6 +269,41 @@ export type SchoolRank = {
   internationalStaff?: number;
   localStaff?: number;
   totalInternationalColaborations?: number;
+};
+
+export type SchoolSettingsType = {
+  includeStudentsInMetrics?: boolean;
+  includeLecturersInMetrics?: boolean;
+  includeAlumniInMetrics?: boolean;
+  citationsWeight?: number;
+  hindexWeight?: number;
+  i10hindexWeight?: number;
+  googlePresenceWeight?: number;
+  studentsWeight?: number;
+  lecturersWeight?: number;
+  alumniWeight?: number;
+  internationalStaffWeight?: number;
+  internationalCollaborationWeight?: number;
+  efficiencyWeight?: number;
+  researchOutputWeight?: number;
+  researchImpactWeight?: number;
+  researchInnovationWeight?: number;
+  graduationOutputWeight?: number;
+  fullProfessorsWeight?: number;
+  phdStudentsWeight?: number;
+  phdGraduatesWeight?: number;
+  phdLecturersWeight?: number;
+  fellowshipWeight?: number;
+  accreditationWeight?: number;
+  teacherStudentRatioWeight?: number;
+  femaleStaffWeight?: number;
+  femaleStudentsWeight?: number;
+  profsReadersWeight?: number;
+  seniorLecturersWeight?: number;
+  juniorLecturersWeight?: number;
+  associateProfessorsWeight?: number;
+  assistantProfessorsWeight?: number;
+  otherLecturersWeight?: number;
 };
 
 export type SchoolStats = {

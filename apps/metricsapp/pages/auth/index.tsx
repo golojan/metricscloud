@@ -98,7 +98,7 @@ const Home: NextPage = () => {
                     <input
                       type="email"
                       required
-                      className="form-control"
+                      className="form-control form-control-lg"
                       id="username"
                       name="username"
                       placeholder="Your Email Address"
@@ -118,7 +118,7 @@ const Home: NextPage = () => {
                     <input
                       type="password"
                       required
-                      className="form-control"
+                      className="form-control form-control-lg"
                       id="password"
                       name="password"
                       placeholder="Your password"

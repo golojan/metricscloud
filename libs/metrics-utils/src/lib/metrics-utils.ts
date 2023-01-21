@@ -1,6 +1,5 @@
-import { DepartmentsInfo, IStats } from '@metricsai/metrics-interfaces';
+import { DepartmentsInfo } from '@metricsai/metrics-interfaces';
 import { WebWindow } from '@metricsai/metrics-interfaces';
-import * as auth from '@metricsai/metrics-hocs';
 
 export const fetcher = async (url: string) =>
   await fetch(url)
@@ -458,4 +457,12 @@ export const timeAgo = (date: Date) => {
 export const hasSpacialChars = (str: string) => {
   const regex = /[ !@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?]/;
   return regex.test(str);
+};
+
+export const noAction = (e: React.SyntheticEvent) => {
+  e.preventDefault();
+};
+
+export const hashedRef = (e: React.SyntheticEvent) => {
+  e.preventDefault();
 };

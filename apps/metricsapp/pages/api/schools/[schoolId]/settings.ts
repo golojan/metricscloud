@@ -14,17 +14,16 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { schoolId } = req.query;
-      const { SchoolDepartments } = await dbCon();
-      const departments = await SchoolDepartments.find({
-        schoolId: schoolId,
-      }).catch(catcher);
-      if (departments) {
+      const { Schools } = await dbCon();
+      const school = await Schools.findOne({ _id: schoolId }).catch(catcher);
+      if (school) {
+        const settings = school.settings;
         res.status(200).json({
           status: true,
-          data: departments,
+          ...settings,
         });
       } else {
-        res.status(404).json({ status: false, err: 'Faculties not found' });
+        res.status(404).json({ status: false, err: 'Schools not found' });
       }
     },
   };

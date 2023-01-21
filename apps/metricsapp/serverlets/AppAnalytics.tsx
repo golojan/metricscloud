@@ -1,73 +1,168 @@
-import React from 'react';
-import { RootState } from '@metricsai/metrics-store';
+import { authSchoolId } from '@metricsai/metrics-hocs';
+import {
+  loadDepartments,
+  loadFaculties,
+  loadLecturers,
+  loadStudents,
+} from '@metricsai/metrics-utils';
+import useSWR from 'swr';
 
-import { useSelector } from 'react-redux';
+import ArrowRight from '@material-ui/icons/ArrowRight';
+
+import React from 'react';
+import Link from 'next/link';
+import { noAction } from '@metricsai/metrics-utils';
+import ReportMenuBox from '../components/containers/ReportMenuBox';
 
 function AppAnalytics() {
-  const { studentsCount, students } = useSelector(
-    (state: RootState) => state.students
+  const schoolId = authSchoolId();
+
+  const { data: lecturers } = useSWR(
+    `/api/lecturers/${schoolId}/list`,
+    async () => await loadLecturers(schoolId)
   );
-  const { lecturersCount, lecturers } = useSelector(
-    (state: RootState) => state.lecturers
+
+  const { data: students } = useSWR(
+    `/api/students/${schoolId}/list`,
+    async () => await loadStudents(schoolId)
   );
-  const { facultiesCount, faculties } = useSelector(
-    (state: RootState) => state.faculties
+
+  const { data: faculties } = useSWR(
+    `/api/faculties/${schoolId}/list`,
+    async () => await loadFaculties(schoolId)
   );
-  const { departmentsCount, departments } = useSelector(
-    (state: RootState) => state.departments
+
+  const { data: departments } = useSWR(
+    `/api/departments/${schoolId}/list`,
+    async () => await loadDepartments(schoolId)
   );
 
   return (
     <>
       <div className="section">
         <div className="row mt-1">
-          <div className="col-12 col-xxl-6 col-xl-6 col-lg-6 col-md-6 my-1">
+          <ReportMenuBox>
             <div className="stat-box">
               <div className="title">
-                <div className="float-right absolute top-2 text-center right-4  px-3 text-gray-600">
+                <div className="float-right absolute top-5 text-center right-4  px-3 text-gray-600">
                   <strong className="h6 font-extrabold">
-                    {facultiesCount}
+                    {lecturers ? lecturers.length : 0}
+                  </strong>{' '}
+                  <span className="hidden xl:inline xxl:inline lg:inline md:inline">
+                    Lecturers
+                  </span>
+                </div>
+                <strong className="text-black h5">LECTURERS</strong> - Analytics
+                <div className="row mt-2 relative h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
+                  <Link
+                    href="/dashboard/reports/lecturers/google-scholar-metrics"
+                    className="hover:text-green-700"
+                  >
+                    <span className="text-lg">
+                      <ArrowRight />
+                      Google Scholar Metrics
+                    </span>
+                  </Link>
+                  <Link
+                    href="#"
+                    className="hover:text-green-700"
+                    onClick={noAction}
+                  >
+                    <span className="text-lg">
+                      <ArrowRight />
+                      Journals & Publications
+                    </span>
+                  </Link>
+                  <Link
+                    href="#"
+                    className="hover:text-green-700"
+                    onClick={noAction}
+                  >
+                    <span className="text-lg">
+                      <ArrowRight />
+                      PHD & Fellowships
+                    </span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </ReportMenuBox>
+          <ReportMenuBox>
+            <div className="stat-box">
+              <div className="title">
+                <div className="float-right absolute top-5 text-center right-4 px-3 text-gray-600">
+                  <strong className="h6 font-extrabold">
+                    {students ? students.length : 0}
+                  </strong>{' '}
+                  <span className="hidden xl:inline xxl:inline lg:inline md:inline">
+                    Students
+                  </span>
+                </div>
+                <strong className="text-black h5">STUDENTS</strong> - Analytics
+                <div className="row mt-2 relative h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
+                  <Link
+                    href="#"
+                    className="hover:text-green-700"
+                    onClick={noAction}
+                  >
+                    <span className="text-lg">
+                      <ArrowRight /> Google Scholar Metrics
+                    </span>
+                  </Link>
+                  <Link
+                    href="#"
+                    className="hover:text-green-700"
+                    onClick={noAction}
+                  >
+                    <span className="text-lg">
+                      <ArrowRight /> Journals & Publications
+                    </span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </ReportMenuBox>
+          <ReportMenuBox>
+            <div className="stat-box">
+              <div className="title">
+                <div className="float-right absolute top-5 text-center right-4  px-3 text-gray-600">
+                  <strong className="h6 font-extrabold">
+                    {faculties ? faculties.length : 0}
                   </strong>{' '}
                   <span className="hidden xl:inline xxl:inline lg:inline md:inline">
                     Faculties
                   </span>
                 </div>
                 <strong className="text-black h5">FACULTIES</strong> - Analytics
-                <div className="row mt-2 relative max-h-[150px] overflow-y-scroll border p-2 rounded bg-gray-100">
-                  <table className="table table-striped table-inverse table-responsive table-condensed">
-                    <thead className="thead-inverse">
-                      <tr>
-                        <th>FACULTIES</th>
-                        <th>G.S PRESENCE.</th>
-                        <th>CITATION.</th>
-                        <th>H-INDEX.</th>
-                        <th>I10-INDEX.</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {faculties.map((faculty, index) => (
-                        <>
-                          <tr>
-                            <td scope="row">{faculty.name}</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                          </tr>
-                        </>
-                      ))}
-                    </tbody>
-                  </table>
+                <div className="row mt-2 relative h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
+                  <Link
+                    href="#"
+                    className="hover:text-green-700"
+                    onClick={noAction}
+                  >
+                    <span className="text-lg">
+                      <ArrowRight /> Google Scholar Metrics
+                    </span>
+                  </Link>
+                  <Link
+                    href="#"
+                    className="hover:text-green-700"
+                    onClick={noAction}
+                  >
+                    <span className="text-lg">
+                      <ArrowRight /> Journals & Publications
+                    </span>
+                  </Link>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="col-12 col-xxl-6 col-xl-6 col-lg-6 col-md-6 my-1">
+          </ReportMenuBox>
+          <ReportMenuBox>
             <div className="stat-box">
               <div className="title">
-                <div className="float-right absolute top-2 text-center right-4  px-3 text-gray-600">
+                <div className="float-right absolute top-5 text-center right-4  px-3 text-gray-600">
                   <strong className="h6 font-extrabold">
-                    {departmentsCount}
+                    {departments ? departments.length : 0}
                   </strong>{' '}
                   <span className="hidden xl:inline xxl:inline lg:inline md:inline">
                     Departments
@@ -75,152 +170,104 @@ function AppAnalytics() {
                 </div>
                 <strong className="text-black h5">DEPARTMENTS</strong> -
                 Analytics
-                <div className="row mt-2 relative max-h-[150px] overflow-y-scroll border p-2 rounded bg-gray-100">
-                  <table className="table table-striped table-inverse table-responsive table-condensed">
-                    <thead className="thead-inverse">
-                      <tr>
-                        <th>DEPARTMENTS</th>
-                        <th>G.S PRESENCE.</th>
-                        <th>CITATION.</th>
-                        <th>H-INDEX.</th>
-                        <th>I10-INDEX.</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {departments.map((department, index) => (
-                        <>
-                          <tr>
-                            <td scope="row">{department.name}</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                          </tr>
-                        </>
-                      ))}
-                    </tbody>
-                  </table>
+                <div className="row mt-2 relative h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
+                  <Link
+                    href="#"
+                    className="hover:text-green-700"
+                    onClick={noAction}
+                  >
+                    <span className="text-lg">
+                      <ArrowRight /> Google Scholar Metrics
+                    </span>
+                  </Link>
+                  <Link
+                    href="#"
+                    className="hover:text-green-700"
+                    onClick={noAction}
+                  >
+                    <span className="text-lg">
+                      <ArrowRight /> Journals & Publications
+                    </span>
+                  </Link>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-12 col-xxl-6 col-xl-6 col-lg-6 col-md-6 my-1">
+          </ReportMenuBox>
+          <ReportMenuBox>
             <div className="stat-box">
               <div className="title">
-                <div className="float-right absolute top-2 text-center right-4  px-3 text-gray-600">
-                  <strong className="h6 font-extrabold">
-                    {lecturersCount}
-                  </strong>{' '}
-                  <span className="hidden xl:inline xxl:inline lg:inline md:inline">
-                    Lecturers
-                  </span>
-                </div>
-                <strong className="text-black h5">LECTURERS</strong> - Analytics
-                <div className="row mt-2 relative max-h-[150px] overflow-y-scroll border p-2 rounded bg-gray-100">
-                  <table className="table table-striped table-inverse text-black table-responsive table-condensed">
-                    <thead className="thead-inverse">
-                      <tr>
-                        <th>LECTURERS (NAME)</th>
-                        <th>G.S PRESENCE.</th>
-                        <th>CITATION.</th>
-                        <th>H-INDEX.</th>
-                        <th>I10-INDEX.</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {lecturers.map((lecturer, index) => (
-                        <>
-                          <tr>
-                            <td scope="row text-black font-bold">
-                              <span className="text-md text-black">
-                                {lecturer.lastname}
-                              </span>
-                              , {lecturer.firstname}
-                            </td>
-                            <td>{lecturer.googlePresence}</td>
-                            <td>{lecturer.citations}</td>
-                            <td>{lecturer.hindex}</td>
-                            <td>{lecturer.i10hindex}</td>
-                          </tr>
-                        </>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>{' '}
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-xxl-6 col-xl-6 col-lg-6 col-md-6 my-1">
-            <div className="stat-box">
-              <div className="title">
-                <div className="float-right absolute top-2 text-center right-4  px-3 text-gray-600">
-                  <strong className="h6 font-extrabold">{studentsCount}</strong>{' '}
-                  <span className="hidden xl:inline xxl:inline lg:inline md:inline">
-                    Students
-                  </span>
-                </div>
-                <strong className="text-black h5">STUDENTS</strong> - Analytics
-                <div className="row mt-2 relative max-h-[150px] overflow-y-scroll border p-2 rounded bg-gray-100">
-                  <table className="table table-striped table-inverse table-responsive table-condensed">
-                    <thead className="thead-inverse">
-                      <tr>
-                        <th className=" text-black font-extrabold">STUDENTS</th>
-                        <th>G.S PRESENCE.</th>
-                        <th>CITATION.</th>
-                        <th>H-INDEX.</th>
-                        <th>I10-INDEX.</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {students.map((student, index) => (
-                        <tr key={index}>
-                          <td scope="row text-black font-bold">
-                            <span className="text-md text-black">
-                              {student.lastname}
-                            </span>
-                            , {student.firstname}
-                          </td>
-                          <td>{student.googlePresence}</td>
-                          <td>{student.citations}</td>
-                          <td>{student.hindex}</td>
-                          <td>{student.i10hindex}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>{' '}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col-12 col-xxl-6 col-xl-6 col-lg-6 col-md-6 my-1">
-            <div className="stat-box">
-              <div className="title">
-                <div className="float-right absolute top-2 text-center right-4  px-3 text-gray-600">
-                  <strong className="h6 font-extrabold">{0}</strong>{' '}
-                  <span className="hidden xl:inline xxl:inline lg:inline md:inline">
-                    Regular Staff
-                  </span>
-                </div>
-                <strong className="text-black h5">NON-ACADEMIC STAFF</strong> -
+                <strong className="text-black h5">NUC Ratings</strong> -
                 Analytics
-                <div className="row mt-2"></div>
+                <div className="row mt-2 relative h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
+                  <Link
+                    href="#"
+                    className="hover:text-green-700"
+                    onClick={noAction}
+                  >
+                    <span className="text-lg">
+                      <ArrowRight /> Estimated NUC rating
+                    </span>
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="col-12 col-xxl-6 col-xl-6 col-lg-6 col-md-6 my-1">
+          </ReportMenuBox>
+          <ReportMenuBox>
             <div className="stat-box">
               <div className="title">
-                <strong className="text-black h5">WEBSITE & PORTALS</strong> -
-                Analytics
-                <div className="row mt-2"></div>
+                <strong className="text-black h5">Inter-School Reports</strong>{' '}
+                - Analytics
+                <div className="row mt-2 relative  h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
+                  <Link
+                    href="#"
+                    className="hover:text-green-700"
+                    onClick={noAction}
+                  >
+                    <span className="text-lg">
+                      <ArrowRight /> Comparative Rating
+                    </span>
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
+          </ReportMenuBox>
+          <ReportMenuBox>
+            <div className="stat-box">
+              <div className="title">
+                <strong className="text-black h5">School Portal</strong> -
+                Analytics
+                <div className="row mt-2 relative h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
+                  <Link
+                    href="#"
+                    className="hover:text-green-700"
+                    onClick={noAction}
+                  >
+                    <span className="text-lg">
+                      <ArrowRight /> Visitors & Page Views
+                    </span>
+                  </Link>
+                  <Link
+                    href="#"
+                    className="hover:text-green-700"
+                    onClick={noAction}
+                  >
+                    <span className="text-lg">
+                      <ArrowRight /> Schools Page Views
+                    </span>
+                  </Link>
+                  <Link
+                    href="#"
+                    className="hover:text-green-700"
+                    onClick={noAction}
+                  >
+                    <span className="text-lg">
+                      <ArrowRight /> Portal Activity Log
+                    </span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </ReportMenuBox>
         </div>
       </div>
     </>

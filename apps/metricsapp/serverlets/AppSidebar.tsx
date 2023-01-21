@@ -71,9 +71,9 @@ function AppSidebar() {
               {/* * profile box */}
               {/* balance */}
               <div className="sidebar-balance">
-                <div className="listview-title">Wallet Balance</div>
+                <div className="listview-title">Current Plan</div>
                 <div className="in">
-                  <h2 className="amount">NGN 0.00</h2>
+                  <h2 className="amount">Basic Institution (free)</h2>
                 </div>
               </div>
               {/* * balance */}
