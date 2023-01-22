@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
-import MaterialTable, { Column, Icons } from '@material-table/core';
-
+import MaterialTable from '@material-table/core';
+import { Icons, Column } from 'material-table';
 import {
   AddBox,
   ArrowDownward,

@@ -1,5 +1,4 @@
 import {
-  Gender,
   ResponseFunctions,
   AccountTypes,
   MembershipTypes,
@@ -98,9 +97,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         },
       ]).catch(catcher);
-
-      console.log(students);
-
       if (students[0]) {
         res.status(200).json({
           status: true,
