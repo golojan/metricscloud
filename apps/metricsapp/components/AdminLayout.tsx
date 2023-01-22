@@ -24,13 +24,13 @@ const AdminLayout = ({ children }: MyProps) => {
   useEffect(() => {
     const getSchool = async () => {
       setBusy(true);
-      const school = await getSchoolInfoById(`${schoolid}`);
+      const school = await getSchoolInfoById(schoolid);
       dispatch.settings.setSchool(school);
       setBusy(false);
     };
     const getProfile = async () => {
       setBusy(true);
-      const profile = await getProfileInfo(`${token}`);
+      const profile = await getProfileInfo(token);
       dispatch.settings.setUserInfo(profile);
       setBusy(false);
     };

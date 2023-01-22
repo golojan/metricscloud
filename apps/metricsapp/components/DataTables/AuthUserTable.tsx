@@ -1,6 +1,5 @@
 import React, { forwardRef } from 'react';
-import MaterialTable from '@material-table/core';
-import { Icons, Column } from 'material-table';
+import MaterialTable, { Icons, Column } from '@material-table/core';
 import {
   AddBox,
   ArrowDownward,
@@ -77,10 +76,10 @@ const actions = [
 ];
 
 type Props = {
-  title?: string;
-  data?: AuthUserInfo[];
-  columns?: Column<AuthUserInfo>[];
-  loading?: boolean;
+  title: string;
+  data: AuthUserInfo[];
+  columns: Column<AuthUserInfo>[];
+  loading: boolean;
 };
 
 const AuthUserTable = (props: Props) => {
