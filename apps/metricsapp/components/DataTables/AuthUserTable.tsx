@@ -53,27 +53,9 @@ const options = {
   headerStyle: {
     fontWeight: 'bold',
   },
-  selection: true,
   exportButton: true,
   exportFileName: `metricsai-${authSchoolId()}-users`,
 };
-
-const actions = [
-  {
-    icon: tableIcons.Edit,
-    tooltip: 'Edit User',
-    onClick: (evt, data) => {
-      console.log('Edit User', data);
-    },
-  },
-  {
-    icon: tableIcons.Delete,
-    tooltip: 'Delete User',
-    onClick: (evt, data) => {
-      console.log('Delete User', data);
-    },
-  },
-];
 
 type Props = {
   title: string;
@@ -88,7 +70,6 @@ const AuthUserTable = (props: Props) => {
 
   return (
     <MaterialTable
-      actions={actions}
       title={title}
       isLoading={loading}
       columns={columns}

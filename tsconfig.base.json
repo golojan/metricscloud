@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "noImplicitAny": false,
-    "noImplicitThis": true,
+    "noImplicitThis": false,
     "strictNullChecks": false,
     "paths": {
       "@metricsai/metrics-hocs": ["libs/metrics-hocs/src/index.ts"],
