@@ -319,6 +319,15 @@ export const loadLecturersStats = async (schoolId: string) => {
   return stats;
 };
 
+export const loadLecturersRanking = async (schoolId: string) => {
+  const response = await fetch(`/api/lecturers/${schoolId}/ranking`);
+  const lecturers = await response.json();
+  if (lecturers.status) {
+    return lecturers.data;
+  }
+  return [];
+};
+
 export const listFaculties = async () => {
   const response = await fetch(`/api/faculties/list`);
   const faculties = await response.json();

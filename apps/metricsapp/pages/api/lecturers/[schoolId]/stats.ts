@@ -109,34 +109,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             },
           },
         },
-        {
-          $lookup: {
-            from: 'lecturers',
-            localField: '_id',
-            foreignField: '_id',
-            as: 'lecturers',
-          },
-        },
-        {
-          $project: {
-            firstPublicationYear: 1,
-            lastPublicationYear: 1,
-            citations: 1,
-            hindex: 1,
-            i10index: 1,
-            citationsPerCapita: {
-              $divide: [
-                '$citations',
-                {
-                  $subtract: [
-                    new Date().getFullYear(),
-                    '$firstPublicationYear',
-                  ],
-                },
-              ],
-            },
-          },
-        },
       ]).catch(catcher);
 
       if (lecturers[0]) {

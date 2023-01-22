@@ -13,6 +13,7 @@ import {
   hindexByWeight,
   i10indexByWeight,
   loadLecturers,
+  loadLecturersRanking,
   loadLecturersStats,
 } from '@metricsai/metrics-utils';
 import useSWR from 'swr';
@@ -32,23 +33,21 @@ import {
   USERGSIRanking,
 } from '@metricsai/metrics-interfaces';
 
-import {
-  citationByWeight,
-  getSchoolSettings,
-  div,
-  mul,
-  add,
-} from '@metricsai/metrics-utils';
+import { citationByWeight, getSchoolSettings } from '@metricsai/metrics-utils';
 
 const Dashboard: NextPage = () => {
   const schoolId = authSchoolId();
+
   const {
     data: lecturers,
-    isLoading,
-    isValidating,
+    isLoading: isLoadingLecturers,
+    isValidating: isValidatingLecturers,
   } = useSWR<AuthUserInfo[]>(
     `/api/lecturers/${schoolId}/list`,
-    async () => await loadLecturers(schoolId)
+    async () => await loadLecturers(schoolId),
+    {
+      revalidateOnFocus: true,
+    }
   );
 
   const {
@@ -57,7 +56,10 @@ const Dashboard: NextPage = () => {
     isValidating: isValidatingStatistics,
   } = useSWR<SchoolRank>(
     `/api/lecturers/${schoolId}/stats`,
-    async () => await loadLecturersStats(schoolId)
+    async () => await loadLecturersStats(schoolId),
+    {
+      revalidateOnFocus: true,
+    }
   );
 
   const {
@@ -66,7 +68,10 @@ const Dashboard: NextPage = () => {
     isValidating: isValidatingSettings,
   } = useSWR<SchoolSettingsType>(
     `/api/schools/${schoolId}/settings`,
-    async () => await getSchoolSettings(schoolId)
+    async () => await getSchoolSettings(schoolId),
+    {
+      revalidateOnFocus: true,
+    }
   );
 
   // filter to recompute the ranking of the lecturers based on the settings of the school usign reduce
@@ -115,36 +120,36 @@ const Dashboard: NextPage = () => {
     if (lecturers && settings && statistics_lecturers) {
       setLecturersList(
         lecturers.map((lecturer: AuthUserInfo) => {
-          const _citationsByWeight = citationByWeight(
-            lecturer.citations,
-            lecturer.totalPublications,
-            statistics_lecturers.highestCitations,
-            settings.citationsWeight
-          );
-          const _hindexByWeight = hindexByWeight(
-            lecturer.hindex,
-            statistics_lecturers.firstPublicationYear || 0,
-            statistics_lecturers.highestHindex,
-            settings.hindexWeight
-          );
-          const _i10hindexByWeight = i10indexByWeight(
-            lecturer.i10hindex,
-            statistics_lecturers.firstPublicationYear || 0,
-            statistics_lecturers.highestI10hindex,
-            settings.i10hindexWeight
-          );
           return {
             id: lecturer.username,
             name: `${lecturer.firstname} ${lecturer.lastname}`,
-            citations: _citationsByWeight ? _citationsByWeight : 0,
-            hindex: _hindexByWeight ? _hindexByWeight : 0,
-            i10hindex: _i10hindexByWeight ? _i10hindexByWeight : 0,
+            citations:
+              citationByWeight(
+                lecturer.citations || 0,
+                statistics_lecturers.citations || 0,
+                statistics_lecturers.highestCitations || 0,
+                settings.citationsWeight
+              ) || 0,
+            hindex:
+              hindexByWeight(
+                lecturer.hindex,
+                statistics_lecturers.hindex,
+                statistics_lecturers.firstPublicationYear,
+                settings.hindexWeight
+              ) || 0,
+            i10hindex:
+              i10indexByWeight(
+                lecturer.i10hindex,
+                statistics_lecturers.i10hindex || 0,
+                statistics_lecturers.firstPublicationYear || 0,
+                settings.i10hindexWeight || 0
+              ) || 0,
             total: lecturer.citations + lecturer.hindex + lecturer.i10hindex,
           };
         })
       );
     }
-  }, [lecturers, statistics_lecturers, schoolId, settings]);
+  }, [lecturers, statistics_lecturers, settings]);
 
   return (
     <>
@@ -197,7 +202,14 @@ const Dashboard: NextPage = () => {
                     title="Lecturers Google Scholar Metrics"
                     columns={columns}
                     data={lecturersList}
-                    loading={isLoading || isValidating}
+                    loading={
+                      isLoadingStatistics ||
+                      isValidatingStatistics ||
+                      isLoadingSettings ||
+                      isValidatingSettings ||
+                      isLoadingLecturers ||
+                      isValidatingLecturers
+                    }
                   />
                 </div>
               </div>

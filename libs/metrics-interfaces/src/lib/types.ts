@@ -101,6 +101,9 @@ export interface AuthUserInfo {
   scopusId?: string;
   orcidId?: string;
   googlePresence?: number;
+  citationPerCapita?: number;
+  hindexPerCapita?: number;
+  i10hindexPerCapita?: number;
   citations?: number;
   hindex?: number;
   i10hindex?: number;
