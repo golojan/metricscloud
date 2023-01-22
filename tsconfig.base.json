@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "noImplicitAny": false,
     "noImplicitThis": true,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "paths": {
       "@metricsai/metrics-hocs": ["libs/metrics-hocs/src/index.ts"],
       "@metricsai/metrics-images": ["libs/metrics-images/src/index.ts"],
