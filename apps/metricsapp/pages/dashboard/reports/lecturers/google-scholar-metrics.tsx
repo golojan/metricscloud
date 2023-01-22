@@ -17,7 +17,6 @@ import {
   loadLecturersStats,
 } from '@metricsai/metrics-utils';
 import useSWR from 'swr';
-import Link from 'next/link';
 import dynamic from 'next/dynamic';
 const AuthUserTable = dynamic(
   () => import('../../../../components/DataTables/AuthUserTable'),

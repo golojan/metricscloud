@@ -310,6 +310,7 @@ export type SchoolSettingsType = {
   lecturersWeight?: number;
   alumniWeight?: number;
   internationalStaffWeight?: number;
+  internationalStudentsWeight?: number;
   internationalCollaborationWeight?: number;
   efficiencyWeight?: number;
   researchOutputWeight?: number;

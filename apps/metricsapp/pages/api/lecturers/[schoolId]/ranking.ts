@@ -78,6 +78,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         },
       ]).catch(catcher);
+
+      console.log(lecturers);
+
       if (lecturers) {
         res.status(200).json({
           status: true,
