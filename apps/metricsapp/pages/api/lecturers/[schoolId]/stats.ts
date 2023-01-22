@@ -31,7 +31,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       const school = await Schools.findById(schoolId).catch(catcher);
       let SETTINGS: SchoolSettingsType = {};
       if (school) {
-        SETTINGS = school.settings;
+        SETTINGS = school.settings ? school.settings : {};
       }
 
       const lecturers = await Accounts.aggregate([

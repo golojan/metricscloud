@@ -1,4 +1,8 @@
-import { AccountTypes, ResponseFunctions } from '@metricsai/metrics-interfaces';
+import {
+  AccountTypes,
+  ResponseFunctions,
+  SchoolSettingsType,
+} from '@metricsai/metrics-interfaces';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
 
@@ -17,26 +21,30 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       const { Accounts, Schools } = await dbCon();
 
       // get school info for settings //
-      const schoolInfo = await Schools.findOne({ _id: schoolId }).catch(
-        catcher
-      );
+      const school = await Schools.findById(schoolId).catch(catcher);
+      let SETTINGS: SchoolSettingsType = {};
 
-      console.log(schoolInfo);
+      let studentsInMetrics = false;
+      let lecturersInMetrics = false;
+      let alumniInMetrics = false;
 
-      const studentsInMetrics = schoolInfo
-        ? schoolInfo.includeStudentsInMetrics
-        : false;
-      const lecturersInMetrics = schoolInfo
-        ? schoolInfo.includeLecturersInMetrics
-        : false;
-      const alumniInMetrics = schoolInfo
-        ? schoolInfo.includeAlumniInMetrics
-        : false;
+      if (school) {
+        SETTINGS = school.settings ? school.settings : {};
+        if (SETTINGS) {
+          studentsInMetrics = SETTINGS.includeStudentsInMetrics as boolean;
+          lecturersInMetrics = SETTINGS.includeLecturersInMetrics as boolean;
+          alumniInMetrics = SETTINGS.includeAlumniInMetrics as boolean;
+        }
+      }
 
       let matchQuery = {};
 
       // set match query based on includeStudentsInMetrics and includeLecturersInMetrics and includeAlumniInMetrics //
-      if (studentsInMetrics && lecturersInMetrics && alumniInMetrics) {
+      if (
+        SETTINGS.includeAlumniInMetrics &&
+        lecturersInMetrics &&
+        alumniInMetrics
+      ) {
         matchQuery = {
           schoolId: schoolId,
         };
