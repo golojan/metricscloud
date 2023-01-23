@@ -89,7 +89,24 @@ const accountsScheme = new mongoose.Schema(
     totalPublications: { type: Number, default: 0 },
     firstPublicationYear: { type: Number, default: 0 },
     lastPublicationYear: { type: Number, default: 0 },
-    publications: [{}],
+    publications: {
+      type: [{
+          title: String,
+          link:  String,
+          citation_id:  String,
+          authors:  String,
+          cited_by: {
+            value: Number,
+            link:  String,
+            serpapi_link:  String,
+            cites_id:  String,
+          },
+          year:  String,        
+      }],
+      default: [{}],
+    },
+    search_metadata:{type:Object,default:{}},
+    author_metadata:{type:Object,default:{}},
     internationalColaborations: [
       {
         projectId: Number,
@@ -105,7 +122,7 @@ const accountsScheme = new mongoose.Schema(
         fundingCurrency: String,
         fundingDuration: String,
       },
-    ],
+    ]
   },
 
   { timestamps: true }

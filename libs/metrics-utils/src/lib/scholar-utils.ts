@@ -103,6 +103,7 @@ export const i10indexByWeight = (
     return {
       Weight: Weight,
       rWeight: rWeight,
+
     };
   }
 };

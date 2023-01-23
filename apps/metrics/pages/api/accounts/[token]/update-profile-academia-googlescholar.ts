@@ -17,6 +17,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         i10hindex,
         firstPublicationYear,
         lastPublicationYear,
+        author_metadata,
+        publications,
+        search_metadata
       } = scrap;
 
       const { Accounts } = await dbCon();
@@ -32,6 +35,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           googlePresence: 1,
           firstPublicationYear: firstPublicationYear,
           lastPublicationYear: lastPublicationYear,
+          author_metadata: author_metadata,
+          publications: publications,
+          search_metadata: search_metadata
         }
       ).catch(catcher);
       if (saved) {

@@ -259,6 +259,19 @@ export type GSRanking = {
   perCapitaAllCitations?: number;
   perCapitaAllHindex?: number;
   perCapitaAllI10hindex?: number;
+  publications?: [],
+  search_metadata?:object,
+  author_metadata?:{
+    name: string;
+    affiliations: string;
+    email: string;
+    interests: {
+        title: string;
+        link: string;
+        serpapi_link: string;
+    }[];
+    thumbnail: string;
+},
 };
 
 export type SchoolRank = {
