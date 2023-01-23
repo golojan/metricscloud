@@ -13,11 +13,15 @@ import {
   GSRanking,
   SchoolSettingsType,
 } from '@metricsai/metrics-interfaces';
+
 import { authSchoolId } from '@metricsai/metrics-hocs';
 import {
   getSchoolSettings,
   loadLecturers,
   loadLecturersStats,
+  citationByWeight,
+  hindexByWeight,
+  i10indexByWeight,
 } from '@metricsai/metrics-utils';
 
 import useSWR from 'swr';
@@ -29,6 +33,7 @@ import {
   schoolSettingsAtom,
   statistLecturersAtom,
 } from '@metricsai/metrics-store';
+import AuthUserTable from '../../../../components/DataTables/AuthUserTable';
 
 type lFilters = {
   male: boolean;
@@ -38,10 +43,13 @@ type lFilters = {
 };
 
 const ReportLecturers: NextPage = () => {
+
   const schoolId = authSchoolId();
-  const [done, setDone] = useState<boolean>(false);
+  const [working, setWorking] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
+
   const [list, setList] = useState<AuthUserInfo[]>([]);
+  const [listScholar, setListScholar] = useState<AuthUserInfo[]>([]);
 
   const [schoolSettings, setSchoolSettings] = useAtom(schoolSettingsAtom);
   const [statistLecturers, setStatistLecturers] = useAtom(statistLecturersAtom);
@@ -76,8 +84,7 @@ const ReportLecturers: NextPage = () => {
     }
   );
 
-  const busy =
-    isLoadingSettings ||
+  const busy = working || isLoadingSettings ||
     isValidatingSettings ||
     isLoadingStatisticsLecturers ||
     isValidatingStatisticsLecturers;
@@ -91,25 +98,41 @@ const ReportLecturers: NextPage = () => {
 
   useEffect(() => {
     if (lecturers && !busy) {
-      setDone(true);
       setList(lecturers);
       setSchoolSettings(settings);
       setStatistLecturers(statistics_lecturers);
+      if (list) {
+        setWorking(true);
+        setListScholar(lecturers.map((user) => ({
+          firstname: user.firstname,
+          lastname: user.lastname,
+          citations: citationByWeight(
+            user.citations,
+            user.totalPublications,
+            statistics_lecturers.highestCitations,
+            statistics_lecturers.highestTotalPublications,
+            settings.citationsWeight
+          ).rWeight,
+          hindex: hindexByWeight(
+            user.hindex,
+            user.firstPublicationYear,
+            statistics_lecturers.highestHindex,
+            statistics_lecturers.firstPublicationYear,
+            settings.hindexWeight
+          ).rWeight,
+          i10hindex: i10indexByWeight(
+            user.i10hindex,
+            user.firstPublicationYear,
+            statistics_lecturers.highestI10hindex,
+            statistics_lecturers.firstPublicationYear,
+            settings.i10hindexWeight
+          ).rWeight
+        })));
+        setWorking(false);
+      }
     }
   }, [lecturers, busy]);
 
-  const searchFilter = (q: string) => {
-    setQuery(q);
-    const newData = lecturers.filter((lecturer: AuthUserInfo) => {
-      return (
-        lecturer.firstname?.toLowerCase().startsWith(q.toLowerCase()) ||
-        lecturer.lastname?.toLowerCase().startsWith(q.toLowerCase()) ||
-        lecturer.middlename?.toLowerCase().startsWith(q.toLowerCase()) ||
-        lecturer.staffNumber?.toString().startsWith(q.toLowerCase())
-      );
-    });
-    setList(newData);
-  };
 
   return (
     <>
@@ -126,22 +149,32 @@ const ReportLecturers: NextPage = () => {
             <div className="row ">
               <div className="col-12 col-md-12 col-lg-4 fa-border">
                 <div className="card-box border-0">
-                  <div className="flex justify-center">
-                    <div className="w-full">
-                      <div className="input-group relative flex flex-wrap items-stretch w-full mb-1">
-                        <input
-                          type="search"
-                          className="form-control form-control-lg relative flex-auto min-w-0 block w-full text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                          placeholder={`Search [${list.length}] records...`}
-                          aria-label="Search"
-                          aria-describedby="button-addon2"
-                          onChange={(e) => searchFilter(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <h4 className="pl-1">Found 0 record for {query}...</h4>
                   <ul className="listview image-listview text border-0  no-line">
+                    <li className="flex-auto">
+                      <div className="item">
+                        <div className="in">
+                          <div className="text-lg">Female</div>
+                          <div className="form-check form-switch">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              id="femaleSwitch"
+                              checked={filter.female}
+                              onChange={(e) =>
+                                setFilter({
+                                  ...filter,
+                                  female: e.target.checked,
+                                })
+                              }
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="femaleSwitch"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </li>
                     <li className="flex-auto">
                       <div className="item">
                         <div className="in">
@@ -162,29 +195,6 @@ const ReportLecturers: NextPage = () => {
                             <label
                               className="form-check-label"
                               htmlFor="maleSwitch"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="item">
-                        <div className="in">
-                          <div className="text-lg">Female</div>
-                          <div className="form-check form-switch">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              id="femaleSwitch"
-                              checked={filter.female}
-                              onChange={(e) =>
-                                setFilter({
-                                  ...filter,
-                                  female: e.target.checked,
-                                })
-                              }
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="femaleSwitch"
                             />
                           </div>
                         </div>
@@ -247,7 +257,8 @@ const ReportLecturers: NextPage = () => {
               </div>
               <div className={`col-12 col-md-12 col-lg-8 min-h-screen`}>
                 {!busy ? (
-                  <LecturersDataTable lecturers={list} loading={isLoading} />
+                  <AuthUserTable title='Lecturers' data={listScholar} loading={isLoading} />
+                  // <LecturersDataTable lecturers={list} loading={isLoading} />
                 ) : (
                   <h1>Loading...</h1>
                 )}

@@ -61,21 +61,27 @@ const options = {
 type Props = {
   title: string;
   data: AuthUserInfo[];
-  columns: Column<AuthUserInfo>[];
   loading: boolean;
 };
 
-const AuthUserTable = (props: Props) => {
-  const { title, data, columns, loading } = props;
-  const schoolId = authSchoolId();
 
+const AuthUserTable = (props: Props) => {
+  const { title, data, loading } = props;
+  const schoolId = authSchoolId();
+  const columns: Column<AuthUserInfo>[]=[
+    { title: 'Firstname', field: 'firstname' },
+    { title: 'Lastname', field: 'lastname' },
+    { title: 'Citations', field: 'citations' },
+    { title: 'H-intex', field: 'hindex' },
+    { title: 'i10-H-intex', field: 'i10hindex' },
+  ];
   return (
     <MaterialTable
       title={title}
       isLoading={loading}
-      columns={columns}
       data={data}
       options={options}
+      columns={columns}
       icons={tableIcons}
     />
   );
