@@ -38,46 +38,71 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         {
           $match: {
             schoolId: schoolId,
-            accountType: AccountTypes.LECTURER,
           },
         },
         {
           $project: {
+            schoolId: 1,
             username: 1,
             email: 1,
             mobile: 1,
-            firstname: 1,
-            lastname: 1,
+            fullname: {
+              $concat: ['$firstname', ' ', '$lastname'],
+            },
             citations: 1,
             hindex: 1,
-            i10hindex: 1,
-            googlePresence: 1,
-            totalPublications: 1,
-            firstPublicationyear: {
-              $cond: {
-                if: { $ifNull: ['$firstPublicationYear', 0] },
-                then: 1,
-                else: '$firstPublicationYear',
-              },
-            },
+            i10index: 1,
+            firstPublicationYear: 1,
             lastPublicationYear: 1,
-            currentYear: { $year: new Date() },
-
-            // hindexPerCapita: {
-            //   $divide: [
-            //     '$hindex',
-            //     { $subtract: ['$currentYear', '$firstPublicationYear'] },
-            //   ],
-            // },
-            // i10hindexPerCapita: {
-            //   $divide: [
-            //     '$i10hindex',
-            //     { $subtract: ['$currentYear', '$firstPublicationYear'] },
-            //   ],
-            // },
+            totalPublications: 1,
           },
         },
-      ]).catch(catcher);
+      ]);
+
+      // const lecturers = await Accounts.aggregate([
+      //   {
+      //     $match: {
+      //       schoolId: schoolId,
+      //       accountType: AccountTypes.LECTURER,
+      //     },
+      //   },
+      //   {
+      //     $project: {
+      //       username: 1,
+      //       email: 1,
+      //       mobile: 1,
+      //       firstname: 1,
+      //       lastname: 1,
+      //       citations: 1,
+      //       hindex: 1,
+      //       i10hindex: 1,
+      //       googlePresence: 1,
+      //       totalPublications: 1,
+      //       firstPublicationyear: {
+      //         $cond: {
+      //           if: { $ifNull: ['$firstPublicationYear', 0] },
+      //           then: 1,
+      //           else: '$firstPublicationYear',
+      //         },
+      //       },
+      //       lastPublicationYear: 1,
+      //       currentYear: { $year: new Date() },
+
+      //       // hindexPerCapita: {
+      //       //   $divide: [
+      //       //     '$hindex',
+      //       //     { $subtract: ['$currentYear', '$firstPublicationYear'] },
+      //       //   ],
+      //       // },
+      //       // i10hindexPerCapita: {
+      //       //   $divide: [
+      //       //     '$i10hindex',
+      //       //     { $subtract: ['$currentYear', '$firstPublicationYear'] },
+      //       //   ],
+      //       // },
+      //     },
+      //   },
+      // ]).catch(catcher);
 
       console.log(lecturers);
 

@@ -1,5 +1,11 @@
 import { atom } from 'jotai';
-import { AuthUserInfo, SchoolInfo } from '@metricsai/metrics-interfaces';
+import {
+  AuthUserInfo,
+  SchoolInfo,
+  GSRanking,
+  SchoolSettingsType,
+} from '@metricsai/metrics-interfaces';
+
 const cookie = require('js-cookie');
 
 export const pageAtom = atom<string>('home');
@@ -14,3 +20,5 @@ export const profileAtom = atom<AuthUserInfo>({});
 export const publicProfileAtom = atom<AuthUserInfo>({});
 
 export const totalWeightAtom = atom<number>(0);
+export const schoolSettingsAtom = atom<SchoolSettingsType>({});
+export const statistLecturersAtom = atom<GSRanking>({});

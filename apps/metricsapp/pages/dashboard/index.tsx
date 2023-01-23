@@ -34,6 +34,7 @@ const Dashboard: NextPage = () => {
   const schoolId = authSchoolId();
   const dispatch = useDispatch<Dispatch>();
   const [ranking, setRanking] = React.useState<SchoolStats>(null);
+
   useEffect(() => {
     loadSchoolsStats(schoolId).then((stats) => {
       dispatch.settings.setRank(stats);

@@ -87,8 +87,8 @@ const accountsScheme = new mongoose.Schema(
     hindex: { type: Number, default: 0 },
     i10hindex: { type: Number, default: 0 },
     totalPublications: { type: Number, default: 0 },
-    firstPublicationYear: { type: Number, default: new Date().getFullYear() },
-    lastPublicationYear: { type: Number, default: new Date().getFullYear() },
+    firstPublicationYear: { type: Number, default: 0 },
+    lastPublicationYear: { type: Number, default: 0 },
     publications: [{}],
     internationalColaborations: [
       {

@@ -8,6 +8,8 @@ interface IProps {
   settings: SchoolSettingsType;
 }
 import { authSchoolId } from '@metricsai/metrics-hocs';
+import mongoose from 'mongoose';
+import PerCapitaAllCitations from '../indicators/Citations/PerCapitaAllCitations';
 
 const Weightings = (props: IProps) => {
   const schoolId = authSchoolId();
@@ -20,27 +22,25 @@ const Weightings = (props: IProps) => {
   const [done, setDone] = useState<boolean>(false);
 
   const sumWeights = () => {
-    return setting.citationsWeight
-      ? setting.citationsWeight
-      : 0 + setting.hindexWeight
-      ? setting.hindexWeight
-      : 0 + setting.i10hindexWeight
-      ? setting.i10hindexWeight
-      : 0 +
-          setting.googlePresenceWeight +
-          setting.internationalStaffWeight +
-          setting.internationalStudentsWeight +
-          setting.internationalCollaborationWeight +
-          setting.graduationOutputWeight +
-          setting.fullProfessorsWeight +
-          setting.phdStudentsWeight +
-          setting.accreditationWeight +
-          setting.teacherStudentRatioWeight +
-          setting.femaleStaffWeight +
-          setting.femaleStudentsWeight +
-          setting.profsReadersWeight +
-          setting.seniorLecturersWeight +
-          setting.otherLecturersWeight || 0;
+    return (
+      setting.citationsWeight +
+        setting.hindexWeight +
+        setting.i10hindexWeight +
+        setting.googlePresenceWeight +
+        setting.internationalStaffWeight +
+        setting.internationalStudentsWeight +
+        setting.internationalCollaborationWeight +
+        setting.graduationOutputWeight +
+        setting.fullProfessorsWeight +
+        setting.phdStudentsWeight +
+        setting.accreditationWeight +
+        setting.teacherStudentRatioWeight +
+        setting.femaleStaffWeight +
+        setting.femaleStudentsWeight +
+        setting.profsReadersWeight +
+        setting.seniorLecturersWeight +
+        setting.otherLecturersWeight || 0
+    );
   };
 
   useEffect(() => {
@@ -53,9 +53,6 @@ const Weightings = (props: IProps) => {
   const hanleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const _value = value ? parseInt(value) : 0;
-    if ((totalWeight as number) > 100) {
-      return;
-    }
     setSetting({
       ...setting,
       [name]: _value,
@@ -70,6 +67,10 @@ const Weightings = (props: IProps) => {
 
   const saveSettings = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    if ((totalWeight as number) > 100) {
+      alert('Total weight cannot be greater than 100');
+      return;
+    }
     const res = await fetch(`/api/schools/${schoolId}/save-settings`, {
       method: 'POST',
       headers: {
@@ -753,6 +754,7 @@ const Weightings = (props: IProps) => {
         </div>
       </div>
       <div className="text-center">
+        <hr className="my-3" />
         <h1>
           <span className="text-primary">{totalWeight}%</span> of{' '}
           <span className="text-primary">100%</span>{' '}

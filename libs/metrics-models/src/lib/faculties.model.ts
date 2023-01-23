@@ -3,8 +3,8 @@ mongoose.Promise = global.Promise;
 
 const facultiesScheme = new mongoose.Schema(
   {
-    name: { type: String },
-    shortname: { type: String },
+    name: { type: String, required: true, unique: true },
+    shortname: { type: String, required: true },
     description: { type: String },
     enabled: {
       type: Boolean,

@@ -1,0 +1,265 @@
+import { NextPage } from 'next';
+import React, { useEffect, useState } from 'react';
+import AdminLayout from '../../../../components/AdminLayout';
+import AppDrawer from '../../../../serverlets/AppDrawer';
+
+import AppHeader from '../../../../serverlets/AppHeader';
+import Copyright from '../../../../serverlets/Copyright';
+import { withAuth } from '@metricsai/metrics-hocs';
+import { compose } from 'redux';
+
+import {
+  AuthUserInfo,
+  GSRanking,
+  SchoolSettingsType,
+} from '@metricsai/metrics-interfaces';
+import { authSchoolId } from '@metricsai/metrics-hocs';
+import {
+  getSchoolSettings,
+  loadLecturers,
+  loadLecturersStats,
+} from '@metricsai/metrics-utils';
+
+import useSWR from 'swr';
+import AppDashBoardTopMenuScores from '../../../../serverlets/AppDashBoardTopMenuScores';
+import AppDashboardTopMenu from '../../../../serverlets/AppDashboardTopMenu';
+import LecturersDataTable from '../../../../components/DataTables/LecturersDataTable';
+import { useAtom } from 'jotai';
+import {
+  schoolSettingsAtom,
+  statistLecturersAtom,
+} from '@metricsai/metrics-store';
+
+type lFilters = {
+  male: boolean;
+  female: boolean;
+  withPhd: boolean;
+  isProfessor: boolean;
+};
+
+const ReportLecturers: NextPage = () => {
+  const schoolId = authSchoolId();
+  const [done, setDone] = useState<boolean>(false);
+  const [query, setQuery] = useState<string>('');
+  const [list, setList] = useState<AuthUserInfo[]>([]);
+
+  const [schoolSettings, setSchoolSettings] = useAtom(schoolSettingsAtom);
+  const [statistLecturers, setStatistLecturers] = useAtom(statistLecturersAtom);
+
+  // use SWR to fetch data from the API
+  const { data: lecturers, isLoading } = useSWR(
+    `/api/lecturers/${schoolId}/list`,
+    async () => await loadLecturers(schoolId)
+  );
+
+  const {
+    data: settings,
+    isLoading: isLoadingSettings,
+    isValidating: isValidatingSettings,
+  } = useSWR<SchoolSettingsType>(
+    `/api/schools/${schoolId}/settings`,
+    async () => await getSchoolSettings(schoolId),
+    {
+      revalidateOnFocus: true,
+    }
+  );
+
+  const {
+    data: statistics_lecturers,
+    isLoading: isLoadingStatisticsLecturers,
+    isValidating: isValidatingStatisticsLecturers,
+  } = useSWR<GSRanking>(
+    `/api/lecturers/${schoolId}/stats`,
+    async () => await loadLecturersStats(schoolId),
+    {
+      revalidateOnFocus: true,
+    }
+  );
+
+  const busy =
+    isLoadingSettings ||
+    isValidatingSettings ||
+    isLoadingStatisticsLecturers ||
+    isValidatingStatisticsLecturers;
+
+  const [filter, setFilter] = useState<lFilters>({
+    male: false,
+    female: false,
+    withPhd: false,
+    isProfessor: false,
+  });
+
+  useEffect(() => {
+    if (lecturers && !busy) {
+      setDone(true);
+      setList(lecturers);
+      setSchoolSettings(settings);
+      setStatistLecturers(statistics_lecturers);
+    }
+  }, [lecturers, busy]);
+
+  const searchFilter = (q: string) => {
+    setQuery(q);
+    const newData = lecturers.filter((lecturer: AuthUserInfo) => {
+      return (
+        lecturer.firstname?.toLowerCase().startsWith(q.toLowerCase()) ||
+        lecturer.lastname?.toLowerCase().startsWith(q.toLowerCase()) ||
+        lecturer.middlename?.toLowerCase().startsWith(q.toLowerCase()) ||
+        lecturer.staffNumber?.toString().startsWith(q.toLowerCase())
+      );
+    });
+    setList(newData);
+  };
+
+  return (
+    <>
+      <AdminLayout>
+        <AppHeader />
+        <div id="appCapsule" className="mb-5 relative">
+          <div className="section wallet-card-section pt-1">
+            <div className="wallet-card">
+              <AppDashBoardTopMenuScores />
+              <AppDashboardTopMenu />
+            </div>
+          </div>
+          <div className="section pt-1">
+            <div className="row ">
+              <div className="col-12 col-md-12 col-lg-4 fa-border">
+                <div className="card-box border-0">
+                  <div className="flex justify-center">
+                    <div className="w-full">
+                      <div className="input-group relative flex flex-wrap items-stretch w-full mb-1">
+                        <input
+                          type="search"
+                          className="form-control form-control-lg relative flex-auto min-w-0 block w-full text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                          placeholder={`Search [${list.length}] records...`}
+                          aria-label="Search"
+                          aria-describedby="button-addon2"
+                          onChange={(e) => searchFilter(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <h4 className="pl-1">Found 0 record for {query}...</h4>
+                  <ul className="listview image-listview text border-0  no-line">
+                    <li className="flex-auto">
+                      <div className="item">
+                        <div className="in">
+                          <div className="text-lg">Males</div>
+                          <div className="form-check form-switch">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              id="maleSwitch"
+                              checked={filter.male}
+                              onChange={(e) =>
+                                setFilter({
+                                  ...filter,
+                                  male: e.target.checked,
+                                })
+                              }
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="maleSwitch"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="item">
+                        <div className="in">
+                          <div className="text-lg">Female</div>
+                          <div className="form-check form-switch">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              id="femaleSwitch"
+                              checked={filter.female}
+                              onChange={(e) =>
+                                setFilter({
+                                  ...filter,
+                                  female: e.target.checked,
+                                })
+                              }
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="femaleSwitch"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  <ul className="listview image-listview text no-line">
+                    <li className="flex-auto">
+                      <div className="item">
+                        <div className="in">
+                          <div className="text-lg">Professors</div>
+                          <div className="form-check form-switch">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              id="professorSwitch"
+                              checked={filter.isProfessor}
+                              onChange={(e) =>
+                                setFilter({
+                                  ...filter,
+                                  isProfessor: e.target.checked,
+                                })
+                              }
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="professorSwitch"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li className="flex-auto">
+                      <div className="item">
+                        <div className="in">
+                          <div className="text-lg">PHD Holders</div>
+                          <div className="form-check form-switch">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              id="withPhdSwitch"
+                              checked={filter.withPhd}
+                              onChange={(e) =>
+                                setFilter({
+                                  ...filter,
+                                  withPhd: e.target.checked,
+                                })
+                              }
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="withPhdSwitch"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className={`col-12 col-md-12 col-lg-8 min-h-screen`}>
+                {!busy ? (
+                  <LecturersDataTable lecturers={list} loading={isLoading} />
+                ) : (
+                  <h1>Loading...</h1>
+                )}
+              </div>
+            </div>
+          </div>
+          <Copyright />
+        </div>
+        <AppDrawer onchat={false} menuitem="lecturers" />
+      </AdminLayout>
+    </>
+  );
+};
+
+export default compose(withAuth)(ReportLecturers);

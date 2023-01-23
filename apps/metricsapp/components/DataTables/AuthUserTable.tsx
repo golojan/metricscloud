@@ -40,6 +40,7 @@ const tableIcons: Icons<AuthUserInfo> = {
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+  SaveAlt: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
 };
 
 import { authSchoolId } from '@metricsai/metrics-hocs';
@@ -49,10 +50,11 @@ const options = {
   paging: true,
   pageSize: 10,
   emptyRowsWhenPaging: false,
-  pageSizeOptions: [10, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
+  pageSizeOptions: [10, 100, 200, 300, 400],
   headerStyle: {
     fontWeight: 'bold',
   },
+  selection: true,
   exportButton: true,
   exportFileName: `metricsai-${authSchoolId()}-users`,
 };

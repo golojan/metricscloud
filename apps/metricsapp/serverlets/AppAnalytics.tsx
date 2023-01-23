@@ -55,7 +55,7 @@ function AppAnalytics() {
                 <strong className="text-black h5">LECTURERS</strong> - Analytics
                 <div className="row mt-2 relative h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
                   <Link
-                    href="/dashboard/reports/lecturers/google-scholar-metrics"
+                    href="/dashboard/reports/lecturers"
                     className="hover:text-green-700"
                   >
                     <span className="text-lg">

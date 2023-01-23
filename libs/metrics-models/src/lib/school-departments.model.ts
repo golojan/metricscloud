@@ -6,9 +6,9 @@ const schoolDepartmentsScheme = new mongoose.Schema(
   {
     schoolId: { type: String, required: true },
     facultyId: { type: String, required: true },
-    departmentId: { type: String, required: true },
-    departmentName: String,
-    departmentCode: String,
+    departmentId: { type: String, required: true, unique: true },
+    departmentName: { type: String, required: true, unique: true },
+    departmentCode: { type: String, required: true },
     departmentDescription: String,
     headOfDepartment: String,
   },
