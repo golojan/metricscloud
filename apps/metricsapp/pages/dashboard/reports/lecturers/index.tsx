@@ -147,7 +147,7 @@ const ReportLecturers: NextPage = () => {
           </div>
           <div className="section pt-1">
             <div className="row ">
-              <div className="col-12 col-md-12 col-lg-4 fa-border">
+              <div className="col-12 col-md-12 col-lg-3 fa-border">
                 <div className="card-box border-0">
                   <ul className="listview image-listview text border-0  no-line">
                     <li className="flex-auto">
@@ -201,6 +201,7 @@ const ReportLecturers: NextPage = () => {
                       </div>
                     </li>
                   </ul>
+                  
                   <ul className="listview image-listview text no-line">
                     <li className="flex-auto">
                       <div className="item">
@@ -255,7 +256,7 @@ const ReportLecturers: NextPage = () => {
                   </ul>
                 </div>
               </div>
-              <div className={`col-12 col-md-12 col-lg-8 min-h-screen`}>
+              <div className={`col-12 col-md-12 col-lg-9 min-h-screen`}>
                 {!busy ? (
                   <AuthUserTable title='Lecturers' data={listScholar} loading={isLoading} />
                   // <LecturersDataTable lecturers={list} loading={isLoading} />

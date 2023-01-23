@@ -1,3 +1,6 @@
+
+const CALCULATE_SCHOLAR_METRICS_BY_WEIGHT = false;
+
 export const citationByWeight = (
   citations: number,
   totalPublications: number,
@@ -22,6 +25,7 @@ export const citationByWeight = (
     // this rHWeight eqivalent and now equals to citationWeight in reference
     // and will be used to compute the wieght of other citations and totalPublications
     const Weight = citations / totalPublications;
+    citationWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? citationWeight:100;
     const rWeight = (Weight/ rHweight) * citationWeight ;
     return {
       Weight: Weight,
@@ -54,6 +58,8 @@ export const hindexByWeight = (
     const yearDiff: number = year - firstPublicationYear;
     const rHweight = highestHindex / rHyearDiff;
     const Weight = hindex / yearDiff;
+
+    hindexWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? hindexWeight:100;
     const rWeight = (Weight /rHweight) * hindexWeight;
     return {
       Weight: Weight,
@@ -91,6 +97,8 @@ export const i10indexByWeight = (
     const rHweight = highestI10index / rHyearDiff;
     // weight for this user
     const Weight = i10index / yearDiff;
+
+    i10indexWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? i10indexWeight:100;
     const rWeight = (Weight / rHweight) * i10indexWeight;
     return {
       Weight: Weight,
