@@ -109,22 +109,21 @@ const accountsScheme = new mongoose.Schema(
     author_metadata:{type:Object,default:{}},
     internationalColaborations: [
       {
-        projectId: Number,
-        projectTitle: String,
-        projectDescription: String,
-        country: String,
-        startDate: String,
-        endDate: String,
-        role: String,
-        status: String,
-        fundingAgency: String,
-        fundingAmount: String,
-        fundingCurrency: String,
-        fundingDuration: String,
+        projectId: {type: Number},
+        projectTitle: { type: String },
+        projectDescription: { type: String },
+        country: { type: String },
+        startDate: { type: String },
+        endDate: { type: String },
+        role: { type: String },
+        status: { type: String },
+        fundingAgency: { type: String },
+        fundingAmount: { type: String },
+        fundingCurrency: { type: String },
+        fundingDuration: { type: String },
       },
     ]
   },
-
   { timestamps: true }
 );
 
