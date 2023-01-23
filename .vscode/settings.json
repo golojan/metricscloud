@@ -26,7 +26,7 @@
     "*": true,
     "yaml": false,
     "plaintext": false,
-    "markdown": true,
+    "markdown": false,
     "javascript": true
   },
   "[dotenv]": {

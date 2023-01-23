@@ -136,24 +136,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           lowestHindex: lecturers[0].lowestHindex,
           lowestI10hindex: lecturers[0].lowestI10hindex,
           lowestTotalPublications: lecturers[0].lowestTotalPublications,
-          perCapitaAllCitations: citationByWeight(
-            lecturers[0].citations,
-            lecturers[0].totalPublications,
-            lecturers[0].highestCitations,
-            SETTINGS.citationsWeight
-          ).toFixed(1),
-          perCapitaAllHindex: hindexByWeight(
-            lecturers[0].hindex,
-            lecturers[0].firstPublicationYear,
-            lecturers[0].highestHindex,
-            SETTINGS.hindexWeight
-          ).toFixed(1),
-          perCapitaAllI10hindex: i10indexByWeight(
-            lecturers[0].i10hindex,
-            lecturers[0].firstPublicationYear,
-            lecturers[0].highestI10hindex,
-            SETTINGS.i10hindexWeight
-          ).toFixed(1),
         });
       } else {
         res

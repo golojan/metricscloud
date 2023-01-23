@@ -1,42 +1,100 @@
-import { mul, div } from './metrics-utils';
-
 export const citationByWeight = (
-  citations: any,
-  totalPublications: any,
-  maxCitations: any,
-  weight: any
+  citations: number,
+  totalPublications: number,
+  highestCitations: number,
+  highestTotalPublications: number,
+  citationWeight: number
 ) => {
-  const _cit: any = div(citations, totalPublications);
-  const _div: any = div(_cit, maxCitations);
-  const _mul: any = mul(_div, weight);
-  return parseInt(_mul);
+  if (
+    citations === 0 ||
+    totalPublications === 0 ||
+    highestCitations === 0 ||
+    highestTotalPublications === 0 ||
+    citationWeight === 0
+  ) {
+    return {
+      Weight: 0,
+      rWeight: 0,
+    };
+  } else {
+    // get the PCC of the highest person
+    const rHweight = highestCitations / highestTotalPublications;
+    // this rHWeight eqivalent and now equals to citationWeight in reference
+    // and will be used to compute the wieght of other citations and totalPublications
+    const Weight = citations / totalPublications;
+    const rWeight = (Weight/ rHweight) * citationWeight ;
+    return {
+      Weight: Weight,
+      rWeight: rWeight,
+    };
+  }
 };
 
 export const hindexByWeight = (
-  hindex: any,
-  firstPublicationYear: any,
-  maxHindex: any,
-  weight: any
+  hindex: number,
+  firstPublicationYear: number,
+  highestHindex: number,
+  highestFirstPublicationYear: number,
+  hindexWeight: number
 ) => {
-  // get current year from Date
-  const year: number = new Date().getFullYear();
-  const yearDiff: number = year - firstPublicationYear;
-  const _hindex: any = div(hindex, yearDiff);
-  const _div: any = div(_hindex, maxHindex);
-  const _mul: any = mul(_div, weight);
-  return parseInt(_mul);
+  if (
+    hindex === 0 ||
+    firstPublicationYear === 0 ||
+    highestHindex === 0 ||
+    highestFirstPublicationYear === 0 ||
+    hindexWeight === 0
+  ) {
+    return {
+      Weight: 0,
+      rWeight: 0,
+    };
+  } else {
+    const year: number = new Date().getFullYear();
+    const rHyearDiff: number = year - highestFirstPublicationYear;
+    const yearDiff: number = year - firstPublicationYear;
+    const rHweight = highestHindex / rHyearDiff;
+    const Weight = hindex / yearDiff;
+    const rWeight = (Weight /rHweight) * hindexWeight;
+    return {
+      Weight: Weight,
+      rWeight: rWeight,
+    };
+  }
 };
 
 export const i10indexByWeight = (
-  i10index: any,
-  firstPublicationYear: any,
-  maxI10index: any,
-  weight: any
+  i10index: number,
+  firstPublicationYear: number,
+  highestI10index: number,
+  highestFirstPublicationYear: number,
+  i10indexWeight: number
 ) => {
-  const year: number = new Date().getFullYear();
-  const yearDiff: number = year - firstPublicationYear;
-  const _i10index: any = div(i10index, yearDiff);
-  const _div: any = div(_i10index, maxI10index);
-  const _mul: any = mul(_div, weight);
-  return parseInt(_mul);
+  if (
+    i10index === 0 ||
+    firstPublicationYear === 0 ||
+    highestI10index === 0 ||
+    highestFirstPublicationYear === 0 ||
+    i10indexWeight === 0
+  ) {
+    return {
+      Weight: 0,
+      rWeight: 0,
+    };
+  } else {
+    // current year
+    const year: number = new Date().getFullYear();
+    // diff in first pub year for leading user
+    const rHyearDiff: number = year - highestFirstPublicationYear;
+    // diff in first pub year for this user
+    const yearDiff: number = year - firstPublicationYear;
+    // weight for the leading user
+    const rHweight = highestI10index / rHyearDiff;
+    // weight for this user
+    const Weight = i10index / yearDiff;
+    const rWeight = (Weight / rHweight) * i10indexWeight;
+    return {
+      Weight: Weight,
+      rWeight: rWeight,
+    };
+  }
 };
