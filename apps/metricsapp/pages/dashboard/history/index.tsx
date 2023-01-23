@@ -3,8 +3,6 @@ import React from 'react';
 import AdminLayout from '../../../components/AdminLayout';
 import { compose } from 'redux';
 
-import useHistory from '../../../../../libs/metrics-hocs/src/lib/useHistory';
-
 import {
   faDownLong,
   faPlus,
