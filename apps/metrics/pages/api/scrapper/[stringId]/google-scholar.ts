@@ -4,6 +4,9 @@ import { GSRanking } from '@metricsai/metrics-interfaces';
 
 import type { GoogleScholarAuthorParameters } from 'serpapi';
 import { getJson } from 'serpapi';
+// import serpi.json
+import  serpiData  from '../../../../../../serpi.json';
+
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
@@ -18,19 +21,19 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       ////
       const stringId = req.query.stringId as string;
-      ////
-      const params = {
-        api_key:
-          process.env.NEXT_PUBLIC_GOOGLE_SERPI_API_KEY,
-        hl: 'en',
-        start: 0,
-        author_id: stringId,
-        num: '1000',
-      } satisfies GoogleScholarAuthorParameters;
+      // ////
+      // const params = {
+      //   api_key:
+      //     process.env.NEXT_PUBLIC_GOOGLE_SERPI_API_KEY,
+      //   hl: 'en',
+      //   start: 0,
+      //   author_id: stringId,
+      //   num: '1000',
+      // } satisfies GoogleScholarAuthorParameters;
 
-      // Show result as JSON
-      const response = await getJson('google_scholar_author', params);
-      const { search_metadata } = response;
+      // // Show result as JSON
+      // const response = await getJson('google_scholar_author', params);
+      const { search_metadata } = serpiData;
       if( search_metadata.status !== 'Success' ){
         res.status(200).json({
           status: false,
@@ -38,7 +41,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         });
       } else {
 
-        const { author, articles, cited_by } = response;
+        const { author, articles, cited_by } = serpiData;
         const { name, affiliation } = author;
         const { table, graph, } = cited_by;
 
@@ -66,9 +69,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             citations: citations.all,
             hindex: h_index.all,
             i10hindex: i10_index.all,
-            author_metadata:author,
+            authorMetadata:author,
             publications:articles,
-            search_metadata:response,
+            searchMetadata:search_metadata,
           } as GSRanking,
         });
       }

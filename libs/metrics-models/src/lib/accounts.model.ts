@@ -89,27 +89,26 @@ const accountsScheme = new mongoose.Schema(
     totalPublications: { type: Number, default: 0 },
     firstPublicationYear: { type: Number, default: 0 },
     lastPublicationYear: { type: Number, default: 0 },
-    publications: {
-      type: [{
-          title: String,
-          link:  String,
-          citation_id:  String,
-          authors:  String,
-          cited_by: {
-            value: Number,
-            link:  String,
-            serpapi_link:  String,
-            cites_id:  String,
-          },
-          year:  String,        
-      }],
-      default: [{}],
-    },
-    search_metadata:{type:Object,default:{}},
-    author_metadata:{type:Object,default:{}},
+    publications: [
+      {
+        title: String,
+        link: String,
+        citation_id: String,
+        authors: String,
+        cited_by: {
+          value: Number,
+          link: String,
+          serpapi_link: String,
+          cites_id: String,
+        },
+        year: String,
+      },
+    ],
+    searchMetadata: { type: Object, default: {} },
+    authorMetadata: { type: Object, default: {} },
     internationalColaborations: [
       {
-        projectId: {type: Number},
+        projectId: { type: Number },
         projectTitle: { type: String },
         projectDescription: { type: String },
         country: { type: String },
@@ -122,9 +121,9 @@ const accountsScheme = new mongoose.Schema(
         fundingCurrency: { type: String },
         fundingDuration: { type: String },
       },
-    ]
+    ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 if (mongoose.models.Accounts) {

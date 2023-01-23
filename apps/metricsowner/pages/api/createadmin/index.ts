@@ -16,7 +16,7 @@ export default async function handler(
 
       // Encrypt Password//
       const salt = bcrypt.genSaltSync(10);
-      var hashedPassword = bcrypt.hashSync('admin', salt);
+      const hashedPassword = bcrypt.hashSync('admin', salt);
       // Encrypt Password//
 
       const owner = await Owners.create({
