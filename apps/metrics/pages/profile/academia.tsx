@@ -190,12 +190,13 @@ const Academia: NextPage = ({ token }: any) => {
                         </div>
                         <div className="d-grid">
                           {scrapped ? (
+
                             <button className="btn btn-success w-100 text-decoration-none rounded-5 py-3 fw-bold text-uppercase m-0">
-                              Save
+                              {busy ? <>Saving Scholar Data...</> : <>Save</>} 
                             </button>
                           ) : (
                             <button className="btn btn-primary w-100 text-decoration-none rounded-5 py-3 fw-bold text-uppercase m-0">
-                              Check Google Scholar
+                                {busy ? <>Checking Google Scholar data...</> : <>Save</>}
                             </button>
                           )}
                         </div>
@@ -253,7 +254,7 @@ const Academia: NextPage = ({ token }: any) => {
                         </div>
                         <div className="d-grid">
                           <button className="btn btn-primary w-100 text-decoration-none rounded-5 py-3 fw-bold text-uppercase m-0">
-                            Save Scopus
+                            {busy ? <>Saving Scopus ID...</> : <>Save Scopus</>}  
                           </button>
                         </div>
                       </form>
@@ -310,7 +311,7 @@ const Academia: NextPage = ({ token }: any) => {
                         </div>
                         <div className="d-grid">
                           <button className="btn btn-primary w-100 text-decoration-none rounded-5 py-3 fw-bold text-uppercase m-0">
-                            Save Orcid
+                            {busy ? <>Saving Orcid ID...</> : <>Save Orcid Id</>}  
                           </button>
                         </div>
                       </form>
