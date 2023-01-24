@@ -52,7 +52,7 @@ const getPostLikesLikes = async (postFeedId: string) => {
 function PostFeed(props: PostFeedProps) {
   const [busy, setBusy] = useState<boolean>(false);
   const { username, post } = props;
-  const [ownerProfile, setOwnerProfile] = React.useState<AuthUserInfo>({});
+  const [ownerProfile, setOwnerProfile] = React.useState<AuthUserInfo>({} as AuthUserInfo);
   const [commentCount, setCommentCount] = React.useState<number>(0);
   const [comments, setComments] = React.useState<IPostComment[]>([]);
 

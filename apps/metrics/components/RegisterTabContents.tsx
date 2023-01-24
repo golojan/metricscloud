@@ -184,7 +184,7 @@ function RegisterTabContents() {
     newUsername = validator.escape(newUsername);
     if (
       validator.isEmpty(newUsername) ||
-      newUsername.length < minUsernameLength ||
+      (newUsername.length < minUsernameLength) ||
       validator.isEmail(newUsername) ||
       validator.contains(newUsername, '@') ||
       hasSpacialChars(newUsername)
