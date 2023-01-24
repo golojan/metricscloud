@@ -31,7 +31,7 @@ const Profile: NextPage = () => {
     (state: RootState) => state.lecturers
   );
   const { departments } = useSelector((state: RootState) => state.departments);
-  const [thisLecturer, setThisLecturer] = useState<AuthUserInfo>({});
+  const [thisLecturer, setThisLecturer] = useState<AuthUserInfo>({} as AuthUserInfo);
   useEffect(() => {
     const getLecturer = async () => {
       const response = await fetch(`/api/lecturers/info/${id}`);
