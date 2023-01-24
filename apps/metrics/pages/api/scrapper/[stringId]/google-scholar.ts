@@ -18,13 +18,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       ////
       const stringId = req.query.stringId as string;
       // ////
+
       const params: GoogleScholarAuthorParameters = {
-        api_key: process.env.NEXT_PUBLIC_GOOGLE_SERPI_API_KEY,
+        api_key: '0536b2c2259d73458b8ae5452f59907b2764f393c7c2d861ae15e29abbf60b3f',
         hl: 'en',
         start: 0,
         author_id: stringId,
         num: '1000',
-      }; 
+      };
 
       // // Show result as JSON
       const response = await getJson('google_scholar_author', params);

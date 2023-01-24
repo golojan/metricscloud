@@ -20,6 +20,7 @@ const ProfileInfoByToken = async (token: string) => {
 };
 
 const Academia: NextPage = ({ token }: any) => {
+  const [busy, setBusy] = useState<boolean>(false);
   const [scrapped, setScrapped] = useState<boolean>(false);
   const [gsScrap, setGsScrap] = useState<GSRanking>({});
   const [profile, setProfile] = useState<AuthUserInfo>({});
@@ -35,6 +36,7 @@ const Academia: NextPage = ({ token }: any) => {
   const saveGoogleScholarId = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (scrapped) {
+      setBusy(true);
       const response = await fetch(
         `/api/accounts/${token}/update-profile-academia-googlescholar`,
         {
@@ -59,7 +61,9 @@ const Academia: NextPage = ({ token }: any) => {
           toastId: 'googleScholarId-update-success',
         });
       }
+      setBusy(false);
     } else {
+      setBusy(true);
       const response = await fetch(
         `/api/scrapper/${profile.googleScholarId}/google-scholar`
       );
@@ -78,6 +82,7 @@ const Academia: NextPage = ({ token }: any) => {
           toastId: 'scrapped-update-success',
         });
       }
+      setBusy(false);
     }
   };
 
