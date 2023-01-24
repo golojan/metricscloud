@@ -8,7 +8,7 @@ const withProfile = <P extends object>(
   WrappedComponent: React.ComponentType<P>
 ) => {
   const HOC: React.FC<P> = (props) => {
-    const [profile, setProfile] = useState<AuthUserInfo>({});
+    const [profile, setProfile] = useState<AuthUserInfo>({} as AuthUserInfo);
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
