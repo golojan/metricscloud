@@ -71,7 +71,7 @@ export const UserStatus = (props: TOSProps) => {
 
 export const OwnerStatus = (props: TOSProps) => {
   const { username } = props;
-  const [profile, setProfile] = useState<AuthUserInfo>({});
+  const [profile, setProfile] = useState<AuthUserInfo>({} as AuthUserInfo);
   useEffect(() => {
     ProfileInfo(username).then((res) => {
       setProfile(res);
@@ -119,7 +119,7 @@ export const OwnerStatus = (props: TOSProps) => {
 
 export const GSStatus = (props: TOSProps) => {
   const { username } = props;
-  const [profile, setProfile] = useState<AuthUserInfo>({});
+  const [profile, setProfile] = useState<AuthUserInfo>({} as AuthUserInfo);
   useEffect(() => {
     ProfileInfo(username).then((res) => {
       setProfile(res);
