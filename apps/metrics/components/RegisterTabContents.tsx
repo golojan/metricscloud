@@ -329,7 +329,7 @@ function RegisterTabContents() {
                 Hi Guest, Welcome to Matrics AI.
               </span>
               <h5 className="mb-0 text-dark">
-                <span className="fw-bold">Join the scoreboard!</span>
+                <span className="fw-bold">Join the scoreboard</span>
               </h5>
             </div>
           </header>
