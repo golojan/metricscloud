@@ -18,7 +18,7 @@ const ProfileInfo = async (username: string) => {
 
 export const UserStatus = (props: TOSProps) => {
   const { username } = props;
-  const [profile, setProfile] = useState<AuthUserInfo>({});
+  const [profile, setProfile] = useState<AuthUserInfo>({} as AuthUserInfo);
   useEffect(() => {
     ProfileInfo(username).then((res) => {
       setProfile(res);
