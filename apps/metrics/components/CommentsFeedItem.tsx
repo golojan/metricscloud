@@ -40,7 +40,7 @@ const CommentsFeedItem = (props: TCommentFeed) => {
 
   const { commentInfo } = props;
   const { _id, postFeedId, fromUser, toUser, comment, createdAt } = commentInfo;
-  const [userInfo, setUserInfo] = React.useState<AuthUserInfo>({});
+  const [userInfo, setUserInfo] = React.useState<AuthUserInfo>({} as AuthUserInfo);
   const [likes, setLikes] = React.useState<IUserReactions[]>([]);
 
   // find if user has liked this post
