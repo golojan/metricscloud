@@ -95,7 +95,7 @@ export const settings = createModel<RootModel>()({
     setNewUser(state, payload: object) {
       return { ...state, newUser: payload };
     },
-    setUserInfo(state, payload: object) {
+    setUserInfo(state, payload: AuthUserInfo) {
       return { ...state, user: payload };
     },
     setImageUrl(state, payload: string) {
