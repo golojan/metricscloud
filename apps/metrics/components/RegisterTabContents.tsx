@@ -1,7 +1,9 @@
-import React, { useRef, RefObject, useState } from 'react';
+import React, { useRef, RefObject, useState, useEffect } from 'react';
 import { cloudLogin } from '@metricsai/metrics-hocs';
 import {
   AccountTypes,
+  DepartmentsInfo,
+  FacultiesInfo,
   Gender,
   SchoolInfo,
 } from '@metricsai/metrics-interfaces';
@@ -24,8 +26,8 @@ function RegisterTabContents() {
     fetch(url).then((res) => res.json())
   );
 
+  // Schools options for react-select
   const schools: SchoolInfo[] = schoolData?.schools ? schoolData.schools : [];
-
   const schoolOptions = schools.map((school: SchoolInfo) => ({
     value: school._id,
     label: school.name,
@@ -52,6 +54,7 @@ function RegisterTabContents() {
     password: '',
     confirmpassword: '',
     schoolId: '',
+    facultyId: '',
     departmentId: '',
   });
 
@@ -232,10 +235,77 @@ function RegisterTabContents() {
     setEmState(false);
   };
 
-  const handleSelectChange = (selectedOption: any) => {
+
+  useEffect(() => {
+    if (register.schoolId) {
+      loadFaculties(register.schoolId);
+    }
+    if (register.facultyId) {
+      loadDepartments(register.schoolId, register.facultyId);
+    }
+  }, [register.schoolId, register.facultyId]);
+
+
+  const [departmentsOptions, setDepartmentsOptions] = useState<{ value: string, label: string }[]>([]);
+  const [facultiesOptions, setFacultiesOptions] = useState<{ value: string, label: string }[]>([]);
+
+  const loadFaculties = async (schoolId: string) => {
+    const response = await fetch(`/api/faculties/${schoolId}/list`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const { status, data } = await response.json();
+    if (status) {
+      setFacultiesOptions(data.map((faculty: FacultiesInfo) => ({
+        value: faculty._id,
+        label: `${faculty.facultyName} (${faculty.facultyCode})`
+      })));
+      return data;
+    } else {
+      return [];
+    }
+  };
+
+  const loadDepartments = async (schoolId: string, facultyId: string) => {
+    const response = await fetch(`/api/departments/${schoolId}/${facultyId}/list`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const { status, data } = await response.json();
+    if (status) {
+      setDepartmentsOptions(data.map((department: DepartmentsInfo) => ({
+        value: department._id,
+        label: `${department.departmentName} (${department.departmentCode})`
+      })));
+      return data;
+    } else {
+      return [];
+    }
+  };
+
+
+  const handleSchoolsSelectChange = (selectedOption: any) => {
     setRegister({
       ...register,
       schoolId: selectedOption.value,
+    });
+  };
+
+  const handleFacultySelectChange = async (selectedOption: any) => {
+    setRegister({
+      ...register,
+      facultyId: selectedOption.value,
+    });
+  };
+
+  const handleDepartmentSelectChange = async (selectedOption: any) => {
+    setRegister({
+      ...register,
+      departmentId: selectedOption.value,
     });
   };
 
@@ -280,35 +350,46 @@ function RegisterTabContents() {
                           placeholder="Select your university"
                           className="w-full rounded-5 text-lg clear-both"
                           options={schoolOptions}
-                          onChange={(e) => handleSelectChange(e)}
+                          onChange={(e) => handleSchoolsSelectChange(e)}
                         />
                       </div>
                     </div>
                   </div>
-                  <div className="row mt-3">
-                    <div className="col-12">
-                      <div className="w-full text-lg my-1">
-                        Enter your Department
+                  {register.schoolId && facultiesOptions ? <>
+                    <div className="row mt-3">
+                      <div className="col-12">
+                        <div className="w-full text-lg my-1">
+                          Enter your Faculty
+                        </div>
+                        <div className=" mb-0 d-flex align-items-end">
+                          <Select
+                            name="faculty"
+                            placeholder="Select your Faculty"
+                            className="w-full rounded-5 text-lg clear-both"
+                            options={facultiesOptions}
+                            onChange={(e) => handleFacultySelectChange(e)}
+                          />
+                        </div>
                       </div>
-                      <div className="form-floating d-flex align-items-center">
-                        <input
-                          type="text"
-                          className="form-control rounded-5"
-                          value={register.departmentId}
-                          id="department"
-                          onChange={(e) =>
-                            setRegister({
-                              ...register,
-                              departmentId: e.target.value,
-                            })
-                          }
-                        />
-                        <label htmlFor="department">
-                          ENTER YOUR DEPARTMENT
-                        </label>
+                    </div></> : <></>}
+                  {register.facultyId && departmentsOptions ? <>
+                    <div className="row mt-3">
+                      <div className="col-12">
+                        <div className="w-full text-lg my-1">
+                          Enter your Department
+                        </div>
+                        <div className=" mb-0 d-flex align-items-end">
+                          <Select
+                            name="department"
+                            placeholder="Select your Department"
+                            className="w-full rounded-5 text-lg clear-both"
+                            options={departmentsOptions}
+                            onChange={(e) => handleDepartmentSelectChange(e)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    </div></> : <></>}
+
                 </div>
               </div>
 

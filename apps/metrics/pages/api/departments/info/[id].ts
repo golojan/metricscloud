@@ -1,3 +1,4 @@
+import { Gender, LecturerType } from "@metricsai/metrics-interfaces";
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
 import { ResponseFunctions } from '@metricsai/metrics-interfaces';
@@ -8,27 +9,25 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(400).json({ status: 0, error: error });
   const handleCase: ResponseFunctions = {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { departmentId } = req.query;
-
-      const { SchoolDepartments } = await dbCon();
-      const removed = await SchoolDepartments.findOneAndRemove({
-        _id: departmentId,
-      }).catch(catcher);
-      if (removed) {
-        res.status(200).json({
-          status: true,
-          ...removed,
-        });
-      } else {
-        res
-          .status(404)
-          .json({ status: false, err: 'Department deletion failed' });
-      }
-    },
-    GET: async (req: NextApiRequest, res: NextApiResponse) => {
       res
         .status(200)
-        .json({ status: false, err: 'Only POST Method is allowed' });
+        .json({ status: false, err: 'Only GET Method is allowed' });
+    },
+    GET: async (req: NextApiRequest, res: NextApiResponse) => {
+      const { id } = req.query;
+      const { Departments } = await dbCon();
+
+      const department = await Departments.findOne({
+        _id: id,
+      }).catch(catcher);
+      if (department) {
+        res.status(200).json({
+          status: true,
+          data: department,
+        });
+      } else {
+        res.status(400).json({ status: false, data: {} });
+      }
     },
   };
   const response = handleCase[method];

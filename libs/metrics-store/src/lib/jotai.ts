@@ -22,3 +22,4 @@ export const publicProfileAtom = atom<AuthUserInfo>({});
 export const totalWeightAtom = atom<number>(0);
 export const schoolSettingsAtom = atom<SchoolSettingsType>({});
 export const statistLecturersAtom = atom<GSRanking>({});
+export const schoolDepartmentsAtom = atom<DepartmentsInfo[]>([]);

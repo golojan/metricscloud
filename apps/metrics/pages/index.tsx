@@ -46,20 +46,14 @@ const Home: NextPage = () => {
   // use router
   const auth = hasAuth();
   const [page, setPage] = useAtom(pageAtom);
-  const [profile, setProfile] = useAtom(profileAtom);
-  const [schools, setSchools] = useAtom(schoolsAtom);
+  const [, setSchools] = useAtom(schoolsAtom);
 
   useEffect(() => {
     setPage('home');
     getSchools().then((res) => {
       setSchools(res);
     });
-    if (auth) {
-      ProfileInfo(cookie.get('username')).then((res) => {
-        setProfile(res);
-      });
-    }
-  }, []);
+  }, [page, setSchools, setPage]);
 
   return (
     <Layout>
@@ -73,7 +67,7 @@ const Home: NextPage = () => {
             </>
           ) : null}
           {auth ? <></> : <SearchBarLarge />}
-          <SlickSlider />
+          {/* <SlickSlider /> */}
           <div className="tab-content" id="pills-tabContent">
             {auth ? (
               <>

@@ -12,7 +12,7 @@ function Auth() {
 
   useEffect(() => {
     setPage('home');
-  }, []);
+  }, [page, setPage]);
 
   return (
     <Layout>

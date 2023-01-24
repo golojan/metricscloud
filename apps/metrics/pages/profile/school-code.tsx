@@ -130,7 +130,7 @@ const SchoolCode: NextPage = ({ token }: any) => {
                       <form onSubmit={updateSchoolInformation}>
                         <div className="col-12">
                           <label htmlFor="university">
-                            SELECT YOUR UNIVERSITY
+                            YOUR UNIVERSITY
                           </label>
                           <div className="my-2 d-flex align-items-end">
                             <Select

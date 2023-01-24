@@ -19,6 +19,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         gender,
         password,
         schoolId,
+        facultyId,
         departmentId,
         birthday,
       } = req.body;
@@ -40,6 +41,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         password: hashedPassword,
         schoolId: schoolId,
         departmentId: departmentId,
+        facultyId: facultyId,
         birthday: birthday,
       }).catch(catcher);
 

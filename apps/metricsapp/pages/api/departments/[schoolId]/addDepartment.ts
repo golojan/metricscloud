@@ -38,9 +38,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             departmentId: departmentId,
             departmentName: departmentName,
             departmentCode: departmentCode,
-            departmentDescription: departmentDescription
-              ? departmentDescription
-              : '',
+            departmentDescription: departmentDescription ? departmentDescription : '',
           }).catch(catcher);
           if (created) {
             res.status(200).json({
@@ -48,9 +46,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
               ...created,
             });
           } else {
-            res
-              .status(404)
-              .json({ status: false, err: 'Faculty creation failed' });
+            res.status(404).json({ status: false, err: 'Faculty creation failed' });
           }
         }
       } else {
@@ -68,9 +64,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             departmentId: created._id,
             departmentName: departmentName,
             departmentCode: departmentCode,
-            departmentDescription: departmentDescription
-              ? departmentDescription
-              : '',
+            departmentDescription: departmentDescription ? departmentDescription : '',
           }).catch(catcher);
           if (createdSchoolDepartment) {
             res.status(200).json({
@@ -78,17 +72,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
               ...createdSchoolDepartment,
             });
           } else {
-            res
-              .status(404)
-              .json({ status: false, err: 'Department creation failed' });
+            res.status(404).json({ status: false, err: 'Department creation failed' });
           }
         } else {
-          res
-
-            .status(404)
-            .json({ status: false, err: 'Department creation failed' });
+          res.status(404).json({ status: false, err: 'Department creation failed' });
         }
       }
+      
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       res

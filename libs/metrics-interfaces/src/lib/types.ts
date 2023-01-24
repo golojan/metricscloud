@@ -1,3 +1,4 @@
+import { faculties } from './../../../metrics-store/src/lib/models/faculties';
 import { ReactNode } from 'react';
 import { Gender, LecturerLevel, LecturerType, StudentType } from './enums';
 import { NextApiRequest, NextApiResponse } from 'next/types';
@@ -73,6 +74,7 @@ export interface UserSnippet {
 export interface AuthUserInfo {
   _id?: string;
   verified?: boolean;
+  facultyId: string;
   departmentId?: string;
   schoolId?: string;
   accountType?: string;
@@ -550,8 +552,10 @@ export type FacultiesInfo = {
   _id?: string;
   scoolId?: string;
   name?: string;
+  facultyName?: string;
   description?: string;
   shortname?: string;
+  facultyCode?: string;
   enabled?: boolean;
 };
 
@@ -560,8 +564,10 @@ export type DepartmentsInfo = {
   scoolId?: string;
   facultyId?: string;
   name?: string;
+  departmentName?: string;
   description?: string;
   shortname?: string;
+  departmentCode?: string;
   accredited?: boolean;
   enabled?: boolean;
 };

@@ -8,6 +8,7 @@ import {
   publicProfileAtom,
   schoolsAtom,
   tokenAtom,
+  schoolDepartmentsAtom
 } from '@metricsai/metrics-store';
 import { useAtom } from 'jotai';
 import { GSStatus, UserStatus } from './Status';
@@ -19,14 +20,23 @@ function ProfilePage() {
 
   const [token] = useAtom(tokenAtom);
 
-  const [profile, setProfile] = useAtom(publicProfileAtom);
+  const [profile] = useAtom(publicProfileAtom);
   const [schools] = useAtom(schoolsAtom);
+  const [departments] = useAtom(schoolDepartmentsAtom);
+
+
+  const DepartmentInfo = (departmentId: string) => {
+    const dept = departments.find((department) => department._id === departmentId);
+    return {
+      name: dept?.departmentName ? dept?.departmentName : 'No Department',
+      code: dept?.departmentCode ? dept?.departmentCode : 'No Code'
+    }
+  };
 
   const connectButtonRef: RefObject<HTMLInputElement> =
     useRef<HTMLInputElement>(null);
 
   // Set the connection on and off //
-  const [connections, setConnections] = useState(false);
   const [isMe, setIsMe] = useState(false);
 
   useEffect(() => {
@@ -35,7 +45,7 @@ function ProfilePage() {
         setIsMe(true);
       }
     }
-  }, [token]);
+  }, [token, profile._id, auth]);
 
   // const handleConnect = () => {
   //   const connectButton = connectButtonRef.current;
@@ -263,7 +273,7 @@ function ProfilePage() {
                   </div>
                   <div className="col-5">
                     <span className="text-muted">Department:</span>
-                    <p className="mb-0">{profile.departmentId}</p>
+                    <p className="mb-0">{DepartmentInfo(profile.departmentId).name} ({DepartmentInfo(profile.departmentId).code})</p>
                   </div>
                   <div className="col-2">
                     <span className="text-muted">State:</span>

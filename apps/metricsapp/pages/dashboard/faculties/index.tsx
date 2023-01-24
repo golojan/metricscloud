@@ -331,6 +331,7 @@ const Faculties: NextPage = () => {
                           <small>
                             Edit faculty details.
                             <hr className="my-2" />
+                            {faculty._id}
                           </small>
                         </h1>
                       </>

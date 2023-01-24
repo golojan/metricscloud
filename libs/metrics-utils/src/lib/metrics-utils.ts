@@ -368,6 +368,15 @@ export const loadDepartments = async (schoolId: string) => {
   return [];
 };
 
+export const loadSchoolDepartmentsByFacultyId = async (schoolId: string, facultyId: string) => {
+  const response = await fetch(`/api/departments/${schoolId}/${facultyId}/list`);
+  const departments = await response.json();
+  if (departments.status) {
+    return departments.data;
+  }
+  return [];
+};
+
 export const loadFacultyDepartments = async (
   schoolId: string,
   facultyId: string

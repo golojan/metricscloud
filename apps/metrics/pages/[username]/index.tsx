@@ -11,10 +11,12 @@ import {
   busyAtom,
   schoolsAtom,
   pageAtom,
+  schoolDepartmentsAtom
 } from '@metricsai/metrics-store';
 import { useAtom } from 'jotai';
 import { Virtuoso } from 'react-virtuoso';
 import PostFeed from '../../components/PostFeed';
+import { loadSchoolDepartmentsByFacultyId } from '@metricsai/metrics-utils';
 
 const ProfileInfo = async (username: string) => {
   const response = await fetch(`/api/${username}/profile`);
@@ -57,20 +59,28 @@ const Home: NextPage = () => {
   const [isScrolling, setIsScrolling] = useState(false);
   const [postFeeds, setPostFeeds] = useState<IPostFeed[]>([]);
 
+  const [, setDepartments] = useAtom(schoolDepartmentsAtom);
+
   useEffect(() => {
     setPage('metrics');
     setBusy(true);
+
     ProfileInfo(username as string).then((res) => {
       setPublicProfile(res);
     });
-    getSchools().then((res) => {
-      setSchools(res);
-    });
-    getPostFeeds(publicProfile?._id).then((res) => {
-      setPostFeeds(res);
-    });
+    if (publicProfile._id) {
+      loadSchoolDepartmentsByFacultyId(publicProfile.schoolId, publicProfile.facultyId).then((res) => {
+        setDepartments(res);
+      });
+      getSchools().then((res) => {
+        setSchools(res);
+      });
+      getPostFeeds(publicProfile?._id).then((res) => {
+        setPostFeeds(res);
+      });
+    }
     setBusy(false);
-  }, [busy]);
+  }, [busy, publicProfile._id, publicProfile.schoolId, publicProfile.facultyId, username, setDepartments, setSchools, setPostFeeds, setPublicProfile, setBusy, setPage]);
 
   return (
     <PublicLayout>

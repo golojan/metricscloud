@@ -22,6 +22,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             _id: account._id,
             verified: account.verified,
             schoolId: account.schoolId,
+            facultyId: account.facultyId,
             departmentId: account.departmentId,
             username: account.username,
             firstname: account.firstname,

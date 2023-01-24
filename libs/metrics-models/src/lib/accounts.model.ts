@@ -23,6 +23,9 @@ const accountsScheme = new mongoose.Schema(
     role: {
       type: String,
     },
+    facultyId: {
+      type: String,
+    },
     departmentId: {
       type: String,
     },

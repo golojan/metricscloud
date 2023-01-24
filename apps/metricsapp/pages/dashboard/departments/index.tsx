@@ -61,14 +61,18 @@ const Departments: NextPage = () => {
       setDepartments(res);
       setList(res);
     });
-    loadFacultyDepartments(schoolId, facultyId).then((fres) => {
+    if (facultyId) {
+      loadFacultyDepartments(schoolId, facultyId).then((fres) => {
       setSchoolDepartments(fres);
     });
+    }
+
   }, [done, schoolId, facultyId]);
+
 
   const getSchoolFacultyInfo = (facultyId: string) => {
     const faculty = schoolFaculties.find(
-      (faculty) => faculty.facultyId === facultyId
+      (faculty) => faculty._id === facultyId
     );
     return faculty;
   };
@@ -196,9 +200,9 @@ const Departments: NextPage = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            ...department,
-          }),
+          body: JSON.stringify(
+            department
+          ),
         }
       );
       const { status, data } = await result.json();
@@ -213,9 +217,9 @@ const Departments: NextPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...department,
-        }),
+        body: JSON.stringify(
+          department
+        ),
       });
       const { status, data } = await result.json();
       if (status) {
@@ -274,7 +278,6 @@ const Departments: NextPage = () => {
                     School Faculties <br />
                     <small>All registered faculties.</small>
                   </h1>
-
                   <Virtuoso
                     style={{ height: '400px' }}
                     totalCount={schoolFaculties.length}
@@ -286,13 +289,13 @@ const Departments: NextPage = () => {
                           key={index}
                         >
                           <Link
-                            className="float-right mx-2 btn btn-primary"
+                            className="float-right mx-2 btn btn-info"
                             href={`#`}
                             onClick={(e) =>
-                              doSetFaculty(e, schFaculty?.facultyId)
+                              doSetFaculty(e, schFaculty?._id)
                             }
                           >
-                            <FontAwesomeIcon className="" icon={faCheck} />
+                            <FontAwesomeIcon className="" icon={faSchoolCircleCheck} />
                           </Link>
                           <div className="flex justify-between">
                             <div className="flex">
@@ -392,8 +395,8 @@ const Departments: NextPage = () => {
                   <h1 className="mb-2">
                     School Departments <br />
                     <small>Registered departments.</small>
+                    <hr className='my-2' />
                   </h1>
-
                   <Virtuoso
                     style={{ height: '400px' }}
                     totalCount={schoolDepartments.length}
@@ -411,7 +414,7 @@ const Departments: NextPage = () => {
                               removeFromSchoolDepartments(
                                 e,
                                 schDepartment.facultyId,
-                                schDepartment.departmentId
+                                schDepartment._id
                               )
                             }
                           >
@@ -421,7 +424,7 @@ const Departments: NextPage = () => {
                             className="float-right mx-2 btn btn-primary"
                             href={`#`}
                             onClick={(e) =>
-                              updateDepartment(e, schDepartment?.departmentId)
+                              updateDepartment(e, schDepartment.departmentId)
                             }
                           >
                             <FontAwesomeIcon className="" icon={faEdit} />
