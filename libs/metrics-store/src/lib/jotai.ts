@@ -4,6 +4,7 @@ import {
   SchoolInfo,
   GSRanking,
   SchoolSettingsType,
+  DepartmentsInfo,
 } from '@metricsai/metrics-interfaces';
 
 const cookie = require('js-cookie');
@@ -16,8 +17,8 @@ export const busyAtom = atom<boolean>(false);
 
 export const tokenAtom = atom<string>(cookie.get('token') || '');
 
-export const profileAtom = atom<AuthUserInfo>({});
-export const publicProfileAtom = atom<AuthUserInfo>({});
+export const profileAtom = atom<AuthUserInfo>({} as AuthUserInfo);
+export const publicProfileAtom = atom<AuthUserInfo>({} as AuthUserInfo);
 
 export const totalWeightAtom = atom<number>(0);
 export const schoolSettingsAtom = atom<SchoolSettingsType>({});
