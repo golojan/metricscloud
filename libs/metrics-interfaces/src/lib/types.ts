@@ -74,7 +74,7 @@ export interface UserSnippet {
 export interface AuthUserInfo {
   _id?: string;
   verified?: boolean;
-  facultyId: string;
+  facultyId?: string;
   departmentId?: string;
   schoolId?: string;
   accountType?: string;
