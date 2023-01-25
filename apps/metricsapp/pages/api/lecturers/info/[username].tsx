@@ -16,13 +16,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       const { username } = req.query;
       const { Lecturers } = await dbCon();
       const lecturer = await Lecturers.findOne({ username: username });
+      console.log(lecturer);
       if (lecturer) {
         res.status(200).json({
           status: true,
           data: lecturer,
         });
       } else {
-        res.status(400).json({ status: false, error: 'No LEcturer Found' });
+        res.status(400).json({ status: false, error: 'No Lecturer Found' });
       }
     },
     POST: async (req: NextApiRequest, res: NextApiResponse) => {

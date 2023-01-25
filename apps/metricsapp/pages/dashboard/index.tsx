@@ -35,7 +35,7 @@ const Dashboard: NextPage = () => {
   const dispatch = useDispatch<Dispatch>();
 
   useEffect(() => {
-    loadSchoolsStats(schoolId).then((stats) => {
+    loadLecturersStats(schoolId).then((stats) => {
       dispatch.settings.setRank(stats);
     });
     loadLecturersStats(schoolId).then((stats) => {

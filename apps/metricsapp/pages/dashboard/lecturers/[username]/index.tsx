@@ -22,6 +22,7 @@ import { loadLecturers } from '@metricsai/metrics-utils';
 import ScholarRatingLarge from '../../../../components/ScholarRatingLarge';
 import ScholarRatingSmall from '../../../../components/ScholarRatingSmall';
 
+
 const Profile: NextPage = () => {
   const domain = cookie.get('domain');
   const router = useRouter();
@@ -32,6 +33,7 @@ const Profile: NextPage = () => {
   );
   const { departments } = useSelector((state: RootState) => state.departments);
   const [thisLecturer, setThisLecturer] = useState<AuthUserInfo>({} as AuthUserInfo);
+
   useEffect(() => {
     const getLecturer = async () => {
       const response = await fetch(`/api/lecturers/info/${username}`);
@@ -102,8 +104,10 @@ const Profile: NextPage = () => {
             <div className="wallet-card">
               <div className="balance row">
                 <div className="left">
+
                   {/* <ShowChartButton show={true} /> */}
                   <span className="title">Manage Lecturers</span>
+                  {JSON.stringify(thisLecturer)}
                   <h1 className="total">
                     {thisLecturer.lastname} {thisLecturer.firstname}{' '}
                     {thisLecturer.middlename}
@@ -254,7 +258,9 @@ const Profile: NextPage = () => {
                   </table>
                 </div>
               </div>
-              <div className={`col-12 col-md-12 col-lg-8 min-h-screen`}></div>
+              <div className={`col-12 col-md-12 col-lg-8 min-h-screen`}>
+
+              </div>
             </div>
           </div>
           <Copyright />
