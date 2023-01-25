@@ -110,24 +110,24 @@ const ReportLecturers: NextPage = () => {
             settings.i10hindexWeight
           ).rWeight,
           total: totalRanking(
-            citationByWeight(
+            Number(citationByWeight(
               user.citations,
               user.totalPublications,
               lecturers,
               settings.citationsWeight
-            ).rWeight,
-            hindexByWeight(
+            ).rWeight),
+            Number(hindexByWeight(
               user.hindex,
               user.firstPublicationYear,
               lecturers,
               settings.hindexWeight
-            ).rWeight,
-            i10indexByWeight(
+            ).rWeight),
+            Number(i10indexByWeight(
               user.i10hindex,
               user.firstPublicationYear,
               lecturers,
               settings.i10hindexWeight
-            ).rWeight
+            ).rWeight)
           )
         })));
         setWorking(false);
