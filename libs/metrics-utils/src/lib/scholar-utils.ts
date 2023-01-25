@@ -26,7 +26,7 @@ export const citationByWeight = (
   } else {
     const citationsPC = citations / totalPublications;
 
-    // citationWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? citationWeight : 100;
+    citationWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? citationWeight : 100;
 
     const maxCitations = addCitations(lecturers);
     const totalCitations = Math.max(...lecturers.map((o) => o.citations));
