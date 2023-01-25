@@ -23,7 +23,8 @@ import {
   citationByWeight,
   hindexByWeight,
   i10indexByWeight,
-  totalRanking
+  totalRanking,
+  loadLecturersRanking
 } from '@metricsai/metrics-utils';
 
 import useSWR from 'swr';
@@ -34,7 +35,7 @@ import {
   schoolSettingsAtom,
   statistLecturersAtom,
 } from '@metricsai/metrics-store';
-import AuthUserTable from '../../../../components/DataTables/AuthUserTable';
+import AuthUserPublication from '../../../../components/DataTables/AuthUserPublication';
 
 type lFilters = {
   male: boolean;
@@ -52,29 +53,13 @@ const ReportPublications: NextPage = () => {
   const [list, setList] = useState<AuthUserInfo[]>([]);
   const [listScholar, setListScholar] = useState<AuthUserInfo[]>([]);
 
-  const [schoolSettings, setSchoolSettings] = useAtom(schoolSettingsAtom);
-  const [statistLecturers, setStatistLecturers] = useAtom(statistLecturersAtom);
-
   // use SWR to fetch data from the API
   const { data: lecturers, isLoading } = useSWR(
     `/api/lecturers/${schoolId}/ranking`,
-    async () => await loadLecturers(schoolId)
+    async () => await loadLecturersRanking(schoolId)
   );
 
-  const {
-    data: settings,
-    isLoading: isLoadingSettings,
-    isValidating: isValidatingSettings,
-  } = useSWR<SchoolSettingsType>(
-    `/api/schools/${schoolId}/settings`,
-    async () => await getSchoolSettings(schoolId),
-    {
-      revalidateOnFocus: true,
-    }
-  );
-
-  const busy = working || isLoadingSettings ||
-    isValidatingSettings || isLoading;
+  const busy = working || isLoading;
 
   const [filter, setFilter] = useState<lFilters>({
     male: false,
@@ -86,50 +71,14 @@ const ReportPublications: NextPage = () => {
   useEffect(() => {
     if (lecturers && !busy) {
       setList(lecturers);
-      setSchoolSettings(settings);
       if (list) {
         setWorking(true);
         setListScholar(lecturers.map((user) => ({
           firstname: user.firstname,
           lastname: user.lastname,
-          citations: citationByWeight(
-            user.citations,
-            user.totalPublications,
-            lecturers,
-            settings.citationsWeight
-          ).rWeight,
-          hindex: hindexByWeight(
-            user.hindex,
-            user.firstPublicationYear,
-            lecturers,
-            settings.hindexWeight
-          ).rWeight,
-          i10hindex: i10indexByWeight(
-            user.i10hindex,
-            user.firstPublicationYear,
-            lecturers,
-            settings.i10hindexWeight
-          ).rWeight,
-          total: totalRanking(
-            Number(citationByWeight(
-              user.citations,
-              user.totalPublications,
-              lecturers,
-              settings.citationsWeight
-            ).rWeight),
-            Number(hindexByWeight(
-              user.hindex,
-              user.firstPublicationYear,
-              lecturers,
-              settings.hindexWeight
-            ).rWeight),
-            Number(i10indexByWeight(
-              user.i10hindex,
-              user.firstPublicationYear,
-              lecturers,
-              settings.i10hindexWeight
-            ).rWeight)
-          )
+          totalPublications: user.totalPublications,
+          firstPublicationYear: user.firstPublicationYear,
+          lastPublicationYear: user.lastPublicationYear,
         })));
         setWorking(false);
       }
@@ -153,7 +102,7 @@ const ReportPublications: NextPage = () => {
 
               <div className={`col-12 col-md-12 col-lg-12 min-h-screen`}>
                 {!busy ? (
-                  <AuthUserTable title='Lecturers' data={listScholar} loading={isLoading} />
+                  <AuthUserPublication title='Lecturers' data={listScholar} loading={isLoading} />
                 ) : (
                   <h1>Loading...</h1>
                 )}
