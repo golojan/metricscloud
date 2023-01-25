@@ -43,7 +43,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         },
         {
           $group: {
-            _id: '$_id',
             citations: { $sum: '$citations' },
             hindex: { $sum: '$hindex' },
             i10hindex: { $sum: '$i10hindex' },
@@ -63,11 +62,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
               $sum: {
                 $cond: [
                   {
-                    $or: [
-                      { $gt: ['$citations', 0] },
-                      { $gt: ['$hindex', 0] },
-                      { $gt: ['$i10hindex', 0] },
-                    ],
+                    $or: [{ $gt: ['$citations', 0] }, { $gt: ['$hindex', 0] }, { $gt: ['$i10hindex', 0] }],
                   },
                   1,
                   0,
@@ -78,11 +73,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
               $sum: {
                 $cond: [
                   {
-                    $and: [
-                      { $eq: ['$citations', 0] },
-                      { $eq: ['$hindex', 0] },
-                      { $eq: ['$i10hindex', 0] },
-                    ],
+                    $and: [{ $eq: ['$citations', 0] }, { $eq: ['$hindex', 0] }, { $eq: ['$i10hindex', 0] }],
                   },
                   1,
                   0,
@@ -91,20 +82,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             },
             internationalStaff: {
               $sum: {
-                $cond: [
-                  { $eq: ['$membershipType', MembershipTypes.INTERNATIONAL] },
-                  1,
-                  0,
-                ],
+                $cond: [{ $eq: ['$membershipType', MembershipTypes.INTERNATIONAL] }, 1, 0],
               },
             },
             localStaff: {
               $sum: {
-                $cond: [
-                  { $eq: ['$membershipType', MembershipTypes.LOCAL] },
-                  1,
-                  0,
-                ],
+                $cond: [{ $eq: ['$membershipType', MembershipTypes.LOCAL] }, 1, 0],
               },
             },
           },

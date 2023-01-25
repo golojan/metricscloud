@@ -59,62 +59,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       ]);
 
-      // const lecturers = await Accounts.aggregate([
-      //   {
-      //     $match: {
-      //       schoolId: schoolId,
-      //       accountType: AccountTypes.LECTURER,
-      //     },
-      //   },
-      //   {
-      //     $project: {
-      //       username: 1,
-      //       email: 1,
-      //       mobile: 1,
-      //       firstname: 1,
-      //       lastname: 1,
-      //       citations: 1,
-      //       hindex: 1,
-      //       i10hindex: 1,
-      //       googlePresence: 1,
-      //       totalPublications: 1,
-      //       firstPublicationyear: {
-      //         $cond: {
-      //           if: { $ifNull: ['$firstPublicationYear', 0] },
-      //           then: 1,
-      //           else: '$firstPublicationYear',
-      //         },
-      //       },
-      //       lastPublicationYear: 1,
-      //       currentYear: { $year: new Date() },
-
-      //       // hindexPerCapita: {
-      //       //   $divide: [
-      //       //     '$hindex',
-      //       //     { $subtract: ['$currentYear', '$firstPublicationYear'] },
-      //       //   ],
-      //       // },
-      //       // i10hindexPerCapita: {
-      //       //   $divide: [
-      //       //     '$i10hindex',
-      //       //     { $subtract: ['$currentYear', '$firstPublicationYear'] },
-      //       //   ],
-      //       // },
-      //     },
-      //   },
-      // ]).catch(catcher);
-
-      console.log(lecturers);
-
-      if (lecturers) {
-        res.status(200).json({
-          status: true,
-        });
-      } else {
-        return res
-          .status(400)
-          .json({ status: false, error: 'No Statistics returned' });
-      }
+    if (lecturers) {
+      res.status(200).json({
+        status: true,
+        data: lecturers,
+      });
+    } else {
+      return res.status(400).json({ status: false, error: 'No Statistics returned' });
+    }
     },
   };
   const response = handleCase[method];
