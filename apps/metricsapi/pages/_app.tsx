@@ -4,7 +4,7 @@ import Head from 'next/head';
 function CustomApp({ Component, pageProps }: AppProps) {
   return <>
     <Head>
-        <title>api.metrics.ng</title>
+      <title>[api].metrics.ng</title>
     </Head>
     <Component {...pageProps} />
   </>;
