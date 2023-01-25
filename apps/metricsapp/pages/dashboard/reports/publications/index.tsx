@@ -81,7 +81,8 @@ const ReportPublications: NextPage = () => {
           lastPublicationYear: user.lastPublicationYear,
           coAuthors: () => {
             const { articles } = user.publications;
-            return 0;
+            const authors = articles?.author?.name.flatMap(obj => obj.authors.split(','));
+            return authors[0];
           }
         })));
         setWorking(false);
