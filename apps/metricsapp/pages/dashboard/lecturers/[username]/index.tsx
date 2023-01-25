@@ -25,7 +25,7 @@ import ScholarRatingSmall from '../../../../components/ScholarRatingSmall';
 const Profile: NextPage = () => {
   const domain = cookie.get('domain');
   const router = useRouter();
-  const { id } = router.query;
+  const { username } = router.query;
   const dispatch = useDispatch<Dispatch>();
   const { lecturersCount, lecturers, list, lecturerId } = useSelector(
     (state: RootState) => state.lecturers
@@ -43,7 +43,7 @@ const Profile: NextPage = () => {
         setThisLecturer(data);
       })
       .catch((err: Error) => console.log(err));
-  }, [id]);
+  }, [username]);
 
   const [ranking, setRanking] = useState<GSRanking>({
     scrap: false,

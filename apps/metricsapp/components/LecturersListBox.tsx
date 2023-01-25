@@ -118,7 +118,7 @@ const LecturersListBox = ({ lecturers }: ScholarsProps) => {
                 </strong>
               </div>
               <h4 className="h3 my-1">
-                <Link href={`/dashboard/lecturers/${lecturer._id}/profile`}>
+                <Link href={`/dashboard/lecturers/${lecturer.username}/`}>
                   <strong className="text-green-700">
                     {lecturer.lastname}
                   </strong>

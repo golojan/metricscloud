@@ -33,7 +33,6 @@ import AppDashBoardTopMenuScores from '../../serverlets/AppDashBoardTopMenuScore
 const Dashboard: NextPage = () => {
   const schoolId = authSchoolId();
   const dispatch = useDispatch<Dispatch>();
-  const [ranking, setRanking] = React.useState<SchoolStats>(null);
 
   useEffect(() => {
     loadSchoolsStats(schoolId).then((stats) => {
@@ -47,7 +46,6 @@ const Dashboard: NextPage = () => {
     });
   }, [
     schoolId,
-    setRanking,
     dispatch.settings,
     dispatch.lecturers,
     dispatch.students,
