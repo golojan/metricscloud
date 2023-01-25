@@ -34,7 +34,7 @@ const Profile: NextPage = () => {
   const [thisLecturer, setThisLecturer] = useState<AuthUserInfo>({} as AuthUserInfo);
   useEffect(() => {
     const getLecturer = async () => {
-      const response = await fetch(`/api/lecturers/info/${id}`);
+      const response = await fetch(`/api/lecturers/info/${username}`);
       const { status, data } = await response.json();
       return status ? data : {};
     };

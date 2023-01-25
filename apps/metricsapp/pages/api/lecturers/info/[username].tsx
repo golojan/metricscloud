@@ -1,7 +1,7 @@
 import {
   Gender,
   LecturerLevel,
-  LecturerType,ResponseFunctions
+  LecturerType, ResponseFunctions
 } from '@metricsai/metrics-interfaces';
 
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -13,9 +13,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(400).json({ status: 0, error: error });
   const handleCase: ResponseFunctions = {
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { id } = req.query;
+      const { username } = req.query;
       const { Lecturers } = await dbCon();
-      const lecturer = await Lecturers.findOne({ _id: id });
+      const lecturer = await Lecturers.findOne({ username: username });
       if (lecturer) {
         res.status(200).json({
           status: true,

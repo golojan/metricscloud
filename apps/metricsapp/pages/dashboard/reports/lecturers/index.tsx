@@ -171,7 +171,7 @@ const ReportLecturers: NextPage = () => {
           </div>
           <div className="section pt-1">
             <div className="row ">
-              <div className="col-12 col-md-12 col-lg-3 fa-border">
+              <div className="col-12 col-md-12 col-lg-3">
                 <div className="card-box border-0">
                   <ul className="listview image-listview text border-0  no-line">
                     <li className="flex-auto">
