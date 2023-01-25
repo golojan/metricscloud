@@ -204,25 +204,9 @@ export interface IHistory {
   adminId?: string;
 }
 export type GSIRanking = {
-  id: string;
-  name: string;
-  citations: number;
-  hindex: number;
-  i10hindex: number;
-  total: number;
-};
-
-export type USERGSIRanking = {
   id?: string;
   username?: string;
   name?: string;
-  citations?: number;
-  hindex?: number;
-  i10hindex?: number;
-  total?: number;
-};
-
-export type GSRanking = {
   canScrap?: boolean;
   accountId?: string;
   googleScholarId?: string;
@@ -261,7 +245,123 @@ export type GSRanking = {
   perCapitaAllCitations?: number;
   perCapitaAllHindex?: number;
   perCapitaAllI10hindex?: number;
+  total: number;
+  publications?: [];
+  searchMetadata?: object;
+  authorMetadata?: {
+    name: string;
+    affiliations: string;
+    email: string;
+    interests: {
+      title: string;
+      link: string;
+      serpapi_link: string;
+    }[];
+    thumbnail: string;
+  };
+};
 
+export type USERGSIRanking = {
+  id?: string;
+  username?: string;
+  name?: string;
+  canScrap?: boolean;
+  accountId?: string;
+  googleScholarId?: string;
+  scrap?: boolean;
+  scrapper?: string;
+  googlePresence?: number;
+  citations?: number;
+  hindex?: number;
+  i10hindex?: number;
+  totalPublications?: number;
+  firstPublicationYear?: number;
+  lastPublicationYear?: number;
+  highestCitations?: number;
+  highestHindex?: number;
+  highestI10hindex?: number;
+  highestTotalPublications?: number;
+  highestFirstPublicationYear?: number;
+  highestLastPublicationYear?: number;
+  lowestCitations?: number;
+  lowestHindex?: number;
+  lowestI10hindex?: number;
+  lowestTotalPublications?: number;
+  lowestFirstPublicationYear?: number;
+  lowestLastPublicationYear?: number;
+  averageCitations?: number;
+  averageHindex?: number;
+  averageI10hindex?: number;
+  averageTotalPublications?: number;
+  totalStaff?: number;
+  totalGooglePresence?: number;
+  totalStaffWithOutGooglePresence?: number;
+  totalStaffWithGooglePresence?: number;
+  internationalStaff?: number;
+  localStaff?: number;
+  totalInternationalColaborations?: number;
+  perCapitaAllCitations?: number;
+  perCapitaAllHindex?: number;
+  perCapitaAllI10hindex?: number;
+  total: number;
+  publications?: [];
+  searchMetadata?: object;
+  authorMetadata?: {
+    name: string;
+    affiliations: string;
+    email: string;
+    interests: {
+      title: string;
+      link: string;
+      serpapi_link: string;
+    }[];
+    thumbnail: string;
+  };
+};
+
+export type GSRanking = {
+  id?: string;
+  username?: string;
+  name?: string;
+  canScrap?: boolean;
+  accountId?: string;
+  googleScholarId?: string;
+  scrap?: boolean;
+  scrapper?: string;
+  googlePresence?: number;
+  citations?: number;
+  hindex?: number;
+  i10hindex?: number;
+  totalPublications?: number;
+  firstPublicationYear?: number;
+  lastPublicationYear?: number;
+  highestCitations?: number;
+  highestHindex?: number;
+  highestI10hindex?: number;
+  highestTotalPublications?: number;
+  highestFirstPublicationYear?: number;
+  highestLastPublicationYear?: number;
+  lowestCitations?: number;
+  lowestHindex?: number;
+  lowestI10hindex?: number;
+  lowestTotalPublications?: number;
+  lowestFirstPublicationYear?: number;
+  lowestLastPublicationYear?: number;
+  averageCitations?: number;
+  averageHindex?: number;
+  averageI10hindex?: number;
+  averageTotalPublications?: number;
+  totalStaff?: number;
+  totalGooglePresence?: number;
+  totalStaffWithOutGooglePresence?: number;
+  totalStaffWithGooglePresence?: number;
+  internationalStaff?: number;
+  localStaff?: number;
+  totalInternationalColaborations?: number;
+  perCapitaAllCitations?: number;
+  perCapitaAllHindex?: number;
+  perCapitaAllI10hindex?: number;
+  total: number;
   publications?: [];
   searchMetadata?: object;
   authorMetadata?: {

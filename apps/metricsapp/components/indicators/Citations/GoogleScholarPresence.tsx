@@ -1,17 +1,16 @@
 import { faAreaChart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SchoolRank } from '@metricsai/metrics-interfaces';
+import { GSIRanking, SchoolRank } from '@metricsai/metrics-interfaces';
 import React from 'react';
 import ShowChartButton from '../../ShowChartButton';
-import { perc } from '@metricsai/metrics-utils';
+import { addCitations, addGooglePresence, loadLecturersRanking, perc } from '@metricsai/metrics-utils';
+import useSWR from 'swr';
+import { authSchoolId } from '@metricsai/metrics-hocs';
 
-interface IProps {
-  ranking: SchoolRank;
-}
-
-const GoogleScholarPresence = (props: IProps) => {
-  const { ranking } = props;
-
+const GoogleScholarPresence = () => {
+  const schoolId = authSchoolId();
+  const { data: lecturers, error, isLoading } = useSWR<GSIRanking[]>(`/api/lecturers/${schoolId}/ranking`, () => loadLecturersRanking(schoolId));
+  const tTotal = addGooglePresence(lecturers);
   return (
     <>
       {/*  */}
@@ -23,15 +22,15 @@ const GoogleScholarPresence = (props: IProps) => {
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {perc(ranking.totalStaffWithGooglePresence, ranking.totalStaff)}%
+            {isLoading ? '...' : tTotal}%
           </h1>
           <em className="absolute bottom-0 right-5">
             <strong className="text-green-600 small">
-              {perc(ranking.totalStaffWithGooglePresence, ranking.totalStaff)}
+              {isLoading ? '...' : tTotal}%
             </strong>
             {'% '}
             of <strong className="text-green-600">
-              {ranking.totalStaff}
+              {isLoading ? '...' : lecturers.length}
             </strong>{' '}
             staff are Google Scholar
           </em>

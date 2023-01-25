@@ -1,16 +1,20 @@
 import { faAreaChart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SchoolRank } from '@metricsai/metrics-interfaces';
 import React from 'react';
 import ShowChartButton from '../../ShowChartButton';
-import { divide } from '@metricsai/metrics-utils';
+import { addHindex, loadLecturersRanking } from '@metricsai/metrics-utils';
+import { authSchoolId } from '@metricsai/metrics-hocs';
+import { GSIRanking } from '@metricsai/metrics-interfaces';
 
-interface IProps {
-  ranking: SchoolRank;
-}
+import useSWR from 'swr';
 
-const PerCapitaHindex = (props: IProps) => {
-  const { ranking } = props;
+
+const PerCapitaHindex = () => {
+
+  const schoolId = authSchoolId();
+  const { data: lecturers, error, isLoading } = useSWR<GSIRanking[]>(`/api/lecturers/${schoolId}/ranking`, () => loadLecturersRanking(schoolId));
+  const tTotal = addHindex(lecturers);
+
   return (
     <>
       {/*  */}
@@ -22,12 +26,12 @@ const PerCapitaHindex = (props: IProps) => {
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {divide(ranking.hindex, ranking.totalStaff)}
+            {isLoading ? '...' : tTotal}
           </h1>
           <em className="absolute bottom-0 right-5">
-            Total <strong className="text-green-600">{ranking.hindex}</strong>{' '}
+            Total <strong className="text-green-600">{isLoading ? '...' : tTotal}</strong>{' '}
             H-Index by{' '}
-            <strong className="text-green-600">{ranking.totalStaff}</strong>{' '}
+            <strong className="text-green-600">{isLoading ? '...' : lecturers.length}</strong>{' '}
             staff
           </em>
         </div>

@@ -1,3 +1,5 @@
+import { perc } from '@metricsai/metrics-utils';
+import { GSIRanking } from '@metricsai/metrics-interfaces';
 
 const CALCULATE_SCHOLAR_METRICS_BY_WEIGHT = false;
 
@@ -6,7 +8,7 @@ export const citationByWeight = (
   totalPublications: number,
   highestCitations: number,
   highestTotalPublications: number,
-  citationWeight: number
+  citationWeight: number,
 ) => {
   if (
     citations === 0 ||
@@ -25,8 +27,8 @@ export const citationByWeight = (
     // this rHWeight eqivalent and now equals to citationWeight in reference
     // and will be used to compute the wieght of other citations and totalPublications
     const Weight = citations / totalPublications;
-    citationWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? citationWeight:100;
-    const rWeight = (Weight/ rHweight) * citationWeight ;
+    citationWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? citationWeight : 100;
+    const rWeight = (Weight / rHweight) * citationWeight;
     return {
       Weight: Weight,
       rWeight: rWeight,
@@ -39,7 +41,7 @@ export const hindexByWeight = (
   firstPublicationYear: number,
   highestHindex: number,
   highestFirstPublicationYear: number,
-  hindexWeight: number
+  hindexWeight: number,
 ) => {
   if (
     hindex === 0 ||
@@ -59,8 +61,8 @@ export const hindexByWeight = (
     const rHweight = highestHindex / rHyearDiff;
     const Weight = hindex / yearDiff;
 
-    hindexWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? hindexWeight:100;
-    const rWeight = (Weight /rHweight) * hindexWeight;
+    hindexWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? hindexWeight : 100;
+    const rWeight = (Weight / rHweight) * hindexWeight;
     return {
       Weight: Weight,
       rWeight: rWeight,
@@ -73,7 +75,7 @@ export const i10indexByWeight = (
   firstPublicationYear: number,
   highestI10index: number,
   highestFirstPublicationYear: number,
-  i10indexWeight: number
+  i10indexWeight: number,
 ) => {
   if (
     i10index === 0 ||
@@ -98,17 +100,38 @@ export const i10indexByWeight = (
     // weight for this user
     const Weight = i10index / yearDiff;
 
-    i10indexWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? i10indexWeight:100;
+    i10indexWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? i10indexWeight : 100;
     const rWeight = (Weight / rHweight) * i10indexWeight;
     return {
       Weight: Weight,
       rWeight: rWeight,
-
     };
   }
 };
 
+export const addCitations = (arr: Array<GSIRanking>): number => {
+  return arr?.reduce((acc, obj) => Number(acc) + Number(obj.citations), 0);
+};
+export const addHindex = (arr: Array<GSIRanking>): number => {
+  return arr?.reduce((acc, obj) => Number(acc) + Number(obj.hindex), 0);
+};
+export const addI10index = (arr: Array<GSIRanking>): number => {
+  return arr?.reduce((acc, obj) => Number(acc) + Number(obj.i10hindex), 0);
+};
 
+export const addGooglePresence = (arr: Array<GSIRanking>): number => {
+  const total = arr?.reduce((acc, obj) => Number(acc) + Number(obj.googlePresence), 0);
+  const percT = perc(total, arr?.length);
+  return Number(percT);
+};
+
+export const addTotal = (arr: Array<GSIRanking>): number => {
+  const cit = arr?.reduce((acc, obj) => Number(acc) + Number(obj.citations), 0);
+  const hin = arr?.reduce((acc, obj) => Number(acc) + Number(obj.hindex), 0);
+  const i10 = arr?.reduce((acc, obj) => Number(acc) + Number(obj.i10hindex), 0);
+  const total = ((cit + hin + i10) / 3).toFixed(0);
+  return Number(total);
+};
 
 export const totalRanking = (citation: number, hindex: number, i10index: number) => {
   if (citation === 0 || hindex === 0 || i10index === 0) {
