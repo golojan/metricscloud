@@ -28,7 +28,6 @@ import {
 import useSWR from 'swr';
 import AppDashBoardTopMenuScores from '../../../../serverlets/AppDashBoardTopMenuScores';
 import AppDashboardTopMenu from '../../../../serverlets/AppDashboardTopMenu';
-import LecturersDataTable from '../../../../components/DataTables/LecturersDataTable';
 import { useAtom } from 'jotai';
 import {
   schoolSettingsAtom,
@@ -57,7 +56,7 @@ const ReportLecturers: NextPage = () => {
 
   // use SWR to fetch data from the API
   const { data: lecturers, isLoading } = useSWR(
-    `/api/lecturers/${schoolId}/list`,
+    `/api/lecturers/${schoolId}/ranking`,
     async () => await loadLecturers(schoolId)
   );
 
@@ -73,22 +72,8 @@ const ReportLecturers: NextPage = () => {
     }
   );
 
-  const {
-    data: statistics_lecturers,
-    isLoading: isLoadingStatisticsLecturers,
-    isValidating: isValidatingStatisticsLecturers,
-  } = useSWR<GSRanking>(
-    `/api/lecturers/${schoolId}/stats`,
-    async () => await loadLecturersStats(schoolId),
-    {
-      revalidateOnFocus: true,
-    }
-  );
-
   const busy = working || isLoadingSettings ||
-    isValidatingSettings ||
-    isLoadingStatisticsLecturers ||
-    isValidatingStatisticsLecturers;
+    isValidatingSettings || isLoading;  
 
   const [filter, setFilter] = useState<lFilters>({
     male: false,
@@ -101,7 +86,6 @@ const ReportLecturers: NextPage = () => {
     if (lecturers && !busy) {
       setList(lecturers);
       setSchoolSettings(settings);
-      setStatistLecturers(statistics_lecturers);
       if (list) {
         setWorking(true);
         setListScholar(lecturers.map((user) => ({
@@ -110,44 +94,38 @@ const ReportLecturers: NextPage = () => {
           citations: citationByWeight(
             user.citations,
             user.totalPublications,
-            statistics_lecturers.highestCitations,
-            statistics_lecturers.highestTotalPublications,
+            lecturers,
             settings.citationsWeight
           ).rWeight,
           hindex: hindexByWeight(
             user.hindex,
             user.firstPublicationYear,
-            statistics_lecturers.highestHindex,
-            statistics_lecturers.firstPublicationYear,
+            lecturers,
             settings.hindexWeight
           ).rWeight,
           i10hindex: i10indexByWeight(
             user.i10hindex,
             user.firstPublicationYear,
-            statistics_lecturers.highestI10hindex,
-            statistics_lecturers.firstPublicationYear,
+            lecturers,
             settings.i10hindexWeight
           ).rWeight,
           total: totalRanking(
             citationByWeight(
               user.citations,
               user.totalPublications,
-              statistics_lecturers.highestCitations,
-              statistics_lecturers.highestTotalPublications,
+              lecturers,
               settings.citationsWeight
             ).rWeight,
             hindexByWeight(
               user.hindex,
               user.firstPublicationYear,
-              statistics_lecturers.highestHindex,
-              statistics_lecturers.firstPublicationYear,
+              lecturers,
               settings.hindexWeight
             ).rWeight,
             i10indexByWeight(
               user.i10hindex,
               user.firstPublicationYear,
-              statistics_lecturers.highestI10hindex,
-              statistics_lecturers.firstPublicationYear,
+              lecturers,
               settings.i10hindexWeight
             ).rWeight
           )
@@ -283,7 +261,6 @@ const ReportLecturers: NextPage = () => {
               <div className={`col-12 col-md-12 col-lg-9 min-h-screen`}>
                 {!busy ? (
                   <AuthUserTable title='Lecturers' data={listScholar} loading={isLoading} />
-                  // <LecturersDataTable lecturers={list} loading={isLoading} />
                 ) : (
                   <h1>Loading...</h1>
                 )}

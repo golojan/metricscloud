@@ -207,6 +207,8 @@ export type GSIRanking = {
   id?: string;
   username?: string;
   name?: string;
+  firstname?: string;
+  lastname?: string;
   canScrap?: boolean;
   accountId?: string;
   googleScholarId?: string;
@@ -245,7 +247,7 @@ export type GSIRanking = {
   perCapitaAllCitations?: number;
   perCapitaAllHindex?: number;
   perCapitaAllI10hindex?: number;
-  total: number;
+  total?: number;
   publications?: [];
   searchMetadata?: object;
   authorMetadata?: {

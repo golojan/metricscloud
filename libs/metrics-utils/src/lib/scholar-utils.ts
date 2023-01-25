@@ -1,28 +1,32 @@
+import { lecturers } from './../../../metrics-store/src/lib/models/lecturers';
 import { perc } from '@metricsai/metrics-utils';
-import { GSIRanking } from '@metricsai/metrics-interfaces';
+import { GSIRanking, AuthUserInfo } from '@metricsai/metrics-interfaces';
 
 const CALCULATE_SCHOLAR_METRICS_BY_WEIGHT = false;
+
+export const minFirstPublicationYear = (arr: Array<GSIRanking>): number => {
+  return Number(arr.reduce((acc, obj) => Math.min(acc, obj.firstPublicationYear), 0));
+};
+
+export const maxFirstPublicationYear = (arr: Array<GSIRanking>): number => {
+  return Number(arr.reduce((acc, obj) => Math.max(acc, obj.firstPublicationYear), 0));
+};
 
 export const citationByWeight = (
   citations: number,
   totalPublications: number,
-  highestCitations: number,
-  highestTotalPublications: number,
+  lecturers: Array<AuthUserInfo>,
   citationWeight: number,
 ) => {
-  if (
-    citations === 0 ||
-    totalPublications === 0 ||
-    highestCitations === 0 ||
-    highestTotalPublications === 0 ||
-    citationWeight === 0
-  ) {
+  if (citations === 0 || totalPublications === 0 || citationWeight === 0) {
     return {
       Weight: 0,
       rWeight: 0,
     };
   } else {
     // get the PCC of the highest person
+    const highestTotalPublications = Math.max(...lecturers.map((o) => o.totalPublications));
+    const highestCitations = Math.max(...lecturers.map((o) => o.citations));
     const rHweight = highestCitations / highestTotalPublications;
     // this rHWeight eqivalent and now equals to citationWeight in reference
     // and will be used to compute the wieght of other citations and totalPublications
@@ -39,26 +43,26 @@ export const citationByWeight = (
 export const hindexByWeight = (
   hindex: number,
   firstPublicationYear: number,
-  highestHindex: number,
-  highestFirstPublicationYear: number,
+  lecturers: Array<AuthUserInfo>,
   hindexWeight: number,
 ) => {
-  if (
-    hindex === 0 ||
-    firstPublicationYear === 0 ||
-    highestHindex === 0 ||
-    highestFirstPublicationYear === 0 ||
-    hindexWeight === 0
-  ) {
+  if (hindex === 0 || firstPublicationYear === 0 || hindexWeight === 0) {
     return {
       Weight: 0,
       rWeight: 0,
     };
   } else {
+    // current year
     const year: number = new Date().getFullYear();
+    // diff in first pub year for leading user
+    const highestFirstPublicationYear = Math.min(...lecturers.map((o) => o.firstPublicationYear));
     const rHyearDiff: number = year - highestFirstPublicationYear;
+    // diff in first pub year for this user
     const yearDiff: number = year - firstPublicationYear;
+    // weight for the leading user
+    const highestHindex = Math.max(...lecturers.map((o) => o.hindex));
     const rHweight = highestHindex / rHyearDiff;
+    // weight for this user
     const Weight = hindex / yearDiff;
 
     hindexWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? hindexWeight : 100;
@@ -73,17 +77,10 @@ export const hindexByWeight = (
 export const i10indexByWeight = (
   i10index: number,
   firstPublicationYear: number,
-  highestI10index: number,
-  highestFirstPublicationYear: number,
+  lecturers: Array<AuthUserInfo>,
   i10indexWeight: number,
 ) => {
-  if (
-    i10index === 0 ||
-    firstPublicationYear === 0 ||
-    highestI10index === 0 ||
-    highestFirstPublicationYear === 0 ||
-    i10indexWeight === 0
-  ) {
+  if (i10index === 0 || firstPublicationYear === 0 || i10indexWeight === 0) {
     return {
       Weight: 0,
       rWeight: 0,
@@ -92,10 +89,12 @@ export const i10indexByWeight = (
     // current year
     const year: number = new Date().getFullYear();
     // diff in first pub year for leading user
+    const highestFirstPublicationYear = Math.min(...lecturers.map((o) => o.firstPublicationYear));
     const rHyearDiff: number = year - highestFirstPublicationYear;
     // diff in first pub year for this user
     const yearDiff: number = year - firstPublicationYear;
     // weight for the leading user
+    const highestI10index = Math.max(...lecturers.map((o) => o.i10hindex));
     const rHweight = highestI10index / rHyearDiff;
     // weight for this user
     const Weight = i10index / yearDiff;
@@ -118,19 +117,21 @@ export const addHindex = (arr: Array<GSIRanking>): number => {
 export const addI10index = (arr: Array<GSIRanking>): number => {
   return arr?.reduce((acc, obj) => Number(acc) + Number(obj.i10hindex), 0);
 };
-
 export const addGooglePresence = (arr: Array<GSIRanking>): number => {
   const total = arr?.reduce((acc, obj) => Number(acc) + Number(obj.googlePresence), 0);
   const percT = perc(total, arr?.length);
   return Number(percT);
 };
-
 export const addTotal = (arr: Array<GSIRanking>): number => {
   const cit = arr?.reduce((acc, obj) => Number(acc) + Number(obj.citations), 0);
   const hin = arr?.reduce((acc, obj) => Number(acc) + Number(obj.hindex), 0);
   const i10 = arr?.reduce((acc, obj) => Number(acc) + Number(obj.i10hindex), 0);
   const total = ((cit + hin + i10) / 3).toFixed(0);
   return Number(total);
+};
+
+export const addTotalPublications = (arr: Array<GSIRanking>): number => {
+  return arr?.reduce((acc, obj) => Number(acc) + Number(obj.totalPublications), 0);
 };
 
 export const totalRanking = (citation: number, hindex: number, i10index: number) => {
