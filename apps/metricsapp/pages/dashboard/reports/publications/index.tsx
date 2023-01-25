@@ -79,6 +79,10 @@ const ReportPublications: NextPage = () => {
           totalPublications: user.totalPublications,
           firstPublicationYear: user.firstPublicationYear,
           lastPublicationYear: user.lastPublicationYear,
+          coAuthors: () => {
+            const { articles } = user.publications;
+            return 0;
+          }
         })));
         setWorking(false);
       }

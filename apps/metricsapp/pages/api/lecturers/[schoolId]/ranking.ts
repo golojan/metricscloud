@@ -58,6 +58,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             firstPublicationYear: 1,
             lastPublicationYear: 1,
             totalPublications: 1,
+            searchMetadata: 1,
           },
         },
       ]);

@@ -29,10 +29,10 @@ const SchoolRanking = (props: SRProps) => {
     <>
       <div className="section mb-10">
         <div className="row mt-2">
-          <PerCapitaAllCitations ranking={ranking} />
-          <PerCapitaHindex ranking={ranking} />
-          <PerCapitaI10Index ranking={ranking} />
-          <GoogleScholarPresence ranking={ranking} />
+          <PerCapitaAllCitations />
+          <PerCapitaHindex />
+          <PerCapitaI10Index />
+          <GoogleScholarPresence />
           <InternationalStaff />
           <InternationalStudents />
           <InternationalColaborations ranking={ranking} />

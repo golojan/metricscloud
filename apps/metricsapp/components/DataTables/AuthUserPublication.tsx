@@ -73,6 +73,7 @@ const AuthUserPublication = (props: Props) => {
     { title: 'Publications', field: 'totalPublications' },
     { title: 'First Published', field: 'firstPublicationYear' },
     { title: 'Last Published', field: 'lastPublicationYear' },
+    { title: 'All Co-Authors', field: 'coAuthors' },
   ];
   return (
     <MaterialTable
