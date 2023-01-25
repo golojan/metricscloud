@@ -74,6 +74,7 @@ const AuthUserTable = (props: Props) => {
     { title: 'Citations', field: 'citations' },
     { title: 'H-intex', field: 'hindex' },
     { title: 'i10-H-intex', field: 'i10hindex' },
+    { title: 'Total', field: 'total' },
   ];
   return (
     <MaterialTable

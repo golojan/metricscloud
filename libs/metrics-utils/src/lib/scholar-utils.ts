@@ -107,3 +107,14 @@ export const i10indexByWeight = (
     };
   }
 };
+
+
+
+export const totalRanking = (citation: number, hindex: number, i10index: number) => {
+  if (citation === 0 || hindex === 0 || i10index === 0) {
+    return 0.0;
+  } else {
+    const total = (citation + hindex + i10index) / 3;
+    return total.toFixed(0);
+  }
+};

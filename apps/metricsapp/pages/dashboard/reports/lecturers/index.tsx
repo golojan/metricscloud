@@ -22,6 +22,7 @@ import {
   citationByWeight,
   hindexByWeight,
   i10indexByWeight,
+  totalRanking
 } from '@metricsai/metrics-utils';
 
 import useSWR from 'swr';
@@ -126,7 +127,30 @@ const ReportLecturers: NextPage = () => {
             statistics_lecturers.highestI10hindex,
             statistics_lecturers.firstPublicationYear,
             settings.i10hindexWeight
-          ).rWeight
+          ).rWeight,
+          total: totalRanking(
+            citationByWeight(
+              user.citations,
+              user.totalPublications,
+              statistics_lecturers.highestCitations,
+              statistics_lecturers.highestTotalPublications,
+              settings.citationsWeight
+            ).rWeight,
+            hindexByWeight(
+              user.hindex,
+              user.firstPublicationYear,
+              statistics_lecturers.highestHindex,
+              statistics_lecturers.firstPublicationYear,
+              settings.hindexWeight
+            ).rWeight,
+            i10indexByWeight(
+              user.i10hindex,
+              user.firstPublicationYear,
+              statistics_lecturers.highestI10hindex,
+              statistics_lecturers.firstPublicationYear,
+              settings.i10hindexWeight
+            ).rWeight
+          )
         })));
         setWorking(false);
       }
