@@ -44,8 +44,8 @@ export const citationByWeight = (
     // const rWeight = (Weight / rHweight) * citationWeight;
 
     return {
-      Weight: Weight.toFixed(1),
-      rWeight: rWeight.toFixed(1),
+      Weight: 0,
+      rWeight: 0,
     };
   }
 };
