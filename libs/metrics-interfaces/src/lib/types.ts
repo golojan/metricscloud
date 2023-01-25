@@ -363,7 +363,7 @@ export type GSRanking = {
   perCapitaAllCitations?: number;
   perCapitaAllHindex?: number;
   perCapitaAllI10hindex?: number;
-  total: number;
+  total?: number;
   publications?: [];
   searchMetadata?: object;
   authorMetadata?: {

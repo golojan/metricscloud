@@ -2,7 +2,7 @@ import { lecturers } from './../../../metrics-store/src/lib/models/lecturers';
 import { perc } from '@metricsai/metrics-utils';
 import { GSIRanking, AuthUserInfo } from '@metricsai/metrics-interfaces';
 
-const CALCULATE_SCHOLAR_METRICS_BY_WEIGHT = false;
+const CALCULATE_SCHOLAR_METRICS_BY_WEIGHT = true;
 
 export const minFirstPublicationYear = (arr: Array<GSIRanking>): number => {
   return Number(arr.reduce((acc, obj) => Math.min(acc, obj.firstPublicationYear), 0));
@@ -34,8 +34,8 @@ export const citationByWeight = (
     citationWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? citationWeight : 100;
     const rWeight = (Weight / rHweight) * citationWeight;
     return {
-      Weight: Weight,
-      rWeight: rWeight,
+      Weight: Weight.toFixed(1),
+      rWeight: rWeight.toFixed(1),
     };
   }
 };
@@ -56,20 +56,20 @@ export const hindexByWeight = (
     const year: number = new Date().getFullYear();
     // diff in first pub year for leading user
     const highestFirstPublicationYear = Math.min(...lecturers.map((o) => o.firstPublicationYear));
-    const rHyearDiff: number = year - highestFirstPublicationYear;
+    const rHyearDiff: number = Number(year) - Number(highestFirstPublicationYear);
     // diff in first pub year for this user
-    const yearDiff: number = year - firstPublicationYear;
+    const yearDiff: number = Number(year) - Number(firstPublicationYear);
     // weight for the leading user
-    const highestHindex = Math.max(...lecturers.map((o) => o.hindex));
+    const highestHindex = Math.max(...lecturers.map((o) => Number(o.hindex)));
     const rHweight = highestHindex / rHyearDiff;
     // weight for this user
     const Weight = hindex / yearDiff;
 
     hindexWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? hindexWeight : 100;
-    const rWeight = (Weight / rHweight) * hindexWeight;
+    const rWeight = Weight / rHweight;
     return {
-      Weight: Weight,
-      rWeight: rWeight,
+      Weight: Weight.toFixed(1),
+      rWeight: rWeight.toFixed(1),
     };
   }
 };
@@ -102,8 +102,8 @@ export const i10indexByWeight = (
     i10indexWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? i10indexWeight : 100;
     const rWeight = (Weight / rHweight) * i10indexWeight;
     return {
-      Weight: Weight,
-      rWeight: rWeight,
+      Weight: Weight.toFixed(1),
+      rWeight: rWeight.toFixed(1),
     };
   }
 };
