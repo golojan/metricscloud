@@ -260,6 +260,60 @@
       },
       "tags": []
     },
+    "metricsapi": {
+      "root": "apps/metricsapi",
+      "sourceRoot": "apps/metricsapi",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "defaultConfiguration": "production",
+          "options": {
+            "root": "apps/metricsapi",
+            "outputPath": "dist/apps/metricsapi"
+          },
+          "configurations": {
+            "development": {
+              "outputPath": "apps/metricsapi"
+            },
+            "production": {}
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/next:server",
+          "defaultConfiguration": "development",
+          "options": {
+            "buildTarget": "metricsapi:build",
+            "dev": true
+          },
+          "configurations": {
+            "development": {
+              "buildTarget": "metricsapi:build:development",
+              "dev": true
+            },
+            "production": {
+              "buildTarget": "metricsapi:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "builder": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "metricsapi:build:production"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/metricsapi/**/*.{ts,tsx,js,jsx}"]
+          }
+        }
+      },
+      "tags": []
+    },
     "metricsapp": {
       "root": "apps/metricsapp",
       "sourceRoot": "apps/metricsapp",

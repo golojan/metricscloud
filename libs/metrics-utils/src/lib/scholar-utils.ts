@@ -3,12 +3,13 @@ import { GSIRanking, AuthUserInfo } from '@metricsai/metrics-interfaces';
 
 const CALCULATE_SCHOLAR_METRICS_BY_WEIGHT = false;
 
+
 export const minFirstPublicationYear = (arr: Array<GSIRanking>): number => {
-  return Number(arr.reduce((acc, obj) => Math.min(acc, obj.firstPublicationYear), 0));
+  return Number(arr.reduce((acc, obj) => Math.min(acc, Number(obj.firstPublicationYear)), 0));
 };
 
 export const maxFirstPublicationYear = (arr: Array<GSIRanking>): number => {
-  return Number(arr.reduce((acc, obj) => Math.max(acc, obj.firstPublicationYear), 0));
+  return Number(arr.reduce((acc, obj) => Math.max(acc, Number(obj.firstPublicationYear)), 0));
 };
 
 export const citationByWeight = (
@@ -23,15 +24,15 @@ export const citationByWeight = (
       rWeight: 0,
     };
   } else {
+    const citationsPC = citations / totalPublications;
+
+    // citationWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? citationWeight : 100;
+
     const maxCitations = addCitations(lecturers);
     const totalCitations = Math.max(...lecturers.map((o) => o.citations));
-    const rHweight = maxCitations / totalCitations;
+    const rHweight = maxCitations / totalPublications;
 
-    const Weight = citations / totalCitations;
-    citationWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? citationWeight : 100;
-
-    const rWeight = (Weight / rHweight) * citationWeight;
-
+    // const rWeight = (Weight / rHweight) * citationWeight;
     // get the PCC of the highest person
     // const highestTotalPublications = Math.max(...lecturers.map((o) => o.totalPublications));
     // const highestCitations = Math.max(...lecturers.map((o) => o.citations));
@@ -41,6 +42,7 @@ export const citationByWeight = (
     // const Weight = citations / totalPublications;
     // citationWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? citationWeight : 100;
     // const rWeight = (Weight / rHweight) * citationWeight;
+
     return {
       Weight: Weight.toFixed(1),
       rWeight: rWeight.toFixed(1),

@@ -21,6 +21,8 @@ module.exports = {
     './apps/metricsapp/hocs/**/*.{js,ts,jsx,tsx}',
     //HOC Library Files
     './apps/libs/metrics-hocs/src/lib/**/*.{js,ts,jsx,tsx}',
+    //HOC Library Files
+    './apps/metricsapi/pages/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {},

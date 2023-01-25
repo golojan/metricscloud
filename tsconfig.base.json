@@ -25,7 +25,7 @@
       "@metricsai/metrics-models": ["libs/metrics-models/src/index.ts"],
       "@metricsai/metrics-scholars": ["libs/metrics-scholars/src/index.ts"],
       "@metricsai/metrics-store": ["libs/metrics-store/src/index.ts"],
-      "@metricsai/metrics-utils": ["libs/metrics-utils/src/index.ts"],
+      "@metricsai/metrics-utils": ["libs/metrics-utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
