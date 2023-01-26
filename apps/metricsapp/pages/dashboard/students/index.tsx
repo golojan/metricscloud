@@ -2,24 +2,17 @@ import { NextPage } from 'next';
 import React, { useEffect, useState } from 'react';
 import AdminLayout from '../../../components/AdminLayout';
 import AppDrawer from '../../../serverlets/AppDrawer';
-
-import { faPlus, faUsersCog } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faUsersBetweenLines, faUsersCog } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import Link from 'next/link';
 import AppHeader from '../../../serverlets/AppHeader';
 import Copyright from '../../../serverlets/Copyright';
 import { withAuth } from '@metricsai/metrics-hocs';
 import { compose } from 'redux';
-
-import { AuthUserInfo } from '@metricsai/metrics-interfaces';
-import { Gender } from '@metricsai/metrics-interfaces';
-
 import { authSchoolId } from '@metricsai/metrics-hocs';
-import { loadStudents } from '@metricsai/metrics-utils';
-
+import AuthStudentsTable from 'apps/metricsapp/components/DataTables/AuthStudentsTable';
 import useSWR from 'swr';
-import StudentsListBox from '../../../components/StudentsListBox';
+import { AuthUserInfo, GSIRanking } from '@metricsai/metrics-interfaces';
 
 type lFilters = {
   male: boolean;
@@ -28,47 +21,16 @@ type lFilters = {
   isProfessor: boolean;
 };
 
-const Students: NextPage = () => {
+const Lecturers: NextPage = () => {
   const schoolId = authSchoolId();
-
-  const [done, setDone] = useState<boolean>(false);
-
-  const [query, setQuery] = useState<string>('');
-  const [list, setList] = useState<AuthUserInfo[]>([]);
-
-  // use SWR to fetch data from the API
-  const { data: students, isLoading } = useSWR(
-    `/api/students/${schoolId}/list`,
-    async () => await loadStudents(schoolId)
-  );
-
-  const [filter, setFilter] = useState<lFilters>({
-    male: false,
-    female: false,
-    withPhd: false,
-    isProfessor: false,
-  });
-
-  useEffect(() => {
-    if (students) {
-      setDone(true);
-      setList(students);
-    }
-  }, [students]);
-
-  const searchFilter = (q: string) => {
-    setQuery(q);
-    const newData = students.filter((student: AuthUserInfo) => {
-      return (
-        student.firstname?.toLowerCase().startsWith(q.toLowerCase()) ||
-        student.lastname?.toLowerCase().startsWith(q.toLowerCase()) ||
-        student.middlename?.toLowerCase().startsWith(q.toLowerCase()) ||
-        student.staffNumber?.toString().startsWith(q.toLowerCase())
-      );
-    });
-    setList(newData);
-  };
-
+  const { data: students, error, isLoading, isValidating } = useSWR<{ status: boolean, data: AuthUserInfo[] }>(`/api/students/${schoolId}/ranking`, () => fetch(`/api/students/${schoolId}/ranking`).then((res) => res.json()));
+  const loading = isValidating || isLoading || error || !students;
+  // const [filter, setFilter] = useState<lFilters>({
+  //   male: false,
+  //   female: false,
+  //   withPhd: false,
+  //   isProfessor: false,
+  // });
   return (
     <>
       <AdminLayout>
@@ -80,7 +42,7 @@ const Students: NextPage = () => {
                 <div className="left">
                   <span className="title">Manage Students</span>
                   <h1 className="total">
-                    <FontAwesomeIcon icon={faUsersCog} /> Students
+                    <FontAwesomeIcon icon={faUsersBetweenLines} /> Students
                   </h1>
                 </div>
                 <div className="right flex">
@@ -93,25 +55,11 @@ const Students: NextPage = () => {
           </div>
           <div className="section pt-1">
             <div className="row ">
-              <div className="col-12 col-md-12 col-lg-4 fa-border">
+              {/* <div className="col-12 col-md-12 col-lg-3 fa-border d-none">
                 <div className="card-box border-0">
-                  <div className="flex justify-center">
-                    <div className="w-full">
-                      <div className="input-group relative flex flex-wrap items-stretch w-full mb-1">
-                        <input
-                          type="search"
-                          className="form-control form-control-lg relative flex-auto min-w-0 block w-full p-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                          placeholder={`Search [${
-                            isLoading ? 0 : list.length
-                          }] records...`}
-                          aria-label="Search"
-                          aria-describedby="button-addon2"
-                          onChange={(e) => searchFilter(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <h4 className="pl-1">Found 0 record for {query}...</h4>
+                  <h2 className="pl-1">
+                    Advanced filter
+                  </h2><hr />
                   <ul className="listview image-listview text border-0  no-line">
                     <li className="flex-auto">
                       <div className="item">
@@ -137,6 +85,8 @@ const Students: NextPage = () => {
                           </div>
                         </div>
                       </div>
+                    </li>
+                    <li className="flex-auto">
                       <div className="item">
                         <div className="in">
                           <div className="text-lg">Female</div>
@@ -160,6 +110,7 @@ const Students: NextPage = () => {
                           </div>
                         </div>
                       </div>
+
                     </li>
                   </ul>
                   <ul className="listview image-listview text no-line">
@@ -215,9 +166,9 @@ const Students: NextPage = () => {
                     </li>
                   </ul>
                 </div>
-              </div>
-              <div className={`col-12 col-md-12 col-lg-8 min-h-screen`}>
-                <StudentsListBox students={list} />
+              </div> */}
+              <div className={`col-12 col-md-12 col-lg-12 min-h-screen`}>
+                <AuthStudentsTable title='Manage Students' data={students?.data} loading={loading} />
               </div>
             </div>
           </div>
@@ -229,4 +180,4 @@ const Students: NextPage = () => {
   );
 };
 
-export default compose(withAuth)(Students);
+export default compose(withAuth)(Lecturers);

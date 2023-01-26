@@ -57,6 +57,7 @@ const accountsScheme = new mongoose.Schema(
     gender: {
       type: String,
       enum: Object.values(Gender),
+      default: Gender.NOTSAY,
     },
     birthday: { type: String },
     addresses: {

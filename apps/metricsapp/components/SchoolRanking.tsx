@@ -30,8 +30,8 @@ const SchoolRanking = () => {
           <GoogleScholarPresence />
           <InternationalStaff />
           <InternationalStudents />
-          {/* <InternationalColaborations />
-          <GraduateOutput />
+          <InternationalColaborations />
+          {/* <GraduateOutput />
           <FullProfessors />
           <PercPHDs />
           <FullAcreditationStatus />

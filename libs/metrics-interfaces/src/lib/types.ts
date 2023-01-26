@@ -79,6 +79,7 @@ export interface AuthUserInfo {
   schoolId?: string;
   accountType?: string;
   picture?: string;
+  fullname?: string;
   firstname?: string;
   lastname?: string;
   middlename?: string;
