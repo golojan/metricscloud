@@ -79,9 +79,6 @@ const AuthUserPublication = (props: Props) => {
     { title: 'Publications', field: 'totalPublications' },
     { title: 'First Published', field: 'firstPublicationYear' },
     { title: 'Last Published', field: 'lastPublicationYear' },
-    { title: 'Citations', field: 'citationsPerCapita' },
-    { title: 'hIndex', field: 'hindexPerCapita' },
-    { title: 'i10Index', field: 'i10indexPerCapita' },
   ];
   const detailPanel = [
     {

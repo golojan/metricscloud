@@ -17,24 +17,12 @@ import {
 
 import { authSchoolId } from '@metricsai/metrics-hocs';
 import {
-  getSchoolSettings,
-  loadLecturers,
-  loadLecturersStats,
-  citationByWeight,
-  hindexByWeight,
-  i10indexByWeight,
-  totalRanking,
   loadLecturersRanking
 } from '@metricsai/metrics-utils';
 
 import useSWR from 'swr';
 import AppDashBoardTopMenuScores from '../../../../serverlets/AppDashBoardTopMenuScores';
 import AppDashboardTopMenu from '../../../../serverlets/AppDashboardTopMenu';
-import { useAtom } from 'jotai';
-import {
-  schoolSettingsAtom,
-  statistLecturersAtom,
-} from '@metricsai/metrics-store';
 import AuthUserPublication from '../../../../components/DataTables/AuthUserPublication';
 
 type lFilters = {
@@ -47,19 +35,14 @@ type lFilters = {
 const ReportPublications: NextPage = () => {
 
   const schoolId = authSchoolId();
-  const [working, setWorking] = useState<boolean>(false);
-  const [query, setQuery] = useState<string>('');
-
-  const [list, setList] = useState<AuthUserInfo[]>([]);
-  const [listScholar, setListScholar] = useState<AuthUserInfo[]>([]);
 
   // use SWR to fetch data from the API
-  const { data: lecturers, isLoading } = useSWR(
-    `/api/lecturers/${schoolId}/ranking`,
-    async () => await loadLecturersRanking(schoolId)
+  const { data: lecturers, isLoading, isValidating } = useSWR<{ status: boolean, data: AuthUserInfo[] }>(
+    `/api/lecturers/${schoolId}/list`,
+    async () => fetch(`/api/lecturers/${schoolId}/list`).then((res) => res.json())
   );
 
-  const busy = working || isLoading;
+  const busy = isValidating || isLoading || !lecturers;
 
   const [filter, setFilter] = useState<lFilters>({
     male: false,
@@ -67,26 +50,6 @@ const ReportPublications: NextPage = () => {
     withPhd: false,
     isProfessor: false,
   });
-
-  useEffect(() => {
-    if (lecturers && !busy) {
-      setList(lecturers);
-      if (list) {
-        setWorking(true);
-        setListScholar(lecturers.map((user: AuthUserInfo) => ({
-          firstname: `${user.firstname} ${user.lastname}`,
-          totalPublications: user.totalPublications,
-          firstPublicationYear: user.firstPublicationYear,
-          lastPublicationYear: user.lastPublicationYear,
-          citationsPerCapita: user.citationsPerCapita.toFixed(2),
-          hindexPerCapita: user.hindexPerCapita.toFixed(2),
-          i10indexPerCapita: user.i10hindexPerCapita.toFixed(2),
-        })));
-        setWorking(false);
-      }
-    }
-  }, [lecturers, busy]);
-
 
   return (
     <>
@@ -103,11 +66,7 @@ const ReportPublications: NextPage = () => {
             <div className="row ">
 
               <div className={`col-12 col-md-12 col-lg-12 min-h-screen`}>
-                {!busy ? (
-                  <AuthUserPublication title='Lecturers' data={isLoading ? [] : listScholar} loading={isLoading} />
-                ) : (
-                  <h1>Loading...</h1>
-                )}
+                <AuthUserPublication title='Lecturers' data={lecturers ? lecturers?.data : []} loading={busy} />
               </div>
             </div>
           </div>
