@@ -98,28 +98,28 @@ const ReportLecturers: NextPage = () => {
             settings.citationsWeight
           ).weigth,
           hindex: hindexByWeight(
-            user.hindex,
+            user.hindexPerCapita,
             lecturers,
             settings.hindexWeight
           ).weigth,
           i10hindex: i10indexByWeight(
-            user.i10hindex,
+            user.i10hindexPerCapita,
             lecturers,
             settings.i10hindexWeight
           ).weigth,
           total: totalRanking(
             Number(citationByWeight(
-              user.citations,
+              user.citationsPerCapita,
               lecturers,
               settings.citationsWeight
             ).weigth),
             Number(hindexByWeight(
-              user.hindex,
+              user.hindexPerCapita,
               lecturers,
               settings.hindexWeight
             ).weigth),
             Number(i10indexByWeight(
-              user.i10hindex,
+              user.i10hindexPerCapita,
               lecturers,
               settings.i10hindexWeight
             ).weigth)
