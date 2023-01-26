@@ -91,7 +91,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             hindexPerCapita: {
               $cond: {
                 if: {
-                  $or: [{ $eq: ['$hindex', 0] }, { $eq: ['$firstPublicationYear', 0] }],
+                  $or: [
+                    { $eq: ['$hindex', 0] },
+                    { $eq: ['$firstPublicationYear', 0] },
+                    { $cond: [{ $eq: ['$firstPublicationYear', null] }, false, true] },
+                  ],
                 },
                 then: 0,
                 else: {
@@ -102,7 +106,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             i10hindexPerCapita: {
               $cond: {
                 if: {
-                  $or: [{ $eq: ['$i10hindex', 0] }, { $eq: ['$firstPublicationYear', 0] }],
+                  $or: [
+                    { $eq: ['$i10hindex', 0] },
+                    { $eq: ['$firstPublicationYear', 0] },
+                    { $cond: [{ $eq: ['$firstPublicationYear', null] }, false, true] },
+                  ],
                 },
                 then: 0,
                 else: {

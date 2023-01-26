@@ -1,5 +1,4 @@
 import React from 'react';
-import { loadLecturersRanking } from '@metricsai/metrics-utils';
 import useSWR from 'swr';
 import { authSchoolId } from '@metricsai/metrics-hocs';
 import { GSIRanking } from '@metricsai/metrics-interfaces';
@@ -8,59 +7,32 @@ import { GSIRanking } from '@metricsai/metrics-interfaces';
 const AppDashBoardTopMenuScores = () => {
 
   const schoolId = authSchoolId();
-
-  const addCitations = (arr: Array<GSIRanking>): number => {
-    return arr?.reduce((acc, obj) => acc + obj.citations, 0);
-  }
-  const addHindex = (arr: Array<GSIRanking>): number => {
-    return arr?.reduce((acc, obj) => acc + obj.hindex, 0);
-  }
-  const addI10index = (arr: Array<GSIRanking>): number => {
-    return arr?.reduce((acc, obj) => acc + obj.i10hindex, 0);
-  }
-
-  const addTotal = (arr: Array<GSIRanking>): number => {
-    const cit = arr?.reduce((acc, obj) => acc + obj.citations, 0);
-    const hin = arr?.reduce((acc, obj) => acc + obj.hindex, 0);
-    const i10 = arr?.reduce((acc, obj) => acc + obj.i10hindex, 0);
-    const total = ((cit + hin + i10) / 3).toFixed(0);
-    return Number(total);
-  };
-
-
-  const { data: lecturers, error, isLoading } = useSWR<GSIRanking[]>(`/api/lecturers/${schoolId}/ranking`, () => loadLecturersRanking(schoolId));
-  // i want to sum all the citations and hindex and i10hindex from the lecturers array
-
-  const totalCitations = addCitations(lecturers);
-  const totalHindex = addHindex(lecturers);
-  const totalI10index = addI10index(lecturers);
-  const total = addTotal(lecturers);
-
+  const { data: statistics, error, isLoading } = useSWR<GSIRanking>(`/api/schools/${schoolId}/stats`, () => fetch(`/api/schools/${schoolId}/stats`).then((res) => res.json()));
   return (
     <>
       <div className="balance">
         <div className="wallet-footer flex w-full border-t-0 border-0">
           <div className="item">
             <div>
-              <span className="h1">{isLoading ? '...' : totalCitations}</span>
-              <strong>Citations</strong>
+              <span className="h1">{isLoading ? '...' : statistics.citationsPerCapita.toFixed(2)}</span>
+              <strong>Citations Per Capita</strong>
             </div>
           </div>
           <div className="item">
             <div>
-              <span className="h1">{isLoading ? '...' : totalHindex}</span>
-              <strong>H-Index</strong>
+              <span className="h1">{isLoading ? '...' : statistics.hindexPerCapita.toFixed(2)}</span>
+              <strong>H-Index Per Capita</strong>
             </div>
           </div>
           <div className="item">
             <div>
-              <span className="h1">{isLoading ? '...' : totalI10index}</span>
-              <strong>i10-H-Index</strong>
+              <span className="h1">{isLoading ? '...' : statistics.i10hindexPerCapita.toFixed(2)}</span>
+              <strong>i10-H-Index Per Capita</strong>
             </div>
           </div>
           <div className="item">
             <div>
-              <span className="h1">{isLoading ? '...' : total}</span>
+              <span className="h1">{isLoading ? '...' : statistics.total.toFixed(2)}</span>
               <strong>Total</strong>
             </div>
           </div>

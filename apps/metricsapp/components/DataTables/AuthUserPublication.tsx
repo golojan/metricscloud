@@ -48,16 +48,16 @@ import { AuthUserInfo } from '@metricsai/metrics-interfaces';
 import Link from 'next/link';
 
 const options = {
-  // paging: true,
-  // pageSize: 10,
-  // emptyRowsWhenPaging: false,
-  // pageSizeOptions: [10, 100, 200, 300, 400],
-  // headerStyle: {
-  //   fontWeight: 'bold',
-  //   backgroundColor: '#01579b',
-  //   color: '#FFF'
-  // },
-  // selection: true,
+  paging: true,
+  pageSize: 10,
+  emptyRowsWhenPaging: false,
+  pageSizeOptions: [10, 100, 200, 300, 400],
+  headerStyle: {
+    fontWeight: 'bold',
+    backgroundColor: '#01579b',
+    color: '#FFF'
+  },
+  selection: true,
   toolbar: true,
   exportButton: true,
   exportAllData: true,

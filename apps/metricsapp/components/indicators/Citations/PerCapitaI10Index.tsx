@@ -1,16 +1,14 @@
 import { faAreaChart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { GSIRanking, SchoolRank } from '@metricsai/metrics-interfaces';
+import { GSIRanking } from '@metricsai/metrics-interfaces';
 import React from 'react';
 import ShowChartButton from '../../ShowChartButton';
-import { loadLecturersRanking, addI10index } from '@metricsai/metrics-utils';
 import useSWR from 'swr';
 import { authSchoolId } from '@metricsai/metrics-hocs';
 
 const PerCapitaI10Index = () => {
   const schoolId = authSchoolId();
-  const { data: lecturers, error, isLoading } = useSWR<GSIRanking[]>(`/api/lecturers/${schoolId}/ranking`, () => loadLecturersRanking(schoolId));
-  const tI10Index = addI10index(lecturers);
+  const { data: statistics, error, isLoading } = useSWR<GSIRanking>(`/api/schools/${schoolId}/stats`, () => fetch(`/api/schools/${schoolId}/stats`).then((res) => res.json()));
   return (
     <>
       {/*  */}
@@ -22,12 +20,12 @@ const PerCapitaI10Index = () => {
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {isLoading ? '...' : tI10Index}
+            {isLoading ? '...' : statistics.i10hindexPerCapita.toFixed(2)}
           </h1>
           <em className="absolute bottom-0 right-5">
-            <strong className="text-green-600">{isLoading ? '...' : tI10Index}</strong>{' '}
+            <strong className="text-green-600">{isLoading ? '...' : statistics.i10hindexPerCapita.toFixed(2)}</strong>{' '}
             i10-Index by{' '}
-            <strong className="text-green-600">{isLoading ? '...' : lecturers.length}</strong>{' '}
+            <strong className="text-green-600">{isLoading ? '...' : statistics.totalLecturers}</strong>{' '}
             staff
           </em>
         </div>

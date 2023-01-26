@@ -18,18 +18,10 @@ import Copyright from '../../serverlets/Copyright';
 import { withAuth } from '@metricsai/metrics-hocs';
 import { authSchoolId } from '@metricsai/metrics-hocs';
 import SchoolRanking from '../../components/SchoolRanking';
-import {
-  loadLecturersStats,
-  loadStudentsStats,
-} from '@metricsai/metrics-utils';
-
-import { Dispatch } from '@metricsai/metrics-store';
-import { useDispatch } from 'react-redux';
 import AppDashboardTopMenu from '../../serverlets/AppDashboardTopMenu';
 import AppDashBoardTopMenuScores from '../../serverlets/AppDashBoardTopMenuScores';
 
 const Dashboard: NextPage = () => {
-  const schoolId = authSchoolId();
   return (
     <>
       <AdminLayout>
@@ -41,7 +33,7 @@ const Dashboard: NextPage = () => {
               <AppDashboardTopMenu />
             </div>
           </div>
-          <SchoolRanking schoolId={schoolId} />
+          <SchoolRanking />
           <Copyright />
         </div>
         <AppDrawer onchat={false} menuitem="dashboard" />

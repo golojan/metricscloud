@@ -91,6 +91,156 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
                 $cond: [{ $eq: ['$accountType', AccountTypes.STUDENT] }, 1, 0],
               },
             },
+            totalLecturers: {
+              $sum: {
+                $cond: [{ $eq: ['$accountType', AccountTypes.LECTURER] }, 1, 0],
+              },
+            },
+            totalAlumni: {
+              $sum: {
+                $cond: [{ $eq: ['$accountType', AccountTypes.ALUMNI] }, 1, 0],
+              },
+            },
+            lecturerStudentRatios: {
+              $push: {
+                $cond: [{ $eq: ['$accountType', AccountTypes.STUDENT] }, '$lecturerStudentRatio', null],
+              },
+            },
+          },
+        },
+        {
+          $project: {
+            _id: '$_id',
+            totalCitations: 1,
+            totalPublications: 1,
+            totalHIndex: 1,
+            totalI10Index: 1,
+            totalAccounts: 1,
+            totalStudents: 1,
+            totalLecturers: 1,
+            totalAlumni: 1,
+            firstPublicationYear: {
+              $ifNull: [
+                {
+                  $min: {
+                    $filter: {
+                      input: '$firstPublicationYear',
+                      cond: { $gt: ['$$this', 0] },
+                    },
+                  },
+                },
+                {
+                  $subtract: [{ $year: new Date() }, 4],
+                },
+              ],
+            },
+            citationsPerCapita: {
+              $cond: {
+                if: {
+                  $or: [{ $eq: ['$totalCitations', 0] }, { $eq: ['$totalPublications', 0] }],
+                },
+                then: 0,
+                else: {
+                  $divide: ['$totalCitations', '$totalPublications'],
+                },
+              },
+            },
+            hindexPerCapita: {
+              $divide: [
+                '$totalPublications',
+                {
+                  $ifNull: [
+                    {
+                      $min: {
+                        $filter: {
+                          input: '$firstPublicationYear',
+                          cond: { $gt: ['$$this', 0] },
+                        },
+                      },
+                    },
+                    {
+                      $subtract: [{ $year: new Date() }, 4],
+                    },
+                  ],
+                },
+              ],
+            },
+            i10hindexPerCapita: {
+              $divide: [
+                '$totalPublications',
+                {
+                  $ifNull: [
+                    {
+                      $min: {
+                        $filter: {
+                          input: '$firstPublicationYear',
+                          cond: { $gt: ['$$this', 0] },
+                        },
+                      },
+                    },
+                    {
+                      $subtract: [{ $year: new Date() }, 4],
+                    },
+                  ],
+                },
+              ],
+            },
+            totalStaffWithOutGooglePresence: {
+              $cond: {
+                if: {
+                  $or: [{ $eq: ['$totalCitations', 0] }, { $eq: ['$totalHIndex', 0] }, { $eq: ['$totalI10Index', 0] }],
+                },
+                then: 1,
+                else: 0,
+              },
+            },
+            totalStaffWithGooglePresence: {
+              $sum: {
+                $cond: {
+                  if: {
+                    $or: [
+                      { $gt: ['$totalCitations', 0] },
+                      { $gt: ['$totalHIndex', 0] },
+                      { $gt: ['$totalI10Index', 0] },
+                    ],
+                  },
+                  then: 1,
+                  else: 0,
+                },
+              },
+            },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            schoolId: '$_id',
+            totalCitations: 1,
+            totalPublications: 1,
+            totalHIndex: 1,
+            totalI10Index: 1,
+            totalAccounts: 1,
+            totalStudents: 1,
+            totalLecturers: 1,
+            totalAlumni: 1,
+            firstPublicationYear: 1,
+            citationsPerCapita: 1,
+            hindexPerCapita: 1,
+            i10hindexPerCapita: 1,
+            percentageOfStaffWithGooglePresence: {
+              $cond: {
+                if: {
+                  $eq: ['$totalStaffWithGooglePresence', 0],
+                },
+                then: 0,
+                else: {
+                  $multiply: [{ $divide: ['$totalStaffWithGooglePresence', '$totalLecturers'] }, 100],
+                },
+              },
+            },
+            total: {
+              $avg: ['$citationsPerCapita', '$hindexPerCapita', '$i10hindexPerCapita'],
+            },
           },
         },
       ]).catch(catcher);
@@ -104,6 +254,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         res.status(400).json({ status: false, error: 'No Statistics returned' });
       }
 
+        
     },
   };
   const response = handleCase[method];

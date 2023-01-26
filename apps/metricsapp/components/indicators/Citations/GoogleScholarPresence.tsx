@@ -1,16 +1,14 @@
 import { faAreaChart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { GSIRanking, SchoolRank } from '@metricsai/metrics-interfaces';
+import { GSIRanking } from '@metricsai/metrics-interfaces';
 import React from 'react';
 import ShowChartButton from '../../ShowChartButton';
-import { addCitations, addGooglePresence, loadLecturersRanking, perc } from '@metricsai/metrics-utils';
 import useSWR from 'swr';
 import { authSchoolId } from '@metricsai/metrics-hocs';
 
 const GoogleScholarPresence = () => {
   const schoolId = authSchoolId();
-  const { data: lecturers, error, isLoading } = useSWR<GSIRanking[]>(`/api/lecturers/${schoolId}/ranking`, () => loadLecturersRanking(schoolId));
-  const tTotal = addGooglePresence(lecturers);
+  const { data: statistics, error, isLoading } = useSWR<GSIRanking>(`/api/schools/${schoolId}/stats`, () => fetch(`/api/schools/${schoolId}/stats`).then((res) => res.json()));
   return (
     <>
       {/*  */}
@@ -22,15 +20,15 @@ const GoogleScholarPresence = () => {
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {isLoading ? '...' : tTotal}%
+            {isLoading ? '...' : statistics.percentageOfStaffWithGooglePresence}%
           </h1>
           <em className="absolute bottom-0 right-5">
             <strong className="text-green-600 small">
-              {isLoading ? '...' : tTotal}%
+              {isLoading ? '...' : statistics.percentageOfStaffWithGooglePresence}%
             </strong>
             {'% '}
             of <strong className="text-green-600">
-              {isLoading ? '...' : lecturers.length}
+              {isLoading ? '...' : statistics.totalLecturers}
             </strong>{' '}
             staff are Google Scholar
           </em>

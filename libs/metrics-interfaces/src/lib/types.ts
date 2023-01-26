@@ -203,6 +203,10 @@ export interface IHistory {
   allschools?: [object];
   adminId?: string;
 }
+
+
+
+
 export type GSIRanking = {
   id?: string;
   username?: string;
@@ -218,6 +222,13 @@ export type GSIRanking = {
   citations?: number;
   hindex?: number;
   i10hindex?: number;
+  totalCitations?: number;
+  totalHIndex?: number;
+  totalI10Index?: number;
+  totalAccounts?: number;
+  totalStudents?: number;
+  totalLecturers?: number;
+  totalAlumni?: number;
   citationsPerCapita?: number;
   hindexPerCapita?: number;
   i10hindexPerCapita?: number;
@@ -244,6 +255,7 @@ export type GSIRanking = {
   totalGooglePresence?: number;
   totalStaffWithOutGooglePresence?: number;
   totalStaffWithGooglePresence?: number;
+  percentageOfStaffWithGooglePresence?: number;
   internationalStaff?: number;
   localStaff?: number;
   totalInternationalColaborations?: number;

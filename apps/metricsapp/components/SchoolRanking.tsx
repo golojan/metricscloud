@@ -18,13 +18,8 @@ import ProfessorsAndReader from './indicators/Teaching/ProfessorsAndReader';
 import SeniorLecturers from './indicators/Teaching/SeniorLecturers';
 import OtherLecturers from './indicators/Teaching/OtherLecturers';
 
-interface SRProps {
-  schoolId: string;
-}
 
-const SchoolRanking = (props: SRProps) => {
-  // const get the props;
-  const { ranking } = useSelector((state: RootState) => state.settings);
+const SchoolRanking = () => {
   return (
     <>
       <div className="section mb-10">
@@ -33,9 +28,9 @@ const SchoolRanking = (props: SRProps) => {
           <PerCapitaHindex />
           <PerCapitaI10Index />
           <GoogleScholarPresence />
-          <InternationalStaff />
+          {/* <InternationalStaff />
           <InternationalStudents />
-          <InternationalColaborations ranking={ranking} />
+          <InternationalColaborations />
           <GraduateOutput />
           <FullProfessors />
           <PercPHDs />
@@ -44,7 +39,7 @@ const SchoolRanking = (props: SRProps) => {
           <FemaleStudents />
           <ProfessorsAndReader />
           <SeniorLecturers />
-          <OtherLecturers />
+          <OtherLecturers /> */}
         </div>
       </div>
     </>

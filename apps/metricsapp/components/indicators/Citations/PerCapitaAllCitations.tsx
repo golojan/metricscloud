@@ -2,15 +2,13 @@ import { faAreaChart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import ShowChartButton from '../../ShowChartButton';
-import { addCitations, loadLecturersRanking } from '@metricsai/metrics-utils';
 import { GSIRanking } from '@metricsai/metrics-interfaces';
 import useSWR from 'swr';
 import { authSchoolId } from '@metricsai/metrics-hocs';
 
 const PerCapitaAllCitations = () => {
   const schoolId = authSchoolId();
-  const { data: lecturers, error, isLoading } = useSWR<GSIRanking[]>(`/api/lecturers/${schoolId}/ranking`, () => loadLecturersRanking(schoolId));
-  const tTotal = addCitations(lecturers);
+  const { data: statistics, error, isLoading } = useSWR<GSIRanking>(`/api/schools/${schoolId}/stats`, () => fetch(`/api/schools/${schoolId}/stats`).then((res) => res.json()));
   return (
     <>
       {/*  */}
@@ -22,12 +20,12 @@ const PerCapitaAllCitations = () => {
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {isLoading ? '...' : tTotal}
+            {isLoading ? '...' : statistics.citationsPerCapita.toFixed(2)}
           </h1>
           <em className="absolute bottom-0 right-5">
-            <strong className="text-green-600">{isLoading ? '...' : tTotal}</strong>{' '}
+            <strong className="text-green-600">{isLoading ? '...' : statistics.citationsPerCapita.toFixed(2)}</strong>{' '}
             citations by{' '}
-            <strong className="text-green-600">{isLoading ? '...' : lecturers.length}</strong>{' '}
+            <strong className="text-green-600">{isLoading ? '...' : statistics.totalLecturers}</strong>{' '}
             staff
           </em>
         </div>
