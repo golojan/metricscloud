@@ -1,10 +1,4 @@
-import {
-  Gender,
-  ResponseFunctions,
-  AccountTypes,
-  MembershipTypes,
-  SchoolSettingsType,
-} from '@metricsai/metrics-interfaces';
+import { ResponseFunctions, AccountTypes, SchoolSettingsType } from '@metricsai/metrics-interfaces';
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
@@ -86,11 +80,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             hindexPerCapita: {
               $cond: {
                 if: {
-                  $or: [
-                    { $eq: ['$hindex', 0] },
-                    { $eq: ['$firstPublicationYear', 0] },
-                    { $cond: [{ $eq: ['$firstPublicationYear', null] }, false, true] },
-                  ],
+                  $or: [{ $eq: ['$hindex', 0] }, { $eq: ['$firstPublicationYear', 0] }],
                 },
                 then: 0,
                 else: {
@@ -101,11 +91,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             i10hindexPerCapita: {
               $cond: {
                 if: {
-                  $or: [
-                    { $eq: ['$i10hindex', 0] },
-                    { $eq: ['$firstPublicationYear', 0] },
-                    { $cond: [{ $eq: ['$firstPublicationYear', null] }, false, true] },
-                  ],
+                  $or: [{ $eq: ['$i10hindex', 0] }, { $eq: ['$firstPublicationYear', 0] }],
                 },
                 then: 0,
                 else: {
