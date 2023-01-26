@@ -22,6 +22,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
       // get school info for settings //
       const school = await Schools.findById(schoolId).catch(catcher);
+      
       let SETTINGS: SchoolSettingsType = {};
 
       let studentsInMetrics = false;
@@ -37,55 +38,40 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         }
       }
 
-      let matchQuery = {};
+      let matchQuery: {
+        schoolId?: string;
+        accountType?: {
+          $in: AccountTypes[];
+        };
+      } = { schoolId: String(schoolId) };
 
       // set match query based on includeStudentsInMetrics and includeLecturersInMetrics and includeAlumniInMetrics //
-      if (SETTINGS.includeAlumniInMetrics && lecturersInMetrics && alumniInMetrics) {
+      if (alumniInMetrics && studentsInMetrics) {
         matchQuery = {
-          schoolId: schoolId,
-        };
-      } else if (studentsInMetrics && lecturersInMetrics && !alumniInMetrics) {
-        matchQuery = {
-          schoolId: schoolId,
-          accountType: { $ne: AccountTypes.ALUMNI },
-        };
-      } else if (studentsInMetrics && !lecturersInMetrics && alumniInMetrics) {
-        matchQuery = {
-          schoolId: schoolId,
-          accountType: { $ne: AccountTypes.LECTURER },
-        };
-      } else if (studentsInMetrics && !lecturersInMetrics && !alumniInMetrics) {
-        matchQuery = {
-          schoolId: schoolId,
-          accountType: { $nin: [AccountTypes.LECTURER, AccountTypes.ALUMNI] },
-        };
-      } else if (!studentsInMetrics && lecturersInMetrics && alumniInMetrics) {
-        matchQuery = {
-          schoolId: schoolId,
-          accountType: { $ne: AccountTypes.STUDENT },
-        };
-      } else if (!studentsInMetrics && lecturersInMetrics && !alumniInMetrics) {
-        matchQuery = {
-          schoolId: schoolId,
-          accountType: { $nin: [AccountTypes.STUDENT, AccountTypes.ALUMNI] },
-        };
-      } else if (!studentsInMetrics && !lecturersInMetrics && alumniInMetrics) {
-        matchQuery = {
-          schoolId: schoolId,
-          accountType: { $nin: [AccountTypes.STUDENT, AccountTypes.LECTURER] },
-        };
-      } else if (!studentsInMetrics && !lecturersInMetrics && !alumniInMetrics) {
-        matchQuery = {
-          schoolId: schoolId,
+          ...matchQuery,
           accountType: {
-            $nin: [AccountTypes.STUDENT, AccountTypes.LECTURER, AccountTypes.ALUMNI],
+            $in: [AccountTypes.LECTURER, AccountTypes.STUDENT, AccountTypes.ALUMNI],
+          },
+        };
+      } else if (alumniInMetrics && !studentsInMetrics) {
+        matchQuery = {
+          ...matchQuery,
+          accountType: {
+            $in: [AccountTypes.LECTURER, AccountTypes.ALUMNI],
+          },
+        };
+      } else if (!alumniInMetrics && studentsInMetrics) {
+        matchQuery = {
+          ...matchQuery,
+          accountType: {
+            $in: [AccountTypes.LECTURER, AccountTypes.STUDENT],
           },
         };
       } else {
         matchQuery = {
-          schoolId: schoolId,
+          ...matchQuery,
           accountType: {
-            $nin: [AccountTypes.STUDENT, AccountTypes.LECTURER, AccountTypes.ALUMNI],
+            $in: [AccountTypes.LECTURER],
           },
         };
       }
@@ -96,6 +82,15 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           $group: {
             _id: '$schoolId',
             totalCitations: { $sum: '$citations' },
+            totalPublications: { $sum: '$totalPublications' },
+            totalHIndex: { $sum: '$hindex' },
+            totalI10Index: { $sum: '$i10hindex' },
+            totalAccounts: { $sum: 1 },
+            totalStudents: {
+              $sum: {
+                $cond: [{ $eq: ['$accountType', AccountTypes.STUDENT] }, 1, 0],
+              },
+            },
           },
         },
       ]).catch(catcher);
@@ -108,7 +103,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       } else {
         res.status(400).json({ status: false, error: 'No Statistics returned' });
       }
-      
+
     },
   };
   const response = handleCase[method];

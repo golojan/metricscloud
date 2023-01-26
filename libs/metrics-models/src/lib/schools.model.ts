@@ -43,9 +43,10 @@ const schoolsScheme = new mongoose.Schema(
       },
     ],
     settings: {
-      includeStudentsInMetrics: { type: Boolean, default: false },
+      includeStudentsInMetrics: { type: Boolean, default: true },
       includeLecturersInMetrics: { type: Boolean, default: true },
-      includeAlumniInMetrics: { type: Boolean, default: false },
+      includeAlumniInMetrics: { type: Boolean, default: true },
+
       citationsWeight: { type: Number, default: 2 },
       hindexWeight: { type: Number, default: 2 },
       i10hindexWeight: { type: Number, default: 2 },
@@ -82,7 +83,7 @@ const schoolsScheme = new mongoose.Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 if (mongoose.models.Schools) {
