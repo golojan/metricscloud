@@ -132,7 +132,15 @@ export const withAuth = (WrappedComponent: any) => {
   };
 
   Wrapper.getInitialProps = async (ctx: any) => {
-    const token = auth(ctx);
+    const { token } = nextCookie(ctx);
+    if (!token) {
+      return {
+        redirect: {
+          destination: '/auth',
+          permanent: false,
+        },
+      };
+    }
     const componentProps =
       WrappedComponent.getInitialProps &&
       (await WrappedComponent.getInitialProps(ctx));

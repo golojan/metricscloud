@@ -48,6 +48,15 @@ import { AuthUserInfo, DepartmentsInfo, FacultiesInfo } from '@metricsai/metrics
 import Image from 'next/image';
 import useSWR from 'swr';
 
+import {
+  getSchoolSettings,
+  citationByWeight,
+  hindexByWeight,
+  i10indexByWeight,
+  totalRanking
+} from '@metricsai/metrics-utils';
+
+
 const schoolId = authSchoolId();
 
 const options = {

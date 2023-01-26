@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import React, { useEffect, useState } from 'react';
 import AdminLayout from '../../../components/AdminLayout';
 import AppDrawer from '../../../serverlets/AppDrawer';
@@ -13,6 +13,7 @@ import { authSchoolId } from '@metricsai/metrics-hocs';
 import AuthLecturersTable from 'apps/metricsapp/components/DataTables/AuthLecturersTable';
 import useSWR from 'swr';
 import { AuthUserInfo, GSIRanking } from '@metricsai/metrics-interfaces';
+import parseCookies from 'next-cookies';
 
 type lFilters = {
   male: boolean;
@@ -168,7 +169,7 @@ const Lecturers: NextPage = () => {
                 </div>
               </div> */}
               <div className={`col-12 col-md-12 col-lg-12 min-h-screen`}>
-                <AuthLecturersTable title='Manage Lecturers' data={lecturers?.data} loading={loading} />
+                <AuthLecturersTable title='Manage Lecturers' data={loading ? [] : lecturers.data} loading={loading} />
               </div>
             </div>
           </div>

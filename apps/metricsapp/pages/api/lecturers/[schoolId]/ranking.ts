@@ -1,28 +1,15 @@
-import {
-  Gender,
-  ResponseFunctions,
-  AccountTypes,
-  MembershipTypes,
-  SchoolSettingsType,
-} from '@metricsai/metrics-interfaces';
+import { ResponseFunctions, AccountTypes, SchoolSettingsType } from '@metricsai/metrics-interfaces';
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
-import {
-  citationByWeight,
-  hindexByWeight,
-  i10indexByWeight,
-} from '@metricsai/metrics-utils';
+import { citationByWeight, hindexByWeight, i10indexByWeight } from '@metricsai/metrics-utils';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
-  const catcher = (error: Error) =>
-    res.status(400).json({ status: 0, error: error });
+  const catcher = (error: Error) => res.status(400).json({ status: 0, error: error });
   const handleCase: ResponseFunctions = {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
-      res
-        .status(200)
-        .json({ status: false, err: 'Only GET Method is allowed' });
+      res.status(200).json({ status: false, err: 'Only GET Method is allowed' });
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { schoolId } = req.query;

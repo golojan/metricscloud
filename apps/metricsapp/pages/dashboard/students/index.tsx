@@ -168,7 +168,7 @@ const Lecturers: NextPage = () => {
                 </div>
               </div> */}
               <div className={`col-12 col-md-12 col-lg-12 min-h-screen`}>
-                <AuthStudentsTable title='Manage Students' data={students?.data} loading={loading} />
+                <AuthStudentsTable title='Manage Students' data={loading ? [] : students.data} loading={loading} />
               </div>
             </div>
           </div>

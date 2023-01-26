@@ -104,7 +104,7 @@ const ReportPublications: NextPage = () => {
 
               <div className={`col-12 col-md-12 col-lg-12 min-h-screen`}>
                 {!busy ? (
-                  <AuthUserPublication title='Lecturers' data={listScholar} loading={isLoading} />
+                  <AuthUserPublication title='Lecturers' data={isLoading ? [] : listScholar} loading={isLoading} />
                 ) : (
                   <h1>Loading...</h1>
                 )}
