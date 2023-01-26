@@ -28,9 +28,9 @@ const SchoolRanking = () => {
           <PerCapitaHindex />
           <PerCapitaI10Index />
           <GoogleScholarPresence />
-          {/* <InternationalStaff />
+          <InternationalStaff />
           <InternationalStudents />
-          <InternationalColaborations />
+          {/* <InternationalColaborations />
           <GraduateOutput />
           <FullProfessors />
           <PercPHDs />

@@ -253,6 +253,10 @@ export type GSIRanking = {
   averageTotalPublications?: number;
   totalStaff?: number;
   totalGooglePresence?: number;
+  totalInternalStaff?: number;
+  percentageOfInternationalStaff?: number;
+  percentageOfInternationalStudents?: number;
+  totalInternationalStudents?: number;
   totalStaffWithOutGooglePresence?: number;
   totalStaffWithGooglePresence?: number;
   percentageOfStaffWithGooglePresence?: number;

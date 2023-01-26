@@ -1,20 +1,13 @@
-import {
-  AccountTypes,
-  ResponseFunctions,
-  SchoolSettingsType,
-} from '@metricsai/metrics-interfaces';
+import { AccountTypes, MembershipTypes, ResponseFunctions, SchoolSettingsType } from '@metricsai/metrics-interfaces';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
-  const catcher = (error: Error) =>
-    res.status(400).json({ status: 0, error: error });
+  const catcher = (error: Error) => res.status(400).json({ status: 0, error: error });
   const handleCase: ResponseFunctions = {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
-      res
-        .status(200)
-        .json({ status: false, err: 'Only GET Method is allowed' });
+      res.status(200).json({ status: false, err: 'Only GET Method is allowed' });
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { schoolId } = req.query;
@@ -22,7 +15,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
       // get school info for settings //
       const school = await Schools.findById(schoolId).catch(catcher);
-      
+
       let SETTINGS: SchoolSettingsType = {};
 
       let studentsInMetrics = false;
@@ -106,6 +99,16 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
                 $cond: [{ $eq: ['$accountType', AccountTypes.STUDENT] }, '$lecturerStudentRatio', null],
               },
             },
+            totalInternalStaff: {
+              $sum: {
+                $cond: [{ $eq: ['$membershipType', MembershipTypes.INTERNATIONAL] }, 1, 0],
+              },
+            },
+            totalInternationalStudents: {
+              $sum: {
+                $cond: [{ $eq: ['$membershipType', MembershipTypes.INTERNATIONAL] }, 1, 0],
+              },
+            },
           },
         },
         {
@@ -119,6 +122,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             totalStudents: 1,
             totalLecturers: 1,
             totalAlumni: 1,
+            totalInternalStaff: 1,
+            totalInternationalStudents: 1,
             firstPublicationYear: {
               $ifNull: [
                 {
@@ -223,6 +228,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             totalStudents: 1,
             totalLecturers: 1,
             totalAlumni: 1,
+            totalInternalStaff: 1,
+            totalInternationalStudents: 1,
             firstPublicationYear: 1,
             citationsPerCapita: 1,
             hindexPerCapita: 1,
@@ -235,6 +242,28 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
                 then: 0,
                 else: {
                   $multiply: [{ $divide: ['$totalStaffWithGooglePresence', '$totalLecturers'] }, 100],
+                },
+              },
+            },
+            percentageOfInternationalStaff: {
+              $cond: {
+                if: {
+                  $eq: ['$totalInternalStaff', 0],
+                },
+                then: 0,
+                else: {
+                  $multiply: [{ $divide: ['$totalInternalStaff', '$totalLecturers'] }, 100],
+                },
+              },
+            },
+            percentageOfInternationalStudents: {
+              $cond: {
+                if: {
+                  $eq: ['$totalInternationalStudents', 0],
+                },
+                then: 0,
+                else: {
+                  $multiply: [{ $divide: ['$totalInternationalStudents', '$totalStudents'] }, 100],
                 },
               },
             },
@@ -253,8 +282,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       } else {
         res.status(400).json({ status: false, error: 'No Statistics returned' });
       }
-
-        
     },
   };
   const response = handleCase[method];
