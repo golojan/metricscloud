@@ -3,7 +3,6 @@ import { GSIRanking, AuthUserInfo } from '@metricsai/metrics-interfaces';
 
 const CALCULATE_SCHOLAR_METRICS_BY_WEIGHT = false;
 
-
 export const minFirstPublicationYear = (arr: Array<GSIRanking>): number => {
   return Number(arr.reduce((acc, obj) => Math.min(acc, Number(obj.firstPublicationYear)), 0));
 };
@@ -13,128 +12,70 @@ export const maxFirstPublicationYear = (arr: Array<GSIRanking>): number => {
 };
 
 export const citationByWeight = (
-  citations: number,
-  totalPublications: number,
+  citationsPerCapita: number,
   lecturers: Array<AuthUserInfo>,
   citationWeight: number,
-) => {
-  if (citations === 0 || totalPublications === 0 || citationWeight === 0) {
-    return {
-      Weight: 0,
-      rWeight: 0,
-    };
+): { perCapita: number; weigth: number } => {
+  if (citationsPerCapita === 0 || lecturers.length <= 0 || citationWeight === 0) {
+    return { perCapita: 0, weigth: 0 };
   } else {
-    const citationsPC = citations / totalPublications;
-
-    citationWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? citationWeight : 100;
-
-    const maxCitations = addCitations(lecturers);
-    const totalCitations = Math.max(...lecturers.map((o) => o.citations));
-    const rHweight = maxCitations / totalPublications;
-
-    // const rWeight = (Weight / rHweight) * citationWeight;
-    // get the PCC of the highest person
-    // const highestTotalPublications = Math.max(...lecturers.map((o) => o.totalPublications));
-    // const highestCitations = Math.max(...lecturers.map((o) => o.citations));
-    // const rHweight = highestCitations / highestTotalPublications;
-    // // this rHWeight eqivalent and now equals to citationWeight in reference
-    // // and will be used to compute the wieght of other citations and totalPublications
-    // const Weight = citations / totalPublications;
-    // citationWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? citationWeight : 100;
-    // const rWeight = (Weight / rHweight) * citationWeight;
-
+    const maximumCPC = Math.max(...lecturers.map((o) => o.citationsPerCapita));
+    const multiplier = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? citationWeight : 100;
+    const weightCPC = (citationsPerCapita / maximumCPC) * multiplier;
     return {
-      Weight: 0,
-      rWeight: 0,
+      perCapita: Number(citationsPerCapita),
+      weigth: Number(weightCPC),
     };
   }
 };
 
 export const hindexByWeight = (
-  hindex: number,
-  firstPublicationYear: number,
+  hindexPerCapita: number,
   lecturers: Array<AuthUserInfo>,
   hindexWeight: number,
-) => {
-  if (hindex === 0 || firstPublicationYear === 0 || hindexWeight === 0) {
-    return {
-      Weight: 0,
-      rWeight: 0,
-    };
+): { perCapita: number; weigth: number } => {
+  if (hindexPerCapita === 0 || lecturers.length <= 0 || hindexWeight === 0) {
+    return { perCapita: 0, weigth: 0 };
   } else {
-    const maxHindex = addHindex(lecturers);
-    const totalPublications = Math.max(...lecturers.map((o) => o.totalPublications));
-    const rHweight = maxHindex / totalPublications;
-
-    const Weight = hindex / totalPublications;
-    hindexWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? hindexWeight : 100;
-
-    const rWeight = (Weight / rHweight) * hindexWeight;
-
-    // // current year
-    // const year: number = new Date().getFullYear();
-    // // diff in first pub year for leading user
-    // const highestFirstPublicationYear = Math.min(...lecturers.map((o) => o.firstPublicationYear));
-    // const rHyearDiff: number = Number(year) - Number(highestFirstPublicationYear);
-    // // diff in first pub year for this user
-    // const yearDiff: number = Number(year) - Number(firstPublicationYear);
-    // // weight for the leading user
-    // const highestHindex = Math.max(...lecturers.map((o) => Number(o.hindex)));
-    // const rHweight = highestHindex / rHyearDiff;
-    // // weight for this user
-    // const Weight = hindex / yearDiff;
-
-    // hindexWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? hindexWeight : 100;
-    // const rWeight = Weight / rHweight;
+    const maximumHPC = Math.max(...lecturers.map((o) => o.hindexPerCapita));
+    const multiplier = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? hindexWeight : 100;
+    const weightHPC = (hindexPerCapita / maximumHPC) * multiplier;
     return {
-      Weight: Weight.toFixed(1),
-      rWeight: rWeight.toFixed(1),
+      perCapita: Number(hindexPerCapita),
+      weigth: Number(weightHPC),
     };
   }
 };
 
 export const i10indexByWeight = (
-  i10index: number,
-  firstPublicationYear: number,
+  i10hindexPerCapita: number,
   lecturers: Array<AuthUserInfo>,
   i10indexWeight: number,
-) => {
-  if (i10index === 0 || firstPublicationYear === 0 || i10indexWeight === 0) {
+): { perCapita: number; weigth: number } => {
+  if (i10hindexPerCapita === 0 || lecturers.length <= 0 || i10indexWeight === 0) {
     return {
-      Weight: 0,
-      rWeight: 0,
+      perCapita: 0,
+      weigth: 0,
     };
   } else {
-    const maxI10index = addI10index(lecturers);
-    const totalPublications = Math.max(...lecturers.map((o) => o.totalPublications));
-    const rHweight = maxI10index / totalPublications;
-
-    const Weight = i10index / totalPublications;
-    i10indexWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? i10indexWeight : 100;
-
-    const rWeight = (Weight / rHweight) * i10indexWeight;
-
-    // // current year
-    // const year: number = new Date().getFullYear();
-    // // diff in first pub year for leading user
-    // const highestFirstPublicationYear = Math.min(...lecturers.map((o) => o.firstPublicationYear));
-    // const rHyearDiff: number = year - highestFirstPublicationYear;
-    // // diff in first pub year for this user
-    // const yearDiff: number = year - firstPublicationYear;
-    // // weight for the leading user
-    // const highestI10index = Math.max(...lecturers.map((o) => o.i10hindex));
-    // const rHweight = highestI10index / rHyearDiff;
-    // // weight for this user
-    // const Weight = i10index / yearDiff;
-
-    // i10indexWeight = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? i10indexWeight : 100;
-    // const rWeight = (Weight / rHweight) * i10indexWeight;
+    const maximumI10PC = Math.max(...lecturers.map((o) => o.i10hindexPerCapita));
+    const multiplier = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? i10indexWeight : 100;
+    const weightI10PC = (i10hindexPerCapita / maximumI10PC) * multiplier;
     return {
-      Weight: Weight.toFixed(1),
-      rWeight: rWeight.toFixed(1),
+      perCapita: Number(i10hindexPerCapita),
+      weigth: Number(weightI10PC),
     };
   }
 };
+
+export const totalByWeight = (
+  citationsPerCapita: number,
+  hindexPerCapita: number,
+  i10hindexPerCapita: number,
+): number => {
+  return Number((citationsPerCapita + hindexPerCapita + i10hindexPerCapita).toFixed(0));
+};
+  
 
 export const addCitations = (arr: Array<GSIRanking>): number => {
   return arr?.reduce((acc, obj) => Number(acc) + Number(obj.citations), 0);

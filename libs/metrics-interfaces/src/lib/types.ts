@@ -103,7 +103,7 @@ export interface AuthUserInfo {
   scopusId?: string;
   orcidId?: string;
   googlePresence?: number;
-  citationPerCapita?: number;
+  citationsPerCapita?: number;
   hindexPerCapita?: number;
   i10hindexPerCapita?: number;
   citations?: number;
@@ -218,6 +218,9 @@ export type GSIRanking = {
   citations?: number;
   hindex?: number;
   i10hindex?: number;
+  citationsPerCapita?: number;
+  hindexPerCapita?: number;
+  i10hindexPerCapita?: number;
   totalPublications?: number;
   firstPublicationYear?: number;
   lastPublicationYear?: number;

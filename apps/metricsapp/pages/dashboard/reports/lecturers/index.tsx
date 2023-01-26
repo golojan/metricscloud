@@ -10,6 +10,7 @@ import { compose } from 'redux';
 
 import {
   AuthUserInfo,
+  GSIRanking,
   GSRanking,
   SchoolSettingsType,
 } from '@metricsai/metrics-interfaces';
@@ -55,7 +56,7 @@ const ReportLecturers: NextPage = () => {
   const [statistLecturers, setStatistLecturers] = useAtom(statistLecturersAtom);
 
   // use SWR to fetch data from the API
-  const { data: lecturers, isLoading } = useSWR(
+  const { data: lecturers, isLoading } = useSWR<AuthUserInfo[]>(
     `/api/lecturers/${schoolId}/ranking`,
     async () => await loadLecturers(schoolId)
   );
@@ -92,42 +93,36 @@ const ReportLecturers: NextPage = () => {
           firstname: user.firstname,
           lastname: user.lastname,
           citations: citationByWeight(
-            user.citations,
-            user.totalPublications,
+            user.citationsPerCapita,
             lecturers,
             settings.citationsWeight
-          ).rWeight,
+          ).weigth,
           hindex: hindexByWeight(
             user.hindex,
-            user.firstPublicationYear,
             lecturers,
             settings.hindexWeight
-          ).rWeight,
+          ).weigth,
           i10hindex: i10indexByWeight(
             user.i10hindex,
-            user.firstPublicationYear,
             lecturers,
             settings.i10hindexWeight
-          ).rWeight,
+          ).weigth,
           total: totalRanking(
             Number(citationByWeight(
               user.citations,
-              user.totalPublications,
               lecturers,
               settings.citationsWeight
-            ).rWeight),
+            ).weigth),
             Number(hindexByWeight(
               user.hindex,
-              user.firstPublicationYear,
               lecturers,
               settings.hindexWeight
-            ).rWeight),
+            ).weigth),
             Number(i10indexByWeight(
               user.i10hindex,
-              user.firstPublicationYear,
               lecturers,
               settings.i10hindexWeight
-            ).rWeight)
+            ).weigth)
           )
         })));
         setWorking(false);
