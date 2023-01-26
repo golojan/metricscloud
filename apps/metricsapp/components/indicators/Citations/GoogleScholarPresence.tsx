@@ -20,11 +20,11 @@ const GoogleScholarPresence = () => {
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {isLoading ? '...' : statistics.percentageOfStaffWithGooglePresence}%
+            {isLoading ? '...' : statistics.percentageOfStaffWithGooglePresence.toFixed(1)}%
           </h1>
           <em className="absolute bottom-0 right-5">
             <strong className="text-green-600 small">
-              {isLoading ? '...' : statistics.percentageOfStaffWithGooglePresence}%
+              {isLoading ? '...' : statistics.percentageOfStaffWithGooglePresence.toFixed(1)}%
             </strong>
             {'% '}
             of <strong className="text-green-600">

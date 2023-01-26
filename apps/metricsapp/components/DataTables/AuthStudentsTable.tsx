@@ -44,8 +44,9 @@ const tableIcons: Icons<AuthUserInfo> = {
 };
 
 import { authSchoolId } from '@metricsai/metrics-hocs';
-import { AuthUserInfo } from '@metricsai/metrics-interfaces';
+import { AuthUserInfo, DepartmentsInfo, FacultiesInfo } from '@metricsai/metrics-interfaces';
 import Image from 'next/image';
+import useSWR from 'swr';
 
 const schoolId = authSchoolId();
 
@@ -72,6 +73,22 @@ type Props = {
 
 const AuthStudentsTable = (props: Props) => {
   const { title, data, loading } = props;
+
+  const { data: faculties, isLoading: fac_loading } = useSWR<{ status: boolean, data: FacultiesInfo[] }>(`/api/faculties/${schoolId}/list`, () => fetch(`/api/faculties/${schoolId}/list`).then(res => res.json()));
+  const { data: departments, isLoading: dep_loading } = useSWR<{ status: boolean, data: DepartmentsInfo[] }>(`/api/departments/${schoolId}/list`, () => fetch(`/api/departments/${schoolId}/list`).then(res => res.json()));
+
+  const dName = (departmentId: string) => {
+    if (dep_loading) return '...';
+    const department = departments.data.find(dep => dep._id === departmentId);
+    return department ? department.departmentName : 'No Department';
+  }
+
+  const fName = (facultyId: string) => {
+    if (fac_loading) return '...';
+    const faculty = faculties.data.find(fac => fac._id === facultyId);
+    return faculty ? faculty.facultyName : 'No Faculty';
+  }
+
   const columns: Column<AuthUserInfo>[] = [
     {
       field: 'picture',
@@ -79,10 +96,9 @@ const AuthStudentsTable = (props: Props) => {
       render: rowData => <Image alt={`${rowData.fullname}`} src={rowData.picture} width={40} height={40} className='rounded-[50%]' />
     },
     { title: 'Name', field: 'fullname' },
-    { title: 'Gender', field: 'gender' },
-    { title: 'Faculty', field: 'departmentId' },
-    { title: 'Faculty', field: 'facultyId' },
-    { title: 'Department', field: 'facultyId' },
+    { title: 'Gender', field: 'gender', render: rowData => <span>{rowData.gender ? rowData.gender : '-'}</span> },
+    { title: 'Faculty', field: 'facultyId', render: rowData => <span>{fName(rowData.facultyId)}</span> },
+    { title: 'Department', field: 'departmentId', render: rowData => <span>{dName(rowData.departmentId)}</span> },
     { title: 'Citations', field: 'citationsPerCapita', render: rowData => <span>{rowData.citationsPerCapita.toFixed(2)}</span> },
     { title: 'H-Index', field: 'hindexPerCapita', render: rowData => <span>{rowData.hindexPerCapita.toFixed(2)}</span> },
     { title: 'i10-Index', field: 'i10hindexPerCapita', render: rowData => <span>{rowData.i10hindexPerCapita.toFixed(2)}</span> },
