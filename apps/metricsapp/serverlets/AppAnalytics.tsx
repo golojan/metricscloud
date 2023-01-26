@@ -56,7 +56,7 @@ function AppAnalytics() {
                 <div className="row mt-2 relative h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
                   <Link
                     href="/dashboard/reports/lecturers"
-                    className="hover:text-green-700"
+                    className="text-primary hover:text"
                   >
                     <span className="text-lg">
                       <ArrowRight />
@@ -65,7 +65,7 @@ function AppAnalytics() {
                   </Link>
                   <Link
                     href="/dashboard/reports/publications"
-                    className="hover:text-green-700"
+                    className="text-gray-300 hover:text-gray-400"
                   >
                     <span className="text-lg">
                       <ArrowRight />
@@ -74,7 +74,7 @@ function AppAnalytics() {
                   </Link>
                   <Link
                     href="#"
-                    className="hover:text-green-700"
+                    className="text-gray-300 hover:text-gray-400"
                     onClick={noAction}
                   >
                     <span className="text-lg">
@@ -101,7 +101,7 @@ function AppAnalytics() {
                 <div className="row mt-2 relative h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
                   <Link
                     href="#"
-                    className="hover:text-green-700"
+                    className="text-gray-300 hover:text-gray-400"
                     onClick={noAction}
                   >
                     <span className="text-lg">
@@ -110,7 +110,7 @@ function AppAnalytics() {
                   </Link>
                   <Link
                     href="#"
-                    className="hover:text-green-700"
+                    className="text-gray-300 hover:text-gray-400"
                     onClick={noAction}
                   >
                     <span className="text-lg">
@@ -136,7 +136,7 @@ function AppAnalytics() {
                 <div className="row mt-2 relative h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
                   <Link
                     href="#"
-                    className="hover:text-green-700"
+                    className="text-gray-300 hover:text-gray-400"
                     onClick={noAction}
                   >
                     <span className="text-lg">
@@ -145,7 +145,7 @@ function AppAnalytics() {
                   </Link>
                   <Link
                     href="#"
-                    className="hover:text-green-700"
+                    className="text-gray-300 hover:text-gray-400"
                     onClick={noAction}
                   >
                     <span className="text-lg">
@@ -172,7 +172,7 @@ function AppAnalytics() {
                 <div className="row mt-2 relative h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
                   <Link
                     href="#"
-                    className="hover:text-green-700"
+                    className="text-gray-300 hover:text-gray-400"
                     onClick={noAction}
                   >
                     <span className="text-lg">
@@ -181,7 +181,7 @@ function AppAnalytics() {
                   </Link>
                   <Link
                     href="#"
-                    className="hover:text-green-700"
+                    className="text-gray-300 hover:text-gray-400"
                     onClick={noAction}
                   >
                     <span className="text-lg">
@@ -200,7 +200,7 @@ function AppAnalytics() {
                 <div className="row mt-2 relative h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
                   <Link
                     href="#"
-                    className="hover:text-green-700"
+                    className="text-gray-300 hover:text-gray-400"
                     onClick={noAction}
                   >
                     <span className="text-lg">
@@ -219,7 +219,7 @@ function AppAnalytics() {
                 <div className="row mt-2 relative  h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
                   <Link
                     href="#"
-                    className="hover:text-green-700"
+                    className="text-gray-300 hover:text-gray-400"
                     onClick={noAction}
                   >
                     <span className="text-lg">
@@ -238,7 +238,7 @@ function AppAnalytics() {
                 <div className="row mt-2 relative h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
                   <Link
                     href="#"
-                    className="hover:text-green-700"
+                    className="text-gray-300 hover:text-gray-400"
                     onClick={noAction}
                   >
                     <span className="text-lg">
@@ -247,7 +247,7 @@ function AppAnalytics() {
                   </Link>
                   <Link
                     href="#"
-                    className="hover:text-green-700"
+                    className="text-gray-300 hover:text-gray-400"
                     onClick={noAction}
                   >
                     <span className="text-lg">
@@ -256,7 +256,7 @@ function AppAnalytics() {
                   </Link>
                   <Link
                     href="#"
-                    className="hover:text-green-700"
+                    className="text-gray-300 hover:text-gray-400"
                     onClick={noAction}
                   >
                     <span className="text-lg">

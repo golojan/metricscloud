@@ -255,7 +255,7 @@ const ReportLecturers: NextPage = () => {
               </div>
               <div className={`col-12 col-md-12 col-lg-9 min-h-screen`}>
                 {!busy ? (
-                  <AuthUserTable title='Lecturers' data={isLoading ? [] : listScholar} loading={isLoading} />
+                  <AuthUserTable title='Lecturers: Google Scholar Metrics' data={isLoading ? [] : listScholar} loading={isLoading} />
                 ) : (
                   <h1>Loading...</h1>
                 )}
