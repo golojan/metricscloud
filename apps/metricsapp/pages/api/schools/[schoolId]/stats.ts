@@ -40,11 +40,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       let matchQuery = {};
 
       // set match query based on includeStudentsInMetrics and includeLecturersInMetrics and includeAlumniInMetrics //
-      if (
-        SETTINGS.includeAlumniInMetrics &&
-        lecturersInMetrics &&
-        alumniInMetrics
-      ) {
+      if (SETTINGS.includeAlumniInMetrics && lecturersInMetrics && alumniInMetrics) {
         matchQuery = {
           schoolId: schoolId,
         };
@@ -78,30 +74,18 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           schoolId: schoolId,
           accountType: { $nin: [AccountTypes.STUDENT, AccountTypes.LECTURER] },
         };
-      } else if (
-        !studentsInMetrics &&
-        !lecturersInMetrics &&
-        !alumniInMetrics
-      ) {
+      } else if (!studentsInMetrics && !lecturersInMetrics && !alumniInMetrics) {
         matchQuery = {
           schoolId: schoolId,
           accountType: {
-            $nin: [
-              AccountTypes.STUDENT,
-              AccountTypes.LECTURER,
-              AccountTypes.ALUMNI,
-            ],
+            $nin: [AccountTypes.STUDENT, AccountTypes.LECTURER, AccountTypes.ALUMNI],
           },
         };
       } else {
         matchQuery = {
           schoolId: schoolId,
           accountType: {
-            $nin: [
-              AccountTypes.STUDENT,
-              AccountTypes.LECTURER,
-              AccountTypes.ALUMNI,
-            ],
+            $nin: [AccountTypes.STUDENT, AccountTypes.LECTURER, AccountTypes.ALUMNI],
           },
         };
       }
@@ -111,51 +95,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         {
           $group: {
             _id: '$schoolId',
-            citations: { $sum: '$citations' },
-            hindex: { $sum: '$hindex' },
-            i10hindex: { $sum: '$i10hindex' },
-            totalPublications: { $sum: '$totalPublications' },
-            firstPublicationYear: { $min: '$firstPublicationYear' },
-            lastPublicationYear: { $max: '$lastPublicationYear' },
-            highestCitations: { $max: '$citations' },
-            highestHindex: { $max: '$hindex' },
-            highestI10hindex: { $max: '$i10hindex' },
-            highestTotalPublications: { $max: '$totalPublications' },
-            lowestCitations: { $min: '$citations' },
-            lowestHindex: { $min: '$hindex' },
-            lowestI10hindex: { $min: '$i10hindex' },
-            lowestTotalPublications: { $min: '$totalPublications' },
-            totalStaff: { $sum: 1 },
-            totalStaffWithGooglePresence: {
-              $sum: {
-                $cond: [
-                  {
-                    $or: [
-                      { $gt: ['$citations', 0] },
-                      { $gt: ['$hindex', 0] },
-                      { $gt: ['$i10hindex', 0] },
-                    ],
-                  },
-                  1,
-                  0,
-                ],
-              },
-            },
-            totalStaffWithOutGooglePresence: {
-              $sum: {
-                $cond: [
-                  {
-                    $and: [
-                      { $eq: ['$citations', 0] },
-                      { $eq: ['$hindex', 0] },
-                      { $eq: ['$i10hindex', 0] },
-                    ],
-                  },
-                  1,
-                  0,
-                ],
-              },
-            },
+            totalCitations: { $sum: '$citations' },
           },
         },
       ]).catch(catcher);
@@ -163,23 +103,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       if (gs_results[0]) {
         res.status(200).json({
           status: true,
-          citations: gs_results[0].citations,
-          hindex: gs_results[0].hindex,
-          i10hindex: gs_results[0].i10hindex,
-          totalPublications: gs_results[0].totalPublications,
-          firstPublicationYear: gs_results[0].firstPublicationYear,
-          lastPublicationYear: gs_results[0].lastPublicationYear,
-          totalStaff: gs_results[0].totalStaff,
-          totalStaffWithGooglePresence:
-            gs_results[0].totalStaffWithGooglePresence,
-          totalStaffWithOutGooglePresence:
-            gs_results[0].totalStaffWithOutGooglePresence,
+          ...gs_results[0],
         });
       } else {
-        res
-          .status(400)
-          .json({ status: false, error: 'No Statistics returned' });
+        res.status(400).json({ status: false, error: 'No Statistics returned' });
       }
+      
     },
   };
   const response = handleCase[method];

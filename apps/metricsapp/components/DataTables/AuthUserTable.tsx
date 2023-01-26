@@ -52,6 +52,8 @@ const options = {
   pageSizeOptions: [10, 100, 200, 300, 400],
   headerStyle: {
     fontWeight: 'bold',
+    backgroundColor: '#01579b',
+    color: '#FFF'
   },
   selection: true,
   exportButton: true,

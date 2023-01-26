@@ -18,9 +18,7 @@ import Copyright from '../../serverlets/Copyright';
 import { withAuth } from '@metricsai/metrics-hocs';
 import { authSchoolId } from '@metricsai/metrics-hocs';
 import SchoolRanking from '../../components/SchoolRanking';
-import { SchoolStats } from '@metricsai/metrics-interfaces';
 import {
-  loadSchoolsStats,
   loadLecturersStats,
   loadStudentsStats,
 } from '@metricsai/metrics-utils';
@@ -32,25 +30,6 @@ import AppDashBoardTopMenuScores from '../../serverlets/AppDashBoardTopMenuScore
 
 const Dashboard: NextPage = () => {
   const schoolId = authSchoolId();
-  const dispatch = useDispatch<Dispatch>();
-
-  useEffect(() => {
-    loadLecturersStats(schoolId).then((stats) => {
-      dispatch.settings.setRank(stats);
-    });
-    loadLecturersStats(schoolId).then((stats) => {
-      dispatch.lecturers.setStatistics(stats);
-    });
-    loadStudentsStats(schoolId).then((stats) => {
-      dispatch.students.setStatistics(stats);
-    });
-  }, [
-    schoolId,
-    dispatch.settings,
-    dispatch.lecturers,
-    dispatch.students,
-  ]);
-
   return (
     <>
       <AdminLayout>

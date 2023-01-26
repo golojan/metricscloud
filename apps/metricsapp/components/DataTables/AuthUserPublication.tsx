@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import MaterialTable, { Icons, Column, Action } from '@material-table/core';
+import { noAction } from '@metricsai/metrics-utils';
 import {
   AddBox,
   ArrowDownward,
@@ -44,19 +45,25 @@ const tableIcons: Icons<AuthUserInfo> = {
 
 import { authSchoolId } from '@metricsai/metrics-hocs';
 import { AuthUserInfo } from '@metricsai/metrics-interfaces';
+import Link from 'next/link';
 
 const options = {
-  paging: true,
-  pageSize: 10,
-  emptyRowsWhenPaging: false,
-  pageSizeOptions: [10, 100, 200, 300, 400],
-  headerStyle: {
-    fontWeight: 'bold',
-  },
-  selection: true,
+  // paging: true,
+  // pageSize: 10,
+  // emptyRowsWhenPaging: false,
+  // pageSizeOptions: [10, 100, 200, 300, 400],
+  // headerStyle: {
+  //   fontWeight: 'bold',
+  //   backgroundColor: '#01579b',
+  //   color: '#FFF'
+  // },
+  // selection: true,
+  toolbar: true,
   exportButton: true,
+  exportAllData: true,
   exportFileName: `metricsai-${authSchoolId()}-users`,
 };
+
 
 type Props = {
   title: string;
@@ -68,13 +75,27 @@ const AuthUserPublication = (props: Props) => {
   const { title, data, loading } = props;
   const schoolId = authSchoolId();
   const columns: Column<AuthUserInfo>[] = [
-    { title: 'Firstname', field: 'firstname' },
-    { title: 'Lastname', field: 'lastname' },
+    { title: 'Lecturer', field: 'firstname', render: rowData => <Link className='text-lg m-0' href="#" onClick={noAction}>{rowData.firstname}</Link> },
     { title: 'Publications', field: 'totalPublications' },
     { title: 'First Published', field: 'firstPublicationYear' },
     { title: 'Last Published', field: 'lastPublicationYear' },
-    { title: 'All Co-Authors', field: 'coAuthors' },
+    { title: 'Citations', field: 'citationsPerCapita' },
+    { title: 'hIndex', field: 'hindexPerCapita' },
+    { title: 'i10Index', field: 'i10indexPerCapita' },
   ];
+  const detailPanel = [
+    {
+      tooltip: 'Show Name',
+      render: rowData => {
+        return (
+          <div className='h-[100px] bg-red-400 rounded-4 m-2'>
+            {rowData.firstname}
+          </div>
+        )
+      },
+    },
+  ];
+
   return (
     <MaterialTable
       title={title}
@@ -83,6 +104,7 @@ const AuthUserPublication = (props: Props) => {
       options={options}
       columns={columns}
       icons={tableIcons}
+      detailPanel={detailPanel}
     />
   );
 };

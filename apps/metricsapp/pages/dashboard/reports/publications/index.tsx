@@ -73,17 +73,14 @@ const ReportPublications: NextPage = () => {
       setList(lecturers);
       if (list) {
         setWorking(true);
-        setListScholar(lecturers.map((user) => ({
-          firstname: user.firstname,
-          lastname: user.lastname,
+        setListScholar(lecturers.map((user: AuthUserInfo) => ({
+          firstname: `${user.firstname} ${user.lastname}`,
           totalPublications: user.totalPublications,
           firstPublicationYear: user.firstPublicationYear,
           lastPublicationYear: user.lastPublicationYear,
-          coAuthors: () => {
-            const { articles } = user.publications;
-            const authors = articles?.author?.name.flatMap(obj => obj.authors.split(','));
-            return authors[0];
-          }
+          citationsPerCapita: user.citationsPerCapita.toFixed(2),
+          hindexPerCapita: user.hindexPerCapita.toFixed(2),
+          i10indexPerCapita: user.i10hindexPerCapita.toFixed(2),
         })));
         setWorking(false);
       }

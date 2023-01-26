@@ -66,7 +66,6 @@ function AppAnalytics() {
                   <Link
                     href="/dashboard/reports/publications"
                     className="hover:text-green-700"
-                    onClick={noAction}
                   >
                     <span className="text-lg">
                       <ArrowRight />
