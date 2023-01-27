@@ -28,6 +28,7 @@ const Dashboard: NextPage = () => {
       authlogout('/auth')
     }
   }, [token])
+
   return (
     <>
       <AdminLayout>

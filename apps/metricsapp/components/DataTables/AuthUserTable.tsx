@@ -73,10 +73,11 @@ const AuthUserTable = (props: Props) => {
   const columns: Column<AuthUserInfo>[]=[
     { title: 'Firstname', field: 'firstname' },
     { title: 'Lastname', field: 'lastname' },
-    { title: 'Citations', field: 'citations' },
-    { title: 'H-intex', field: 'hindex' },
-    { title: 'i10-H-intex', field: 'i10hindex' },
+    { title: 'Citations', field: 'citationByWeight' },
+    { title: 'H-intex', field: 'hindexByWeight' },
+    { title: 'i10-H-intex', field: 'i10indexByWeight' },
     { title: 'Total', field: 'total' },
+    { title: 'Position', field: 'position' },
   ];
   return (
     <MaterialTable

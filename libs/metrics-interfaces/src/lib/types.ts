@@ -107,6 +107,11 @@ export interface AuthUserInfo {
   citationsPerCapita?: number;
   hindexPerCapita?: number;
   i10hindexPerCapita?: number;
+  i10indexByWeight?: number;
+  hindexByWeight?: number;
+  citationByWeight?: number;
+  total: number;
+  position: string;
   citations?: number;
   hindex?: number;
   i10hindex?: number;

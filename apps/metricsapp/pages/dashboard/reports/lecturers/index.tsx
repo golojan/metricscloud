@@ -23,7 +23,8 @@ import {
   citationByWeight,
   hindexByWeight,
   i10indexByWeight,
-  totalRanking
+  totalRanking,
+  getPosition
 } from '@metricsai/metrics-utils';
 
 import useSWR from 'swr';
@@ -35,6 +36,7 @@ import {
   statistLecturersAtom,
 } from '@metricsai/metrics-store';
 import AuthUserTable from '../../../../components/DataTables/AuthUserTable';
+import { positions } from '@mui/system';
 
 type lFilters = {
   male: boolean;
@@ -50,10 +52,7 @@ const ReportLecturers: NextPage = () => {
   const [query, setQuery] = useState<string>('');
 
   const [list, setList] = useState<AuthUserInfo[]>([]);
-  const [listScholar, setListScholar] = useState<AuthUserInfo[]>([]);
-
   const [schoolSettings, setSchoolSettings] = useAtom(schoolSettingsAtom);
-  const [statistLecturers, setStatistLecturers] = useAtom(statistLecturersAtom);
 
   // use SWR to fetch data from the API
   const { data: lecturers, isLoading } = useSWR<{ status: boolean, data: AuthUserInfo[] }>(
@@ -83,50 +82,32 @@ const ReportLecturers: NextPage = () => {
     isProfessor: false,
   });
 
+
+
+
   useEffect(() => {
     if (lecturers && !busy) {
-      setList(lecturers.data);
+      setWorking(false);
+      const result = lecturers.data?.sort((a, b) => b.total - a.total).map((lecturer, index) => {
+        const citation = citationByWeight(lecturer.citationsPerCapita, lecturers.data, 100).weigth;
+        const hindex = hindexByWeight(lecturer.hindexPerCapita, lecturers.data, 100).weigth;
+        const i10index = i10indexByWeight(lecturer.i10hindexPerCapita, lecturers.data, 100).weigth;
+        const total = totalRanking(citation, hindex, i10index);
+        return {
+          ...lecturer,
+          citationPerCapita: lecturer.citationsPerCapita,
+          hindexPerCapita: lecturer.hindexPerCapita,
+          i10hindexPerCapita: lecturer.i10hindexPerCapita,
+          citationByWeight: citation,
+          hindexByWeight: hindex,
+          i10indexByWeight: i10index,
+          total: total,
+          position: getPosition(index),
+        }
+      });
+      setList(result);
       setSchoolSettings(settings);
-      if (list) {
-        setWorking(true);
-        setListScholar(list.map((user) => ({
-          firstname: user.firstname,
-          lastname: user.lastname,
-          citations: Number(citationByWeight(
-            user.citationsPerCapita,
-            list,
-            settings.citationsWeight
-          ).weigth),
-          hindex: hindexByWeight(
-            user.hindexPerCapita,
-            list,
-            settings.hindexWeight
-          ).weigth,
-          i10hindex: i10indexByWeight(
-            user.i10hindexPerCapita,
-            list,
-            settings.i10hindexWeight
-          ).weigth,
-          total: totalRanking(
-            Number(citationByWeight(
-              user.citationsPerCapita,
-              list,
-              settings.citationsWeight
-            ).weigth),
-            Number(hindexByWeight(
-              user.hindexPerCapita,
-              list,
-              settings.hindexWeight
-            ).weigth),
-            Number(i10indexByWeight(
-              user.i10hindexPerCapita,
-              list,
-              settings.i10hindexWeight
-            ).weigth)
-          )
-        })));
-        setWorking(false);
-      }
+      setWorking(false);
     }
   }, [lecturers, busy]);
 
@@ -254,8 +235,7 @@ const ReportLecturers: NextPage = () => {
                 </div>
               </div>
               <div className={`col-12 col-md-12 col-lg-9 min-h-screen`}>
-                {/* {JSON.stringify(list)} */}
-                <AuthUserTable title='Lecturers: Google Scholar Metrics' data={listScholar ? listScholar : []} loading={busy} />
+                <AuthUserTable title='Lecturers: Google Scholar Metrics' data={list ? list : []} loading={busy} />
               </div>
             </div>
           </div>
