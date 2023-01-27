@@ -2,12 +2,14 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 
 function CustomApp({ Component, pageProps }: AppProps) {
-  return <>
-    <Head>
-      <title>[api].metrics.ng</title>
-    </Head>
-    <Component {...pageProps} />
-  </>;
+  return (
+    <>
+      <Head>
+        <title>api.metrics.com</title>
+      </Head>
+      <Component {...pageProps} />
+    </>
+  );
 }
 
 export default CustomApp;

@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import MaterialTable, { Icons, Column, Action } from '@material-table/core';
 import {
   AddBox,
@@ -48,8 +48,21 @@ import { AuthUserInfo, DepartmentsInfo, FacultiesInfo } from '@metricsai/metrics
 import Image from 'next/image';
 import useSWR from 'swr';
 import PieChart from 'apps/metricsapp/widgets/charts/PieChart';
+import { loadDepartments } from '@metricsai/metrics-utils';
 
-const schoolId = authSchoolId();
+
+
+type Props = {
+  title: string;
+  data: AuthUserInfo[];
+  loading: boolean;
+};
+
+
+const AuthLecturersTable = (props: Props) => {
+  const { title, data, loading } = props;
+
+  const schoolId = authSchoolId();
 
 const options = {
   paging: true,
@@ -65,19 +78,9 @@ const options = {
   exportFileName: `metricsai-${schoolId}-users`,
 };
 
-type Props = {
-  title: string;
-  data: AuthUserInfo[];
-  loading: boolean;
-};
-
-
-const AuthLecturersTable = (props: Props) => {
-  const { title, data, loading } = props;
 
   const { data: faculties, isLoading: fac_loading } = useSWR<{ status: boolean, data: FacultiesInfo[] }>(`/api/faculties/${schoolId}/list`, () => fetch(`/api/faculties/${schoolId}/list`).then(res => res.json()));
   const { data: departments, isLoading: dep_loading } = useSWR<{ status: boolean, data: DepartmentsInfo[] }>(`/api/departments/${schoolId}/list`, () => fetch(`/api/departments/${schoolId}/list`).then(res => res.json()));
-
   const dName = (departmentId: string) => {
     if (dep_loading) return '...';
     const department = departments.data.find(dep => dep._id === departmentId);
@@ -94,9 +97,6 @@ const AuthLecturersTable = (props: Props) => {
 
     { title: 'ID', field: '_id', hidden: true },
     { title: 'Name', field: 'fullname' },
-    { title: 'Gender', field: 'gender' },
-    { title: 'Faculty', field: 'facultyId', render: rowData => <span>{fName(rowData.facultyId)}</span> },
-    { title: 'Department', field: 'departmentId', render: rowData => <span>{dName(rowData.departmentId)}</span> },
     { title: 'Citations', field: 'citationsPerCapita', render: rowData => <span>{rowData.citationsPerCapita.toFixed(2)}</span> },
     { title: 'H-Index', field: 'hindexPerCapita', render: rowData => <span>{rowData.hindexPerCapita.toFixed(2)}</span> },
     { title: 'i10-Index', field: 'i10hindexPerCapita', render: rowData => <span>{rowData.i10hindexPerCapita.toFixed(2)}</span> },

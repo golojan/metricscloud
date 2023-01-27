@@ -10,7 +10,6 @@ import { compose } from 'redux';
 
 import {
   AuthUserInfo,
-  SchoolSettingsType,
 } from '@metricsai/metrics-interfaces';
 
 import { authSchoolId } from '@metricsai/metrics-hocs';
@@ -25,12 +24,14 @@ import {
 } from '@metricsai/metrics-utils';
 
 import useSWR from 'swr';
+
 import AppDashBoardTopMenuScores from '../../../../serverlets/AppDashBoardTopMenuScores';
 import AppDashboardTopMenu from '../../../../serverlets/AppDashboardTopMenu';
 import { useAtom } from 'jotai';
 import {
   schoolSettingsAtom,
 } from '@metricsai/metrics-store';
+
 import AuthUserTable from '../../../../components/DataTables/AuthUserTable';
 import { Settings } from '@material-ui/icons';
 
@@ -50,7 +51,7 @@ const ReportLecturers: NextPage = () => {
   const [list, setList] = useState<AuthUserInfo[]>([]);
   const [settings, setSettings] = useAtom(schoolSettingsAtom);
 
-  const [byWeigth, setByWeigth] = useState<boolean>(false);
+  const [byWeigth, setByWeigth] = useState<boolean>(true);
 
   const busy = working || !settings;
 
@@ -95,7 +96,7 @@ const ReportLecturers: NextPage = () => {
       setWorking(false);
     }
 
-  }, [byWeigth]);
+  }, [byWeigth, lecturers]);
 
 
   return (
@@ -250,8 +251,8 @@ const ReportLecturers: NextPage = () => {
                 </div>
               </div>
               <div className={`col-12 col-md-12 col-lg-9 min-h-screen`}>
-                {JSON.stringify(lecturers)}
-                {/* <AuthUserTable title='Lecturers: Google Scholar Metrics' data={list ? list : []} loading={busy} /> */}
+                {/* {JSON.stringify(list)} */}
+                <AuthUserTable title='Lecturers: Google Scholar Metrics' data={list ? list : []} loading={busy} />
               </div>
             </div>
           </div>

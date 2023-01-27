@@ -20,8 +20,7 @@ export const citationByWeight = (
     return { perCapita: 0, weigth: 0 };
   } else {
     const maximumCPC = Math.max(...lecturers.map((o) => o.citationsPerCapita));
-    const multiplier = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? citationWeight : 100;
-    const weightCPC = (citationsPerCapita / maximumCPC) * multiplier;
+    const weightCPC = (citationsPerCapita / maximumCPC) * citationWeight;
     return {
       perCapita: Number(citationsPerCapita),
       weigth: Number(weightCPC),
@@ -38,8 +37,7 @@ export const hindexByWeight = (
     return { perCapita: 0, weigth: 0 };
   } else {
     const maximumHPC = Math.max(...lecturers.map((o) => o.hindexPerCapita));
-    const multiplier = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? hindexWeight : 100;
-    const weightHPC = (hindexPerCapita / maximumHPC) * multiplier;
+    const weightHPC = (hindexPerCapita / maximumHPC) * hindexWeight;
     return {
       perCapita: Number(hindexPerCapita),
       weigth: Number(weightHPC),
@@ -59,8 +57,7 @@ export const i10indexByWeight = (
     };
   } else {
     const maximumI10PC = Math.max(...lecturers.map((o) => o.i10hindexPerCapita));
-    const multiplier = CALCULATE_SCHOLAR_METRICS_BY_WEIGHT ? i10indexWeight : 100;
-    const weightI10PC = (i10hindexPerCapita / maximumI10PC) * multiplier;
+    const weightI10PC = (i10hindexPerCapita / maximumI10PC) * i10indexWeight;
     return {
       perCapita: Number(i10hindexPerCapita),
       weigth: Number(weightI10PC),

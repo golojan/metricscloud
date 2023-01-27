@@ -75,9 +75,9 @@ const AuthUserTable = (props: Props) => {
   const columns: Column<AuthUserInfo>[]=[
     { title: 'Firstname', field: 'firstname' },
     { title: 'Lastname', field: 'lastname' },
-    { title: 'Citations', field: 'citationByWeight' },
-    { title: 'H-intex', field: 'hindexByWeight' },
-    { title: 'i10-H-intex', field: 'i10indexByWeight' },
+    { title: 'Citations', field: 'citationByWeight', render: rowData => <span>{rowData.citationByWeight.toFixed(2)}</span> },
+    { title: 'H-intex', field: 'hindexByWeight', render: rowData => <span>{rowData.hindexByWeight.toFixed(2)}</span> },
+    { title: 'i10-H-intex', field: 'i10indexByWeight', render: rowData => <span>{rowData.i10indexByWeight.toFixed(2)}</span> },
     { title: 'Total', field: 'total' },
     { title: 'Position', field: 'position', render: rowData => <Link href='#' onClick={noAction} className='text-white bg-blue-900 rounded-4 p-1'>{rowData.position}</Link> },
   ];

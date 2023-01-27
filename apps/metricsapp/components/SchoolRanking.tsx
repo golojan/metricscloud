@@ -31,7 +31,7 @@ const SchoolRanking = () => {
           <InternationalStaff />
           <InternationalStudents />
           <InternationalColaborations />
-          {/* <GraduateOutput />
+          <GraduateOutput />
           <FullProfessors />
           <PercPHDs />
           <FullAcreditationStatus />
@@ -39,7 +39,7 @@ const SchoolRanking = () => {
           <FemaleStudents />
           <ProfessorsAndReader />
           <SeniorLecturers />
-          <OtherLecturers /> */}
+          <OtherLecturers />
         </div>
       </div>
     </>
