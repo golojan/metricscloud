@@ -44,11 +44,9 @@ const ReportLecturers: NextPage = () => {
 
   const schoolId = authSchoolId();
   const [working, setWorking] = useState<boolean>(false);
-  const [query, setQuery] = useState<string>('');
 
   const [list, setList] = useState<AuthUserInfo[]>([]);
   const [schoolSettings, setSchoolSettings] = useAtom(schoolSettingsAtom);
-
 
   const [byWeigth, setByWeigth] = useState<boolean>(false);
 
@@ -80,9 +78,6 @@ const ReportLecturers: NextPage = () => {
     withPhd: false,
     isProfessor: false,
   });
-
-
-
 
   useEffect(() => {
     if (lecturers && !busy) {
@@ -263,7 +258,7 @@ const ReportLecturers: NextPage = () => {
                 </div>
               </div>
               <div className={`col-12 col-md-12 col-lg-9 min-h-screen`}>
-                <AuthUserTable title='Lecturers: Google Scholar Metrics' data={list ? list : []} loading={busy} />
+                {/* <AuthUserTable title='Lecturers: Google Scholar Metrics' data={list ? list : []} loading={busy} /> */}
               </div>
             </div>
           </div>
