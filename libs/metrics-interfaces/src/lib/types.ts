@@ -110,8 +110,8 @@ export interface AuthUserInfo {
   i10indexByWeight?: number;
   hindexByWeight?: number;
   citationByWeight?: number;
-  total: number;
-  position: string;
+  total?: number;
+  position?: string;
   citations?: number;
   hindex?: number;
   i10hindex?: number;
