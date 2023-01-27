@@ -20,7 +20,8 @@ import {
   hindexByWeight,
   i10indexByWeight,
   totalRanking,
-  getPosition
+  getPosition,
+  loadLecturersRanking
 } from '@metricsai/metrics-utils';
 
 import useSWR from 'swr';
@@ -45,17 +46,11 @@ const ReportLecturers: NextPage = () => {
   const schoolId = authSchoolId();
   const [working, setWorking] = useState<boolean>(false);
 
+  const [lecturers, setlecturers] = useState<AuthUserInfo[]>([]);
   const [list, setList] = useState<AuthUserInfo[]>([]);
   const [schoolSettings, setSchoolSettings] = useAtom(schoolSettingsAtom);
 
   const [byWeigth, setByWeigth] = useState<boolean>(false);
-
-
-  // use SWR to fetch data from the API
-  const { data: lecturers, isLoading } = useSWR<{ status: boolean, data: AuthUserInfo[] }>(
-    `/api/lecturers/${schoolId}/ranking`,
-    async () => fetch(`/api/lecturers/${schoolId}/ranking`).then((res) => res.json()),
-  );
 
   const {
     data: settings,
@@ -70,7 +65,7 @@ const ReportLecturers: NextPage = () => {
   );
 
   const busy = working || isLoadingSettings ||
-    isValidatingSettings || isLoading;  
+    isValidatingSettings;  
 
   const [filter, setFilter] = useState<lFilters>({
     male: false,
@@ -80,12 +75,18 @@ const ReportLecturers: NextPage = () => {
   });
 
   useEffect(() => {
-    if (lecturers && !busy) {
+
+    const getLecturersStatistics = async () => {
+      const result = await loadLecturersRanking(schoolId);
+      setlecturers(result);
+    };
+    getLecturersStatistics();
+    if (lecturers && lecturers.length > 0) {
       setWorking(false);
-      const result = lecturers.data?.sort((a, b) => b.total - a.total).map((lecturer, index) => {
-        const citation = citationByWeight(lecturer.citationsPerCapita, lecturers.data, byWeigth ? settings.citationsWeight : 100).weigth;
-        const hindex = hindexByWeight(lecturer.hindexPerCapita, lecturers.data, byWeigth ? settings.i10hindexWeight : 100).weigth;
-        const i10index = i10indexByWeight(lecturer.i10hindexPerCapita, lecturers.data, byWeigth ? settings.i10hindexWeight : 100).weigth;
+      const result = lecturers?.sort((a, b) => b.total - a.total).map((lecturer, index) => {
+        const citation = citationByWeight(lecturer.citationsPerCapita, lecturers, byWeigth ? settings.citationsWeight : 100).weigth;
+        const hindex = hindexByWeight(lecturer.hindexPerCapita, lecturers, byWeigth ? settings.i10hindexWeight : 100).weigth;
+        const i10index = i10indexByWeight(lecturer.i10hindexPerCapita, lecturers, byWeigth ? settings.i10hindexWeight : 100).weigth;
         const total = totalRanking(citation, hindex, i10index);
         return {
           ...lecturer,
@@ -103,7 +104,8 @@ const ReportLecturers: NextPage = () => {
       setSchoolSettings(settings);
       setWorking(false);
     }
-  }, [lecturers, busy, byWeigth]);
+
+  }, [byWeigth]);
 
 
   return (
