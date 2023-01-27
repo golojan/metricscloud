@@ -10,16 +10,12 @@ import { compose } from 'redux';
 
 import {
   AuthUserInfo,
-  GSIRanking,
-  GSRanking,
   SchoolSettingsType,
 } from '@metricsai/metrics-interfaces';
 
 import { authSchoolId } from '@metricsai/metrics-hocs';
 import {
   getSchoolSettings,
-  loadLecturers,
-  loadLecturersStats,
   citationByWeight,
   hindexByWeight,
   i10indexByWeight,
@@ -33,10 +29,8 @@ import AppDashboardTopMenu from '../../../../serverlets/AppDashboardTopMenu';
 import { useAtom } from 'jotai';
 import {
   schoolSettingsAtom,
-  statistLecturersAtom,
 } from '@metricsai/metrics-store';
 import AuthUserTable from '../../../../components/DataTables/AuthUserTable';
-import { positions } from '@mui/system';
 
 type lFilters = {
   male: boolean;
@@ -53,6 +47,10 @@ const ReportLecturers: NextPage = () => {
 
   const [list, setList] = useState<AuthUserInfo[]>([]);
   const [schoolSettings, setSchoolSettings] = useAtom(schoolSettingsAtom);
+
+
+  const [byWeigth, setByWeigth] = useState<boolean>(false);
+
 
   // use SWR to fetch data from the API
   const { data: lecturers, isLoading } = useSWR<{ status: boolean, data: AuthUserInfo[] }>(
@@ -127,6 +125,31 @@ const ReportLecturers: NextPage = () => {
             <div className="row ">
               <div className="col-12 col-md-12 col-lg-3">
                 <div className="card-box border-0">
+                  <ul className="listview image-listview text border-0  no-line">
+                    <li className="flex-auto">
+                      <div className="item">
+                        <div className="in">
+                          <div className="text-lg">Rank By Weighting</div>
+                          <div className="form-check form-switch">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              disabled={true}
+                              id="rankByWeightingSwitch"
+                              checked={byWeigth}
+                              onChange={() =>
+                                setByWeigth(true)
+                              }
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="rankByWeightingSwitch"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
                   <ul className="listview image-listview text border-0  no-line">
                     <li className="flex-auto">
                       <div className="item">
