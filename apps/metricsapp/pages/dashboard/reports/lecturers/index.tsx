@@ -136,6 +136,7 @@ const ReportLecturers: NextPage = () => {
                             <input
                               className="form-check-input"
                               type="checkbox"
+                              disabled={true}
                               id="femaleSwitch"
                               checked={filter.female}
                               onChange={(e) =>
@@ -161,6 +162,7 @@ const ReportLecturers: NextPage = () => {
                             <input
                               className="form-check-input"
                               type="checkbox"
+                              disabled={true}
                               id="maleSwitch"
                               checked={filter.male}
                               onChange={(e) =>
@@ -190,6 +192,7 @@ const ReportLecturers: NextPage = () => {
                               className="form-check-input"
                               type="checkbox"
                               id="professorSwitch"
+                              disabled={true}
                               checked={filter.isProfessor}
                               onChange={(e) =>
                                 setFilter({
@@ -215,6 +218,7 @@ const ReportLecturers: NextPage = () => {
                               className="form-check-input"
                               type="checkbox"
                               id="withPhdSwitch"
+                              disabled={true}
                               checked={filter.withPhd}
                               onChange={(e) =>
                                 setFilter({

@@ -17,6 +17,7 @@ import {
   Search,
   ViewColumn,
 } from '@material-ui/icons';
+import { noAction } from '@metricsai/metrics-utils';
 
 const tableIcons: Icons<AuthUserInfo> = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -44,6 +45,7 @@ const tableIcons: Icons<AuthUserInfo> = {
 
 import { authSchoolId } from '@metricsai/metrics-hocs';
 import { AuthUserInfo } from '@metricsai/metrics-interfaces';
+import Link from 'next/link';
 
 const options = {
   paging: true,
@@ -77,7 +79,7 @@ const AuthUserTable = (props: Props) => {
     { title: 'H-intex', field: 'hindexByWeight' },
     { title: 'i10-H-intex', field: 'i10indexByWeight' },
     { title: 'Total', field: 'total' },
-    { title: 'Position', field: 'position' },
+    { title: 'Position', field: 'position', render: rowData => <Link href='#' onClick={noAction} className='text-white bg-blue-900 rounded-4 p-1'>{rowData.position}</Link> },
   ];
   return (
     <MaterialTable
