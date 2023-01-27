@@ -48,24 +48,11 @@ const ReportLecturers: NextPage = () => {
 
   const [lecturers, setlecturers] = useState<AuthUserInfo[]>([]);
   const [list, setList] = useState<AuthUserInfo[]>([]);
-  const [schoolSettings, setSchoolSettings] = useAtom(schoolSettingsAtom);
+  const [settings, setSettings] = useAtom(schoolSettingsAtom);
 
   const [byWeigth, setByWeigth] = useState<boolean>(false);
 
-  const {
-    data: settings,
-    isLoading: isLoadingSettings,
-    isValidating: isValidatingSettings,
-  } = useSWR<SchoolSettingsType>(
-    `/api/schools/${schoolId}/settings`,
-    async () => await getSchoolSettings(schoolId),
-    {
-      revalidateOnFocus: true,
-    }
-  );
-
-  const busy = working || isLoadingSettings ||
-    isValidatingSettings;  
+  const busy = working || !settings;
 
   const [filter, setFilter] = useState<lFilters>({
     male: false,
@@ -75,7 +62,11 @@ const ReportLecturers: NextPage = () => {
   });
 
   useEffect(() => {
-
+    const getAllSchoolSettings = async () => {
+      const result = await getSchoolSettings(schoolId);
+      setSettings(result);
+    };
+    getAllSchoolSettings();
     const getLecturersStatistics = async () => {
       const result = await loadLecturersRanking(schoolId);
       setlecturers(result);
@@ -101,7 +92,6 @@ const ReportLecturers: NextPage = () => {
         }
       });
       setList(result);
-      setSchoolSettings(settings);
       setWorking(false);
     }
 
@@ -260,7 +250,7 @@ const ReportLecturers: NextPage = () => {
                 </div>
               </div>
               <div className={`col-12 col-md-12 col-lg-9 min-h-screen`}>
-                {JSON.stringify(list)}
+                {JSON.stringify(lecturers)}
                 {/* <AuthUserTable title='Lecturers: Google Scholar Metrics' data={list ? list : []} loading={busy} /> */}
               </div>
             </div>
