@@ -258,6 +258,7 @@ const ReportLecturers: NextPage = () => {
                 </div>
               </div>
               <div className={`col-12 col-md-12 col-lg-9 min-h-screen`}>
+                {JSON.stringify(list)}
                 {/* <AuthUserTable title='Lecturers: Google Scholar Metrics' data={list ? list : []} loading={busy} /> */}
               </div>
             </div>
