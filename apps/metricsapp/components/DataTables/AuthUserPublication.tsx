@@ -75,7 +75,7 @@ const AuthUserPublication = (props: Props) => {
   const { title, data, loading } = props;
   const schoolId = authSchoolId();
   const columns: Column<AuthUserInfo>[] = [
-    { title: 'Lecturer', field: 'firstname', render: rowData => <Link className='text-lg m-0' href="#" onClick={noAction}>{rowData.firstname}</Link> },
+    { title: 'Lecturer', field: 'firstname', render: rowData => <Link className='text-lg m-0' href="#" onClick={noAction}>{`${rowData.firstname} ${rowData.lastname}`}</Link> },
     { title: 'Publications', field: 'totalPublications' },
     { title: 'First Published', field: 'firstPublicationYear' },
     { title: 'Last Published', field: 'lastPublicationYear' },

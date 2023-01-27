@@ -19,35 +19,37 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       const stringId = req.query.stringId as string;
       // ////
 
-      // const params: GoogleScholarAuthorParameters = {
-      //   api_key: '0536b2c2259d73458b8ae5452f59907b2764f393c7c2d861ae15e29abbf60b3f',
-      //   hl: 'en',
-      //   start: 0,
-      //   author_id: stringId,
-      //   num: '1000',
-      // };
+      const params: GoogleScholarAuthorParameters = {
+        api_key: '0536b2c2259d73458b8ae5452f59907b2764f393c7c2d861ae15e29abbf60b3f',
+        hl: 'en',
+        start: 0,
+        author_id: stringId,
+        num: '1000',
+      };
 
       // // Show result as JSON
-      // const response = await getJson('google_scholar_author', params);
-      const { search_metadata } = serpiData;
+      const response = await getJson('google_scholar_author', params);
+      const { search_metadata, author } = response;
       if (search_metadata.status !== 'Success') {
         res.status(200).json({
           status: false,
           err: 'Invalid Google Scholar ID',
         });
       } else {
-        const { articles, cited_by } = serpiData;
+        const { articles, cited_by } = response;
         const { table, graph } = cited_by;
 
-        const { year } = articles;
+        let maxYear = Math.max(
+          ...articles
+            .filter((article) => article.year && article.year !== 'null')
+            .map((article) => parseInt(article.year)),
+        );
 
-        const maxCitations = graph.reduce((max, current) => {
-          return current.citations > max.citations ? current : max;
-        }, graph[0]);
-
-        const minCitations = graph.reduce((min, current) => {
-          return current.citations < min.citations ? current : min;
-        }, graph[0]);
+        let minYear = Math.min(
+          ...articles
+            .filter((article) => article.year && article.year !== 'null')
+            .map((article) => parseInt(article.year)),
+        );
 
         const totalPub = articles.length;
 
@@ -57,19 +59,18 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
         res.status(200).json({
           status: true,
-          ...articles,
-          // ranking: {
-          //   // googlePresence: 1,
-          //   // totalPublications: totalPub,
-          //   // firstPublicationYear: minCitations.year,
-          //   // lastPublicationYear: maxCitations.year,
-          //   // citations: citations.all,
-          //   // hindex: h_index.all,
-          //   // i10hindex: i10_index.all,
-          //   // authorMetadata: author,
-          //   publications: articles,
-          //   // searchMetadata: search_metadata,
-          // } as GSRanking,
+          ranking: {
+            googlePresence: 1,
+            totalPublications: totalPub,
+            firstPublicationYear: minYear,
+            lastPublicationYear: maxYear,
+            citations: citations.all,
+            hindex: h_index.all,
+            i10hindex: i10_index.all,
+            authorMetadata: author,
+            publications: articles,
+            searchMetadata: response,
+          } as GSRanking,
         });
       }
     },

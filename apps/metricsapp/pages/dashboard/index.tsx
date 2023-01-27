@@ -16,12 +16,18 @@ import Link from 'next/link';
 import AppHeader from '../../serverlets/AppHeader';
 import Copyright from '../../serverlets/Copyright';
 import { withAuth } from '@metricsai/metrics-hocs';
-import { authSchoolId } from '@metricsai/metrics-hocs';
+import { authToken, authlogout } from '@metricsai/metrics-hocs';
 import SchoolRanking from '../../components/SchoolRanking';
 import AppDashboardTopMenu from '../../serverlets/AppDashboardTopMenu';
 import AppDashBoardTopMenuScores from '../../serverlets/AppDashBoardTopMenuScores';
 
 const Dashboard: NextPage = () => {
+  const token = authToken();
+  useEffect(() => {
+    if (!token) {
+      authlogout('/auth')
+    }
+  }, [token])
   return (
     <>
       <AdminLayout>
