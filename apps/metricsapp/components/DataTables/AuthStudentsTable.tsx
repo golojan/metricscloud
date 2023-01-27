@@ -47,6 +47,8 @@ import { authSchoolId } from '@metricsai/metrics-hocs';
 import { AuthUserInfo, DepartmentsInfo, FacultiesInfo } from '@metricsai/metrics-interfaces';
 import Image from 'next/image';
 import useSWR from 'swr';
+import { useSelector } from 'react-redux';
+import { RootState } from '@metricsai/metrics-store';
 
 import {
   getSchoolSettings,
@@ -82,6 +84,9 @@ type Props = {
 
 const AuthStudentsTable = (props: Props) => {
   const { title, data, loading } = props;
+
+  const { statistics_lecturers } = useSelector((state: RootState) => state.lecturers);
+
 
   const { data: faculties, isLoading: fac_loading } = useSWR<{ status: boolean, data: FacultiesInfo[] }>(`/api/faculties/${schoolId}/list`, () => fetch(`/api/faculties/${schoolId}/list`).then(res => res.json()));
   const { data: departments, isLoading: dep_loading } = useSWR<{ status: boolean, data: DepartmentsInfo[] }>(`/api/departments/${schoolId}/list`, () => fetch(`/api/departments/${schoolId}/list`).then(res => res.json()));

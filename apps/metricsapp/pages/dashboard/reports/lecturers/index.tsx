@@ -56,9 +56,9 @@ const ReportLecturers: NextPage = () => {
   const [statistLecturers, setStatistLecturers] = useAtom(statistLecturersAtom);
 
   // use SWR to fetch data from the API
-  const { data: lecturers, isLoading } = useSWR<AuthUserInfo[]>(
+  const { data: lecturers, isLoading } = useSWR<{ status: boolean, data: AuthUserInfo[] }>(
     `/api/lecturers/${schoolId}/ranking`,
-    async () => await loadLecturers(schoolId)
+    async () => fetch(`/api/lecturers/${schoolId}/ranking`).then((res) => res.json()),
   );
 
   const {
@@ -85,42 +85,42 @@ const ReportLecturers: NextPage = () => {
 
   useEffect(() => {
     if (lecturers && !busy) {
-      setList(lecturers);
+      setList(lecturers.data);
       setSchoolSettings(settings);
       if (list) {
         setWorking(true);
-        setListScholar(lecturers.map((user) => ({
+        setListScholar(list.map((user) => ({
           firstname: user.firstname,
           lastname: user.lastname,
-          citations: citationByWeight(
+          citations: Number(citationByWeight(
             user.citationsPerCapita,
-            lecturers,
+            list,
             settings.citationsWeight
-          ).weigth,
+          ).weigth),
           hindex: hindexByWeight(
             user.hindexPerCapita,
-            lecturers,
+            list,
             settings.hindexWeight
           ).weigth,
           i10hindex: i10indexByWeight(
             user.i10hindexPerCapita,
-            lecturers,
+            list,
             settings.i10hindexWeight
           ).weigth,
           total: totalRanking(
             Number(citationByWeight(
               user.citationsPerCapita,
-              lecturers,
+              list,
               settings.citationsWeight
             ).weigth),
             Number(hindexByWeight(
               user.hindexPerCapita,
-              lecturers,
+              list,
               settings.hindexWeight
             ).weigth),
             Number(i10indexByWeight(
               user.i10hindexPerCapita,
-              lecturers,
+              list,
               settings.i10hindexWeight
             ).weigth)
           )
@@ -254,6 +254,7 @@ const ReportLecturers: NextPage = () => {
                 </div>
               </div>
               <div className={`col-12 col-md-12 col-lg-9 min-h-screen`}>
+                {/* {JSON.stringify(list)} */}
                 <AuthUserTable title='Lecturers: Google Scholar Metrics' data={listScholar ? listScholar : []} loading={busy} />
               </div>
             </div>

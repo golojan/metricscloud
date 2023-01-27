@@ -1,9 +1,5 @@
-import {
-  LecturerAnalitics,
-  AuthUserInfo,
-  AccountsStats,
-  accountInitialStats,
-} from '@metricsai/metrics-interfaces';
+import { GSIRanking } from './../../../../metrics-interfaces/src/lib/types';
+import { LecturerAnalitics, AuthUserInfo, AccountsStats, accountInitialStats } from '@metricsai/metrics-interfaces';
 import { createModel } from '@rematch/core';
 import { RootModel } from '.';
 
@@ -16,7 +12,7 @@ export const lecturers = createModel<RootModel>()({
     lecturers: [] as AuthUserInfo[],
     list: [] as AuthUserInfo[],
     loaded: false,
-    statistics_lecturers: {},
+    statistics_lecturers: {} as GSIRanking,
     analytics_lecturers: {} as LecturerAnalitics,
   },
   reducers: {

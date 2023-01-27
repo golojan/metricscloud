@@ -1,4 +1,4 @@
-import { accountInitialStats } from './../../../../metrics-interfaces/src/lib/types';
+import { accountInitialStats, GSIRanking } from './../../../../metrics-interfaces/src/lib/types';
 import {
   SchoolAnalitics,
   SchoolInfo,
@@ -40,7 +40,7 @@ export const settings = createModel<RootModel>()({
     idelTime: 0,
     total: 0,
     ranking: {},
-    statistics_school: {} as SchoolAnalitics,
+    statistics_school: {} as GSIRanking,
     analytics_school: {} as SchoolAnalitics,
   },
   reducers: {
@@ -80,7 +80,7 @@ export const settings = createModel<RootModel>()({
     setBusy(state, payload: boolean) {
       return { ...state, busy: payload };
     },
-    setStatistics(state, payload: object) {
+    setStatistics(state, payload: GSIRanking) {
       return { ...state, statistics_school: payload };
     },
     setAnalytics(state, payload: object) {

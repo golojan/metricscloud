@@ -6,8 +6,12 @@ import {
   getWindowDimensions,
   getSchoolInfoById,
   getProfileInfo,
+  loadSchoolsStats,
+  loadLecturersStats
 } from '@metricsai/metrics-utils';
 import { authSchoolId, authToken } from '@metricsai/metrics-hocs';
+import { useRouter } from 'next/router';
+import { authlogout } from '@metricsai/metrics-hocs';
 
 interface MyProps {
   children: ReactNode;
@@ -16,33 +20,58 @@ interface MyProps {
 const AdminLayout = ({ children }: MyProps) => {
   const schoolid = authSchoolId();
   const token = authToken();
-  const [_, setBusy] = React.useState<boolean>(false);
+
+  const router = useRouter();
+
   const { school } = useSelector((state: RootState) => state.settings);
+
   const { name, shortname } = school;
   const dispatch = useDispatch<Dispatch>();
 
   useEffect(() => {
+
+    if (!schoolid || !token) {
+      authlogout();
+      router.push('/auth');
+    }
+
     const getSchool = async () => {
-      setBusy(true);
+      dispatch.settings.setBusy(true);
       const school = await getSchoolInfoById(schoolid);
       dispatch.settings.setSchool(school);
-      setBusy(false);
+      dispatch.settings.setBusy(false);
     };
     const getProfile = async () => {
-      setBusy(true);
+      dispatch.settings.setBusy(true);
       const profile = await getProfileInfo(token);
       dispatch.settings.setUserInfo(profile);
-      setBusy(false);
+      dispatch.settings.setBusy(false);
     };
+    const loadSchoolsStatistics = async () => {
+      dispatch.settings.setBusy(true);
+      const data = await loadSchoolsStats(schoolid);
+      dispatch.settings.setStatistics(data);
+      dispatch.settings.setBusy(false);
+    }
+    const loadLecturersStatistics = async () => {
+      dispatch.settings.setBusy(true);
+      const data = await loadLecturersStats(schoolid);
+      dispatch.lecturers.setStatistics(data);
+      dispatch.settings.setBusy(false);
+    }
+
+    loadSchoolsStatistics();
+    loadLecturersStatistics();
     getProfile();
     getSchool();
+
     dispatch.settings.setWebWindow(getWindowDimensions());
     const handleResize = () => {
       dispatch.settings.setWebWindow(getWindowDimensions());
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [dispatch.settings, schoolid, setBusy, token]);
+  }, [dispatch.settings, schoolid, token]);
 
   return (
     <>

@@ -56,7 +56,7 @@ function AppAnalytics() {
                 <div className="row mt-2 relative h-auto border-2 border-gray-400 p-2 rounded bg-gradient-to-b from-[#e6d3d3] to-[#ffffff] bg-gray-100">
                   <Link
                     href="/dashboard/reports/lecturers"
-                    className="text-primary hover:text"
+                    className="text-primary hover:text-green-800"
                   >
                     <span className="text-lg">
                       <ArrowRight />
@@ -65,7 +65,7 @@ function AppAnalytics() {
                   </Link>
                   <Link
                     href="/dashboard/reports/publications"
-                    className="text-gray-300 hover:text-gray-400"
+                    className="text-primary hover:text-green-800"
                   >
                     <span className="text-lg">
                       <ArrowRight />
