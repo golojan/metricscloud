@@ -31,6 +31,7 @@ import {
   schoolSettingsAtom,
 } from '@metricsai/metrics-store';
 import AuthUserTable from '../../../../components/DataTables/AuthUserTable';
+import { Settings } from '@material-ui/icons';
 
 type lFilters = {
   male: boolean;
@@ -87,9 +88,9 @@ const ReportLecturers: NextPage = () => {
     if (lecturers && !busy) {
       setWorking(false);
       const result = lecturers.data?.sort((a, b) => b.total - a.total).map((lecturer, index) => {
-        const citation = citationByWeight(lecturer.citationsPerCapita, lecturers.data, 100).weigth;
-        const hindex = hindexByWeight(lecturer.hindexPerCapita, lecturers.data, 100).weigth;
-        const i10index = i10indexByWeight(lecturer.i10hindexPerCapita, lecturers.data, 100).weigth;
+        const citation = citationByWeight(lecturer.citationsPerCapita, lecturers.data, byWeigth ? settings.citationsWeight : 100).weigth;
+        const hindex = hindexByWeight(lecturer.hindexPerCapita, lecturers.data, byWeigth ? settings.i10hindexWeight : 100).weigth;
+        const i10index = i10indexByWeight(lecturer.i10hindexPerCapita, lecturers.data, byWeigth ? settings.i10hindexWeight : 100).weigth;
         const total = totalRanking(citation, hindex, i10index);
         return {
           ...lecturer,
@@ -107,7 +108,7 @@ const ReportLecturers: NextPage = () => {
       setSchoolSettings(settings);
       setWorking(false);
     }
-  }, [lecturers, busy]);
+  }, [lecturers, busy, byWeigth]);
 
 
   return (
@@ -129,16 +130,15 @@ const ReportLecturers: NextPage = () => {
                     <li className="flex-auto">
                       <div className="item">
                         <div className="in">
-                          <div className="text-lg">Rank By Weighting</div>
+                          <div className="text-lg h4">Rank By Weighting</div>
                           <div className="form-check form-switch">
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              disabled={true}
                               id="rankByWeightingSwitch"
                               checked={byWeigth}
                               onChange={() =>
-                                setByWeigth(true)
+                                setByWeigth(!byWeigth)
                               }
                             />
                             <label
@@ -150,7 +150,8 @@ const ReportLecturers: NextPage = () => {
                       </div>
                     </li>
                   </ul>
-                  <ul className="listview image-listview text border-0  no-line">
+                  <hr />
+                  <ul className="listview image-listview text border-0 no-line">
                     <li className="flex-auto">
                       <div className="item">
                         <div className="in">
