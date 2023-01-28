@@ -24,20 +24,11 @@ async function main() {
 
   const server = express();
 
-  server.use(
-    cors({
-      origin: '*',
-      methods: ['GET', 'POST'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
-    }),
-  );
-  server.use(helmet());
-
-  server.all('*', (req: Request, res: Response) => {
-    const parsedUrl = parse(req.url, true);
-    res.status(200).json({ status: false, erro: 'Invalid or Un-Authorized API Request' });
-    // return handle(req, res, parsedUrl);
-  });
+  // server.all('*', (req: Request, res: Response) => {
+  //   const parsedUrl = parse(req.url, true);
+  //   res.status(200).json({ status: false, erro: 'Invalid or Un-Authorized API Request' });
+  //   // return handle(req, res, parsedUrl);
+  // });
 
   server.listen(port, hostname, () => {
     console.log(`>> Ready on http://${hostname}:${port}`);
