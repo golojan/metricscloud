@@ -1,15 +1,9 @@
-/*
- * This is only a minimal custom server to get started.
- * You may want to consider using Express or another server framework, and enable security features such as CORS.
- *
- * For more examples, see the Next.js repo:
- * - Express: https://github.com/vercel/next.js/tree/canary/examples/custom-server-express
- * - Hapi: https://github.com/vercel/next.js/tree/canary/examples/custom-server-hapi
- */
 import express, { Request, Response } from 'express';
 import { parse } from 'url';
 import * as path from 'path';
 import next from 'next';
+import cors from 'cors';
+const helmet = require('helmet');
 
 // Next.js server options:
 // - The environment variable is set by `@nrwl/next:server` when running the dev server.
@@ -30,14 +24,14 @@ async function main() {
 
   const server = express();
 
-  server.get('/', (req, res) => {
-    res.status(200).json({ status: false, erro: 'Invalid or Un-AuthorizedAPI Request' });
-  });
+  server.use(cors());
+  server.use(helmet());
 
-  // server.all('*', (req: Request, res: Response) => {
-  //   const parsedUrl = parse(req.url, true);
-  //   return handle(req, res, parsedUrl);
-  // });
+  server.all('*', (req: Request, res: Response) => {
+    const parsedUrl = parse(req.url, true);
+    res.status(200).json({ status: false, erro: 'Invalid or Un-AuthorizedAPI Request' });
+    // return handle(req, res, parsedUrl);
+  });
 
   server.listen(port, hostname, () => {
     console.log(`>> Ready on http://${hostname}:${port}`);
