@@ -6,7 +6,6 @@
  * - Express: https://github.com/vercel/next.js/tree/canary/examples/custom-server-express
  * - Hapi: https://github.com/vercel/next.js/tree/canary/examples/custom-server-hapi
  */
-import { createServer } from 'http';
 import express, { Request, Response } from 'express';
 import { parse } from 'url';
 import * as path from 'path';
@@ -33,7 +32,7 @@ async function main() {
   const server = express();
 
   server.get('/', (req, res) => {
-    res.json({ text: 'Hello' });
+    res.status(400).json({ status: false, erro: 'Invalid or Un-AuthorizedAPI Request' });
   });
 
   server.all('*', (req: Request, res: Response) => {
@@ -42,7 +41,7 @@ async function main() {
   });
 
   server.listen(port, hostname, () => {
-    console.log(`> Ready on http://${hostname}:${port}`);
+    console.log(`>> Ready on http://${hostname}:${port}`);
   });
 }
 
