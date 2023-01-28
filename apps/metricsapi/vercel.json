@@ -1,17 +1,15 @@
 {
-  "builds": [
-    {
-      "env": {
-        "NODE_ENV": "production"
-      },
-      "src": "server/main.js",
-      "use": "@now/node"
-    }
-  ],
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    },
+    "src": "server/main.ts",
+    "use": "@now/node"
+  },
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "server/main.js"
+      "dest": "server/main.ts"
     }
   ]
 }
