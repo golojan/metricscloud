@@ -39,3 +39,8 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
+
+
+//npx nx build metricsapi --prod
+//dist/apps/metricsapi/.next
+//npx nx-ignore metricsapi
