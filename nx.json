@@ -9,7 +9,7 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build-custom-server"],
+        "cacheableOperations": ["build-custom-server", "build-custom-server"],
         "accessToken": "NmU5YjdmOGUtOWU2Ni00ZDgyLWJmZWItYTJhYzczY2JhZDcyfHJlYWQtd3JpdGU="
       }
     }
@@ -44,11 +44,18 @@
   "generators": {
     "@nrwl/react": {
       "application": {
+        "style": "none",
+        "linter": "eslint",
+        "bundler": "webpack",
         "babel": true
       },
       "library": {
-        "unitTestRunner": "jest",
-        "style": "scss"
+        "style": "scss",
+        "linter": "eslint",
+        "unitTestRunner": "jest"
+      },
+      "component": {
+        "style": "none"
       }
     },
     "@nrwl/next": {
