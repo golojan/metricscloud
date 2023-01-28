@@ -5,7 +5,7 @@ import { GSRanking } from '@metricsai/metrics-interfaces';
 import type { GoogleScholarAuthorParameters } from 'serpapi';
 import { getJson } from 'serpapi';
 
-import serpiData from '../../../../../../serpi.json';
+import serpiData from '../../../../../../../serpi.json';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
