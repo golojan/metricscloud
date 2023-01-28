@@ -24,10 +24,9 @@ async function main() {
 
   const server = express();
 
-  server.all('/api/hello', (req: Request, res: Response) => {
+  server.all('*', (req: Request, res: Response) => {
     const parsedUrl = parse(req.url, true);
-    res.status(200).json({ status: false, erro: 'Invalid or Un-Authorized API Request' });
-    // return handle(req, res, parsedUrl);
+    return handle(req, res, parsedUrl);
   });
 
   server.listen(port, hostname, () => {
