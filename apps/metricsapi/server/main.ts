@@ -35,7 +35,7 @@ async function main() {
 
   server.all('*', (req: Request, res: Response) => {
     const parsedUrl = parse(req.url, true);
-    res.status(200).json({ status: false, erro: 'Invalid or Un-AuthorizedAPI Request' });
+    res.status(200).json({ status: false, erro: 'Invalid or Un-Authorized API Request' });
     // return handle(req, res, parsedUrl);
   });
 
