@@ -34,10 +34,10 @@ async function main() {
     res.status(200).json({ status: false, erro: 'Invalid or Un-AuthorizedAPI Request' });
   });
 
-  server.all('*', (req: Request, res: Response) => {
-    const parsedUrl = parse(req.url, true);
-    return handle(req, res, parsedUrl);
-  });
+  // server.all('*', (req: Request, res: Response) => {
+  //   const parsedUrl = parse(req.url, true);
+  //   return handle(req, res, parsedUrl);
+  // });
 
   server.listen(port, hostname, () => {
     console.log(`>> Ready on http://${hostname}:${port}`);
