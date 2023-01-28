@@ -24,7 +24,13 @@ async function main() {
 
   const server = express();
 
-  server.use(cors());
+  server.use(
+    cors({
+      origin: '*',
+      methods: ['GET', 'POST'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    }),
+  );
   server.use(helmet());
 
   server.all('*', (req: Request, res: Response) => {
