@@ -26,13 +26,12 @@ const port = process.env.PORT ? parseInt(process.env.PORT) : 4200;
 async function main() {
   const nextApp = next({ dev, dir });
   const handle = nextApp.getRequestHandler();
-
   await nextApp.prepare();
 
   const server = express();
 
   server.get('/', (req, res) => {
-    res.status(400).json({ status: false, erro: 'Invalid or Un-AuthorizedAPI Request' });
+    res.status(200).json({ status: false, erro: 'Invalid or Un-AuthorizedAPI Request' });
   });
 
   server.all('*', (req: Request, res: Response) => {
