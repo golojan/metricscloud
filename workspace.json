@@ -262,36 +262,87 @@
     },
     "metricsapi": {
       "root": "apps/metricsapi",
-      "sourceRoot": "apps/metricsapi/src",
+      "sourceRoot": "apps/metricsapi",
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@nrwl/esbuild:esbuild",
+          "builder": "@nrwl/next:build",
           "outputs": ["{options.outputPath}"],
+          "defaultConfiguration": "production",
           "options": {
-            "outputPath": "dist/apps/metricsapi",
-            "format": ["cjs"],
-            "main": "apps/metricsapi/src/index.ts",
-            "tsConfig": "apps/metricsapi/tsconfig.app.json",
-            "assets": ["apps/metricsapi/src/assets"]
-          }
-        },
-        "serve": {
-          "builder": "@nrwl/js:node",
-          "options": {
-            "buildTarget": "metricsapi:build"
+            "root": "apps/metricsapi",
+            "outputPath": "dist/apps/metricsapi"
           },
           "configurations": {
+            "development": {
+              "outputPath": "apps/metricsapi"
+            },
+            "production": {}
+          },
+          "dependsOn": ["build-custom-server"]
+        },
+        "serve": {
+          "builder": "@nrwl/next:server",
+          "defaultConfiguration": "development",
+          "options": {
+            "buildTarget": "metricsapi:build",
+            "dev": true,
+            "customServerTarget": "metricsapi:serve-custom-server"
+          },
+          "configurations": {
+            "development": {
+              "buildTarget": "metricsapi:build:development",
+              "dev": true,
+              "customServerTarget": "metricsapi:serve-custom-server:development"
+            },
             "production": {
-              "buildTarget": "metricsapi:build:production"
+              "buildTarget": "metricsapi:build:production",
+              "dev": false,
+              "customServerTarget": "metricsapi:serve-custom-server:production"
             }
+          }
+        },
+        "export": {
+          "builder": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "metricsapi:build:production"
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/metricsapi/**/*.ts"]
+            "lintFilePatterns": ["apps/metricsapi/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "build-custom-server": {
+          "builder": "@nrwl/js:tsc",
+          "defaultConfiguration": "production",
+          "options": {
+            "outputPath": "dist/apps/metricsapi",
+            "main": "apps/metricsapi/server/main.ts",
+            "tsConfig": "apps/metricsapi/tsconfig.server.json",
+            "clean": false,
+            "assets": []
+          },
+          "configurations": {
+            "development": {},
+            "production": {}
+          }
+        },
+        "serve-custom-server": {
+          "builder": "@nrwl/js:node",
+          "defaultConfiguration": "development",
+          "options": {
+            "buildTarget": "metricsapi:build-custom-server"
+          },
+          "configurations": {
+            "development": {
+              "buildTarget": "metricsapi:build-custom-server:development"
+            },
+            "production": {
+              "buildTarget": "metricsapi:build-custom-server:production"
+            }
           }
         }
       },
