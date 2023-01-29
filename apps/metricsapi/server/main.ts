@@ -11,7 +11,7 @@ const dev = process.env.NODE_ENV === 'development';
 const hostname = process.env.HOST || 'localhost';
 const port = process.env.PORT ? parseInt(process.env.PORT) : 4200;
 
-async function main() {
+const main = async () => {
   const nextApp = next({ dev, dir });
   const handle = nextApp.getRequestHandler();
 
@@ -19,14 +19,12 @@ async function main() {
 
   const server = createServer((req, res) => {
     const parsedUrl = parse(req.url, true);
-    // handle(req, res, parsedUrl);
-    const { pathname, query } = parsedUrl;
-    res.end(JSON.stringify({ metrics: 'metrics' }));
+    handle(req, res, parsedUrl);
   });
 
   server.listen(port, hostname);
   console.log(`[ ready ] on http://${hostname}:${port}`);
-}
+};
 
 main().catch((err) => {
   console.error(err);
