@@ -32,7 +32,7 @@ async function main() {
 
   const server = expresss();
 
-  server.get('/api/metrics', (req, res) => {
+  server.all('*', (req, res) => {
     const parsedUrl = parse(req.url, true);
     res.json({ name: 'John Doe' });
   });
