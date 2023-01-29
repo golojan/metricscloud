@@ -1,32 +1,31 @@
-const express = require('express');
-const app = express();
+import { createServer } from 'http';
+import { parse } from 'url';
+import * as path from 'path';
+import next from 'next';
 
-const port = 5000;
+const dir = process.env.NX_NEXT_DIR || path.join(__dirname, '..');
+const dev = process.env.NODE_ENV === 'development';
 
-// Body parser
-app.use(express.urlencoded({ extended: false }));
+const hostname = process.env.HOST || 'localhost';
+const port = process.env.PORT ? parseInt(process.env.PORT) : 4200;
 
-// Home route
-app.get('/', (req, res) => {
-  res.send('Welcome to a basic express App');
-});
+async function main() {
+  const nextApp = next({ dev, dir });
+  const handle = nextApp.getRequestHandler();
 
-// Mock API
-app.get('/users', (req, res) => {
-  res.json([
-    { name: 'William', location: 'Abu Dhabi' },
-    { name: 'Chris', location: 'Vegas' },
-  ]);
-});
+  await nextApp.prepare();
 
-app.post('/user', (req, res) => {
-  const { name, location } = req.body;
+  const server = createServer((req, res) => {
+    const parsedUrl = parse(req.url, true);
+    handle(req, res, parsedUrl);
+  });
 
-  res.send({ status: 'User created', name, location });
-});
+  server.listen(port, hostname);
 
-// Listen on port 5000
-app.listen(port, () => {
-  console.log(`Server is booming on port 5000
-Visit http://localhost:5000`);
+  console.log(`[ ready ] on http://${hostname}:${port}`);
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
 });
