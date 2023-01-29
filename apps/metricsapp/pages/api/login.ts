@@ -13,6 +13,7 @@ export default async function handler(
   const catcher = (error: Error) => res.status(400).json({ error });
   const handleCase: ResponseFunctions = {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
+      res.setHeader('Content-Type', 'application/json');
       const { username, password } = req.body;
 
       const { Accounts, Schools } = await dbCon();

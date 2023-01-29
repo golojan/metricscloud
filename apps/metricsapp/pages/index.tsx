@@ -39,8 +39,9 @@ const Home: NextPage = () => {
       setDomain(_domain);
     }
     const domainInfo = async () => {
-      const result = await fetch(`${apiuri}/domains/localhost/info`);
+      const result = await fetch(`${apiuri}/schools/domains/localhost`);
       const { status, data, domain, schoolId } = await result.json();
+      alert();
       if (status) {
         setSchool(data);
         dispatch.settings.setDomain(domain);
