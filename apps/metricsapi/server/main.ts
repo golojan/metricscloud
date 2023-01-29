@@ -7,6 +7,7 @@
  * - Hapi: https://github.com/vercel/next.js/tree/canary/examples/custom-server-hapi
  */
 import { createServer } from 'http';
+import expresss from 'express';
 import { parse } from 'url';
 import * as path from 'path';
 import next from 'next';
@@ -29,10 +30,17 @@ async function main() {
 
   await nextApp.prepare();
 
-  const server = createServer((req, res) => {
+  const server = expresss();
+
+  server.get('/api/metrics', (req, res) => {
     const parsedUrl = parse(req.url, true);
-    handle(req, res, parsedUrl);
+    res.json({ name: 'John Doe' });
   });
+
+  // const server = createServer((req, res) => {
+  //   const parsedUrl = parse(req.url, true);
+  //   handle(req, res, parsedUrl);
+  // });
 
   server.listen(port, hostname);
 
