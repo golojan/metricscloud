@@ -1,9 +1,8 @@
 {
   "version": 2,
-  "builds": [{ "src": "./server/main.js", "use": "@vercel/node" }],
-  "outputDirectory": "dist/apps/metricsapi",
-  "routes": [
-    { "src": "/(.*)", "dest": "/server/main.js" },
-    { "src": "/api(.*)", "dest": "/server/main.js" }
-  ]
+  "builds": [{ "src": "package.json", "use": "@vercel/next" }],
+  "routes": [{ "src": "/.*", "dest": "server.js" }],
+  "env": {
+    "NODE_ENV": "production"
+  }
 }

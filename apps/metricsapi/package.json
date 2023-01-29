@@ -1,0 +1,9 @@
+{
+  "extends": "../../package.json",
+  "name": "metricsapi",
+  "dependencies": {},
+  "scripts": {
+    "start": "nx serve server.ts",
+    "build": "nx build server.ts"
+  }
+}
