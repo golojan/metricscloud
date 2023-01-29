@@ -10,16 +10,17 @@ import { Dispatch } from '@metricsai/metrics-store';
 import { appLogin, hasAuth } from '@metricsai/metrics-hocs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { getDomain } from '@metricsai/metrics-utils';
+
 
 const Home: NextPage = () => {
   const dispatch = useDispatch<Dispatch>();
   const router = useRouter();
-
   const isloggedin: boolean = hasAuth();
   if (isloggedin) {
     router.push('/dashboard');
   }
-
+  const [domain, setDomain] = useState<string>('');
   const [school, setSchool] = useState({
     name: '',
     shortname: '',
@@ -31,12 +32,14 @@ const Home: NextPage = () => {
     username: '',
     password: '',
   });
-
   const apiuri: string = process.env.NEXT_PUBLIC_API_URI;
-
   useEffect(() => {
+    const _domain: string = getDomain(window.location.host);
+    if (_domain) {
+      setDomain(_domain);
+    }
     const domainInfo = async () => {
-      const result = await fetch(`${apiuri}/schools/info`);
+      const result = await fetch(`${apiuri}/domains/localhost/info`);
       const { status, data, domain, schoolId } = await result.json();
       if (status) {
         setSchool(data);
@@ -45,7 +48,7 @@ const Home: NextPage = () => {
       }
     };
     domainInfo();
-  }, []);
+  }, [domain]);
 
   const adminLogon = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -66,6 +69,7 @@ const Home: NextPage = () => {
     }
     dispatch.settings.setBusy(false);
   };
+
   return (
     <Layout>
       <SiteBusy />
