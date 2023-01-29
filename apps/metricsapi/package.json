@@ -1,9 +1,29 @@
 {
-  "extends": "../../package.json",
-  "name": "metricsapi",
-  "dependencies": {},
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/npm"
+    },
+    {
+      "src": "server.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/.*",
+      "dest": "server.ts"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
   "scripts": {
-    "start": "nx serve server.ts",
-    "build": "nx build server.ts"
+    "build": "npm run build && nx build metricsapi --configuration=production",
+    "start": "node server.ts"
   }
 }
