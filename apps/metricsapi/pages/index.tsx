@@ -1,6 +1,6 @@
 export function Index() {
   return (
-    <><h1>We move</h1></>
+    <><h1>We move up now</h1></>
   );
 }
 
