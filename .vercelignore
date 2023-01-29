@@ -1,4 +1,2 @@
-apps/metricsapp
-apps/metricsowner
-dist
+dist/apps/metricsapi
 tmp
