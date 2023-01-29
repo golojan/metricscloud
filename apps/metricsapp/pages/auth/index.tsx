@@ -32,9 +32,11 @@ const Home: NextPage = () => {
     password: '',
   });
 
+  const apiuri: string = process.env.NEXT_PUBLIC_API_URI;
+
   useEffect(() => {
     const domainInfo = async () => {
-      const result = await fetch(`/api/schools/info`);
+      const result = await fetch(`${apiuri}/schools/info`);
       const { status, data, domain, schoolId } = await result.json();
       if (status) {
         setSchool(data);
@@ -49,7 +51,7 @@ const Home: NextPage = () => {
     e.preventDefault();
     dispatch.settings.setBusy(true);
     setErrorMsg('');
-    const response = await fetch('/api/login', {
+    const response = await fetch(`${apiuri}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

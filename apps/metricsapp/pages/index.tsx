@@ -32,9 +32,11 @@ const Home: NextPage = () => {
     password: '',
   });
 
+  const apiuri: string = process.env.NEXT_PUBLIC_API_URI;
+
   useEffect(() => {
     const domainInfo = async () => {
-      const result = await fetch(`/api/schools/info`);
+      const result = await fetch(`${apiuri}/schools/info`);
       const { status, data, domain, schoolId } = await result.json();
       if (status) {
         setSchool(data);
@@ -49,7 +51,7 @@ const Home: NextPage = () => {
     e.preventDefault();
     dispatch.settings.setBusy(true);
     setErrorMsg('');
-    const response = await fetch('/api/login', {
+    const response = await fetch(`${apiuri}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -79,7 +81,7 @@ const Home: NextPage = () => {
               style={{ margin: '0 auto' }}
             />
             <br />
-            <div className="text-md text-gray-600 small">School Admin</div>
+            <div className="text-md text-gray-600 small">School Admin {apiuri}</div>
             <div className="">{school.name}</div>
           </h1>
           <h4>University AI Ranking Engine</h4>

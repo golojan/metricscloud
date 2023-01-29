@@ -1,31 +1,24 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
 import { ResponseFunctions } from '@metricsai/metrics-interfaces';
-import { AccountTypes } from '@metricsai/metrics-interfaces';
+import { getCookie } from 'cookies-next';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
   const catcher = (error: Error) =>
     res.status(400).json({ status: 0, error: error });
   const handleCase: ResponseFunctions = {
+    GET: async (req: NextApiRequest, res: NextApiResponse) => {
+      const domain = getCookie('domain', { req, res });
+      const { Lecturers } = await dbCon();
+      const count = await Lecturers.countDocuments({ domain: domain }).catch(
+        catcher
+      );
+    },
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
       res
         .status(200)
         .json({ status: false, err: 'Only GET Method is allowed' });
-    },
-    GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { Accounts } = await dbCon();
-      const account = await Accounts.find({
-        membership: AccountTypes.ADMIN,
-      }).catch(catcher);
-      if (account) {
-        res.status(200).json({
-          status: true,
-          data: account,
-        });
-      } else {
-        res.status(404).json({ status: false, err: 'Intakes not found' });
-      }
     },
   };
 

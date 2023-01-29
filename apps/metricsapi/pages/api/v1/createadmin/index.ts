@@ -1,8 +1,12 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
+import {
+  ResponseFunctions,
+  AccountTypes,
+  AccountRoles,
+} from '@metricsai/metrics-interfaces';
 import { dbCon } from '@metricsai/metrics-models';
-import { ResponseFunctions } from '@metricsai/metrics-interfaces';
 
-const bcrypt = require("bcryptjs");
+import bcrypt from 'bcryptjs';
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,36 +16,40 @@ export default async function handler(
   const catcher = (error: Error) => res.status(400).json({ error });
   const handleCase: ResponseFunctions = {
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { Owners } = await dbCon();
+      const { Accounts } = await dbCon();
 
       // Encrypt Password//
       const salt = bcrypt.genSaltSync(10);
-      var hashedPassword = bcrypt.hashSync("admin", salt);
+      const hashedPassword = bcrypt.hashSync('admin', salt);
       // Encrypt Password//
 
-      const owner = await Owners.create({
-        email: "admin@metrics.ng",
-        firstname: "Agu",
-        lastname: "Chux",
-        middlename: "Stanley",
-        mobile: "07068573376",
-        password: hashedPassword,
+      const account = await Accounts.create({
+        schoolId: '63c7ca3d019a5de4d1ce206d',
+        accountType: AccountTypes.ADMIN,
+        username: 'appadmin',
+        email: 'agu.chux@gmail.com',
+        firstname: 'Agu',
+        lastname: 'Chux',
+        mobile: '07068573376',
+        role: AccountRoles.VC,
         enabled: true,
+        password: hashedPassword,
       }).catch(catcher);
 
-      if (owner) {
+      if (account) {
         res.status(200).json({
           status: true,
-          token: owner._id,
+          accid: account._id,
+          schoolid: account.schoolId,
         });
       } else {
         res
           .status(400)
-          .json({ status: false, err: "Failed to create Account" });
+          .json({ status: false, err: 'Failed to create Account' });
       }
     },
   };
   const response = handleCase[method];
   if (response) response(req, res);
-  else res.status(400).json({ error: "No Response for This Request" });
+  else res.status(400).json({ error: 'No Response for This Request' });
 }

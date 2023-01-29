@@ -8,24 +8,34 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(400).json({ status: 0, error: error });
   const handleCase: ResponseFunctions = {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
-      res
-        .status(200)
-        .json({ status: false, err: 'Only GET Method is allowed' });
-    },
-    GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { schoolId } = req.query;
-      const { SchoolDepartments } = await dbCon();
-      const departments = await SchoolDepartments.find({
-        schoolId: schoolId,
-      }).catch(catcher);
-      if (departments) {
+      const { facultyId, facultyName, facultyCode, facultyDescription } =
+        req.body;
+      const { SchoolFaculties } = await dbCon();
+      const updated = await SchoolFaculties.findOneAndUpdate(
+        {
+          facultyId: facultyId,
+          schoolId: schoolId,
+        },
+        {
+          facultyName: facultyName,
+          facultyCode: facultyCode,
+          facultyDescription: facultyDescription,
+        }
+      ).catch(catcher);
+      if (updated) {
         res.status(200).json({
           status: true,
-          data: departments,
+          ...updated,
         });
       } else {
-        res.status(404).json({ status: false, err: 'Faculties not found' });
+        res.status(404).json({ status: false, err: 'Faculty Updating failed' });
       }
+    },
+    GET: async (req: NextApiRequest, res: NextApiResponse) => {
+      res
+        .status(200)
+        .json({ status: false, err: 'Only POST Method is allowed' });
     },
   };
   const response = handleCase[method];

@@ -1,34 +1,37 @@
+import {
+  Gender,
+  LecturerLevel,
+  LecturerType, ResponseFunctions
+} from '@metricsai/metrics-interfaces';
+
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon } from '@metricsai/metrics-models';
-import { ResponseFunctions } from '@metricsai/metrics-interfaces';
-import { AccountTypes } from '@metricsai/metrics-interfaces';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
   const catcher = (error: Error) =>
     res.status(400).json({ status: 0, error: error });
   const handleCase: ResponseFunctions = {
-    POST: async (req: NextApiRequest, res: NextApiResponse) => {
-      res
-        .status(200)
-        .json({ status: false, err: 'Only GET Method is allowed' });
-    },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const { Accounts } = await dbCon();
-      const account = await Accounts.find({
-        membership: AccountTypes.ADMIN,
-      }).catch(catcher);
-      if (account) {
+      const { username } = req.query;
+      const { Lecturers } = await dbCon();
+      const lecturer = await Lecturers.findOne({ username: username });
+      console.log(lecturer);
+      if (lecturer) {
         res.status(200).json({
           status: true,
-          data: account,
+          data: lecturer,
         });
       } else {
-        res.status(404).json({ status: false, err: 'Intakes not found' });
+        res.status(400).json({ status: false, error: 'No Lecturer Found' });
       }
     },
+    POST: async (req: NextApiRequest, res: NextApiResponse) => {
+      res
+        .status(404)
+        .json({ status: false, err: 'Only GET Method is allowed' });
+    },
   };
-
   const response = handleCase[method];
   if (response) response(req, res);
   else res.status(400).json({ error: 'No Response for This Request' });
