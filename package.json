@@ -4,9 +4,7 @@
   "license": "MIT",
   "scripts": {
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "build:metricsapi": "nx build metricsapi --production",
-    "start:metricsapi": "nx serve metricsapi --production"
+    "build-storybook": "build-storybook"
   },
   "engines": {
     "node": "18.x",
