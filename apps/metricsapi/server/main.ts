@@ -17,11 +17,6 @@ const main = async () => {
 
   const server = express();
 
-  // const server = createServer((req, res) => {
-  //   const parsedUrl = parse(req.url, true);
-  //   handle(req, res, parsedUrl);
-  // });
-
   server.get('/api/hello', (req, res) => {
     res.json({ text: 'Hello' });
   });
