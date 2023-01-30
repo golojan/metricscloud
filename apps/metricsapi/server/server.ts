@@ -17,6 +17,10 @@ const main = async () => {
 
   const server: Express = express();
 
+  server.get('/api', (req: Request, res: Response) => {
+    res.json({ text: 'Hello' });
+  });
+
   server.get('/api/hello', (req: Request, res: Response) => {
     res.json({ text: 'Hello' });
   });
@@ -31,6 +35,8 @@ const main = async () => {
     console.log(`[ ready ] on http://${hostname}:${port}`);
   });
 };
+
+
 
 main().catch((err) => {
   console.error(err);
