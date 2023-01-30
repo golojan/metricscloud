@@ -1,15 +1,16 @@
 {
   "version": 2,
+  "name": "metricsapi-node",
   "builds": [
     {
-      "src": "./src/index.js",
+      "src": "main.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "./src/index.js"
+      "dest": "/main.js"
     }
   ]
 }

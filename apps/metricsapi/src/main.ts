@@ -6,5 +6,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(3000, () => {
-  // Server is running
+  console.log('>> Listening on port 3000');
 });
