@@ -9,7 +9,6 @@
     "metrics-scholars": "libs/metrics-scholars",
     "metrics-store": "libs/metrics-store",
     "metrics-utils": "libs/metrics-utils",
-    "metricsapi": "apps/metricsapi",
     "metricsapp": "apps/metricsapp",
     "metricsowner": "apps/metricsowner"
   },
