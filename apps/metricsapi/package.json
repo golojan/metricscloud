@@ -1,0 +1,7 @@
+{
+  "extends": "../../package.json",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/main.ts"
+  }
+}
