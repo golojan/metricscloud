@@ -1,0 +1,25 @@
+{
+  "name": "metrics-store",
+  "$schema": "../../node_modules/@nrwl/workspace/src/schematics/ng-add/schema.json",
+  "root": "libs/metrics-store",
+  "sourceRoot": "libs/metrics-store/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/metrics-store/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/metrics-store/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

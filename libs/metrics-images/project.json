@@ -1,0 +1,17 @@
+{
+  "name": "metrics-images",
+  "$schema": "../../node_modules/@nrwl/workspace/src/schematics/ng-lib/schema.json",
+  "root": "libs/metrics-images",
+  "sourceRoot": "libs/metrics-images/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/metrics-images/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,35 @@
+{
+  "name": "metrics-mail",
+  "$schema": "../../node_modules/@nrwl/workspace/src/schematics/nx-plugin/schema.json",
+  "root": "libs/metrics-mail",
+  "sourceRoot": "libs/metrics-mail/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/metrics-mail",
+        "main": "libs/metrics-mail/src/index.ts",
+        "tsConfig": "libs/metrics-mail/tsconfig.lib.json",
+        "assets": ["libs/metrics-mail/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/metrics-mail/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/metrics-mail/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
