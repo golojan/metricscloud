@@ -1,8 +1,6 @@
 {
   "projects": {
     "metrics": "apps/metrics",
-    "metricsapp": "apps/metricsapp",
-    "metricsowner": "apps/metricsowner",
     "metrics-hocs": "libs/metrics-hocs",
     "metrics-images": "libs/metrics-images",
     "metrics-interfaces": "libs/metrics-interfaces",
@@ -10,7 +8,10 @@
     "metrics-models": "libs/metrics-models",
     "metrics-scholars": "libs/metrics-scholars",
     "metrics-store": "libs/metrics-store",
-    "metrics-utils": "libs/metrics-utils"
+    "metrics-utils": "libs/metrics-utils",
+    "metricsapi": "apps/metricsapi",
+    "metricsapp": "apps/metricsapp",
+    "metricsowner": "apps/metricsowner"
   },
   "version": 2
 }

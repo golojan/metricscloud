@@ -1,0 +1,38 @@
+{
+  "name": "metricsapi",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/metricsapi/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/metricsapi",
+        "format": ["cjs"],
+        "main": "apps/metricsapi/src/main.ts",
+        "tsConfig": "apps/metricsapi/tsconfig.app.json",
+        "assets": ["apps/metricsapi/src/assets"]
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/js:node",
+      "options": {
+        "buildTarget": "metricsapi:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "metricsapi:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/metricsapi/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}
