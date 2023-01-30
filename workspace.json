@@ -1,5 +1,6 @@
 {
   "projects": {
+    "api": "apps/api",
     "metrics": "apps/metrics",
     "metrics-hocs": "libs/metrics-hocs",
     "metrics-images": "libs/metrics-images",
