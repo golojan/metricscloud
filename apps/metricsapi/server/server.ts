@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Express, Request, Response } from 'express';
 import { parse } from 'url';
 import * as path from 'path';
 import next from 'next';
@@ -15,15 +15,16 @@ const main = async () => {
 
   await nextApp.prepare();
 
-  const server = express();
+  const server: Express = express();
 
-  server.get('/api/hello', (req, res) => {
+  server.get('/api/hello', (req: Request, res: Response) => {
     res.json({ text: 'Hello' });
   });
 
-  server.get('*', (req, res) => {
+  server.get('*', (req: Request, res: Response) => {
     const parsedUrl = parse(req.url, true);
-    handle(req, res, parsedUrl);
+    res.json({ text: 'Hello' });
+    // handle(req, res, parsedUrl);
   });
 
   server.listen(port, hostname, () => {

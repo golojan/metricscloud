@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "CommonJS",
     "noEmit": false,
     "incremental": true,
     "tsBuildInfoFile": "../..//tmp/buildcache/apps/metricsapi/server",

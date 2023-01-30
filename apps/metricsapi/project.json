@@ -59,7 +59,7 @@
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/metricsapi",
-        "main": "apps/metricsapi/server/main.ts",
+        "main": "apps/metricsapi/server/server.ts",
         "tsConfig": "apps/metricsapi/tsconfig.server.json",
         "clean": false,
         "assets": []
