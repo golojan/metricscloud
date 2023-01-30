@@ -31,7 +31,7 @@ async function main() {
 
   const server = createServer((req, res) => {
     const parsedUrl = parse(req.url, true);
-    handle(req, res, parsedUrl);
+    res.end('Hello World ' + parsedUrl.pathname);
   });
 
   server.listen(port, hostname);
