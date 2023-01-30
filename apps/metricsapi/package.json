@@ -1,7 +1,11 @@
 {
   "extends": "../../package.json",
-  "type": "commonjs",
+  "main": "main.ts",
   "scripts": {
     "start": "node src/main.ts"
+  },
+  "engines": {
+    "node": "18.x",
+    "vscode": "^1.22.0"
   }
 }
