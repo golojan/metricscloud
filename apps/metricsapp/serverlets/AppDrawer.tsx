@@ -23,10 +23,8 @@ function AppDrawer({ onchat, menuitem = "dashboard" }: AppHeaderProps) {
       {onchat ? (
         <div className="chatFooter">
           <form action="#">
-            <Link href="#" legacyBehavior>
-              <a className="btn btn-icon btn-text-secondary rounded">
-                <FontAwesomeIcon icon={faCamera} size={"2x"} />
-              </a>
+            <Link href="#" className="btn btn-icon btn-text-secondary rounded">
+              <FontAwesomeIcon icon={faCamera} size={"2x"} />
             </Link>
 
             <div className="form-group basic">
@@ -48,8 +46,7 @@ function AppDrawer({ onchat, menuitem = "dashboard" }: AppHeaderProps) {
         </div>
       ) : (
         <div className="appBottomMenu">
-          <Link href="/dashboard" legacyBehavior>
-            <a className="item">
+            <Link href="/dashboard" className="item">
               {menuitem == "dashboard" ? (
                 <div className="col">
                   <div className="action-button large text-white">
@@ -62,10 +59,8 @@ function AppDrawer({ onchat, menuitem = "dashboard" }: AppHeaderProps) {
                   <strong>Dashboard</strong>
                 </div>
               )}
-            </a>
           </Link>
-          <Link href="/dashboard/faculties" legacyBehavior>
-            <a className="item">
+            <Link href="/dashboard/faculties" className="item">
               {menuitem == "faculties" ? (
                 <div className="col">
                   <div className="action-button large text-white">
@@ -78,11 +73,9 @@ function AppDrawer({ onchat, menuitem = "dashboard" }: AppHeaderProps) {
                   <strong>Faculties</strong>
                 </div>
               )}
-            </a>
           </Link>
 
-          <Link href="/dashboard/departments" legacyBehavior>
-            <a className="item">
+            <Link href="/dashboard/departments" className="item">
               {menuitem == "departments" ? (
                 <div className="col">
                   <div className="action-button large text-white">
@@ -95,11 +88,9 @@ function AppDrawer({ onchat, menuitem = "dashboard" }: AppHeaderProps) {
                   <strong>Departments</strong>
                 </div>
               )}
-            </a>
           </Link>
 
-          <Link href="/dashboard/lecturers" legacyBehavior>
-            <a className="item">
+            <Link href="/dashboard/lecturers" className="item">
               {menuitem == "lecturers" ? (
                 <div className="col">
                   <div className="action-button large text-white">
@@ -112,11 +103,9 @@ function AppDrawer({ onchat, menuitem = "dashboard" }: AppHeaderProps) {
                   <strong>Lecturers</strong>
                 </div>
               )}
-            </a>
           </Link>
 
-          <Link href="/dashboard/students" legacyBehavior>
-            <a className="item">
+            <Link href="/dashboard/students" className="item">
               {menuitem == "students" ? (
                 <div className="col">
                   <div className="action-button large text-white">
@@ -129,7 +118,6 @@ function AppDrawer({ onchat, menuitem = "dashboard" }: AppHeaderProps) {
                   <strong>Students</strong>
                 </div>
               )}
-            </a>
           </Link>
         </div>
       )}

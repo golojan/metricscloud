@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import {
   faAddressBook,
+  faAddressCard,
   faArrowsSpin,
   faBookReader,
   faRainbow,
@@ -26,6 +27,14 @@ const AppDashboardTopMenu = () => {
               <FontAwesomeIcon icon={faRainbow} size={'4x'} />
             </Link>
             <strong>AI Metrics</strong>
+          </div>
+        </div>
+        <div className="item">
+          <div>
+            <Link href="/dashboard" className="button mb-1">
+              <FontAwesomeIcon icon={faAddressCard} size={'4x'} />
+            </Link>
+            <strong>Activations</strong>
           </div>
         </div>
         <div className="item">

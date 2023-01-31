@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Card } from 'react-bootstrap';
-import { Logon } from '@metricsai/metrics-interfaces';
+import { Logon, Token } from '@metricsai/metrics-interfaces';
 import { NextPage } from 'next';
 import Layout from '../components/Layout';
 import SiteBusy from '../components/SiteBusy';
@@ -18,9 +18,9 @@ const Home: NextPage = () => {
   const router = useRouter();
   const apiUri = process.env.NEXT_PUBLIC_API_URI;
   const isloggedin: boolean = hasAuth();
-  if (isloggedin) {
-    router.push('/dashboard');
-  }
+  // if (isloggedin) {
+  //   router.push('/dashboard');
+  // }
   const [domain, setDomain] = useState<string>('');
   const [school, setSchool] = useState({
     name: '',
@@ -36,6 +36,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     const _domain: string = getDomain(window.location.host);
     if (_domain) {
+      setLogon({ ...logon, domain: _domain });
       setDomain(_domain);
     }
     const domainInfo = async () => {
@@ -63,7 +64,7 @@ const Home: NextPage = () => {
     });
     const { status, token, schoolId } = await response.json();
     if (status) {
-      appLogin({ token, schoolId });
+      appLogin({ token, schoolId } as Token);
     } else {
       setErrorMsg('Invalid Username and Password.');
     }

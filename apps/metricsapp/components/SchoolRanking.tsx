@@ -17,6 +17,7 @@ import FemaleStudents from './indicators/Teaching/FemaleStudents';
 import ProfessorsAndReader from './indicators/Teaching/ProfessorsAndReader';
 import SeniorLecturers from './indicators/Teaching/SeniorLecturers';
 import OtherLecturers from './indicators/Teaching/OtherLecturers';
+import FemaleLecturers from './indicators/Teaching/FemaleLecturers';
 
 
 const SchoolRanking = () => {
@@ -30,16 +31,17 @@ const SchoolRanking = () => {
           <GoogleScholarPresence />
           <InternationalStaff />
           <InternationalStudents />
-          <InternationalColaborations />
-          <GraduateOutput />
-          <FullProfessors />
-          <PercPHDs />
-          <FullAcreditationStatus />
-          <TeachStudentRatio />
+          {/* <InternationalColaborations /> */}
+          {/* <GraduateOutput /> */}
+          {/* <FullProfessors /> */}
+          {/* <PercPHDs /> */}
+          {/* <FullAcreditationStatus /> */}
+          {/* <TeachStudentRatio /> */}
           <FemaleStudents />
-          <ProfessorsAndReader />
-          <SeniorLecturers />
-          <OtherLecturers />
+          <FemaleLecturers />
+          {/* <ProfessorsAndReader /> */}
+          {/* <SeniorLecturers /> */}
+          {/* <OtherLecturers /> */}
         </div>
       </div>
     </>

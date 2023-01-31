@@ -10,25 +10,28 @@ import {
 } from '@metricsai/metrics-utils';
 
 function AppSummary() {
+
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
+
   const schoolId = authSchoolId();
 
   const { data: lecturers } = useSWR(
-    `/api/lecturers/${schoolId}/list`,
+    `${apiUri}lecturers/${schoolId}/list`,
     async () => await loadLecturers(schoolId)
   );
 
   const { data: students } = useSWR(
-    `/api/students/${schoolId}/list`,
+    `${apiUri}students/${schoolId}/list`,
     async () => await loadStudents(schoolId)
   );
 
   const { data: faculties } = useSWR(
-    `/api/faculties/${schoolId}/list`,
+    `${apiUri}faculties/${schoolId}/list`,
     async () => await loadFaculties(schoolId)
   );
 
   const { data: departments } = useSWR(
-    `/api/departments/${schoolId}/list`,
+    `${apiUri}departments/${schoolId}/list`,
     async () => await loadDepartments(schoolId)
   );
 

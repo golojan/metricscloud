@@ -2,8 +2,16 @@ import { faAreaChart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import ShowChartButton from '../../ShowChartButton';
+import { authSchoolId } from '@metricsai/metrics-hocs';
+import { GSIRanking } from '@metricsai/metrics-interfaces';
+import Wait from '../../Wait';
+import useSWR from 'swr';
+
 
 const FemaleStudents = () => {
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
+  const schoolId = authSchoolId();
+  const { data: statistics, error, isLoading } = useSWR<GSIRanking>(`${apiUri}schools/${schoolId}/stats`, () => fetch(`${apiUri}schools/${schoolId}/stats`).then((res) => res.json()));
   return (
     <>
       {/*  */}
@@ -11,15 +19,15 @@ const FemaleStudents = () => {
         <div className="stat-box relative">
           <ShowChartButton show={true} />
           <div className="title">
-            <strong className="text-black">(%) Femal Students</strong>
+            <strong className="text-black">(%) Female Students</strong>
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {0}%
+            {isLoading ? <Wait /> : statistics?.percentageFemaleStudents.toFixed(1) + '%'}
           </h1>
           <em className="absolute bottom-0 right-5">
-            <strong className="text-green-600 small">{0}</strong> Female{' '}
-            <strong className="text-green-600 small">{0}</strong> Male
+            <strong className="text-green-600 small">{isLoading ? <Wait /> : statistics?.totalFemaleStudents}</strong> Female{' '} out of{' '}
+            <strong className="text-green-600 small">{isLoading ? <Wait /> : statistics?.totalStudents}</strong> Students
           </em>
         </div>
       </div>
@@ -29,3 +37,4 @@ const FemaleStudents = () => {
 };
 
 export default FemaleStudents;
+

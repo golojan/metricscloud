@@ -2,13 +2,14 @@ import { accountInitialStats, GSIRanking } from './../../../../metrics-interface
 import {
   SchoolAnalitics,
   SchoolInfo,
-  SchoolRank,
   AccountTypes,
   AccountRoles,
   StateTypes,
   UserInfo,
   WebWindow,
   AuthUserInfo,
+  FacultiesInfo,
+  DepartmentsInfo,
 } from '@metricsai/metrics-interfaces';
 import { createModel } from '@rematch/core';
 import { RootModel } from '.';
@@ -21,6 +22,8 @@ export const settings = createModel<RootModel>()({
     token: '',
     domain: '',
     schools: [] as SchoolInfo[],
+    faculties: [] as FacultiesInfo[],
+    department: [] as DepartmentsInfo[],
     schoolid: '',
     page: 'home',
     school: {} as SchoolInfo,
@@ -60,6 +63,12 @@ export const settings = createModel<RootModel>()({
       return { ...state, schoolid: payload };
     },
     setSchools(state, payload: SchoolInfo[]) {
+      return { ...state, schools: payload };
+    },
+    setDepartments(state, payload: DepartmentsInfo[]) {
+      return { ...state, schools: payload };
+    },
+    setFaculties(state, payload: FacultiesInfo[]) {
       return { ...state, schools: payload };
     },
     setSchool(state, payload: SchoolInfo) {

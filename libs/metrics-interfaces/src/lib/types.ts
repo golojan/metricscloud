@@ -263,12 +263,17 @@ export type GSIRanking = {
   totalStaff?: number;
   totalGooglePresence?: number;
   totalInternalStaff?: number;
+  lecturerStudentRatio?: number;
+  percentageFemaleLecturers?: number;
+  percentageFemaleStudents?: number;
   percentageOfInternationalStaff?: number;
   percentageOfInternationalStudents?: number;
   totalInternationalStudents?: number;
   totalStaffWithOutGooglePresence?: number;
   totalStaffWithGooglePresence?: number;
   percentageOfStaffWithGooglePresence?: number;
+  totalFemaleStudents?: number;
+  totalFemaleLecturers?: number;
   internationalStaff?: number;
   localStaff?: number;
   totalInternationalColaborations?: number;

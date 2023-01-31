@@ -17,16 +17,12 @@ const InternationalColaborations = () => {
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {0
-              ? 0
-              : 0}
+            {0}
             %
           </h1>
           <em className="absolute bottom-0 right-5">
             <strong className="text-green-600 small">
-              {0
-                ? 0
-                : 0}
+              {0}
             </strong>{' '}
             Intnl. projects
           </em>

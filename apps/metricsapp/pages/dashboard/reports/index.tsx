@@ -6,10 +6,6 @@ import { compose } from 'redux';
 import {
   faHome,
   faPlus,
-  faSchool,
-  faSchoolCircleCheck,
-  faUserGear,
-  faUsersBetweenLines,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

@@ -21,18 +21,22 @@ import { FacultiesInfo, SCHFaculty } from '@metricsai/metrics-interfaces';
 import { listFaculties, loadFaculties } from '@metricsai/metrics-utils';
 import { Virtuoso } from 'react-virtuoso';
 
+
 import useSWR from 'swr';
 
 const Faculties: NextPage = () => {
   const [done, setDone] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
+
   const [list, setList] = useState<FacultiesInfo[]>([]);
   const [schoolFaculties, setSchoolFaculties] = useState<SCHFaculty[]>([]);
 
   const schoolId = authSchoolId();
 
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
+
   const { data: faculties, isLoading } = useSWR(
-    `/api/faculties/list`,
+    `${apiUri}faculties/list`,
     async () => await listFaculties()
   );
 

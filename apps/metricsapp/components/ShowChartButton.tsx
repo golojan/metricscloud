@@ -2,6 +2,7 @@ import { faChartPie } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import React from 'react';
+import { noAction } from '@metricsai/metrics-utils';
 
 type ShowChatProps = {
   show?: boolean;

@@ -1,13 +1,14 @@
 import { faAreaChart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { GSIRanking } from '@metricsai/metrics-interfaces';
 import React from 'react';
 import ShowChartButton from '../../ShowChartButton';
-import useSWR from 'swr';
 import { authSchoolId } from '@metricsai/metrics-hocs';
+import { GSIRanking } from '@metricsai/metrics-interfaces';
 import Wait from '../../Wait';
+import useSWR from 'swr';
 
-const PerCapitaI10Index = () => {
+
+const FemaleLecturers = () => {
   const apiUri = process.env.NEXT_PUBLIC_API_URI;
   const schoolId = authSchoolId();
   const { data: statistics, error, isLoading } = useSWR<GSIRanking>(`${apiUri}schools/${schoolId}/stats`, () => fetch(`${apiUri}schools/${schoolId}/stats`).then((res) => res.json()));
@@ -18,17 +19,15 @@ const PerCapitaI10Index = () => {
         <div className="stat-box relative">
           <ShowChartButton show={true} />
           <div className="title">
-            <strong className="text-black">i10-Index Per Capita</strong>
+            <strong className="text-black">(%) Female Lecturers</strong>
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {isLoading ? <Wait /> : statistics.i10hindexPerCapita.toFixed(2)}
+            {isLoading ? <Wait /> : statistics?.percentageFemaleLecturers.toFixed(1) + '%'}
           </h1>
           <em className="absolute bottom-0 right-5">
-            <strong className="text-green-600">{isLoading ? <Wait /> : statistics.i10hindexPerCapita.toFixed(2)}</strong>{' '}
-            i10-Index by{' '}
-            <strong className="text-green-600">{isLoading ? <Wait /> : statistics.totalLecturers}</strong>{' '}
-            staff
+            <strong className="text-green-600 small">{isLoading ? <Wait /> : statistics?.totalFemaleLecturers}</strong> Female{' '} out of{' '}
+            <strong className="text-green-600 small">{isLoading ? <Wait /> : statistics?.totalLecturers}</strong> Lecturers
           </em>
         </div>
       </div>
@@ -37,4 +36,5 @@ const PerCapitaI10Index = () => {
   );
 };
 
-export default PerCapitaI10Index;
+export default FemaleLecturers;
+

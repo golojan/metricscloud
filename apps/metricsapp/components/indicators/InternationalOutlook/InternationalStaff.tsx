@@ -5,11 +5,13 @@ import ShowChartButton from '../../ShowChartButton';
 import { authSchoolId } from '@metricsai/metrics-hocs';
 import useSWR from 'swr';
 import { GSIRanking } from '@metricsai/metrics-interfaces';
+import Wait from '../../Wait';
 
 const InternationalStaff = () => {
 
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
   const schoolId = authSchoolId();
-  const { data: statistics, error, isLoading } = useSWR<GSIRanking>(`/api/schools/${schoolId}/stats`, () => fetch(`/api/schools/${schoolId}/stats`).then((res) => res.json()));
+  const { data: statistics, error, isLoading } = useSWR<GSIRanking>(`${apiUri}schools/${schoolId}/stats`, () => fetch(`${apiUri}schools/${schoolId}/stats`).then((res) => res.json()));
 
   return (
     <>
@@ -22,11 +24,11 @@ const InternationalStaff = () => {
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {isLoading ? '...' : statistics.percentageOfInternationalStaff}%
+            {isLoading ? <Wait /> : statistics.percentageOfInternationalStaff.toFixed(1)}%
           </h1>
           <em className="absolute bottom-0 right-5">
-            <strong className="text-green-600 small">{isLoading ? '...' : statistics.percentageOfInternationalStaff}</strong>{'% '}
-            of <strong className="text-green-600">{isLoading ? '...' : statistics.totalLecturers}</strong> are Foreign
+            <strong className="text-green-600 small">{isLoading ? <Wait /> : statistics.percentageOfInternationalStaff.toFixed(1)}</strong>{'% '}
+            of <strong className="text-green-600">{isLoading ? <Wait /> : statistics.totalLecturers}</strong> are Foreign
             staff
           </em>
         </div>

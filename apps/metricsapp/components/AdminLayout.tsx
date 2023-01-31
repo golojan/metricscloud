@@ -20,44 +20,30 @@ interface MyProps {
 const AdminLayout = ({ children }: MyProps) => {
   const schoolid = authSchoolId();
   const token = authToken();
-
   const router = useRouter();
-
   const { school } = useSelector((state: RootState) => state.settings);
-
   const { name, shortname } = school;
   const dispatch = useDispatch<Dispatch>();
-
   useEffect(() => {
-
     if (!schoolid || !token) {
       authlogout();
       router.push('/auth');
     }
-
     const getSchool = async () => {
-      dispatch.settings.setBusy(true);
       const school = await getSchoolInfoById(schoolid);
       dispatch.settings.setSchool(school);
-      dispatch.settings.setBusy(false);
     };
     const getProfile = async () => {
-      dispatch.settings.setBusy(true);
       const profile = await getProfileInfo(token);
       dispatch.settings.setUserInfo(profile);
-      dispatch.settings.setBusy(false);
     };
     const loadSchoolsStatistics = async () => {
-      dispatch.settings.setBusy(true);
       const data = await loadSchoolsStats(schoolid);
       dispatch.settings.setStatistics(data);
-      dispatch.settings.setBusy(false);
     }
     const loadLecturersStatistics = async () => {
-      dispatch.settings.setBusy(true);
       const data = await loadLecturersStats(schoolid);
       dispatch.lecturers.setStatistics(data);
-      dispatch.settings.setBusy(false);
     }
 
     loadSchoolsStatistics();
@@ -71,7 +57,7 @@ const AdminLayout = ({ children }: MyProps) => {
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [dispatch.settings, schoolid, token]);
+  }, [schoolid, token]);
 
   return (
     <>

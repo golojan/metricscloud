@@ -8,7 +8,6 @@ import {
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon, allowCors } from './../../../../models';
-import { citationByWeight, hindexByWeight, i10indexByWeight } from '@metricsai/metrics-utils';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
@@ -20,6 +19,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { schoolId } = req.query;
       const { Accounts, Schools } = await dbCon();
+
+      if (!schoolId) {
+        return res.status(400).json({ status: false, err: 'School ID is required' });
+      }
 
       const school = await Schools.findById(schoolId).catch(catcher);
       let SETTINGS: SchoolSettingsType = {};

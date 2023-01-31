@@ -2,17 +2,7 @@ import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import AppDrawer from '../../serverlets/AppDrawer';
 import AdminLayout from '../../components/AdminLayout';
-
-import {
-  faAddressBook,
-  faArrowsSpin,
-  faBookReader,
-  faRainbow,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { compose } from 'redux';
-
-import Link from 'next/link';
 import AppHeader from '../../serverlets/AppHeader';
 import Copyright from '../../serverlets/Copyright';
 import { withAuth } from '@metricsai/metrics-hocs';
@@ -28,7 +18,6 @@ const Dashboard: NextPage = () => {
       authlogout('/auth')
     }
   }, [token])
-
   return (
     <>
       <AdminLayout>

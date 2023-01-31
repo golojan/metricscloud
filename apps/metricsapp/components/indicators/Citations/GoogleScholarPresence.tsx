@@ -5,10 +5,12 @@ import React from 'react';
 import ShowChartButton from '../../ShowChartButton';
 import useSWR from 'swr';
 import { authSchoolId } from '@metricsai/metrics-hocs';
+import Wait from '../../Wait';
 
 const GoogleScholarPresence = () => {
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
   const schoolId = authSchoolId();
-  const { data: statistics, error, isLoading } = useSWR<GSIRanking>(`/api/schools/${schoolId}/stats`, () => fetch(`/api/schools/${schoolId}/stats`).then((res) => res.json()));
+  const { data: statistics, error, isLoading } = useSWR<GSIRanking>(`${apiUri}schools/${schoolId}/stats`, () => fetch(`${apiUri}schools/${schoolId}/stats`).then((res) => res.json()));
   return (
     <>
       {/*  */}
@@ -20,17 +22,15 @@ const GoogleScholarPresence = () => {
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {isLoading ? '...' : statistics.percentageOfStaffWithGooglePresence.toFixed(1)}%
+            {isLoading ? <Wait /> : statistics.percentageOfStaffWithGooglePresence.toFixed(1) + '%'}
           </h1>
           <em className="absolute bottom-0 right-5">
             <strong className="text-green-600 small">
-              {isLoading ? '...' : statistics.percentageOfStaffWithGooglePresence.toFixed(1)}%
-            </strong>
-            {'% '}
-            of <strong className="text-green-600">
-              {isLoading ? '...' : statistics.totalLecturers}
+              {isLoading ? <Wait /> : statistics.percentageOfStaffWithGooglePresence.toFixed(1) + '%'}
+            </strong> of <strong className="text-green-600">
+              {isLoading ? <Wait /> : statistics.totalLecturers}
             </strong>{' '}
-            staff are Google Scholar
+            are Scholars
           </em>
         </div>
       </div>

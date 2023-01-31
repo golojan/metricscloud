@@ -5,10 +5,12 @@ import ShowChartButton from '../../ShowChartButton';
 import { GSIRanking } from '@metricsai/metrics-interfaces';
 import useSWR from 'swr';
 import { authSchoolId } from '@metricsai/metrics-hocs';
+import Wait from '../../Wait';
 
 const PerCapitaAllCitations = () => {
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
   const schoolId = authSchoolId();
-  const { data: statistics, error, isLoading } = useSWR<GSIRanking>(`/api/schools/${schoolId}/stats`, () => fetch(`/api/schools/${schoolId}/stats`).then((res) => res.json()));
+  const { data: statistics, error, isLoading } = useSWR<GSIRanking>(`${apiUri}schools/${schoolId}/stats`, () => fetch(`${apiUri}schools/${schoolId}/stats`).then((res) => res.json()));
   return (
     <>
       {/*  */}
@@ -20,12 +22,12 @@ const PerCapitaAllCitations = () => {
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {isLoading ? '...' : statistics.citationsPerCapita.toFixed(2)}
+            {isLoading ? <Wait /> : statistics.citationsPerCapita.toFixed(2)}
           </h1>
           <em className="absolute bottom-0 right-5">
-            <strong className="text-green-600">{isLoading ? '...' : statistics.citationsPerCapita.toFixed(2)}</strong>{' '}
+            <strong className="text-green-600">{isLoading ? <Wait /> : statistics.citationsPerCapita.toFixed(2)}</strong>{' '}
             citations by{' '}
-            <strong className="text-green-600">{isLoading ? '...' : statistics.totalLecturers}</strong>{' '}
+            <strong className="text-green-600">{isLoading ? <Wait /> : statistics.totalLecturers}</strong>{' '}
             staff
           </em>
         </div>

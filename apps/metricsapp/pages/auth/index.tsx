@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Card } from 'react-bootstrap';
-import { Logon } from '@metricsai/metrics-interfaces';
+import { Logon, Token } from '@metricsai/metrics-interfaces';
 import { NextPage } from 'next';
 import Layout from '../../components/Layout';
 import SiteBusy from '../../components/SiteBusy';
@@ -10,16 +10,17 @@ import { Dispatch } from '@metricsai/metrics-store';
 import { appLogin, hasAuth } from '@metricsai/metrics-hocs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { getDomain } from '@metricsai/metrics-utils';
 
 const Home: NextPage = () => {
   const dispatch = useDispatch<Dispatch>();
   const router = useRouter();
-
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
   const isloggedin: boolean = hasAuth();
-  if (isloggedin) {
-    router.push('/dashboard');
-  }
-
+  // if (isloggedin) {
+  //   router.push('/dashboard');
+  // }
+  const [domain, setDomain] = useState<string>('');
   const [school, setSchool] = useState({
     name: '',
     shortname: '',
@@ -31,27 +32,29 @@ const Home: NextPage = () => {
     username: '',
     password: '',
   });
-
-  const apiuri: string = process.env.NEXT_PUBLIC_API_URI;
-
   useEffect(() => {
+    const _domain: string = getDomain(window.location.host);
+    if (_domain) {
+      setLogon({ ...logon, domain: _domain });
+      setDomain(_domain);
+    }
     const domainInfo = async () => {
-      const result = await fetch(`${apiuri}/schools/info`);
-      const { status, data, domain, schoolId } = await result.json();
+      const result = await fetch(`${apiUri}schools/domains/${_domain}/info`);
+      const { status, data } = await result.json();
       if (status) {
         setSchool(data);
         dispatch.settings.setDomain(domain);
-        dispatch.settings.setSchoolId(schoolId);
+        dispatch.settings.setSchoolId(data.schoolId);
       }
     };
     domainInfo();
-  }, []);
+  }, [domain]);
 
   const adminLogon = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     dispatch.settings.setBusy(true);
     setErrorMsg('');
-    const response = await fetch(`${apiuri}/login`, {
+    const response = await fetch(`${apiUri}login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -60,12 +63,13 @@ const Home: NextPage = () => {
     });
     const { status, token, schoolId } = await response.json();
     if (status) {
-      appLogin({ token, schoolId });
+      appLogin({ token, schoolId } as Token);
     } else {
       setErrorMsg('Invalid Username and Password.');
     }
     dispatch.settings.setBusy(false);
   };
+
   return (
     <Layout>
       <SiteBusy />

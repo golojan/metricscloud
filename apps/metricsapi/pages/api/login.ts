@@ -10,16 +10,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const catcher = (error: Error) => res.status(400).json({ error });
   const handleCase: ResponseFunctions = {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      res.setHeader('Content-Type', 'application/json');
-      const { username, password } = req.body;
-
+      const { username, password, domain } = req.body;
       const { Accounts, Schools } = await dbCon();
-
-      // Try capture domain //
-      const { host } = req.headers;
-      const domain: string = getDomain(host as string);
-      // Try capture domain //
 
       // Get the School info with domain //
       const school = await Schools.findOne({
@@ -33,7 +25,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           schoolId: school._id,
         })
           .then((account) => {
-            if (account) {
+            if (account._id) {
               const isPasswordValid = bcrypt.compareSync(password, account.password);
               if (isPasswordValid) {
                 res.status(200).json({
@@ -52,6 +44,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           })
           .catch(catcher);
       }
+
+
     },
   };
   const response = handleCase[method];

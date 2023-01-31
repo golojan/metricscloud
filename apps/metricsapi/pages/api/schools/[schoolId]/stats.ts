@@ -1,4 +1,10 @@
-import { AccountTypes, MembershipTypes, ResponseFunctions, SchoolSettingsType } from '@metricsai/metrics-interfaces';
+import {
+  AccountTypes,
+  MembershipTypes,
+  ResponseFunctions,
+  SchoolSettingsType,
+  Gender,
+} from '@metricsai/metrics-interfaces';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon, allowCors } from './../../../../models';
 
@@ -15,62 +21,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       // get school info for settings //
       const school = await Schools.findById(schoolId).catch(catcher);
-
       let SETTINGS: SchoolSettingsType = {};
-
-      let studentsInMetrics = false;
-      let lecturersInMetrics = false;
-      let alumniInMetrics = false;
-
       if (school) {
         SETTINGS = school.settings ? school.settings : {};
-        if (SETTINGS) {
-          studentsInMetrics = SETTINGS.includeStudentsInMetrics as boolean;
-          lecturersInMetrics = SETTINGS.includeLecturersInMetrics as boolean;
-          alumniInMetrics = SETTINGS.includeAlumniInMetrics as boolean;
-        }
-      }
-
-      let matchQuery: {
-        schoolId?: string;
-        accountType?: {
-          $in: AccountTypes[];
-        };
-      } = { schoolId: String(schoolId) };
-
-      // set match query based on includeStudentsInMetrics and includeLecturersInMetrics and includeAlumniInMetrics //
-      if (alumniInMetrics && studentsInMetrics) {
-        matchQuery = {
-          ...matchQuery,
-          accountType: {
-            $in: [AccountTypes.LECTURER, AccountTypes.STUDENT, AccountTypes.ALUMNI],
-          },
-        };
-      } else if (alumniInMetrics && !studentsInMetrics) {
-        matchQuery = {
-          ...matchQuery,
-          accountType: {
-            $in: [AccountTypes.LECTURER, AccountTypes.ALUMNI],
-          },
-        };
-      } else if (!alumniInMetrics && studentsInMetrics) {
-        matchQuery = {
-          ...matchQuery,
-          accountType: {
-            $in: [AccountTypes.LECTURER, AccountTypes.STUDENT],
-          },
-        };
-      } else {
-        matchQuery = {
-          ...matchQuery,
-          accountType: {
-            $in: [AccountTypes.LECTURER],
-          },
-        };
       }
 
       const gs_results = await Accounts.aggregate([
-        { $match: matchQuery },
+        { $match: { schoolId: String(schoolId) } },
         {
           $group: {
             _id: '$schoolId',
@@ -84,9 +41,31 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 $cond: [{ $eq: ['$accountType', AccountTypes.STUDENT] }, 1, 0],
               },
             },
+            totalFemaleStudents: {
+              $sum: {
+                $cond: [
+                  {
+                    $and: [{ $eq: ['$accountType', AccountTypes.STUDENT] }, { $eq: ['$gender', Gender.FEMALE] }],
+                  },
+                  1,
+                  0,
+                ],
+              },
+            },
             totalLecturers: {
               $sum: {
                 $cond: [{ $eq: ['$accountType', AccountTypes.LECTURER] }, 1, 0],
+              },
+            },
+            totalFemaleLecturers: {
+              $sum: {
+                $cond: [
+                  {
+                    $and: [{ $eq: ['$accountType', AccountTypes.LECTURER] }, { $eq: ['$gender', Gender.FEMALE] }],
+                  },
+                  1,
+                  0,
+                ],
               },
             },
             totalAlumni: {
@@ -124,6 +103,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             totalAlumni: 1,
             totalInternalStaff: 1,
             totalInternationalStudents: 1,
+            lecturerStudentRatio: {
+              $cond: {
+                if: { $or: [{ $eq: ['$totalLecturers', 0] }, { $eq: ['$totalStudents', 0] }] },
+                then: 0,
+                else: { $multiply: [{ $divide: ['$totalLecturers', '$totalStudents'] }, 100] },
+              },
+            },
             firstPublicationYear: {
               $ifNull: [
                 {
@@ -214,6 +200,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 },
               },
             },
+            totalFemaleStudents: 1,
+            totalFemaleLecturers: 1,
+            percentageFemaleStudents: {
+              $cond: {
+                if: { $or: [{ $eq: ['$totalStudents', 0] }, { $eq: ['$totalFemaleStudents', 0] }] },
+                then: 0,
+                else: { $multiply: [{ $divide: ['$totalFemaleStudents', '$totalStudents'] }, 100] },
+              },
+            },
+            percentageFemaleLecturers: {
+              $cond: {
+                if: { $or: [{ $eq: ['$totalLecturers', 0] }, { $eq: ['$totalFemaleLecturers', 0] }] },
+                then: 0,
+                else: { $multiply: [{ $divide: ['$totalFemaleLecturers', '$totalLecturers'] }, 100] },
+              },
+            },
           },
         },
         {
@@ -230,10 +232,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             totalAlumni: 1,
             totalInternalStaff: 1,
             totalInternationalStudents: 1,
+            lecturerStudentRatio: 1,
             firstPublicationYear: 1,
             citationsPerCapita: 1,
             hindexPerCapita: 1,
             i10hindexPerCapita: 1,
+            totalFemaleStudents: 1,
+            totalFemaleLecturers: 1,
             percentageOfStaffWithGooglePresence: {
               $cond: {
                 if: {
@@ -267,6 +272,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 },
               },
             },
+            percentageFemaleStudents: 1,
+            percentageFemaleLecturers: 1,
             total: {
               $avg: ['$citationsPerCapita', '$hindexPerCapita', '$i10hindexPerCapita'],
             },

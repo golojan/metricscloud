@@ -4,8 +4,10 @@ import nextCookie from 'next-cookies';
 import cookie from 'js-cookie';
 import { Token } from '@metricsai/metrics-interfaces';
 
+const apiUri = process.env.NEXT_PUBLIC_API_URI;
+
 const getUserName = async (token: string) => {
-  const response = await fetch(`/api/accounts/${token}/username`);
+  const response = await fetch(`${apiUri}accounts/${token}/username`);
   const user = await response.json();
   if (user.status) {
     return user.username;

@@ -2,6 +2,7 @@
   "name": "metricsai",
   "version": "0.0.0",
   "license": "MIT",
+  "type": "commonjs",
   "scripts": {
     "nx": "nx",
     "lint": "nx workspace-lint && nx lint",
