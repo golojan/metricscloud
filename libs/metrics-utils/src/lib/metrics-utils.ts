@@ -1,5 +1,6 @@
-import { DepartmentsInfo } from '@metricsai/metrics-interfaces';
-import { WebWindow } from '@metricsai/metrics-interfaces';
+import { DepartmentsInfo, WebWindow } from '@metricsai/metrics-interfaces';
+
+const apiUri = process.env.NEXT_PUBLIC_API_URI || 'http://localhost:3000${apiUri}';
 
 export const fetcher = async (url: string) =>
   await fetch(url)
@@ -77,7 +78,7 @@ export const perc = (num: number, total: number) => {
 };
 
 export const getConnections = async (token: string) => {
-  const response = await fetch(`/api/accounts/${token}/connections`);
+  const response = await fetch(`${apiUri}accounts/${token}/connections`);
   const connections = await response.json();
   if (connections.status) {
     return connections.data;
@@ -87,16 +88,13 @@ export const getConnections = async (token: string) => {
 };
 
 export const getUsersConnections = async (fromUser: string, toUse: string) => {
-  const response = await fetch(
-    `/api/accounts/${fromUser}/connections?fromUser=${fromUser}&toUser=${toUse}`
-  );
+  const response = await fetch(`${apiUri}accounts/${fromUser}/connections?fromUser=${fromUser}&toUser=${toUse}`);
   const userinfo = await response.json();
   return userinfo;
 };
 
 export const genPassword = (length: number) => {
-  const charset =
-    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let password = '';
   for (let i = 0; i < length; i++) {
     const randomInt = Math.floor(Math.random() * charset.length);
@@ -106,7 +104,7 @@ export const genPassword = (length: number) => {
 };
 
 export const getRoleInfo = async (id: string) => {
-  const response = await fetch(`/api/roles/${id}/info`);
+  const response = await fetch(`${apiUri}roles/${id}/info`);
   const role = await response.json();
   if (role.status) {
     return role.data;
@@ -116,7 +114,7 @@ export const getRoleInfo = async (id: string) => {
 };
 
 export const getMembershipInfo = async (id: string) => {
-  const response = await fetch(`/api/memberships/${id}/info`);
+  const response = await fetch(`${apiUri}memberships/${id}/info`);
   const membership = await response.json();
   if (membership.status) {
     return membership.data;
@@ -126,31 +124,31 @@ export const getMembershipInfo = async (id: string) => {
 };
 
 export const getDataLists = async () => {
-  const response = await fetch(`/api/lists`);
+  const response = await fetch(`${apiUri}lists`);
   const data = await response.json();
   return data;
 };
 
 export const getMemberships = async () => {
-  const response = await fetch(`/api/memberships/list`);
+  const response = await fetch(`${apiUri}memberships/list`);
   const data = await response.json();
   return data.indicators;
 };
 
 export const getIndicators = async () => {
-  const response = await fetch(`/api/indicators/list`);
+  const response = await fetch(`${apiUri}indicators/list`);
   const data = await response.json();
   return data.indicators;
 };
 
 export const getAccountInfo = async (_token: string) => {
-  const response = await fetch(`/api/accounts/${_token}/info`);
+  const response = await fetch(`${apiUri}accounts/${_token}/info`);
   const userinfo = await response.json();
   return userinfo;
 };
 
 export const getSchools = async () => {
-  const response = await fetch(`/api/schools/list`);
+  const response = await fetch(`${apiUri}schools/list`);
   const schools = await response.json();
   if (schools.status) {
     return schools.schools;
@@ -160,7 +158,7 @@ export const getSchools = async () => {
 };
 
 export const getSchoolInfoById = async (id: string) => {
-  const response = await fetch(`/api/schools/${id}/info`);
+  const response = await fetch(`${apiUri}schools/${id}/info`);
   const userinfo = await response.json();
   if (userinfo.status) {
     return userinfo.data;
@@ -170,7 +168,7 @@ export const getSchoolInfoById = async (id: string) => {
 };
 
 export const getIndicatorInfo = async (id: string) => {
-  const response = await fetch(`/api/indicators/${id}/info`);
+  const response = await fetch(`${apiUri}indicators/${id}/info`);
   const indicator = await response.json();
   if (indicator.status) {
     return indicator.data;
@@ -180,13 +178,13 @@ export const getIndicatorInfo = async (id: string) => {
 };
 
 export const getSchoolInfoByDomain = async (domain: string) => {
-  const response = await fetch(`/api/schools/${domain}/info`);
+  const response = await fetch(`${apiUri}schools/${domain}/info`);
   const userinfo = await response.json();
   return userinfo;
 };
 
 export const getSchoolInfo = async (domain: string) => {
-  const response = await fetch(`/api/schools/${domain}/info`);
+  const response = await fetch(`${apiUri}schools/${domain}/info`);
   const userinfo = await response.json();
   return userinfo;
 };
@@ -217,7 +215,7 @@ export const getLiveStats = (arrData: any, statVal: any) => {
 };
 
 export const loadSchoolsStats = async (schoolId: string) => {
-  const response = await fetch(`/api/schools/${schoolId}/stats`);
+  const response = await fetch(`${apiUri}schools/${schoolId}/stats`);
   const stats = await response.json();
   if (stats.status) {
     return stats;
@@ -226,7 +224,7 @@ export const loadSchoolsStats = async (schoolId: string) => {
 };
 
 export const loadUsers: any = async () => {
-  const response = await fetch('/api/accounts/listusers');
+  const response = await fetch(`${apiUri}accounts/listusers`);
   const users = await response.json();
   if (users.status) {
     return users.data;
@@ -235,7 +233,7 @@ export const loadUsers: any = async () => {
 };
 
 export const getUserProfile: any = async (accid: string) => {
-  const response = await fetch(`/api/accounts/${accid}/profile`);
+  const response = await fetch(`${apiUri}accounts/${accid}/profile`);
   const user = await response.json();
   if (user.status) {
     return user.data;
@@ -244,13 +242,13 @@ export const getUserProfile: any = async (accid: string) => {
 };
 
 export const fetchUserInfo = (token: string) => {
-  return fetch(`/api/accounts/${token}/info`)
+  return fetch(`${apiUri}accounts/${token}/info`)
     .then((response) => response.json())
     .then((data) => data.data);
 };
 
 export const getUserName = async (token: string) => {
-  const response = await fetch(`/api/accounts/${token}/username`);
+  const response = await fetch(`${apiUri}accounts/${token}/username`);
   const user = await response.json();
   if (user.status) {
     return user.username;
@@ -260,7 +258,7 @@ export const getUserName = async (token: string) => {
 };
 
 export const getProfileInfo = async (token: string) => {
-  const response = await fetch(`/api/accounts/${token}/profile`);
+  const response = await fetch(`${apiUri}accounts/${token}/profile`);
   const membership = await response.json();
   if (membership.status) {
     return membership.data;
@@ -270,7 +268,7 @@ export const getProfileInfo = async (token: string) => {
 };
 
 export const getUserInfo = async (token: string) => {
-  const response = await fetch(`/api/accounts/${token}/info`);
+  const response = await fetch(`${apiUri}accounts/${token}/info`);
   const user = await response.json();
   if (user.status) {
     return user.data;
@@ -280,7 +278,7 @@ export const getUserInfo = async (token: string) => {
 };
 
 export const getProfile = async (username: string) => {
-  const response = await fetch(`/api/${username}/profile`);
+  const response = await fetch(`${apiUri}${username}/profile`);
   const user = await response.json();
   if (user.status) {
     return user.data;
@@ -290,7 +288,7 @@ export const getProfile = async (username: string) => {
 };
 
 export const loadLecturers = async (schoolId: string) => {
-  const response = await fetch(`/api/lecturers/${schoolId}/list`);
+  const response = await fetch(`${apiUri}lecturers/${schoolId}/list`);
   const lecturers = await response.json();
   if (lecturers.status) {
     return lecturers.data;
@@ -299,7 +297,7 @@ export const loadLecturers = async (schoolId: string) => {
 };
 
 export const loadStudents = async (schoolId: string) => {
-  const response = await fetch(`/api/students/${schoolId}/list`);
+  const response = await fetch(`${apiUri}students/${schoolId}/list`);
   const students = await response.json();
   if (students.status) {
     return students.data;
@@ -308,19 +306,19 @@ export const loadStudents = async (schoolId: string) => {
 };
 
 export const loadStudentsStats = async (schoolId: string) => {
-  const response = await fetch(`/api/students/${schoolId}/stats`);
+  const response = await fetch(`${apiUri}students/${schoolId}/stats`);
   const stats = await response.json();
   return stats;
 };
 
 export const loadLecturersStats = async (schoolId: string) => {
-  const response = await fetch(`/api/lecturers/${schoolId}/stats`);
+  const response = await fetch(`${apiUri}lecturers/${schoolId}/stats`);
   const stats = await response.json();
   return stats;
 };
 
 export const loadLecturersRanking = async (schoolId: string) => {
-  const response = await fetch(`/api/lecturers/${schoolId}/ranking`);
+  const response = await fetch(`${apiUri}lecturers/${schoolId}/ranking`);
   const lecturers = await response.json();
   if (lecturers.status) {
     return lecturers.data;
@@ -329,7 +327,7 @@ export const loadLecturersRanking = async (schoolId: string) => {
 };
 
 export const listFaculties = async () => {
-  const response = await fetch(`/api/faculties/list`);
+  const response = await fetch(`${apiUri}faculties/list`);
   const faculties = await response.json();
   if (faculties.status) {
     return faculties.data;
@@ -338,7 +336,7 @@ export const listFaculties = async () => {
 };
 
 export const loadFaculties = async (schoolId: string) => {
-  const response = await fetch(`/api/faculties/${schoolId}/list`);
+  const response = await fetch(`${apiUri}faculties/${schoolId}/list`);
   const faculties = await response.json();
   if (faculties.status) {
     return faculties.data;
@@ -346,13 +344,13 @@ export const loadFaculties = async (schoolId: string) => {
   return [];
 };
 export const loadFacultiesStats = async (domain: string) => {
-  const response = await fetch(`/api/faculties/${domain}/stats`);
+  const response = await fetch(`${apiUri}faculties/${domain}/stats`);
   const stats = await response.json();
   return stats;
 };
 
 export const listDepartments = async () => {
-  const response = await fetch(`/api/departments/list`);
+  const response = await fetch(`${apiUri}departments/list`);
   const departments = await response.json();
   if (departments.status) {
     return departments.data;
@@ -360,7 +358,7 @@ export const listDepartments = async () => {
   return [];
 };
 export const loadDepartments = async (schoolId: string) => {
-  const response = await fetch(`/api/departments/${schoolId}/list`);
+  const response = await fetch(`${apiUri}departments/${schoolId}/list`);
   const departments = await response.json();
   if (departments.status) {
     return departments.data;
@@ -369,7 +367,7 @@ export const loadDepartments = async (schoolId: string) => {
 };
 
 export const loadSchoolDepartmentsByFacultyId = async (schoolId: string, facultyId: string) => {
-  const response = await fetch(`/api/departments/${schoolId}/${facultyId}/list`);
+  const response = await fetch(`${apiUri}departments/${schoolId}/${facultyId}/list`);
   const departments = await response.json();
   if (departments.status) {
     return departments.data;
@@ -377,13 +375,8 @@ export const loadSchoolDepartmentsByFacultyId = async (schoolId: string, faculty
   return [];
 };
 
-export const loadFacultyDepartments = async (
-  schoolId: string,
-  facultyId: string
-) => {
-  const response = await fetch(
-    `/api/departments/${schoolId}/faculties/${facultyId}/list`
-  );
+export const loadFacultyDepartments = async (schoolId: string, facultyId: string) => {
+  const response = await fetch(`${apiUri}departments/${schoolId}/faculties/${facultyId}/list`);
   const departments = await response.json();
   if (departments.status) {
     return departments.data;
