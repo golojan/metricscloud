@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { dbCon } from './../../../../../models';
+import { dbCon } from './../../../../../../models';
 import { ResponseFunctions } from '@metricsai/metrics-interfaces';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

@@ -1,6 +1,6 @@
 import { AccountTypes, MembershipTypes, ResponseFunctions, SchoolSettingsType } from '@metricsai/metrics-interfaces';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { dbCon } from '@metricsai/metrics-models';
+import { dbCon } from './../../../../models';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;

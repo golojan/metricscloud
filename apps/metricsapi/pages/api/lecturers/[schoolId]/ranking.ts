@@ -1,7 +1,7 @@
 import { ResponseFunctions, AccountTypes, SchoolSettingsType } from '@metricsai/metrics-interfaces';
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import { dbCon } from '@metricsai/metrics-models';
+import { dbCon } from './../../../../models';
 import { citationByWeight, hindexByWeight, i10indexByWeight } from '@metricsai/metrics-utils';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

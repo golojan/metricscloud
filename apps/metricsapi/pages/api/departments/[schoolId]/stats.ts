@@ -1,6 +1,6 @@
 import { Gender, LecturerType } from '@metricsai/metrics-interfaces';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { dbCon } from '@metricsai/metrics-models';
+import { dbCon } from './../../../../models';
 import { ResponseFunctions } from '@metricsai/metrics-interfaces';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

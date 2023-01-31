@@ -1,6 +1,6 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import { dbCon } from '@metricsai/metrics-models';
+import { dbCon } from './../../../models';
 import { ResponseFunctions } from '@metricsai/metrics-interfaces';
 import { getCookie } from 'cookies-next';
 
