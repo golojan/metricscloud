@@ -19,16 +19,32 @@ import UserReactions from './reactions.model';
 
 const { MONGOOSE_URI } = process.env;
 
+export const allowCors = (fn) => async (req, res) => {
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+  );
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+  return await fn(req, res);
+};
+
 export const dbCon = async () => {
   mongoose.set('strictQuery', true);
-  const conn = await mongoose
+  await mongoose
     .connect(MONGOOSE_URI as string)
     .then(() => {
       console.log('Mongoose Connection Established');
     })
     .catch((err) => console.log(err));
   return {
-    conn,
+    allowCors,
     Schools,
     Accounts,
     Connections,

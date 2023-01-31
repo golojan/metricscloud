@@ -16,6 +16,7 @@ import { getDomain } from '@metricsai/metrics-utils';
 const Home: NextPage = () => {
   const dispatch = useDispatch<Dispatch>();
   const router = useRouter();
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
   const isloggedin: boolean = hasAuth();
   if (isloggedin) {
     router.push('/dashboard');
@@ -32,20 +33,18 @@ const Home: NextPage = () => {
     username: '',
     password: '',
   });
-  const apiuri: string = process.env.NEXT_PUBLIC_API_URI;
   useEffect(() => {
     const _domain: string = getDomain(window.location.host);
     if (_domain) {
       setDomain(_domain);
     }
     const domainInfo = async () => {
-      const result = await fetch(`${apiuri}/schools/domains/localhost`);
-      const { status, data, domain, schoolId } = await result.json();
-      alert();
+      const result = await fetch(`${apiUri}schools/domains/${_domain}/info`);
+      const { status, data } = await result.json();
       if (status) {
         setSchool(data);
         dispatch.settings.setDomain(domain);
-        dispatch.settings.setSchoolId(schoolId);
+        dispatch.settings.setSchoolId(data.schoolId);
       }
     };
     domainInfo();
@@ -55,7 +54,7 @@ const Home: NextPage = () => {
     e.preventDefault();
     dispatch.settings.setBusy(true);
     setErrorMsg('');
-    const response = await fetch(`${apiuri}/login`, {
+    const response = await fetch(`${apiUri}login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -86,7 +85,7 @@ const Home: NextPage = () => {
               style={{ margin: '0 auto' }}
             />
             <br />
-            <div className="text-md text-gray-600 small">School Admin {apiuri}</div>
+            <div className="text-md text-gray-600 small">School Admin</div>
             <div className="">{school.name}</div>
           </h1>
           <h4>University AI Ranking Engine</h4>

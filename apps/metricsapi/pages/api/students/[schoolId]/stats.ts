@@ -1,9 +1,9 @@
 import { ResponseFunctions, AccountTypes, MembershipTypes } from '@metricsai/metrics-interfaces';
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import { dbCon } from './../../../../models';
+import { dbCon, allowCors } from './../../../../models';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
   const catcher = (error: Error) => res.status(400).json({ status: 0, error: error });
   const handleCase: ResponseFunctions = {
@@ -106,4 +106,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const response = handleCase[method];
   if (response) response(req, res);
   else res.status(400).json({ error: 'No Response for This Request' });
-}
+};
+
+export default allowCors(handler);

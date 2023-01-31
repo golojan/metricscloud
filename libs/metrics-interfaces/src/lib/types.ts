@@ -123,8 +123,11 @@ export interface AuthUserInfo {
 }
 
 export interface ResponseFunctions {
-  GET?: (req: NextApiRequest, res: NextApiResponse) => void;
-  POST?: (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
+  GET?: (req: NextApiRequest, res: NextApiResponse) => Promise<any>;
+  POST?: (req: NextApiRequest, res: NextApiResponse) => Promise<any>;
+  PUT?: (req: NextApiRequest, res: NextApiResponse) => Promise<any>;
+  DELETE?: (req: NextApiRequest, res: NextApiResponse) => Promise<any>;
+  UPDATE?: (req: NextApiRequest, res: NextApiResponse) => Promise<any>;
 }
 
 export type DataLists = {

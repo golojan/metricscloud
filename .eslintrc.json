@@ -31,11 +31,5 @@
       "extends": ["plugin:@nrwl/nx/javascript"],
       "rules": {}
     }
-  ],
-  "rules": {"@typescript-eslint/no-object-literal-type-assertion": [
-    "error",
-    {
-        "allow-empty-object": true
-    },
-],}
+  ]
 }
