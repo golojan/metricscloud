@@ -5,7 +5,6 @@
     "metrics-images": "libs/metrics-images",
     "metrics-interfaces": "libs/metrics-interfaces",
     "metrics-mail": "libs/metrics-mail",
-    "metrics-models": "libs/metrics-models",
     "metrics-scholars": "libs/metrics-scholars",
     "metrics-store": "libs/metrics-store",
     "metrics-utils": "libs/metrics-utils",

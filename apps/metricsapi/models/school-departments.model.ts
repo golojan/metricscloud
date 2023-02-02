@@ -9,10 +9,11 @@ const schoolDepartmentsScheme = new mongoose.Schema(
     departmentId: { type: String, required: true, unique: true },
     departmentName: { type: String, required: true, unique: true },
     departmentCode: { type: String, required: true },
+    fullAccreditation: { type: Boolean, default: false },
     departmentDescription: String,
     headOfDepartment: String,
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 if (mongoose.models.SchoolDepartments) {

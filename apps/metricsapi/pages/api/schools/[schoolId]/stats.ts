@@ -88,6 +88,39 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 $cond: [{ $eq: ['$membershipType', MembershipTypes.INTERNATIONAL] }, 1, 0],
               },
             },
+            fullProfessors: {
+              $sum: {
+                $cond: [
+                  {
+                    $eq: ['$isFullProfessor', true],
+                  },
+                  1,
+                  0,
+                ],
+              },
+            },
+            totalPHDs: {
+              $sum: {
+                $cond: [
+                  {
+                    $eq: ['$isPHD', true],
+                  },
+                  1,
+                  0,
+                ],
+              },
+            },
+            totalReaders: {
+              $sum: {
+                $cond: [
+                  {
+                    $eq: ['$isReader', true],
+                  },
+                  1,
+                  0,
+                ],
+              },
+            },
           },
         },
         {
@@ -103,6 +136,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             totalAlumni: 1,
             totalInternalStaff: 1,
             totalInternationalStudents: 1,
+            fullProfessors: 1,
+            totalPHDs: 1,
+            totalReaders: 1,
             lecturerStudentRatio: {
               $cond: {
                 if: { $or: [{ $eq: ['$totalLecturers', 0] }, { $eq: ['$totalStudents', 0] }] },
@@ -239,6 +275,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             i10hindexPerCapita: 1,
             totalFemaleStudents: 1,
             totalFemaleLecturers: 1,
+            fullProfessors: 1,
+            totalPHDs: 1,
+            totalReaders: 1,
             percentageOfStaffWithGooglePresence: {
               $cond: {
                 if: {
@@ -272,8 +311,56 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 },
               },
             },
+            percentageFullProfessors: {
+              $cond: {
+                if: {
+                  $eq: ['$fullProfessors', 0],
+                },
+                then: 0,
+                else: {
+                  $multiply: [{ $divide: ['$fullProfessors', '$totalLecturers'] }, 100],
+                },
+              },
+            },
+            percentagePHDs: {
+              $cond: {
+                if: {
+                  $eq: ['$totalPHDs', 0],
+                },
+                then: 0,
+                else: {
+                  $multiply: [{ $divide: ['$totalPHDs', '$totalLecturers'] }, 100],
+                },
+              },
+            },
+            percentageReaders: {
+              $cond: {
+                if: {
+                  $eq: ['$totalReaders', 0],
+                },
+                then: 0,
+                else: {
+                  $multiply: [{ $divide: ['$totalReaders', '$totalLecturers'] }, 100],
+                },
+              },
+            },
             percentageFemaleStudents: 1,
             percentageFemaleLecturers: 1,
+            percentageProffessorsAndReaders: {
+              $cond: {
+                if: {
+                  $or: [
+                    { $eq: ['$fullProfessors', 0] },
+                    { $eq: ['$totalReaders', 0] },
+                    { $eq: ['$totalLecturers', 0] },
+                  ],
+                },
+                then: 0,
+                else: {
+                  $multiply: [{ $divide: [{ $add: ['$fullProfessors', '$totalReaders'] }, '$totalLecturers'] }, 100],
+                },
+              },
+            },
             total: {
               $avg: ['$citationsPerCapita', '$hindexPerCapita', '$i10hindexPerCapita'],
             },

@@ -2,7 +2,6 @@ import { ResponseFunctions, AccountTypes, SchoolSettingsType } from '@metricsai/
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon, allowCors } from './../../../../models';
-import { citationByWeight, hindexByWeight, i10indexByWeight } from '@metricsai/metrics-utils';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
@@ -25,6 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         {
           $match: {
             schoolId: schoolId,
+            accountType: AccountTypes.LECTURER,
           },
         },
         {
@@ -56,6 +56,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             firstname: 1,
             lastname: 1,
             googlePresence: 1,
+            membershipType: 1,
             firstPublicationYear: 1,
             lastPublicationYear: 1,
             totalPublications: 1,

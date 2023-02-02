@@ -2,7 +2,6 @@ import { ResponseFunctions, AccountTypes, SchoolSettingsType } from '@metricsai/
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon, allowCors } from './../../../../models';
-import { citationByWeight, hindexByWeight, i10indexByWeight } from '@metricsai/metrics-utils';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
@@ -25,12 +24,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         {
           $match: {
             schoolId: schoolId,
+            accountType: AccountTypes.STUDENT,
           },
         },
         {
           $group: {
             _id: '$schoolId',
-            totalLecturers: { $sum: 1 },
+            totalStudents: { $sum: 1 },
             maxPublications: { $max: '$totalPublications' },
             maxCitations: { $max: '$citations' },
             maxHindex: { $max: '$hindex' },
@@ -39,7 +39,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       ]).catch(catcher);
 
-      const lecturers = await Accounts.aggregate([
+      const students = await Accounts.aggregate([
         {
           $match: {
             schoolId: schoolId,
@@ -103,10 +103,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       ]);
 
-      if (lecturers) {
+      if (students) {
         res.status(200).json({
           status: true,
-          data: lecturers,
+          data: students,
         });
       } else {
         return res.status(400).json({ status: false, error: 'No Statistics returned' });

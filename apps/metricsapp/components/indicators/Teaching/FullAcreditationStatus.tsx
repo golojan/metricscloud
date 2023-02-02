@@ -2,8 +2,15 @@ import { faAreaChart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import ShowChartButton from '../../ShowChartButton';
+import useSWR from 'swr';
+import { GSIRanking } from '@metricsai/metrics-interfaces';
+import { authSchoolId } from '@metricsai/metrics-hocs';
+import Wait from '../../Wait';
 
 const FullAcreditationStatus = () => {
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
+  const schoolId = authSchoolId();
+  const { data: statistics, error, isLoading } = useSWR<GSIRanking>(`${apiUri}departments/${schoolId}/stats`, () => fetch(`${apiUri}departments/${schoolId}/stats`).then((res) => res.json()));
   return (
     <>
       {/*  */}
@@ -12,16 +19,15 @@ const FullAcreditationStatus = () => {
           <ShowChartButton show={true} />
           <div className="title">
             <strong className="text-black">
-              (%) Full Accreditation Status
+              (%) Full Accreditation
             </strong>
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {0}%
+            {isLoading ? <Wait /> : statistics?.fullAccreditation.toFixed(1) + '%'}
           </h1>
           <em className="absolute bottom-0 right-5">
-            <strong className="text-green-600 small">{0}</strong> departments
-            fully accredited
+            <strong className="text-green-600 small">{isLoading ? <Wait /> : statistics?.fullAccreditation.toFixed(1) + '%'}</strong> of <strong className="text-green-600 small">{isLoading ? <Wait /> : statistics?.totalDepartments}</strong> fully accredited
           </em>
         </div>
       </div>

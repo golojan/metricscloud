@@ -1,5 +1,5 @@
-import React, { forwardRef, useEffect } from 'react';
-import MaterialTable, { Icons, Column, Action } from '@material-table/core';
+import React, { forwardRef, useState } from 'react';
+import MaterialTable, { Icons, Column, Action, Options } from '@material-table/core';
 import {
   AddBox,
   ArrowDownward,
@@ -47,10 +47,9 @@ import { authSchoolId } from '@metricsai/metrics-hocs';
 import { AuthUserInfo, DepartmentsInfo, FacultiesInfo } from '@metricsai/metrics-interfaces';
 import Image from 'next/image';
 import useSWR from 'swr';
-import PieChart from 'apps/metricsapp/widgets/charts/PieChart';
+
 import { loadDepartments } from '@metricsai/metrics-utils';
-
-
+import AuthLecturerProfileRow from './AuthLecturerProfileRow';
 
 type Props = {
   title: string;
@@ -58,29 +57,38 @@ type Props = {
   loading: boolean;
 };
 
-
 const AuthLecturersTable = (props: Props) => {
-  const { title, data, loading } = props;
 
   const schoolId = authSchoolId();
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
 
-const options = {
-  paging: true,
-  pageSize: 10,
-  emptyRowsWhenPaging: false,
-  pageSizeOptions: [10, 100, 200, 300, 400],
-  headerStyle: {
-    fontWeight: 'bold',
-    backgroundColor: '#01579b',
-    color: '#FFF'
-  },
-  exportButton: true,
-  exportFileName: `metricsai-${schoolId}-users`,
-};
+  const { title, data, loading } = props;
+  const [lecturerId, setLecturerId] = useState<string>('');
 
 
-  const { data: faculties, isLoading: fac_loading } = useSWR<{ status: boolean, data: FacultiesInfo[] }>(`/api/faculties/${schoolId}/list`, () => fetch(`/api/faculties/${schoolId}/list`).then(res => res.json()));
-  const { data: departments, isLoading: dep_loading } = useSWR<{ status: boolean, data: DepartmentsInfo[] }>(`/api/departments/${schoolId}/list`, () => fetch(`/api/departments/${schoolId}/list`).then(res => res.json()));
+  const options = {
+    paging: true,
+    pageSize: 10,
+    exportButton: true,
+    selection: true,
+    sorting: true,
+    exportAllData: true,
+    emptyRowsWhenPaging: false,
+    pageSizeOptions: [10, 100, 200, 300, 400],
+    headerStyle: {
+      fontWeight: 'bold',
+      backgroundColor: '#01579b',
+      color: '#FFF'
+    },
+    rowStyle: rowData => ({
+      backgroundColor: (lecturerId === rowData._id) ? '#EEE' : '#FFF'
+    })
+  };
+
+
+  const { data: faculties, isLoading: fac_loading } = useSWR<{ status: boolean, data: FacultiesInfo[] }>(`${apiUri}faculties/${schoolId}/list`, () => fetch(`${apiUri}faculties/${schoolId}/list`).then(res => res.json()));
+  const { data: departments, isLoading: dep_loading } = useSWR<{ status: boolean, data: DepartmentsInfo[] }>(`${apiUri}departments/${schoolId}/list`, () => fetch(`${apiUri}departments/${schoolId}/list`).then(res => res.json()));
+
   const dName = (departmentId: string) => {
     if (dep_loading) return '...';
     const department = departments.data.find(dep => dep._id === departmentId);
@@ -88,32 +96,31 @@ const options = {
   }
 
   const fName = (facultyId: string) => {
-    if (fac_loading) return '...';
     const faculty = faculties.data.find(fac => fac._id === facultyId);
-    return faculty ? faculty.facultyName : 'No Faculty';
+    return faculty?.facultyName ? faculty.facultyName : 'No Faculty';
   }
 
-  const columns: Column<AuthUserInfo>[] = [
 
+  const columns: Column<AuthUserInfo>[] = [
+    {
+      field: 'picture',
+      title: '-',
+      render: rowData => <Image alt={`${rowData.fullname}`} src={rowData.picture} width={40} height={40} className='rounded-[50%]' />
+    },
     { title: 'ID', field: '_id', hidden: true },
     { title: 'Name', field: 'fullname' },
+    { title: 'Faculty', field: 'facultyId', render: rowData => <span>{fName(rowData.facultyId)}</span> },
+    { title: 'Department', field: 'departmentId', render: rowData => <span>{dName(rowData.departmentId)}</span> },
     { title: 'Citations', field: 'citationsPerCapita', render: rowData => <span>{rowData.citationsPerCapita.toFixed(2)}</span> },
     { title: 'H-Index', field: 'hindexPerCapita', render: rowData => <span>{rowData.hindexPerCapita.toFixed(2)}</span> },
     { title: 'i10-Index', field: 'i10hindexPerCapita', render: rowData => <span>{rowData.i10hindexPerCapita.toFixed(2)}</span> },
   ];
 
-  const detailPanel = [
-    {
-      tooltip: 'Show Lecture Details',
-      render: rowData => {
-        return (
-          <div className='bg-gray-300 m-4 min-h-[50px]'>
-            <h1>{rowData.firstname}</h1>
-          </div>
-        )
-      },
-    },
-  ];
+  const detailPanel = row => {
+    return (
+      <AuthLecturerProfileRow row={row} />
+    )
+  };
 
   return (
     <MaterialTable
@@ -124,6 +131,7 @@ const options = {
       columns={columns}
       icons={tableIcons}
       detailPanel={detailPanel}
+      onRowClick={((evt, row) => setLecturerId(row._id))}
     />
   );
 };

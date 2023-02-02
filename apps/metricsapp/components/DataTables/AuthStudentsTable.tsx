@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import MaterialTable, { Icons, Column, Action } from '@material-table/core';
 import {
   AddBox,
@@ -60,20 +60,8 @@ import {
 
 
 const schoolId = authSchoolId();
+const apiUri = process.env.NEXT_PUBLIC_API_URI;
 
-const options = {
-  paging: true,
-  pageSize: 10,
-  emptyRowsWhenPaging: false,
-  pageSizeOptions: [10, 100, 200, 300, 400],
-  headerStyle: {
-    fontWeight: 'bold',
-    backgroundColor: '#01579b',
-    color: '#FFF'
-  },
-  exportButton: true,
-  exportFileName: `metricsai-${schoolId}-users`,
-};
 
 type Props = {
   title: string;
@@ -83,13 +71,17 @@ type Props = {
 
 
 const AuthStudentsTable = (props: Props) => {
+
   const { title, data, loading } = props;
+  const [selectedRow, setSelectedRow] = useState<AuthUserInfo>({
+    _id: ''
+  });
 
   const { statistics_lecturers } = useSelector((state: RootState) => state.lecturers);
 
+  const { data: faculties, isLoading: fac_loading } = useSWR<{ status: boolean, data: FacultiesInfo[] }>(`${apiUri}faculties/${schoolId}/list`, () => fetch(`${apiUri}faculties/${schoolId}/list`).then(res => res.json()));
+  const { data: departments, isLoading: dep_loading } = useSWR<{ status: boolean, data: DepartmentsInfo[] }>(`${apiUri}departments/${schoolId}/list`, () => fetch(`${apiUri}departments/${schoolId}/list`).then(res => res.json()));
 
-  const { data: faculties, isLoading: fac_loading } = useSWR<{ status: boolean, data: FacultiesInfo[] }>(`/api/faculties/${schoolId}/list`, () => fetch(`/api/faculties/${schoolId}/list`).then(res => res.json()));
-  const { data: departments, isLoading: dep_loading } = useSWR<{ status: boolean, data: DepartmentsInfo[] }>(`/api/departments/${schoolId}/list`, () => fetch(`/api/departments/${schoolId}/list`).then(res => res.json()));
 
   const dName = (departmentId: string) => {
     if (dep_loading) return '...';
@@ -98,10 +90,29 @@ const AuthStudentsTable = (props: Props) => {
   }
 
   const fName = (facultyId: string) => {
-    if (fac_loading) return '...';
     const faculty = faculties.data.find(fac => fac._id === facultyId);
-    return faculty ? faculty.facultyName : 'No Faculty';
+    return faculty?.facultyName ? faculty.facultyName : 'No Faculty';
   }
+
+  const options = {
+    paging: true,
+    pageSize: 10,
+    exportButton: true,
+    selection: true,
+    sorting: true,
+    exportAllData: true,
+    emptyRowsWhenPaging: false,
+    pageSizeOptions: [10, 100, 200, 300, 400],
+    headerStyle: {
+      fontWeight: 'bold',
+      backgroundColor: '#01579b',
+      color: '#FFF'
+    },
+    rowStyle: rowData => ({
+      backgroundColor: (selectedRow === rowData._id) ? '#EEE' : '#FFF'
+    })
+  };
+
 
   const columns: Column<AuthUserInfo>[] = [
     {
@@ -110,7 +121,6 @@ const AuthStudentsTable = (props: Props) => {
       render: rowData => <Image alt={`${rowData.fullname}`} src={rowData.picture} width={40} height={40} className='rounded-[50%]' />
     },
     { title: 'Name', field: 'fullname' },
-    { title: 'Gender', field: 'gender', render: rowData => <span>{rowData.gender ? rowData.gender : '-'}</span> },
     { title: 'Faculty', field: 'facultyId', render: rowData => <span>{fName(rowData.facultyId)}</span> },
     { title: 'Department', field: 'departmentId', render: rowData => <span>{dName(rowData.departmentId)}</span> },
     { title: 'Citations', field: 'citationsPerCapita', render: rowData => <span>{rowData.citationsPerCapita.toFixed(2)}</span> },
@@ -139,6 +149,7 @@ const AuthStudentsTable = (props: Props) => {
       columns={columns}
       icons={tableIcons}
       detailPanel={detailPanel}
+      onRowClick={((evt, selectedRow) => setSelectedRow(selectedRow._id))}
     />
   );
 };

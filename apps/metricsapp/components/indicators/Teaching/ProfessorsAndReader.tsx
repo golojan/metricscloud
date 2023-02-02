@@ -2,8 +2,15 @@ import { faAreaChart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import ShowChartButton from '../../ShowChartButton';
+import { GSIRanking } from '@metricsai/metrics-interfaces';
+import { authSchoolId } from '@metricsai/metrics-hocs';
+import useSWR from 'swr';
+import Wait from '../../Wait';
 
 const ProfessorsAndReader = () => {
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
+  const schoolId = authSchoolId();
+  const { data: statistics, error, isLoading } = useSWR<GSIRanking>(`${apiUri}schools/${schoolId}/stats`, () => fetch(`${apiUri}schools/${schoolId}/stats`).then((res) => res.json()));
   return (
     <>
       {/*  */}
@@ -15,12 +22,10 @@ const ProfessorsAndReader = () => {
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {0}%
+            {isLoading ? <Wait /> : statistics?.percentageProffessorsAndReaders.toFixed(1) + '%'}
           </h1>
           <em className="absolute bottom-0 right-5">
-            <strong className="text-green-600 small">{0}</strong>
-            {'% '}
-            of <strong className="text-green-600">{0}</strong> staff are
+            <strong className="text-green-600 small">{isLoading ? <Wait /> : statistics?.percentageProffessorsAndReaders.toFixed(1) + '%'}</strong> of <strong className="text-green-600">{isLoading ? <Wait /> : statistics?.totalLecturers}</strong> are
             Profs/Readers
           </em>
         </div>

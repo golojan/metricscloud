@@ -24,11 +24,10 @@ const InternationalStaff = () => {
           </div>
           <h1 className="total mt-2">
             <FontAwesomeIcon className="text-secondary" icon={faAreaChart} />{' '}
-            {isLoading ? <Wait /> : statistics.percentageOfInternationalStaff.toFixed(1)}%
+            {isLoading ? <Wait /> : statistics.percentageOfInternationalStaff.toFixed(1) + '%'}
           </h1>
           <em className="absolute bottom-0 right-5">
-            <strong className="text-green-600 small">{isLoading ? <Wait /> : statistics.percentageOfInternationalStaff.toFixed(1)}</strong>{'% '}
-            of <strong className="text-green-600">{isLoading ? <Wait /> : statistics.totalLecturers}</strong> are Foreign
+            <strong className="text-green-600 small">{isLoading ? <Wait /> : statistics.percentageOfInternationalStaff.toFixed(1) + '%'}</strong> of <strong className="text-green-600">{isLoading ? <Wait /> : statistics.totalLecturers}</strong> are Foreign
             staff
           </em>
         </div>

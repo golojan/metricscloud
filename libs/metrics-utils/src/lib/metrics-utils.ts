@@ -1,6 +1,24 @@
-import { DepartmentsInfo, WebWindow } from '@metricsai/metrics-interfaces';
-
 const apiUri = process.env.NEXT_PUBLIC_API_URI || 'http://localhost:3000${apiUri}';
+
+type WebWindow = {
+  addEventListener(arg0: string, handleResize: () => void): unknown;
+  width?: number;
+  height?: number;
+  size?: string;
+};
+
+type DepartmentsInfo = {
+  _id?: string;
+  scoolId?: string;
+  facultyId?: string;
+  name?: string;
+  departmentName?: string;
+  description?: string;
+  shortname?: string;
+  departmentCode?: string;
+  accredited?: boolean;
+  enabled?: boolean;
+};
 
 export const fetcher = async (url: string) =>
   await fetch(url)

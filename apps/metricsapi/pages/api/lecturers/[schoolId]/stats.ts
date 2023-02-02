@@ -86,6 +86,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 $cond: [{ $eq: ['$membershipType', MembershipTypes.LOCAL] }, 1, 0],
               },
             },
+            fullProfessors: {
+              $sum: {
+                $cond: [
+                  {
+                    $eq: ['$isFullProfessor', true],
+                  },
+                  1,
+                  0,
+                ],
+              },
+            },
           },
         },
       ]).catch(catcher);
@@ -113,6 +124,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           lowestHindex: lecturers[0].lowestHindex,
           lowestI10hindex: lecturers[0].lowestI10hindex,
           lowestTotalPublications: lecturers[0].lowestTotalPublications,
+          fullProfessors: lecturers[0].fullProfessors,
         });
       } else {
         res.status(400).json({ status: false, error: 'No Statistics returned' });

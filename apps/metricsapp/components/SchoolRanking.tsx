@@ -18,6 +18,7 @@ import ProfessorsAndReader from './indicators/Teaching/ProfessorsAndReader';
 import SeniorLecturers from './indicators/Teaching/SeniorLecturers';
 import OtherLecturers from './indicators/Teaching/OtherLecturers';
 import FemaleLecturers from './indicators/Teaching/FemaleLecturers';
+import AllReaders from './indicators/Teaching/AllReaders';
 
 
 const SchoolRanking = () => {
@@ -33,13 +34,14 @@ const SchoolRanking = () => {
           <InternationalStudents />
           {/* <InternationalColaborations /> */}
           {/* <GraduateOutput /> */}
-          {/* <FullProfessors /> */}
-          {/* <PercPHDs /> */}
-          {/* <FullAcreditationStatus /> */}
-          {/* <TeachStudentRatio /> */}
+          <FullProfessors />
+          <PercPHDs />
+          <FullAcreditationStatus />
+          <TeachStudentRatio />
           <FemaleStudents />
           <FemaleLecturers />
-          {/* <ProfessorsAndReader /> */}
+          <ProfessorsAndReader />
+          {/* <AllReaders /> */}
           {/* <SeniorLecturers /> */}
           {/* <OtherLecturers /> */}
         </div>

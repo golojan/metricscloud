@@ -46,12 +46,13 @@ const ReportLecturers: NextPage = () => {
 
   const schoolId = authSchoolId();
   const [working, setWorking] = useState<boolean>(false);
+  const [done, setDone] = useState<boolean>(false);
 
   const [lecturers, setlecturers] = useState<AuthUserInfo[]>([]);
   const [list, setList] = useState<AuthUserInfo[]>([]);
   const [settings, setSettings] = useAtom(schoolSettingsAtom);
 
-  const [byWeigth, setByWeigth] = useState<boolean>(true);
+  const [byWeigth, setByWeigth] = useState<boolean>(false);
 
   const busy = working || !settings;
 
@@ -96,7 +97,7 @@ const ReportLecturers: NextPage = () => {
       setWorking(false);
     }
 
-  }, [byWeigth, lecturers]);
+  }, [done]);
 
 
   return (

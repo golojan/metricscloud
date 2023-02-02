@@ -10,10 +10,11 @@ import Copyright from '../../../serverlets/Copyright';
 import { withAuth } from '@metricsai/metrics-hocs';
 import { compose } from 'redux';
 import { authSchoolId } from '@metricsai/metrics-hocs';
-import AuthLecturersTable from 'apps/metricsapp/components/DataTables/AuthLecturersTable';
+import AuthLecturersTable from '../../../components/DataTables/AuthLecturersTable';
 import useSWR from 'swr';
 import { AuthUserInfo, GSIRanking } from '@metricsai/metrics-interfaces';
 import parseCookies from 'next-cookies';
+import { noAction } from '@metricsai/metrics-utils';
 
 type lFilters = {
   male: boolean;
@@ -23,15 +24,10 @@ type lFilters = {
 };
 
 const Lecturers: NextPage = () => {
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
   const schoolId = authSchoolId();
-  const { data: lecturers, error, isLoading, isValidating } = useSWR<{ status: boolean, data: AuthUserInfo[] }>(`/api/lecturers/${schoolId}/ranking`, () => fetch(`/api/lecturers/${schoolId}/ranking`).then((res) => res.json()));
+  const { data: lecturers, error, isLoading, isValidating } = useSWR<{ status: boolean, data: AuthUserInfo[] }>(`${apiUri}lecturers/${schoolId}/ranking`, () => fetch(`${apiUri}lecturers/${schoolId}/ranking`).then((res) => res.json()));
   const loading = isValidating || isLoading || error || !lecturers;
-  // const [filter, setFilter] = useState<lFilters>({
-  //   male: false,
-  //   female: false,
-  //   withPhd: false,
-  //   isProfessor: false,
-  // });
   return (
     <>
       <AdminLayout>
@@ -47,7 +43,7 @@ const Lecturers: NextPage = () => {
                   </h1>
                 </div>
                 <div className="right flex">
-                  <Link href="#" className="button">
+                  <Link href="#" className="button" onClick={noAction}>
                     <FontAwesomeIcon icon={faPlus} />
                   </Link>
                 </div>

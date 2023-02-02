@@ -10,7 +10,7 @@ import Copyright from '../../../serverlets/Copyright';
 import { withAuth } from '@metricsai/metrics-hocs';
 import { compose } from 'redux';
 import { authSchoolId } from '@metricsai/metrics-hocs';
-import AuthStudentsTable from 'apps/metricsapp/components/DataTables/AuthStudentsTable';
+import AuthStudentsTable from '../../../components/DataTables/AuthStudentsTable';
 import useSWR from 'swr';
 import { AuthUserInfo, GSIRanking } from '@metricsai/metrics-interfaces';
 
@@ -22,15 +22,10 @@ type lFilters = {
 };
 
 const Lecturers: NextPage = () => {
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
   const schoolId = authSchoolId();
-  const { data: students, error, isLoading, isValidating } = useSWR<{ status: boolean, data: AuthUserInfo[] }>(`/api/students/${schoolId}/ranking`, () => fetch(`/api/students/${schoolId}/ranking`).then((res) => res.json()));
+  const { data: students, error, isLoading, isValidating } = useSWR<{ status: boolean, data: AuthUserInfo[] }>(`${apiUri}students/${schoolId}/ranking`, () => fetch(`${apiUri}students/${schoolId}/ranking`).then((res) => res.json()));
   const loading = isValidating || isLoading || error || !students;
-  // const [filter, setFilter] = useState<lFilters>({
-  //   male: false,
-  //   female: false,
-  //   withPhd: false,
-  //   isProfessor: false,
-  // });
   return (
     <>
       <AdminLayout>

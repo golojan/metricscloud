@@ -12,27 +12,36 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { schoolId } = req.query;
-      const { Departments } = await dbCon();
-
-      const count = await Departments.count({
-        schoolId: schoolId,
-      }).catch(catcher);
-
-      const countAccredited = await Departments.count({
-        schoolId: schoolId,
-        accredited: true,
-      }).catch(catcher);
-
-      const countNonAccredited = await Departments.count({
-        schoolId: schoolId,
-        accredited: false,
-      }).catch(catcher);
+      const { SchoolDepartments } = await dbCon();
+      const departments = await SchoolDepartments.aggregate([
+        {
+          $match: {
+            schoolId: String(schoolId),
+          },
+        },
+        {
+          $group: {
+            _id: 0,
+            totalDepartments: { $sum: 1 },
+            fullAccreditation: {
+              $sum: {
+                $cond: [{ $eq: ['$fullAccreditation', true] }, 1, 0],
+              },
+            },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            totalDepartments: 1,
+            fullAccreditation: 1,
+          },
+        },
+      ]).catch(catcher);
 
       res.status(200).json({
         status: true,
-        count: count,
-        countAccredited: countAccredited,
-        countNonAccredited: countNonAccredited,
+        ...departments[0],
       });
     },
   };

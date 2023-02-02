@@ -1,4 +1,3 @@
-import { faculties } from './../../../metrics-store/src/lib/models/faculties';
 import { ReactNode } from 'react';
 import { Gender, LecturerLevel, LecturerType, StudentType } from './enums';
 import { NextApiRequest, NextApiResponse } from 'next/types';
@@ -78,6 +77,7 @@ export interface AuthUserInfo {
   departmentId?: string;
   schoolId?: string;
   accountType?: string;
+  membershipType?: string;
   picture?: string;
   fullname?: string;
   firstname?: string;
@@ -118,6 +118,11 @@ export interface AuthUserInfo {
   totalPublications?: number;
   firstPublicationYear?: number;
   lastPublicationYear?: number;
+  isPHD?: boolean;
+  isReader?: boolean;
+  isFullProfessor?: boolean;
+  isAssociateProfessor?: boolean;
+  isFellow?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -213,9 +218,6 @@ export interface IHistory {
   adminId?: string;
 }
 
-
-
-
 export type GSIRanking = {
   id?: string;
   username?: string;
@@ -263,7 +265,14 @@ export type GSIRanking = {
   totalStaff?: number;
   totalGooglePresence?: number;
   totalInternalStaff?: number;
+  fullAccreditation?: number;
+  totalDepartments?: number;
   lecturerStudentRatio?: number;
+  percentageFullProfessors?: number;
+  percentageProffessorsAndReaders?: number;
+  totalReaders?: number;
+  totalPHDs?: number;
+  percentagePHDs?: number;
   percentageFemaleLecturers?: number;
   percentageFemaleStudents?: number;
   percentageOfInternationalStaff?: number;

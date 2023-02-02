@@ -30,7 +30,7 @@ const ShowChartButton = ({ show = false }: ShowChatProps) => {
       <Link
         href="#"
         className="button text-primary"
-        onClick={(e) => toggleShowChart}
+        onClick={toggleShowChart}
       >
         <FontAwesomeIcon icon={faChartPie} fontSize={25} />
       </Link>

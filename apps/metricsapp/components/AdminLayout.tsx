@@ -30,20 +30,28 @@ const AdminLayout = ({ children }: MyProps) => {
       router.push('/auth');
     }
     const getSchool = async () => {
-      const school = await getSchoolInfoById(schoolid);
-      dispatch.settings.setSchool(school);
+      if (schoolid) {
+        const school = await getSchoolInfoById(schoolid);
+        dispatch.settings.setSchool(school);
+      }
     };
     const getProfile = async () => {
-      const profile = await getProfileInfo(token);
-      dispatch.settings.setUserInfo(profile);
+      if (token) {
+        const profile = await getProfileInfo(token);
+        dispatch.settings.setUserInfo(profile);
+      }
     };
     const loadSchoolsStatistics = async () => {
-      const data = await loadSchoolsStats(schoolid);
-      dispatch.settings.setStatistics(data);
+      if (schoolid) {
+        const data = await loadSchoolsStats(schoolid);
+        dispatch.settings.setStatistics(data);
+      }
     }
     const loadLecturersStatistics = async () => {
-      const data = await loadLecturersStats(schoolid);
-      dispatch.lecturers.setStatistics(data);
+      if (schoolid) {
+        const data = await loadLecturersStats(schoolid);
+        dispatch.lecturers.setStatistics(data);
+      }
     }
 
     loadSchoolsStatistics();
