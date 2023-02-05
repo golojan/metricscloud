@@ -31,8 +31,9 @@ export const allowCors = (fn) => async (req, res) => {
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
+  } else {
+    return await fn(req, res);
   }
-  return await fn(req, res);
 };
 
 export const dbCon = async () => {
