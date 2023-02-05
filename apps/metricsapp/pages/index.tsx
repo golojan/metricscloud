@@ -34,8 +34,8 @@ const Home: NextPage = () => {
     password: '',
   });
   useEffect(() => {
-    alert(apiUri);
     const _domain: string = getDomain(window.location.host);
+    alert(_domain);
     if (_domain) {
       setLogon({ ...logon, domain: _domain });
       setDomain(_domain);
@@ -50,7 +50,7 @@ const Home: NextPage = () => {
       }
     };
     domainInfo();
-  }, [domain]);
+  }, [domain, logon, apiUri, dispatch.settings]);
 
   const adminLogon = async (e: React.SyntheticEvent) => {
     e.preventDefault();
