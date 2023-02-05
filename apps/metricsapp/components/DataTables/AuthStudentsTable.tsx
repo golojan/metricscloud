@@ -149,7 +149,7 @@ const AuthStudentsTable = (props: Props) => {
       columns={columns}
       icons={tableIcons}
       detailPanel={detailPanel}
-      onRowClick={((evt, selectedRow) => setSelectedRow(selectedRow._id))}
+      onRowClick={((evt, selectedRow) => setSelectedRow(selectedRow))}
     />
   );
 };
