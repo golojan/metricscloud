@@ -14,20 +14,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { domain } = req.query;
-      if (!domain || typeof domain !== 'string') {
-        res.status(400).json({ status: false, err: 'Invalid Domain' });
-        return;
-      }
-      const { Schools } = await dbCon();
-      const school = await Schools.findOne({ domain: domain }).catch(catcher);
-      if (school) {
-        res.status(200).json({
-          status: true,
-          data: school,
-        });
-      } else {
-        res.status(404).json({ status: false, err: 'Account not found' });
-      }
+      res.status(200).json({ status: true, data: domain });
+      // if (!domain || typeof domain !== 'string') {
+      //   res.status(400).json({ status: false, err: 'Invalid Domain' });
+      //   return;
+      // }
+      // const { Schools } = await dbCon();
+      // const school = await Schools.findOne({ domain: domain }).catch(catcher);
+      // if (school) {
+      //   res.status(200).json({
+      //     status: true,
+      //     data: school,
+      //   });
+      // } else {
+      //   res.status(404).json({ status: false, err: 'Account not found' });
+      // }
     },
   };
   const response = handleCase[method];

@@ -27,6 +27,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     const _domain: string = getDomain(window.location.host);
     if (_domain) {
+      setBusy(true);
       setDomain(_domain);
       setLogon({ ...logon, domain: _domain });
       const domainInfo = async () => {
@@ -37,8 +38,9 @@ const Home: NextPage = () => {
         });
       };
       domainInfo();
+      setBusy(false);
     }
-  }, [domain, busy]);
+  }, [busy]);
 
   const adminLogon = async (e: React.SyntheticEvent) => {
     e.preventDefault();
