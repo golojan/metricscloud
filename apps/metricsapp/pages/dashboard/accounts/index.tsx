@@ -81,6 +81,7 @@ const Accounts: NextPage = () => {
 
 
   useEffect(() => {
+    alert(apiUri);
     const loadAllMRCs = async () => {
       const MRCs = await loadMRCLecturers(schoolId);
       setMRCData(MRCs);
@@ -209,9 +210,6 @@ const Accounts: NextPage = () => {
       setBusy(false);
     }
   }
-
-
-
 
   return (
     <>
