@@ -34,7 +34,7 @@ const Home: NextPage = () => {
     password: '',
   });
   useEffect(() => {
-
+    alert(apiUri);
     const _domain: string = getDomain(window.location.host);
     if (_domain) {
       setLogon({ ...logon, domain: _domain });
