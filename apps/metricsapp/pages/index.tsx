@@ -11,9 +11,11 @@ import { appLogin, hasAuth } from '@metricsai/metrics-hocs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { getDomain } from '@metricsai/metrics-utils';
+import Wait from '../components/Wait';
 
 
 const Home: NextPage = () => {
+  const [busy, setBusy] = useState<boolean>(false);
   const dispatch = useDispatch<Dispatch>();
   const router = useRouter();
   const apiUri = process.env.NEXT_PUBLIC_API_URI;
@@ -30,24 +32,26 @@ const Home: NextPage = () => {
     username: '',
     password: '',
   });
+
   useEffect(() => {
     const _domain: string = getDomain(window.location.host);
     if (_domain) {
+      setBusy(true);
       setDomain(_domain);
       setLogon({ ...logon, domain: _domain });
+      const domainInfo = async () => {
+        const result = await fetch(`${apiUri}schools/domains/${_domain}/info`);
+        const { status, data } = await result.json();
+        if (status) {
+          setSchool(data);
+          dispatch.settings.setDomain(domain);
+          dispatch.settings.setSchoolId(data.schoolId);
+        }
+      };
+      domainInfo();
+      setBusy(false);
     }
-    const domainInfo = async () => {
-      const result = await fetch(`${apiUri}schools/domains/${_domain}/info`);
-      const { status, data } = await result.json();
-      alert(JSON.stringify(data));
-      if (status) {
-        setSchool(data);
-        dispatch.settings.setDomain(domain);
-        dispatch.settings.setSchoolId(data.schoolId);
-      }
-    };
-    domainInfo();
-  }, [domain, apiUri]);
+  }, [busy, domain, apiUri]);
 
   const adminLogon = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -85,7 +89,7 @@ const Home: NextPage = () => {
             />
             <br />
             <div className="text-md text-gray-600 small">School Admin</div>
-            <div className="">{school.name}</div>
+            <div className="">{busy ? <Wait /> : school.name}</div>
           </h1>
           <h4>University AI Ranking Engine</h4>
         </div>
