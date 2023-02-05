@@ -49,7 +49,7 @@ const Home: NextPage = () => {
       }
     };
     domainInfo();
-  }, [domain, logon, apiUri, dispatch.settings]);
+  }, [_domain]);
 
   const adminLogon = async (e: React.SyntheticEvent) => {
     e.preventDefault();
