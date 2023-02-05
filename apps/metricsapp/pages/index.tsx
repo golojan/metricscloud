@@ -11,16 +11,13 @@ import { appLogin, hasAuth } from '@metricsai/metrics-hocs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { getDomain } from '@metricsai/metrics-utils';
-
+import useSWR from 'swr';
 
 const Home: NextPage = () => {
   const dispatch = useDispatch<Dispatch>();
   const router = useRouter();
   const apiUri = process.env.NEXT_PUBLIC_API_URI;
   const isloggedin: boolean = hasAuth();
-  // if (isloggedin) {
-  //   router.push('/dashboard');
-  // }
   const [domain, setDomain] = useState<string>('');
   const [school, setSchool] = useState({
     name: '',
@@ -33,23 +30,27 @@ const Home: NextPage = () => {
     username: '',
     password: '',
   });
+
+  const { data, error } = useSWR(`${apiUri}schools/domains/${domain}/info`, (url) => fetch(url).then((r) => r.json()));
+
   useEffect(() => {
     const _domain: string = getDomain(window.location.host);
     if (_domain) {
       setLogon({ ...logon, domain: _domain });
       setDomain(_domain);
     }
-    const domainInfo = async () => {
-      const result = await fetch(`${apiUri}schools/domains/${_domain}/info`);
-      const { status, data } = await result.json();
-      if (status) {
-        setSchool(data);
-        dispatch.settings.setDomain(domain);
-        dispatch.settings.setSchoolId(data.schoolId);
-      }
-    };
-    domainInfo();
-  }, [_domain]);
+    alert(JSON.stringify(data));
+    // const domainInfo = async () => {
+    //   const result = await fetch(`${apiUri}schools/domains/${_domain}/info`);
+    //   const { status, data } = await result.json();
+    //   if (status) {
+    //     setSchool(data);
+    //     dispatch.settings.setDomain(domain);
+    //     dispatch.settings.setSchoolId(data.schoolId);
+    //   }
+    // };
+    // domainInfo();
+  }, [data]);
 
   const adminLogon = async (e: React.SyntheticEvent) => {
     e.preventDefault();
