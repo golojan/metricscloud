@@ -35,7 +35,6 @@ const Home: NextPage = () => {
   });
   useEffect(() => {
     const _domain: string = getDomain(window.location.host);
-    alert(_domain);
     if (_domain) {
       setLogon({ ...logon, domain: _domain });
       setDomain(_domain);
