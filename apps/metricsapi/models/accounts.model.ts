@@ -86,6 +86,7 @@ const accountsScheme = new mongoose.Schema(
     mobileVerified: { type: Boolean, default: false },
     lastLogin: { type: Date },
     isPHD: { type: Boolean, default: false },
+    isPGD: { type: Boolean, default: false },
     isFullProfessor: { type: Boolean, default: false },
     isAssociateProfessor: { type: Boolean, default: false },
     isReader: { type: Boolean, default: false },

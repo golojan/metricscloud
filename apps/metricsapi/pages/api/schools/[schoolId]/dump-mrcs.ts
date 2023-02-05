@@ -1,26 +1,32 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { dbCon, allowCors } from './../../../../models';
+import { dbCon, allowCors } from '../../../../models';
 import { ResponseFunctions } from '@metricsai/metrics-interfaces';
+import nextCookie from 'next-cookies';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
   const catcher = (error: Error) => res.status(400).json({ status: 0, error: error });
   const handleCase: ResponseFunctions = {
-    POST: async (req: NextApiRequest, res: NextApiResponse) => {
-      res.status(200).json({ status: false, err: 'Only GET Method is allowed' });
-    },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
+      res.status(200).json({ status: false, err: 'Only POST Method is allowed' });
+    },
+    POST: async (req: NextApiRequest, res: NextApiResponse) => {
       const { schoolId } = req.query;
-      const { SchoolFaculties } = await dbCon();
+      const { mrcsData } = req.body;
 
-      const count = await SchoolFaculties.count({
-        schoolId: schoolId,
-      }).catch(catcher);
+      const { MRCs } = await dbCon();
+      const saved = await MRCs.insertMany(mrcsData).catch(catcher);
 
-      res.status(200).json({
-        status: true,
-        count: count,
-      });
+      console.log({ saved });
+
+      if (saved) {
+        res.status(200).json({
+          status: true,
+          ...saved,
+        });
+      } else {
+        res.status(404).json({ status: false, err: 'Account not found' });
+      }
     },
   };
   const response = handleCase[method];
@@ -29,4 +35,3 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default allowCors(handler);
-;

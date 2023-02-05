@@ -1,10 +1,4 @@
-import {
-  Gender,
-  ResponseFunctions,
-  AccountTypes,
-  MembershipTypes,
-  SchoolSettingsType,
-} from '@metricsai/metrics-interfaces';
+import { ResponseFunctions, AccountTypes, MembershipTypes, SchoolSettingsType } from '@metricsai/metrics-interfaces';
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon, allowCors } from './../../../../models';

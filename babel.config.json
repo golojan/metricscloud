@@ -1,3 +1,17 @@
 {
-  "babelrcRoots": ["*"]
+  "babelrcRoots": ["*"],
+  "env": {
+    "development": {
+      "plugins": [
+        [
+          "babel-plugin-transform-react-jsx",
+          {
+            "pragma": "h",
+            "pragmaFrag": "Fragment",
+            "throwIfNamespace": false
+          }
+        ]
+      ]
+    }
+  }
 }

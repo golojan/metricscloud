@@ -17,21 +17,24 @@ import Copyright from '../../../serverlets/Copyright';
 import { authSchoolId, withAuth } from '@metricsai/metrics-hocs';
 import { compose } from 'redux';
 
-import { FacultiesInfo, SCHFaculty } from '@metricsai/metrics-interfaces';
-import { listFaculties, loadFaculties } from '@metricsai/metrics-utils';
+import { FacultiesInfo, SCHDepartment, SCHFaculty } from '@metricsai/metrics-interfaces';
+import { listFaculties, loadFaculties, loadDepartments } from '@metricsai/metrics-utils';
 import { Virtuoso } from 'react-virtuoso';
 
 
 import useSWR from 'swr';
 
 const Faculties: NextPage = () => {
+
   const [done, setDone] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
 
   const [list, setList] = useState<FacultiesInfo[]>([]);
   const [schoolFaculties, setSchoolFaculties] = useState<SCHFaculty[]>([]);
-
+  const [schoolDepartments, setSchoolDepartments] = useState<SCHDepartment[]>([]);
   const schoolId = authSchoolId();
+
+  const [errText, setErrText] = useState<string>('');
 
   const apiUri = process.env.NEXT_PUBLIC_API_URI;
 
@@ -49,7 +52,21 @@ const Faculties: NextPage = () => {
     loadFaculties(schoolId).then((fres) => {
       setSchoolFaculties(fres);
     });
+    loadDepartments(schoolId).then((dres) => {
+      setSchoolDepartments(dres);
+    });
+    setErrText('');
   }, [done, faculties, isLoading, schoolId]);
+
+
+  // count departments in a faculty from schoolDepartments
+  const countDepartments = (facultyId: string): number => {
+    const departments = schoolDepartments.filter(
+      (department) => department.facultyId === facultyId
+    );
+    return Number(departments.length);
+  };
+
 
   const getFacultyInfo = (facultyId: string) => {
     const faculty = faculties.find((faculty) => faculty._id === facultyId);
@@ -77,11 +94,19 @@ const Faculties: NextPage = () => {
   // add to school faculties//
   const removeFromSchoolFaculties = async (
     e: React.SyntheticEvent,
-    facultyId: string
+    facultyId: string,
+    id: string
   ) => {
     e.preventDefault();
+    const _countFacs = countDepartments(id);
+    if (_countFacs) {
+      setErrText(
+        `You cannot remove this faculty because it has ${_countFacs} departments in it. Please remove the departments first`
+      );
+      return;
+    }
     setDone(true);
-    const result = await fetch(`/api/faculties/${schoolId}/removeFaculty`, {
+    const result = await fetch(`${apiUri}faculties/${schoolId}/removeFaculty`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -106,7 +131,7 @@ const Faculties: NextPage = () => {
   ) => {
     e.preventDefault();
     setDone(true);
-    const result = await fetch(`/api/faculties/${schoolId}/addFaculty`, {
+    const result = await fetch(`${apiUri}faculties/${schoolId}/addFaculty`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -154,7 +179,7 @@ const Faculties: NextPage = () => {
 
     if (faculty._id) {
       //edit faculty
-      const result = await fetch(`/api/faculties/${schoolId}/updateFaculty`, {
+      const result = await fetch(`${apiUri}faculties/${schoolId}/updateFaculty`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -169,7 +194,7 @@ const Faculties: NextPage = () => {
       }
     } else {
       //add faculty
-      const result = await fetch(`/api/faculties/${schoolId}/addFaculty`, {
+      const result = await fetch(`${apiUri}faculties/${schoolId}/addFaculty`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -228,7 +253,7 @@ const Faculties: NextPage = () => {
                       <div className="input-group relative flex flex-wrap items-stretch w-full mb-1">
                         <input
                           type="search"
-                          className="form-control form-control-lg relative flex-auto min-w-0 block w-full text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                          className="form-control relative flex-auto min-w-0 block w-full text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                           placeholder={`Search [${list.length}] records...`}
                           aria-label="Search"
                           aria-describedby="button-addon2"
@@ -237,10 +262,10 @@ const Faculties: NextPage = () => {
                       </div>
                     </div>
                   </div>
-                  <h4 className="pl-1">
+                  <p className="pl-1">
                     Found {list.length} faculties in record for{' '}
                     {query ? query : 'all records'}
-                  </h4>
+                  </p>
                   <hr className="my-2" />
                   <Virtuoso
                     style={{ height: '400px' }}
@@ -254,7 +279,7 @@ const Faculties: NextPage = () => {
                             key={index}
                           >
                             <Link
-                              className="float-right btn btn-primary"
+                              className="float-right btn btn-primary btn-sm"
                               href={`#`}
                               onClick={(e) =>
                                 addToSchoolFaculties(e, faculty._id)
@@ -265,9 +290,9 @@ const Faculties: NextPage = () => {
                             <div className="flex justify-between">
                               <div className="flex">
                                 <div className="flex flex-col">
-                                  <h4 className="text-lg font-bold">
+                                  <p className="text-black">
                                     {faculty.name}
-                                  </h4>
+                                  </p>
                                 </div>
                               </div>
                             </div>
@@ -280,10 +305,12 @@ const Faculties: NextPage = () => {
               </div>
               <div className={`col-12 col-md-12 col-lg-4 fa-border`}>
                 <div className="card-box border-1">
-                  <h1 className="mb-2">
+                  <div className="mb-2 text-black text-lg">
                     School Faculties <br />
-                    <small>All registered faculties.</small>
-                  </h1>
+                    <small className='text-gray-500'>All registered faculties.</small>
+                    <hr className="my-2" />
+                  </div>
+                  {errText ? <div className="text-danger alert-sm list-none">{errText}</div> : null}
                   <Virtuoso
                     style={{ height: '400px' }}
                     totalCount={schoolFaculties.length}
@@ -295,16 +322,16 @@ const Faculties: NextPage = () => {
                           key={index}
                         >
                           <Link
-                            className="float-right mx-2  btn btn-danger"
+                            className="float-right mx-2  btn btn-danger btn-sm"
                             href={`#`}
                             onClick={(e) =>
-                              removeFromSchoolFaculties(e, schFaculty.facultyId)
+                              removeFromSchoolFaculties(e, schFaculty.facultyId, schFaculty._id)
                             }
                           >
                             <FontAwesomeIcon className="" icon={faDeleteLeft} />
                           </Link>
                           <Link
-                            className="float-right mx-2 btn btn-primary"
+                            className="float-right mx-2 btn btn-primary btn-sm"
                             href={`#`}
                             onClick={() => updateFaculty(schFaculty?.facultyId)}
                           >
@@ -313,9 +340,9 @@ const Faculties: NextPage = () => {
                           <div className="flex justify-between">
                             <div className="flex">
                               <div className="flex flex-col">
-                                <h4 className="text-lg font-bold">
-                                  {schFaculty?.facultyName} <span>({0})</span>
-                                </h4>
+                                <p className="text-black">
+                                  {schFaculty?.facultyName} <span>({countDepartments(schFaculty?._id)})</span>
+                                </p>
                               </div>
                             </div>
                           </div>
@@ -330,34 +357,33 @@ const Faculties: NextPage = () => {
                   <div className="card-box border-0">
                     {faculty._id ? (
                       <>
-                        <h1 className="mb-2">
+                        <div className="mb-2 text-black text-lg">
                           Edit Faculty <br />
-                          <small>
+                          <small className='text-gray-500'>
                             Edit faculty details.
                             <hr className="my-2" />
-                            {faculty._id}
                           </small>
-                        </h1>
+                        </div>
                       </>
                     ) : (
                       <>
-                        <h1 className="mb-2">
+                          <div className="mb-2 text-black text-lg">
                           Create Faculty <br />
-                          <small>
+                            <small className='text-gray-500'>
                             New Faculty Details.
                             <hr className="my-2" />
                           </small>
-                        </h1>
+                          </div>
                       </>
                     )}
 
                     <div className="form-group basic">
                       <div className="input-wrapper">
-                        <label className="text-xl" htmlFor="facultyName">
+                        <label htmlFor="facultyName">
                           Faculty Name
                         </label>
                         <textarea
-                          className="form-control form-control-lg"
+                          className="form-control"
                           value={faculty.facultyName}
                           onChange={(e) =>
                             setFaculty({
@@ -374,12 +400,12 @@ const Faculties: NextPage = () => {
 
                     <div className="form-group basic">
                       <div className="input-wrapper">
-                        <label className="text-xl" htmlFor="facultyCode">
+                        <label htmlFor="facultyCode">
                           Code/Short Name
                         </label>
                         <input
                           type="text"
-                          className="form-control form-control-lg"
+                          className="form-control"
                           value={faculty.facultyCode}
                           onChange={(e) =>
                             setFaculty({
@@ -396,11 +422,11 @@ const Faculties: NextPage = () => {
 
                     <div className="form-group basic">
                       <div className="input-wrapper">
-                        <label className="text-xl" htmlFor="facultyDescription">
+                        <label htmlFor="facultyDescription">
                           Description
                         </label>
                         <textarea
-                          className="form-control form-control-lg"
+                          className="form-control"
                           value={faculty.facultyDescription}
                           onChange={(e) =>
                             setFaculty({
@@ -414,7 +440,7 @@ const Faculties: NextPage = () => {
 
                     <div className="form-group basic">
                       <div className="input-wrapper">
-                        <button className="btn btn-primary btn-block btn-lg">
+                        <button className="btn btn-primary btn-block btn-md">
                           {faculty._id ? (
                             <>
                               <FontAwesomeIcon className="mr-2" icon={faEdit} />{' '}

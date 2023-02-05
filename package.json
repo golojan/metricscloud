@@ -40,6 +40,7 @@
     "@types/react-toastify": "^4.1.0",
     "@types/socket.io": "^3.0.2",
     "@types/validator": "^13.7.10",
+    "@types/xlsx": "^0.0.36",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-less": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
@@ -52,8 +53,10 @@
     "cheerio": "^1.0.0-rc.12",
     "cloudmailin": "^0.0.3",
     "cookies-next": "^2.1.1",
+    "copy-to-clipboard": "^3.3.3",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "eslint": "8.30.0",
     "eslint-config-next": "13.1.1",
     "express": "^4.18.2",
@@ -109,7 +112,8 @@
     "tslib": "^2.3.0",
     "typescript": "4.9.4",
     "upload-js": "^2.4.1",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

@@ -1,4 +1,4 @@
-import { Gender, LecturerLevel, LecturerType, ResponseFunctions } from '@metricsai/metrics-interfaces';
+import { ResponseFunctions } from '@metricsai/metrics-interfaces';
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { dbCon, allowCors } from '../../../../../models';
@@ -10,10 +10,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
       const { id } = req.query;
       const { membershipType, isPHD, isReader, isFellow, isFullProfessor } = req.body;
-
+      const { Accounts } = await dbCon();
       console.log(req.body);
 
-      const { Accounts } = await dbCon();
       const updated = await Accounts.updateOne(
         { _id: id },
         {
@@ -24,6 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           isFullProfessor: isFullProfessor,
         },
       );
+      console.log(id);
       if (updated) {
         res.status(200).json({
           status: true,

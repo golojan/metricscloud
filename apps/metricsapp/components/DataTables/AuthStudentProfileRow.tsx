@@ -9,29 +9,25 @@ type Props = {
     }
 }
 
-const AuthLecturerProfileRow = (Props: Props) => {
+const AuthStudentProfileRow = (Props: Props) => {
     const apiUri = process.env.NEXT_PUBLIC_API_URI;
     const { row } = Props
     const { rowData } = row;
 
     const [isPHD, setIsPHD] = React.useState<boolean>(Boolean(rowData.isPHD));
-    const [isFellow, setIsFellow] = React.useState<boolean>(Boolean(rowData.isFellow));
-    const [isFullProfessor, setIsFullProfessor] = React.useState<boolean>(Boolean(rowData.isFullProfessor));
-    const [isReader, setIsReader] = React.useState<boolean>(Boolean(rowData.isReader));
+    const [isPGD, setIsPGD] = React.useState<boolean>(Boolean(rowData.isPGD));
     const [membership, setMembership] = React.useState<string>(rowData.membershipType);
 
     const processUpdates = async (e: React.SyntheticEvent, userId: string) => {
         e.preventDefault();
-        const fetcher = await fetch(`${apiUri}lecturers/update/${userId}/ajax`, {
+        const fetcher = await fetch(`${apiUri}students/update/${userId}/ajax`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 isPHD: isPHD,
-                isFellow: isFellow,
-                isFullProfessor: isFullProfessor,
-                isReader: isReader,
+                isPGD: isPGD,
                 membershipType: membership
             })
         });
@@ -82,7 +78,7 @@ const AuthLecturerProfileRow = (Props: Props) => {
                                 <form onSubmit={(e) => processUpdates(e, rowData._id)}>
                                     <div className="form-group my-1">
                                         <div className='text-gray-400 w-full border-b border-b-gray-300 py-2 relative'>International Lecturer:
-                                            <div className="form-check form-switch float-right absolute top-0 right-0"> 
+                                            <div className="form-check form-switch float-right absolute top-0 right-0">
                                                 <input
                                                     className="form-check-input"
                                                     type="checkbox"
@@ -102,7 +98,7 @@ const AuthLecturerProfileRow = (Props: Props) => {
                                             </div>
                                         </div>
 
-                                        <div className='text-gray-400 w-full border-b border-b-gray-300 py-2 relative'>PHD Lecturer:
+                                        <div className='text-gray-400 w-full border-b border-b-gray-300 py-2 relative'>PHD Student:
                                             <div className="form-check form-switch float-right absolute top-0 right-0">
 
                                                 <input
@@ -124,69 +120,32 @@ const AuthLecturerProfileRow = (Props: Props) => {
                                             </div>
                                         </div>
 
-                                        <div className='text-gray-400 w-full border-b border-b-gray-300 py-2 relative'>Reading Lecturer:
+                                        <div className='text-gray-400 w-full border-b border-b-gray-300 py-2 relative'>PGD Student:
                                             <div className="form-check form-switch float-right absolute top-0 right-0">
+
                                                 <input
                                                     className="form-check-input"
                                                     type="checkbox"
-                                                    id="isReader"
-                                                    name="isReader"
-                                                    defaultChecked={isReader}
+                                                    id="isPGD"
+                                                    name='isPGD'
+                                                    defaultChecked={isPGD}
                                                     onChange={
                                                         (e) => {
-                                                            setIsReader(e.target.checked ? true : false);
+                                                            setIsPGD(e.target.checked ? true : false);
                                                         }
                                                     }
                                                 />
                                                 <label
                                                     className="form-check-label"
-                                                    htmlFor="isReader"
+                                                    htmlFor="isPGD"
                                                 />
                                             </div>
                                         </div>
 
-                                        <div className='text-gray-400 w-full border-b border-b-gray-300 py-2 relative'>Fellowship Lecturer:
-                                            <div className="form-check form-switch float-right absolute top-0 right-0">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    id="isFellow"
-                                                    name='isFellow'
-                                                    defaultChecked={isFellow}
-                                                    onChange={
-                                                        (e) => {
-                                                            setIsFellow(e.target.checked ? true : false);
-                                                        }
-                                                    }
-                                                />
-                                                <label
-                                                    className="form-check-label"
-                                                    htmlFor="isFellow"
-                                                />
-                                            </div>
-                                        </div>
 
-                                        <div className='text-gray-400 w-full border-b border-b-gray-300 py-2 relative'>Full Professor:
-                                            <div className="form-check form-switch float-right absolute top-0 right-0">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    id="isFullProfessor"
-                                                    name="isFullProfessor"
-                                                    defaultChecked={isFullProfessor}
-                                                    onChange={(e) => {
-                                                        setIsFullProfessor(e.target.checked ? true : false);
-                                                    }}
-                                                />
-                                                <label
-                                                    className="form-check-label"
-                                                    htmlFor="isFullProfessor"
-                                                />
-                                            </div>
-                                        </div>
                                         <div className="form-group my-1 text-right">
                                             <button type="submit" className="btn btn-primary btn-sm">Update Profile</button>
-                                        </div>                    
+                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -199,4 +158,4 @@ const AuthLecturerProfileRow = (Props: Props) => {
     )
 }
 
-export default AuthLecturerProfileRow
+export default AuthStudentProfileRow

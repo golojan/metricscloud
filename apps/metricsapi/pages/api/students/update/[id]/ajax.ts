@@ -1,7 +1,7 @@
-import { Gender, LecturerLevel, LecturerType, ResponseFunctions } from '@metricsai/metrics-interfaces';
+import { ResponseFunctions } from '@metricsai/metrics-interfaces';
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import { dbCon, allowCors } from './../../../../../models';
+import { dbCon, allowCors } from '../../../../../models';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
@@ -9,26 +9,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const handleCase: ResponseFunctions = {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
       const { id } = req.query;
-      const { citations, hindex, i10hindex } = req.body;
+      const { membershipType, isPHD, isPGD } = req.body;
+      const { Accounts } = await dbCon();
       console.log(req.body);
 
-      const { Lecturers } = await dbCon();
-
-      const updated = await Lecturers.updateOne(
+      const updated = await Accounts.updateOne(
         { _id: id },
         {
-          citations: citations,
-          hindex: hindex,
-          i10hindex: i10hindex,
+          membershipType: membershipType,
+          isPHD: isPHD,
+          isPGD: isPGD,
         },
       );
+      console.log(id);
       if (updated) {
         res.status(200).json({
           status: true,
-          data: updated,
+          ...updated,
         });
       } else {
-        res.status(400).json({ status: false, error: 'No Ranking updated' });
+        res.status(400).json({ status: false, error: 'No Profile updated' });
       }
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {

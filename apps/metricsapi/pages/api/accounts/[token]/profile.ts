@@ -55,3 +55,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default allowCors(handler);
+;

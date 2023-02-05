@@ -57,6 +57,7 @@ import {
   i10indexByWeight,
   totalRanking
 } from '@metricsai/metrics-utils';
+import AuthStudentProfileRow from './AuthStudentProfileRow';
 
 
 const schoolId = authSchoolId();
@@ -133,8 +134,7 @@ const AuthStudentsTable = (props: Props) => {
       tooltip: 'Show Student Details',
       render: rowData => {
         return (
-          <div className='w-full h-[20px]'>
-          </div>
+          <AuthStudentProfileRow row={rowData} />
         )
       },
     },

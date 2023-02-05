@@ -73,19 +73,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 $cond: [{ $eq: ['$accountType', AccountTypes.ALUMNI] }, 1, 0],
               },
             },
-            lecturerStudentRatios: {
-              $push: {
-                $cond: [{ $eq: ['$accountType', AccountTypes.STUDENT] }, '$lecturerStudentRatio', null],
-              },
-            },
             totalInternalStaff: {
               $sum: {
-                $cond: [{ $eq: ['$membershipType', MembershipTypes.INTERNATIONAL] }, 1, 0],
+                $cond: [
+                  {
+                    $and: [{ $eq: ['$accountType', AccountTypes.LECTURER] }, { $eq: ['$membershipType', MembershipTypes.INTERNATIONAL] }],
+                  },
+                  1,
+                  0,
+                ],
               },
             },
             totalInternationalStudents: {
               $sum: {
-                $cond: [{ $eq: ['$membershipType', MembershipTypes.INTERNATIONAL] }, 1, 0],
+                $cond: [
+                  {
+                    $and: [{ $eq: ['$accountType', AccountTypes.STUDENT] }, { $eq: ['$membershipType', MembershipTypes.INTERNATIONAL] }],
+                  },
+                  1,
+                  0,
+                ],
               },
             },
             fullProfessors: {
@@ -384,3 +391,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default allowCors(handler);
+;

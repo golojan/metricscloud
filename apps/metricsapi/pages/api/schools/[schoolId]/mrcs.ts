@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { dbCon, allowCors } from './../../../../models';
-import { ResponseFunctions } from '@metricsai/metrics-interfaces';
+import { dbCon, allowCors } from '../../../../models';
+import { AccountTypes, ResponseFunctions } from '@metricsai/metrics-interfaces';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const method: keyof ResponseFunctions = req.method as keyof ResponseFunctions;
@@ -11,16 +11,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { schoolId } = req.query;
-      const { SchoolFaculties } = await dbCon();
-
-      const count = await SchoolFaculties.count({
-        schoolId: schoolId,
-      }).catch(catcher);
-
-      res.status(200).json({
-        status: true,
-        count: count,
-      });
+      const { MRCs } = await dbCon();
+      const mrcs = await MRCs.find({ schoolId: schoolId }).catch(catcher);
+      if (mrcs) {
+        res.status(200).json({
+          status: true,
+          data: mrcs,
+        });
+      } else {
+        res.status(404).json({ status: false, err: 'MRCS Accounts not found' });
+      }
     },
   };
   const response = handleCase[method];
@@ -29,4 +29,3 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default allowCors(handler);
-;

@@ -6,6 +6,7 @@ import '../styles/globals.scss';
 import { Provider } from 'react-redux';
 import { Provider as JotaiProvider } from 'jotai';
 import { store } from '@metricsai/metrics-store';
+import { ToastContainer } from 'react-toastify';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {

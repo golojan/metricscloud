@@ -116,6 +116,8 @@ const AuthLecturersTable = (props: Props) => {
     { title: 'i10-Index', field: 'i10hindexPerCapita', render: rowData => <span>{rowData.i10hindexPerCapita.toFixed(2)}</span> },
   ];
 
+
+
   const detailPanel = row => {
     return (
       <AuthLecturerProfileRow row={row} />

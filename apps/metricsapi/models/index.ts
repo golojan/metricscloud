@@ -16,6 +16,7 @@ import SchoolDepartments from './school-departments.model';
 import PostFeeds from './posts.model';
 import PostFeedComments from './comments.model';
 import UserReactions from './reactions.model';
+import MRCs from './mrcs.model';
 
 const { MONGOOSE_URI } = process.env;
 
@@ -61,5 +62,6 @@ export const dbCon = async () => {
     PostFeeds,
     PostFeedComments,
     UserReactions,
+    MRCs,
   };
 };

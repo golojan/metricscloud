@@ -57,6 +57,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             lastname: 1,
             googlePresence: 1,
             membershipType: 1,
+            isPHD: 1,
+            isPGD: 1,
+            isReader: 1,
+            isFellow  : 1,
+            isFullProfessor: 1,
             firstPublicationYear: 1,
             lastPublicationYear: 1,
             totalPublications: 1,
@@ -120,3 +125,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default allowCors(handler);
+;

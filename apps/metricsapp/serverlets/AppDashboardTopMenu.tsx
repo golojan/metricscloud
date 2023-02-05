@@ -31,10 +31,10 @@ const AppDashboardTopMenu = () => {
         </div>
         <div className="item">
           <div>
-            <Link href="/dashboard" className="button mb-1">
+            <Link href="/dashboard/accounts" className="button mb-1">
               <FontAwesomeIcon icon={faAddressCard} size={'4x'} />
             </Link>
-            <strong>Activations</strong>
+            <strong>Accounts & Activations</strong>
           </div>
         </div>
         <div className="item">

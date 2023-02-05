@@ -9,6 +9,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
       const { schoolId } = req.query;
       const { facultyId } = req.body;
+
+      console.log(facultyId);
+
       const { SchoolFaculties } = await dbCon();
       const removed = await SchoolFaculties.findOneAndRemove({
         schoolId: schoolId,
@@ -33,3 +36,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default allowCors(handler);
+;

@@ -30,7 +30,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         {
           $group: {
             _id: '$schoolId',
-            totalStudents: { $sum: 1 },
+            totalLecturers: { $sum: 1 },
             maxPublications: { $max: '$totalPublications' },
             maxCitations: { $max: '$citations' },
             maxHindex: { $max: '$hindex' },
@@ -38,8 +38,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         },
       ]).catch(catcher);
-
-      const students = await Accounts.aggregate([
+      
+      const lecturers = await Accounts.aggregate([
         {
           $match: {
             schoolId: schoolId,
@@ -56,6 +56,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             firstname: 1,
             lastname: 1,
             googlePresence: 1,
+            membershipType: 1,
+            isPHD: 1,
+            isPGD: 1,
+            isReader: 1,
+            isFellow  : 1,
+            isFullProfessor: 1,
             firstPublicationYear: 1,
             lastPublicationYear: 1,
             totalPublications: 1,
@@ -103,10 +109,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       ]);
 
-      if (students) {
+      if (lecturers) {
         res.status(200).json({
           status: true,
-          data: students,
+          data: lecturers,
         });
       } else {
         return res.status(400).json({ status: false, error: 'No Statistics returned' });
@@ -119,3 +125,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default allowCors(handler);
+;

@@ -70,6 +70,29 @@ export interface UserSnippet {
   error?: string;
 }
 
+export interface MRCInfo {
+  _id?: string;
+  mrcId?: string;
+  regId?: string;
+  schoolId?: string;
+  facultyId?: string;
+  departmentId?: string;
+  accountType?: string;
+  membershipType?: string;
+  lastname?: string;
+  firstname?: string;
+  middlename?: string;
+  gender?: string;
+  lga?: string;
+  state?: string;
+  country?: string;
+  certificate?: string;
+  rank?: string;
+  mrcUsed?: boolean;
+  mrcUsedDate?: Date;
+  enabled?: boolean;
+}
+
 export interface AuthUserInfo {
   _id?: string;
   verified?: boolean;
@@ -121,6 +144,7 @@ export interface AuthUserInfo {
   isPHD?: boolean;
   isReader?: boolean;
   isFullProfessor?: boolean;
+  isPGD?: boolean;
   isAssociateProfessor?: boolean;
   isFellow?: boolean;
   createdAt?: Date;

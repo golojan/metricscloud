@@ -1,3 +1,6 @@
+import { MRCInfo } from '@metricsai/metrics-interfaces';
+import { createHash } from 'crypto';
+
 const apiUri = process.env.NEXT_PUBLIC_API_URI || 'http://localhost:3000${apiUri}';
 
 type WebWindow = {
@@ -20,6 +23,22 @@ type DepartmentsInfo = {
   enabled?: boolean;
 };
 
+export const generateID = (userTag: string): string => {
+  const hash = createHash('sha256');
+  const timestamp = Date.now();
+  const data = `${userTag}`;
+  hash.update(data);
+  const uniqueID = hash.digest('base64');
+  return uniqueID;
+};
+
+export const shortenedMRC = (generateDiD: string) => {
+  const first3 = generateDiD.substring(0, 5);
+  const last3 = generateDiD.substring(generateDiD.length - 5, generateDiD.length);
+  const shorted = `${first3}...${last3}`;
+  return shorted;
+};
+
 export const fetcher = async (url: string) =>
   await fetch(url)
     .then((res) => res.json())
@@ -34,9 +53,39 @@ export const fetcherGet = async (url: string) =>
       return json;
     });
 
-export const fetcherPost = async (url: string) =>
+export const ApiPost = async (url: string, state: object) =>
   await fetch(url, {
     method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({}),
+  })
+    .then((res) => res.json())
+    .then((json) => {
+      return json;
+    });
+
+export const fetcherPost = async (url: string, state: object) =>
+  await fetch(url, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({}),
+  })
+    .then((res) => res.json())
+    .then((json) => {
+      return json;
+    });
+
+export const dumpExcelMRCs = async (schoolId: string, data: MRCInfo[]) =>
+  await fetch(`${apiUri}schools/${schoolId}/dump-mrcs`, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ mrcsData: data }),
   })
     .then((res) => res.json())
     .then((json) => {
@@ -305,8 +354,26 @@ export const getProfile = async (username: string) => {
   }
 };
 
+export const loadSchoolAccounts = async (schoolId: string) => {
+  const response = await fetch(`${apiUri}schools/${schoolId}/accounts`);
+  const accounts = await response.json();
+  if (accounts.status) {
+    return accounts.data;
+  }
+  return [];
+};
+
 export const loadLecturers = async (schoolId: string) => {
   const response = await fetch(`${apiUri}lecturers/${schoolId}/list`);
+  const lecturers = await response.json();
+  if (lecturers.status) {
+    return lecturers.data;
+  }
+  return [];
+};
+
+export const loadMRCLecturers = async (schoolId: string) => {
+  const response = await fetch(`${apiUri}schools/${schoolId}/mrcs`);
   const lecturers = await response.json();
   if (lecturers.status) {
     return lecturers.data;
