@@ -14,10 +14,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     },
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { domain } = req.query;
-      if (!domain || typeof domain !== 'string') {
-        res.status(400).json({ status: false, err: 'Invalid Domain' });
-        return;
-      }
       const { Schools } = await dbCon();
       const school = await Schools.findOne({ domain: domain }).catch(catcher);
       if (school) {
