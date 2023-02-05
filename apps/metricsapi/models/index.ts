@@ -28,11 +28,11 @@ export const allowCors = (fn) => async (req, res) => {
     'Access-Control-Allow-Headers',
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
   );
-  if (req.method === 'OPTIONS') {
+  if (req.method === 'GET' || req.method === 'POST') {
+    return await fn(req, res);
+  } else {
     res.status(200).end();
     return;
-  } else {
-    return await fn(req, res);
   }
 };
 
