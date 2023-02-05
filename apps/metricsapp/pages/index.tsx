@@ -18,9 +18,6 @@ const Home: NextPage = () => {
   const router = useRouter();
   const apiUri = process.env.NEXT_PUBLIC_API_URI;
   const isloggedin: boolean = hasAuth();
-  // if (isloggedin) {
-  //   router.push('/dashboard');
-  // }
   const [domain, setDomain] = useState<string>('');
   const [school, setSchool] = useState({
     name: '',
@@ -42,6 +39,7 @@ const Home: NextPage = () => {
     const domainInfo = async () => {
       const result = await fetch(`${apiUri}schools/domains/${_domain}/info`);
       const { status, data } = await result.json();
+      alert(JSON.stringify(data));
       if (status) {
         setSchool(data);
         dispatch.settings.setDomain(domain);
