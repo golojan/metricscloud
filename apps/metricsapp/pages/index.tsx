@@ -1,56 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Card } from 'react-bootstrap';
-import { Logon, Token } from '@metricsai/metrics-interfaces';
+import { Logon, SchoolInfo, Token } from '@metricsai/metrics-interfaces';
 import { NextPage } from 'next';
 import Layout from '../components/Layout';
 import SiteBusy from '../components/SiteBusy';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from '@metricsai/metrics-store';
-import { appLogin, hasAuth } from '@metricsai/metrics-hocs';
+import { appLogin } from '@metricsai/metrics-hocs';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { getDomain } from '@metricsai/metrics-utils';
+import { getDomain, getSchoolInfoByDomain } from '@metricsai/metrics-utils';
 import useSWR from 'swr';
 
 const Home: NextPage = () => {
+  const [busy, setBusy] = useState(false);
   const dispatch = useDispatch<Dispatch>();
-  const router = useRouter();
   const apiUri = process.env.NEXT_PUBLIC_API_URI;
-  const isloggedin: boolean = hasAuth();
   const [domain, setDomain] = useState<string>('');
-  const [school, setSchool] = useState({
-    name: '',
-    shortname: '',
-    domain: '',
-    logo: '',
-  });
+  const [school, setSchool] = useState<SchoolInfo>({});
   const [errorMsg, setErrorMsg] = useState('');
   const [logon, setLogon] = useState<Logon>({
     username: '',
     password: '',
   });
 
-  const { data, error } = useSWR(`${apiUri}schools/domains/${domain}/info`, (url) => fetch(url).then((r) => r.json()));
-
   useEffect(() => {
     const _domain: string = getDomain(window.location.host);
     if (_domain) {
-      setLogon({ ...logon, domain: _domain });
       setDomain(_domain);
+      setLogon({ ...logon, domain: _domain });
+      const domainInfo = async () => {
+        getSchoolInfoByDomain(_domain).then((data: SchoolInfo) => {
+          setSchool(data);
+          dispatch.settings.setDomain(_domain);
+          dispatch.settings.setSchoolId(data._id);
+        });
+      };
+      domainInfo();
     }
-    alert(JSON.stringify(data));
-    // const domainInfo = async () => {
-    //   const result = await fetch(`${apiUri}schools/domains/${_domain}/info`);
-    //   const { status, data } = await result.json();
-    //   if (status) {
-    //     setSchool(data);
-    //     dispatch.settings.setDomain(domain);
-    //     dispatch.settings.setSchoolId(data.schoolId);
-    //   }
-    // };
-    // domainInfo();
-  }, [data]);
+  }, [domain, busy]);
 
   const adminLogon = async (e: React.SyntheticEvent) => {
     e.preventDefault();

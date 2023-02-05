@@ -245,9 +245,12 @@ export const getIndicatorInfo = async (id: string) => {
 };
 
 export const getSchoolInfoByDomain = async (domain: string) => {
-  const response = await fetch(`${apiUri}schools/${domain}/info`);
-  const userinfo = await response.json();
-  return userinfo;
+  const response = await fetch(`${apiUri}schools/domains/${domain}/info`);
+  const result = await response.json();
+  if (result.status) {
+    return result.data;
+  }
+  return {};
 };
 
 export const getSchoolInfo = async (domain: string) => {
