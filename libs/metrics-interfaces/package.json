@@ -1,0 +1,16 @@
+{
+  "name": "@metricsai/metrics-interfaces",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "description": "Interfaces for metrics data",
+  "author": "MetricsAI",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "prepublishOnly": "npm run build"
+  }
+}

@@ -21,6 +21,7 @@ import MRCs from './mrcs.model';
 const { MONGOOSE_URI } = process.env;
 
 export const allowCors = (fn) => async (req, res) => {
+  res.header('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST');
@@ -28,7 +29,6 @@ export const allowCors = (fn) => async (req, res) => {
     'Access-Control-Allow-Headers',
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
   );
-  res.header('Content-Type', 'application/json');
   if (req.method === 'GET' || req.method === 'POST') {
     return await fn(req, res);
   } else {
