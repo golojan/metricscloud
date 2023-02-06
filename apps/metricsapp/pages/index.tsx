@@ -83,7 +83,7 @@ const Home: NextPage = () => {
               width={80}
               height={80}
               src={busy ? "/assets/img/logo-icon.png" : school.logo} 
-              alt="/"
+              alt="logo"
               style={{ margin: '0 auto' }}
             />
             <br />
