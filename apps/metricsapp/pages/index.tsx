@@ -56,7 +56,7 @@ const Home: NextPage = () => {
     e.preventDefault();
     dispatch.settings.setBusy(true);
     setErrorMsg('');
-    const response = await fetch(`${apiUri}login`, {
+    const response = await fetch(`${apiUri}/accounts/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
