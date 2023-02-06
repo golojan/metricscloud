@@ -13,7 +13,6 @@ import { useRouter } from 'next/router';
 import { getDomain } from '@metricsai/metrics-utils';
 import Wait from '../components/Wait';
 
-
 const Home: NextPage = () => {
   const [busy, setBusy] = useState<boolean>(false);
   const dispatch = useDispatch<Dispatch>();
@@ -83,7 +82,7 @@ const Home: NextPage = () => {
               className="img-responsive"
               width={80}
               height={80}
-              src="/assets/img/logo-icon.png"
+              src={busy ? "/assets/img/logo-icon.png" : school.logo} 
               alt="/"
               style={{ margin: '0 auto' }}
             />
