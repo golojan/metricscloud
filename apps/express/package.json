@@ -2,10 +2,10 @@
   "name": "express",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/server.ts",
+  "main": "./src/main.ts",
   "scripts": {
     "build": "npx tsc",
-    "start": "nodemon ./src/server.ts"
+    "start": "nodemon ./src/main.ts"
   },
   "keywords": [],
   "author": "",
