@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import React, { useEffect, useState } from 'react';
 import AdminLayout from '../../../components/AdminLayout';
 import AppDrawer from '../../../serverlets/AppDrawer';
-import { faPlus, faUsersBetweenLines, faUsersCog } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faUsersBetweenLines } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import AppHeader from '../../../serverlets/AppHeader';
@@ -12,20 +12,26 @@ import { compose } from 'redux';
 import { authSchoolId } from '@metricsai/metrics-hocs';
 import AuthStudentsTable from '../../../components/DataTables/AuthStudentsTable';
 import useSWR from 'swr';
-import { AuthUserInfo, GSIRanking } from '@metricsai/metrics-interfaces';
-
-type lFilters = {
-  male: boolean;
-  female: boolean;
-  withPhd: boolean;
-  isProfessor: boolean;
-};
+import { AuthUserInfo } from '@metricsai/metrics-interfaces';
+import { loadStudentsRanking } from '@metricsai/metrics-utils';
 
 const Lecturers: NextPage = () => {
-  const apiUri = process.env.NEXT_PUBLIC_API_URI;
   const schoolId = authSchoolId();
-  const { data: students, error, isLoading, isValidating } = useSWR<{ status: boolean, data: AuthUserInfo[] }>(`${apiUri}students/${schoolId}/ranking`, () => fetch(`${apiUri}students/${schoolId}/ranking`).then((res) => res.json()));
-  const loading = isValidating || isLoading || error || !students;
+  const [busy, setBusy] = useState(false);
+  const [students, setStudents] = useState<AuthUserInfo[]>([]);
+  useEffect(() => {
+    const loadRanking = async () => {
+      setBusy(true);
+      await loadStudentsRanking(schoolId).then((res) => {
+        setStudents(res);
+      }).catch((err) => {
+        console.log(err);
+      }).finally(() => {
+        setBusy(false);
+      });
+    }
+    loadRanking();
+  }, [schoolId])
   return (
     <>
       <AdminLayout>
@@ -51,7 +57,7 @@ const Lecturers: NextPage = () => {
           <div className="section pt-1">
             <div className="row ">
               <div className={`col-12 col-md-12 col-lg-12 min-h-screen`}>
-                <AuthStudentsTable title='Manage Students' data={loading ? [] : students.data} loading={loading} />
+                <AuthStudentsTable title='Manage Students' data={busy ? [] : students} loading={busy} />
               </div>
             </div>
           </div>

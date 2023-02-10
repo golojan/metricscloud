@@ -11,23 +11,26 @@ import { withAuth } from '@metricsai/metrics-hocs';
 import { compose } from 'redux';
 import { authSchoolId } from '@metricsai/metrics-hocs';
 import AuthLecturersTable from '../../../components/DataTables/AuthLecturersTable';
-import useSWR from 'swr';
-import { AuthUserInfo, GSIRanking } from '@metricsai/metrics-interfaces';
-import parseCookies from 'next-cookies';
-import { noAction } from '@metricsai/metrics-utils';
-
-type lFilters = {
-  male: boolean;
-  female: boolean;
-  withPhd: boolean;
-  isProfessor: boolean;
-};
+import { AuthUserInfo } from '@metricsai/metrics-interfaces';
+import { loadLecturersRanking, noAction } from '@metricsai/metrics-utils';
 
 const Lecturers: NextPage = () => {
-  const apiUri = process.env.NEXT_PUBLIC_API_URI;
   const schoolId = authSchoolId();
-  const { data: lecturers, error, isLoading, isValidating } = useSWR<{ status: boolean, data: AuthUserInfo[] }>(`${apiUri}lecturers/${schoolId}/ranking`, () => fetch(`${apiUri}lecturers/${schoolId}/ranking`).then((res) => res.json()));
-  const loading = isValidating || isLoading || error || !lecturers;
+  const [busy, setBusy] = useState(false);
+  const [lecturers, setLecturers] = useState<AuthUserInfo[]>([]);
+  useEffect(() => {
+    const loadRanking = async () => {
+      setBusy(true);
+      await loadLecturersRanking(schoolId).then((res) => {
+        setLecturers(res);
+      }).catch((err) => {
+        console.log(err);
+      }).finally(() => {
+        setBusy(false);
+      });
+    }
+    loadRanking();
+  }, [schoolId])
   return (
     <>
       <AdminLayout>
@@ -53,7 +56,7 @@ const Lecturers: NextPage = () => {
           <div className="section pt-1">
             <div className="row ">
               <div className={`col-12 col-md-12 col-lg-12 min-h-screen`}>
-                <AuthLecturersTable title='Manage Lecturers' data={loading ? [] : lecturers.data} loading={loading} />
+                <AuthLecturersTable title='Manage Lecturers' data={busy ? [] : lecturers} loading={busy} />
               </div>
             </div>
           </div>

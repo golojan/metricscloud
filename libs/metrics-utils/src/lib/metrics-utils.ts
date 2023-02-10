@@ -400,6 +400,15 @@ export const loadStudentsStats = async (schoolId: string) => {
   return stats;
 };
 
+export const loadStudentsRanking = async (schoolId: string) => {
+  const response = await fetch(`${apiUri}students/${schoolId}/ranking`);
+  const students = await response.json();
+  if (students.status) {
+    return students.data;
+  }
+  return [];
+};
+
 export const loadLecturersStats = async (schoolId: string) => {
   const response = await fetch(`${apiUri}lecturers/${schoolId}/stats`);
   const stats = await response.json();

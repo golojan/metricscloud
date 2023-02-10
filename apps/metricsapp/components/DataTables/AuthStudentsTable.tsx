@@ -83,7 +83,6 @@ const AuthStudentsTable = (props: Props) => {
   const { data: faculties, isLoading: fac_loading } = useSWR<{ status: boolean, data: FacultiesInfo[] }>(`${apiUri}faculties/${schoolId}/list`, () => fetch(`${apiUri}faculties/${schoolId}/list`).then(res => res.json()));
   const { data: departments, isLoading: dep_loading } = useSWR<{ status: boolean, data: DepartmentsInfo[] }>(`${apiUri}departments/${schoolId}/list`, () => fetch(`${apiUri}departments/${schoolId}/list`).then(res => res.json()));
 
-
   const dName = (departmentId: string) => {
     if (dep_loading) return '...';
     const department = departments.data.find(dep => dep._id === departmentId);

@@ -82,8 +82,10 @@ const Accounts: NextPage = () => {
 
   useEffect(() => {
     const loadAllMRCs = async () => {
+      setBusy(true);
       const MRCs = await loadMRCLecturers(schoolId);
       setMRCData(MRCs);
+      setBusy(false);
     }
     loadAllMRCs();
     const loadAllFaculties = async () => {
@@ -130,19 +132,20 @@ const Accounts: NextPage = () => {
       reader.onloadstart = (event) => {
         setProgress(0);
       };
-      reader.onprogress = (event) => {
-        if (event.lengthComputable) {
-          const progress = (event.loaded / event.total) * 100;
-          setTimeout(() => {
-            // Update the progress bar with the current progress value
-            setProgress(Number(progress));
-          }, 5000);
-          if (uploadPadRef.current) {
-            uploadPadRef.current.classList.add("border-2");
-            uploadPadRef.current.classList.add("border-green-600");
-          }
-        }
-      };
+      // reader.onprogress = (event) => {
+      //   if (event.lengthComputable) {
+      //     const progress = (event.loaded / event.total) * 100;
+      //     setTimeout(() => {
+      //       // Update the progress bar with the current progress value
+      //       setProgress(Number(progress));
+      //     }, 5000);
+      //     if (uploadPadRef.current) {
+      //       uploadPadRef.current.classList.add("border-2");
+      //       uploadPadRef.current.classList.add("border-green-600");
+      //     }
+      //   }
+      // };
+
       reader.onload = (event,) => {
         if (event.target) {
           const data: any = event.target.result;
@@ -156,6 +159,7 @@ const Accounts: NextPage = () => {
           }
         }
       };
+
       reader.readAsArrayBuffer(file);
       setBusy(false);
     }
@@ -194,7 +198,6 @@ const Accounts: NextPage = () => {
           country: row.COUNTRY,
         };
       });
-
       const response = await dumpExcelMRCs(schoolId, accounts);
       if (response) {
         setUploaded(false);
@@ -205,7 +208,6 @@ const Accounts: NextPage = () => {
           uploadPadRef.current.classList.remove("border-green-600");
         }
       }
-
       setBusy(false);
     }
   }
