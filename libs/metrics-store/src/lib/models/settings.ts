@@ -1,4 +1,5 @@
-import { accountInitialStats, GSIRanking } from './../../../../metrics-interfaces/src/lib/types';
+import { accountInitialStats, GSIRanking } from '@metricsai/metrics-interfaces';
+
 import {
   SchoolAnalitics,
   SchoolInfo,

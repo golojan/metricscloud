@@ -22,6 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(404).json({ status: false, err: 'Department deletion failed' });
       }
     },
+
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(200).json({ status: false, err: 'Only POST Method is allowed' });
     },

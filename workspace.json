@@ -1,6 +1,5 @@
 {
   "projects": {
-    "express": "apps/express",
     "metrics": "apps/metrics",
     "metrics-hocs": "libs/metrics-hocs",
     "metrics-images": "libs/metrics-images",

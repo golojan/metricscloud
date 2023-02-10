@@ -228,6 +228,7 @@ export const getSchoolInfoById = async (id: string) => {
   const response = await fetch(`${apiUri}schools/${id}/info`);
   const userinfo = await response.json();
   if (userinfo.status) {
+    alert(userinfo.data.firstname);
     return userinfo.data;
   } else {
     return {};

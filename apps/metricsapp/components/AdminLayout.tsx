@@ -12,28 +12,34 @@ import {
 import { authSchoolId, authToken } from '@metricsai/metrics-hocs';
 import { useRouter } from 'next/router';
 import { authlogout } from '@metricsai/metrics-hocs';
+import { SchoolInfo } from '@metricsai/metrics-interfaces';
+import useSWR from 'swr';
 
 interface MyProps {
   children: ReactNode;
 }
 
 const AdminLayout = ({ children }: MyProps) => {
-  const schoolid = authSchoolId();
+
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
+  const [busy, setBusy] = React.useState<boolean>(true);
   const token = authToken();
   const router = useRouter();
   const { school } = useSelector((state: RootState) => state.settings);
   const { name, shortname } = school;
   const dispatch = useDispatch<Dispatch>();
 
-
   useEffect(() => {
+    const schoolid = authSchoolId();
     if (!schoolid || !token) {
       authlogout("/auth/");
     } else {
-      const getSchool = async () => {
-        const school = await getSchoolInfoById(schoolid);
-        dispatch.settings.setSchool(school);
-      };
+      const getSchoolInfo = async () => {
+        const schoolInfo = await fetch(`${apiUri}schools/${schoolid}/info`);
+        const schoolInfoJson = await schoolInfo.json();
+        const schoolData = schoolInfoJson.data as SchoolInfo;
+        dispatch.settings.setSchool(schoolInfoJson.data);
+      }
       const getProfile = async () => {
         const profile = await getProfileInfo(token);
         dispatch.settings.setUserInfo(profile);
@@ -42,9 +48,9 @@ const AdminLayout = ({ children }: MyProps) => {
         const data = await loadSchoolsStats(schoolid);
         dispatch.settings.setStatistics(data);
       }
+      getSchoolInfo();
       loadSchoolsStatistics();
       getProfile();
-      getSchool();
     }
     dispatch.settings.setWebWindow(getWindowDimensions());
     const handleResize = () => {
@@ -52,7 +58,7 @@ const AdminLayout = ({ children }: MyProps) => {
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [schoolid, token, dispatch]);
+  }, [token, dispatch]);
 
   return (
     <>

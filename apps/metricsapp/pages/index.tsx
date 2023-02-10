@@ -82,7 +82,7 @@ const Home: NextPage = () => {
               className="img-responsive"
               width={80}
               height={80}
-              src={busy ? "/assets/img/logo-icon.png" : school.logo} 
+              src={"/assets/img/logo-icon.png"} 
               alt="logo"
               style={{ margin: '0 auto' }}
             />
