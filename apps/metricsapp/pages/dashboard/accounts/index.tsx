@@ -182,6 +182,7 @@ const Accounts: NextPage = () => {
         return {
           mrcId: generateID(`${row.REG_ID}${row.FIRST_NAME}${row.LAST_NAME}${row.OTHER_NAMES}${row.GENDER}${row.COUNTRY}`),
           regId: row.REG_ID,
+          schoolId: schoolId,
           facultyId: facultyId,
           departmentId: departmentId,
           firstname: row.FIRST_NAME,
@@ -191,7 +192,6 @@ const Accounts: NextPage = () => {
           rank: row.RANK,
           certificate: row.CERTIFICATE,
           country: row.COUNTRY,
-          schoolId: schoolId,
         };
       });
 
@@ -239,11 +239,16 @@ const Accounts: NextPage = () => {
                   <div className="title text-center">
                     <FontAwesomeIcon icon={faFileExcel} fontSize={'30px'} className='my-2' />
                     <h3>UPLOAD EXCEL<hr className='my-1' /></h3>
+
+                    {busy ? <div className='mx-auto mt-[25%] text-gray-300'><Wait /></div> : <>
                     <Link href={'#'} onClick={triggerFileUpload}>
                       <div className='w-[100px] h-[100px] bg-gray-100 hover:bg-emerald-300 rounded-[50%] mx-auto relative text-center'>
-                        {busy ? <div className='mx-auto mt-[25%] text-gray-300'><Wait /></div> : <><FontAwesomeIcon icon={faFileUpload} fontSize={'50px'} className='mx-auto mt-[25%] text-gray-300' /></>}
+                          <FontAwesomeIcon icon={faFileUpload} fontSize={'50px'} className='mx-auto mt-[25%] text-gray-300' />
                       </div>
                     </Link>
+                    </>}
+
+
                     <input ref={fileUploadRef} type="file" className='m-0' name="excelFile" id="excelFile" hidden={true} onChange={processUploadedExcelFile} />
                     <div className='my-2'>
                       <p>Download sample Excel file</p>

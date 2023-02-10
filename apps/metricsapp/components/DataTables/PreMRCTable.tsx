@@ -70,9 +70,9 @@ const PreMRCTable = (props: Props) => {
   const columns: Column<MRCInfo>[] = [
     { title: 'MRC', field: 'mrcId' },
     { title: 'Staff ID', field: 'regId' },
-    { title: 'Firstname', field: 'firstname' },
+    // { title: 'Firstname', field: 'firstname' },
     { title: 'Lastname', field: 'lastname' },
-    { title: 'Middlename', field: 'middlename' },
+    // { title: 'Middlename', field: 'middlename' },
   ];
   return (
     <MaterialTable

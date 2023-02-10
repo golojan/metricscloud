@@ -83,7 +83,7 @@ const AuthMRCTable = (props: Props) => {
     { title: 'Lastname', field: 'lastname' },
     { title: 'Middlename', field: 'middlename' },
     { title: 'Gender', field: 'gender' },
-    { title: 'Status', field: 'mrcUsed' },
+    { title: 'Rank', field: 'rank' },
   ];
   return (
     <MaterialTable
