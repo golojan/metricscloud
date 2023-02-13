@@ -48,7 +48,7 @@ import { AuthUserInfo, DepartmentsInfo, FacultiesInfo } from '@metricsai/metrics
 import Image from 'next/image';
 import useSWR from 'swr';
 
-import { loadDepartments, citationByWeight } from '@metricsai/metrics-utils';
+import { loadDepartments, citationByWeight, citationsPerCapita, hindexPerCapita, i10hindexPerCapita } from '@metricsai/metrics-utils';
 import AuthLecturerProfileRow from './AuthLecturerProfileRow';
 
 type Props = {
@@ -56,25 +56,6 @@ type Props = {
   data: AuthUserInfo[];
   loading: boolean;
 };
-
-const citationsPerCapita = (citations: number, totalPublications: number) => {
-  if (citations === 0 || totalPublications === 0) return 0;
-  return (citations / totalPublications).toFixed(2);
-}
-
-const hindexPerCapita = (hindex: number, firstPublicationYear: number) => {
-  if (hindex === 0 || firstPublicationYear === 0) return 0;
-  const currentYear = new Date().getFullYear();
-  const yearDiff = currentYear - firstPublicationYear;
-  return (hindex / yearDiff).toFixed(2);
-}
-
-const i10hindexPerCapita = (i10hindex: number, firstPublicationYear: number) => {
-  if (i10hindex === 0 || firstPublicationYear === 0) return 0;
-  const currentYear = new Date().getFullYear();
-  const yearDiff = currentYear - firstPublicationYear;
-  return (i10hindex / yearDiff).toFixed(2);
-}
 
 
 const AuthLecturersTable = (props: Props) => {

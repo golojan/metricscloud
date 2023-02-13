@@ -22,16 +22,17 @@ export const hindexPerCapita = (hindex: number, firstPublicationYear: number) =>
   if (hindex === 0 || firstPublicationYear === 0) return 0;
   const currentYear = new Date().getFullYear();
   const yearDiff = currentYear - firstPublicationYear;
+  if (yearDiff <= 0) return 0;
   return (hindex / yearDiff).toFixed(2);
-}
+};
 
 export const i10hindexPerCapita = (i10hindex: number, firstPublicationYear: number) => {
   if (i10hindex === 0 || firstPublicationYear === 0) return 0;
   const currentYear = new Date().getFullYear();
   const yearDiff = currentYear - firstPublicationYear;
+  if (yearDiff <= 0) return 0;
   return (i10hindex / yearDiff).toFixed(2);
-}
-
+};
 
 
 export const citationByWeight = (
