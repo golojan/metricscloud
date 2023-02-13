@@ -69,11 +69,14 @@ const ReportLecturers: NextPage = () => {
       setSettings(result);
     };
     getAllSchoolSettings();
+
     const getLecturersStatistics = async () => {
       const result = await loadLecturersRanking(schoolId);
       setlecturers(result);
     };
+
     getLecturersStatistics();
+
     if (lecturers && lecturers.length > 0) {
       setWorking(false);
       const result = lecturers?.sort((a, b) => b.total - a.total).map((lecturer, index) => {
@@ -252,7 +255,6 @@ const ReportLecturers: NextPage = () => {
                 </div>
               </div>
               <div className={`col-12 col-md-12 col-lg-9 min-h-screen`}>
-                {/* {JSON.stringify(list)} */}
                 <AuthUserTable title='Lecturers: Google Scholar Metrics' data={list ? list : []} loading={busy} />
               </div>
             </div>
