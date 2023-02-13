@@ -145,8 +145,8 @@ const AuthStudentsTable = (props: Props) => {
     { title: 'Faculty', field: 'facultyId', render: rowData => <span>{fName(rowData.facultyId)}</span> },
     { title: 'Department', field: 'departmentId', render: rowData => <span>{dName(rowData.departmentId)}</span> },
     { title: 'Citations', field: 'citations', render: rowData => <span>{citationsPerCapita(rowData.citations, rowData.totalPublications)}</span> },
-    { title: 'H-Index', field: 'hindexPerCapita', render: rowData => <span>{hindexPerCapita(rowData.hindexPerCapita, rowData.firstPublicationYear)}</span> },
-    { title: 'i10-Index', field: 'i10hindexPerCapita', render: rowData => <span>{i10hindexPerCapita(rowData.i10hindex, rowData.firstPublicationYear)}</span> }
+    { title: 'H-Index', field: 'hindex', render: rowData => <span>{hindexPerCapita(rowData.hindex, rowData.firstPublicationYear)}</span> },
+    { title: 'i10-Index', field: 'i10hindex', render: rowData => <span>{i10hindexPerCapita(rowData.i10hindex, rowData.firstPublicationYear)}</span> }
   ];
 
   const detailPanel = [
