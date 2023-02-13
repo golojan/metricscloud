@@ -14,11 +14,13 @@ export const maxFirstPublicationYear = (arr: Array<GSIRanking>): number => {
 
 
 export const citationsPerCapita = (citations: number, totalPublications: number) => {
+  if (!citations || !totalPublications) return 0;
   if (citations === 0 || totalPublications === 0) return 0;
   return (citations / totalPublications).toFixed(2);
-}
+};
 
 export const hindexPerCapita = (hindex: number, firstPublicationYear: number) => {
+  if (!hindex || !firstPublicationYear) return 0;
   if (hindex === 0 || firstPublicationYear === 0) return 0;
   const currentYear = new Date().getFullYear();
   const yearDiff = currentYear - firstPublicationYear;
@@ -27,6 +29,7 @@ export const hindexPerCapita = (hindex: number, firstPublicationYear: number) =>
 };
 
 export const i10hindexPerCapita = (i10hindex: number, firstPublicationYear: number) => {
+  if (!i10hindex || !firstPublicationYear) return 0;
   if (i10hindex === 0 || firstPublicationYear === 0) return 0;
   const currentYear = new Date().getFullYear();
   const yearDiff = currentYear - firstPublicationYear;
