@@ -71,6 +71,7 @@ export interface UserSnippet {
 }
 
 export interface MRCInfo {
+  status?: boolean;
   _id?: string;
   mrcId?: string;
   regId?: string;
@@ -96,6 +97,7 @@ export interface MRCInfo {
 export interface AuthUserInfo {
   _id?: string;
   verified?: boolean;
+  regNumber?: string;
   facultyId?: string;
   departmentId?: string;
   schoolId?: string;
@@ -147,6 +149,7 @@ export interface AuthUserInfo {
   isPGD?: boolean;
   isAssociateProfessor?: boolean;
   isFellow?: boolean;
+  password?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

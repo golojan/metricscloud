@@ -3,6 +3,9 @@ import { toast } from 'react-toastify';
 import { cloudLogin } from '@metricsai/metrics-hocs';
 
 function LoginTabContents() {
+
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
+
   const [login, setLogin] = React.useState({
     username: '',
     password: '',
@@ -10,7 +13,7 @@ function LoginTabContents() {
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
-    const response = await fetch('/api/accounts/login', {
+    const response = await fetch(`${apiUri}accounts/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

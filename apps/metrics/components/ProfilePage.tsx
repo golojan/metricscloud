@@ -19,7 +19,6 @@ function ProfilePage() {
   const { username } = router.query;
 
   const [token] = useAtom(tokenAtom);
-
   const [profile] = useAtom(publicProfileAtom);
   const [schools] = useAtom(schoolsAtom);
   const [departments] = useAtom(schoolDepartmentsAtom);

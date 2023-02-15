@@ -9,7 +9,9 @@ import { pageAtom } from '@metricsai/metrics-store';
 import { useAtom } from 'jotai';
 
 const ProfileInfoByToken = async (token: string) => {
-  const response = await fetch(`/api/accounts/${token}/profile`);
+  const apiUri = process.env.NEXT_PUBLIC_API_URI;
+
+  const response = await fetch(`${apiUri}accounts/${token}/profile`);
   const membership = await response.json();
   if (membership.status) {
     return membership.data;
@@ -49,7 +51,7 @@ const Notifications: NextPage = ({ token }: any) => {
   const saveSettings = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await fetch(
-      `/api/accounts/${token}/update-profile-settings`,
+      `${apiUri}accounts/${token}/update-profile-settings`,
       {
         method: 'POST',
         headers: {

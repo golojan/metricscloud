@@ -17,9 +17,11 @@ import { useAtom } from 'jotai';
 import { Virtuoso } from 'react-virtuoso';
 import PostFeed from '../../components/PostFeed';
 import { loadSchoolDepartmentsByFacultyId } from '@metricsai/metrics-utils';
+const apiUri = process.env.NEXT_PUBLIC_API_URI;
+
 
 const ProfileInfo = async (username: string) => {
-  const response = await fetch(`/api/${username}/profile`);
+  const response = await fetch(`${apiUri}${username}/profile`);
   const membership = await response.json();
   if (membership.status) {
     return membership.data;
@@ -29,7 +31,7 @@ const ProfileInfo = async (username: string) => {
 };
 
 const getSchools = async () => {
-  const response = await fetch(`/api/schools/list`);
+  const response = await fetch(`${apiUri}schools/list`);
   const data = await response.json();
   if (data.status) {
     return data.schools;
@@ -39,7 +41,7 @@ const getSchools = async () => {
 };
 
 const getPostFeeds = async (token: string) => {
-  const response = await fetch(`/api/accounts/${token}/post-feeds`);
+  const response = await fetch(`${apiUri}accounts/${token}/post-feeds`);
   const data = await response.json();
   if (data.status) {
     return data.data;
@@ -64,7 +66,6 @@ const Home: NextPage = () => {
   useEffect(() => {
     setPage('metrics');
     setBusy(true);
-
     ProfileInfo(username as string).then((res) => {
       setPublicProfile(res);
     });
@@ -102,7 +103,7 @@ const Home: NextPage = () => {
                 <ProfilePage />
                 <div className="ui-block feeds mt-4">
                   <Virtuoso
-                    style={{ height: '800px' }}
+                      style={{ height: '600px' }}
                     data={postFeeds}
                     totalCount={postFeeds?.length}
                     isScrolling={setIsScrolling}

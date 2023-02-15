@@ -20,10 +20,13 @@ import { hasAuth } from '@metricsai/metrics-hocs';
 import { useAtom } from 'jotai';
 import { pageAtom, profileAtom, schoolsAtom } from '@metricsai/metrics-store';
 import { useEffect } from 'react';
+
 import cookie from 'js-cookie';
 
+const apiUri = process.env.NEXT_PUBLIC_API_URI;
+
 const ProfileInfo = async (username: string) => {
-  const response = await fetch(`/api/${username}/profile`);
+  const response = await fetch(`${apiUri}accounts/{username}/profile`);
   const membership = await response.json();
   if (membership.status) {
     return membership.data;
@@ -33,7 +36,7 @@ const ProfileInfo = async (username: string) => {
 };
 
 const getSchools = async () => {
-  const response = await fetch(`/api/schools/list`);
+  const response = await fetch(`${apiUri}schools/list`);
   const data = await response.json();
   if (data.status) {
     return data.schools;

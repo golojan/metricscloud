@@ -5,6 +5,21 @@
   "sourceRoot": "libs/metrics-images/src",
   "projectType": "library",
   "targets": {
+    "build": {
+      "executor": "@nrwl/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "root": "libs/metrics-images",
+        "outputPath": "dist/libs/metrics-images"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "libs/metrics-images"
+        },
+        "production": {}
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

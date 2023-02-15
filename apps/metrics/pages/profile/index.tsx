@@ -18,8 +18,11 @@ import {
 } from '@metricsai/metrics-store';
 import { useAtom } from 'jotai';
 
+const apiUri = process.env.NEXT_PUBLIC_API_URI;
+
 const ProfileInfoByToken = async (token: string) => {
-  const response = await fetch(`/api/accounts/${token}/profile`);
+
+  const response = await fetch(`${apiUri}accounts/${token}/profile`);
   const membership = await response.json();
   if (membership.status) {
     return membership.data;
@@ -29,7 +32,7 @@ const ProfileInfoByToken = async (token: string) => {
 };
 
 const getSchools = async () => {
-  const response = await fetch(`/api/schools/list`);
+  const response = await fetch(`${apiUri}schools/list`);
   const data = await response.json();
   if (data.status) {
     return data.schools;
@@ -123,7 +126,7 @@ const EditProfile: NextPage = ({ token }: any) => {
       return;
     }
     busyURef();
-    const response = await fetch('/api/accounts/checkusername', {
+    const response = await fetch(`${apiUri}accounts/checkusername`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -163,7 +166,7 @@ const EditProfile: NextPage = ({ token }: any) => {
   const handleUsernameUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await fetch(
-      `/api/accounts/${token}/update-profile-username`,
+      `${apiUri}accounts/${token}/update-profile-username`,
       {
         method: 'POST',
         headers: {
@@ -187,7 +190,7 @@ const EditProfile: NextPage = ({ token }: any) => {
   const handleProfileUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await fetch(
-      `/api/accounts/${token}/update-profile-basics`,
+      `${apiUri}accounts/${token}/update-profile-basics`,
       {
         method: 'POST',
         headers: {

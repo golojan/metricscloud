@@ -84,14 +84,6 @@ function MobileSecureMenu() {
               <li className="ml-5">
                 <Link
                   className="dropdown-item rounded-3 px-2 py-1 my-1"
-                  href="/profile/school-code/"
-                >
-                  Verify Your School
-                </Link>
-              </li>
-              <li className="ml-5">
-                <Link
-                  className="dropdown-item rounded-3 px-2 py-1 my-1"
                   href="/profile/academia"
                 >
                   Academia Profile

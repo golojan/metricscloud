@@ -9,8 +9,10 @@ import { toast } from 'react-toastify';
 import { pageAtom } from '@metricsai/metrics-store';
 import { useAtom } from 'jotai';
 
+const apiUri = process.env.NEXT_PUBLIC_API_URI;
+
 const ProfileInfoByToken = async (token: string) => {
-  const response = await fetch(`/api/accounts/${token}/profile`);
+  const response = await fetch(`${apiUri}accounts/${token}/profile`);
   const membership = await response.json();
   if (membership.status) {
     return membership.data;
@@ -20,6 +22,8 @@ const ProfileInfoByToken = async (token: string) => {
 };
 
 const Academia: NextPage = ({ token }: any) => {
+
+
   const [busy, setBusy] = useState<boolean>(false);
   const [scrapped, setScrapped] = useState<boolean>(false);
   const [gsScrap, setGsScrap] = useState<GSRanking>({});
@@ -38,7 +42,7 @@ const Academia: NextPage = ({ token }: any) => {
     if (scrapped) {
       setBusy(true);
       const response = await fetch(
-        `/api/accounts/${token}/update-profile-academia-googlescholar`,
+        `${apiUri}accounts/${token}/update-profile-academia-googlescholar`,
         {
           method: 'POST',
           headers: {
@@ -65,7 +69,7 @@ const Academia: NextPage = ({ token }: any) => {
     } else {
       setBusy(true);
       const response = await fetch(
-        `/api/scrapper/${profile.googleScholarId}/google-scholar`
+        `${apiUri}scrapper/${profile.googleScholarId}/google-scholar`
       );
       const { status, ranking } = await response.json();
       if (status) {
@@ -89,7 +93,7 @@ const Academia: NextPage = ({ token }: any) => {
   const saveScopusId = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await fetch(
-      `/api/accounts/${token}/update-profile-academia-scopusscholar`,
+      `${apiUri}accounts/${token}/update-profile-academia-scopusscholar`,
       {
         method: 'POST',
         headers: {
@@ -113,7 +117,7 @@ const Academia: NextPage = ({ token }: any) => {
   const saveOrcidId = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await fetch(
-      `/api/accounts/${token}/update-profile-academia-orcidscholar`,
+      `${apiUri}accounts/${token}/update-profile-academia-orcidscholar`,
       {
         method: 'POST',
         headers: {
@@ -191,7 +195,7 @@ const Academia: NextPage = ({ token }: any) => {
                         <div className="d-grid">
                           {scrapped ? (
 
-                            <button className="btn btn-success w-100 text-decoration-none rounded-5 py-3 fw-bold text-uppercase m-0">
+                            <button className="btn btn-success w-100 text-decoration-none rounded-5 py-3 fw-bold text-uppercase m-0 ">
                               {busy ? <>Saving Scholar Data...</> : <>Save</>} 
                             </button>
                           ) : (

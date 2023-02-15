@@ -5,6 +5,21 @@
   "sourceRoot": "libs/metrics-store/src",
   "projectType": "library",
   "targets": {
+    "build": {
+      "executor": "@nrwl/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "root": "libs/metrics-store",
+        "outputPath": "dist/libs/metrics-store"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "libs/metrics-store"
+        },
+        "production": {}
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
