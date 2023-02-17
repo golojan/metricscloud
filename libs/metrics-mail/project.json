@@ -5,16 +5,6 @@
   "sourceRoot": "libs/metrics-mail/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nrwl/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/metrics-mail",
-        "main": "libs/metrics-mail/src/index.ts",
-        "tsConfig": "libs/metrics-mail/tsconfig.lib.json",
-        "assets": ["libs/metrics-mail/*.md"]
-      }
-    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

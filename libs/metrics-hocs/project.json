@@ -6,21 +6,6 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nrwl/next:build",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
-      "options": {
-        "root": "libs/metrics-hocs",
-        "outputPath": "dist/libs/metrics-hocs"
-      },
-      "configurations": {
-        "development": {
-          "outputPath": "libs/metrics-hocs"
-        },
-        "production": {}
-      }
-    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

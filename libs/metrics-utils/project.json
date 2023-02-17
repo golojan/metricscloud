@@ -5,21 +5,6 @@
   "sourceRoot": "libs/metrics-utils/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nrwl/next:build",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
-      "options": {
-        "root": "libs/metrics-utils",
-        "outputPath": "dist/libs/metrics-utils"
-      },
-      "configurations": {
-        "development": {
-          "outputPath": "libs/metrics-utils"
-        },
-        "production": {}
-      }
-    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

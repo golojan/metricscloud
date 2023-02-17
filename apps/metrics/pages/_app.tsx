@@ -11,7 +11,6 @@ import { RefObject, useRef } from 'react';
 
 export default function App({ Component, pageProps }: AppProps) {
   const hashed: RefObject<HTMLAnchorElement> = useRef<HTMLAnchorElement>(null);
-
   return (
     <>
       <Head>

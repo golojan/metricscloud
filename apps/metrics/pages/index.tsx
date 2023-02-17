@@ -45,6 +45,7 @@ const getSchools = async () => {
   }
 };
 
+
 const Home: NextPage = () => {
   // use router
   const auth = hasAuth();
